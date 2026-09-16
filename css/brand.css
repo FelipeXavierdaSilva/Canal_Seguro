@@ -1,0 +1,73 @@
+/* Canal Seguro — logo oficial (PNG transparente, sem caixa de fundo) */
+
+.logo-platform,
+.brand__logo--platform {
+  display: block;
+  width: auto;
+  height: var(--logo-platform-h, 42px);
+  max-width: min(220px, 40vw);
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.brand--platform {
+  gap: 0;
+}
+
+/* Cabeçalho */
+.site-header .brand__logo--platform {
+  --logo-platform-h: 5.25rem;
+  max-width: min(500px, 62vw);
+}
+
+.brand__text--sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.logo-platform--auth {
+  --logo-platform-h: 54px;
+  max-width: min(280px, 88vw);
+  margin-inline: auto;
+  margin-bottom: 0.25rem;
+}
+
+.logo-platform-mark {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.logo-platform--footer {
+  --logo-platform-h: 5.5rem;
+  max-width: min(520px, 65vw);
+  margin-bottom: 0.75rem;
+}
+
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.login-card__brand .logo-platform--auth + .login-card__subtitle {
+  margin-top: 0.5rem;
+}

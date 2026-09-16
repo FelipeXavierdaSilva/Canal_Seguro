@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redefinir senha – Canal Seguro</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png" type="image/png" />
+</head>
+<body>
+  <div class="demo-banner" id="modeBanner">
+    <strong>Redefinição de senha</strong> — link de uso único e validade curta.
+  </div>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-card__brand">
+        <img class="logo-platform logo-platform--auth" src="assets/images/logo-canal-seguro.png" alt="Canal Seguro — Canal de Denúncias" />
+        <h1>Nova senha</h1>
+        <p id="subtitle">Defina uma senha forte para sua conta</p>
+      </div>
+      <div id="invalidPanel" class="hidden callout">
+        <p id="invalidMessage">Não foi possível redefinir a senha. Solicite um novo link.</p>
+        <a class="btn btn-outline btn-block mt-2" href="recuperar-senha.html">Solicitar novo link</a>
+      </div>
+      <form id="resetForm" class="hidden">
+        <div class="form-group">
+          <label for="password">Nova senha</label>
+          <input class="form-control" type="password" id="password" name="password" required autocomplete="new-password" minlength="6" data-password-meter />
+          <p class="hint">Mínimo 6 caracteres, com maiúscula, minúscula e número. Evite 3 ou mais dígitos em sequência (ex.: 123).</p>
+        </div>
+        <div class="form-group">
+          <label for="passwordConfirm">Confirmar senha</label>
+          <input class="form-control" type="password" id="passwordConfirm" name="passwordConfirm" required autocomplete="new-password" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Salvar nova senha</button>
+      </form>
+      <div id="successPanel" class="hidden callout">
+        <p>Senha redefinida com sucesso.</p>
+        <a class="btn btn-primary btn-block mt-2" href="login.html">Ir para o login</a>
+      </div>
+      <div id="offlinePanel" class="hidden callout">
+        <p class="text-muted">Disponível apenas com o servidor da API em execução.</p>
+      </div>
+      <p class="text-center mt-2">
+        <a href="login.html">← Voltar ao login</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/runtime.js"></script>
+  <script src="js/http-api.js"></script>
+  <script src="js/password-strength.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/errors.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    CSApp.onReady(async () => {
+      CSApp.initTheme();
+      await CSRuntime.probe();
+
+      const params = new URLSearchParams(location.search);
+      const token = params.get('token');
+
+      if (!CSRuntime.useServer()) {
+        document.getElementById('offlinePanel').classList.remove('hidden');
+        return;
+      }
+
+      if (!token) {
+        document.getElementById('invalidPanel').classList.remove('hidden');
+        return;
+      }
+
+      try {
+        await CSHttpApi.validateResetToken(token);
+      } catch {
+        document.getElementById('invalidPanel').classList.remove('hidden');
+        return;
+      }
+
+      document.getElementById('resetForm').classList.remove('hidden');
+
+      document.getElementById('resetForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const password = document.getElementById('password').value;
+        const passwordConfirm = document.getElementById('passwordConfirm').value;
+        const strengthErr = CSValidation.strongPassword(password);
+        if (strengthErr) {
+          CSApp.toast(strengthErr, 'warning');
+          return;
+        }
+        if (password !== passwordConfirm) {
+          CSApp.toast('As senhas não coincidem.', 'warning');
+          return;
+        }
+        try {
+          await CSHttpApi.resetPassword(token, password, passwordConfirm);
+          document.getElementById('resetForm').classList.add('hidden');
+          document.getElementById('successPanel').classList.remove('hidden');
+        } catch (err) {
+          CSApp.toast(err.message || CSErrors.userMessage(err), 'error');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

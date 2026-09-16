@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard da Empresa – Canal Seguro</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=26" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+</head>
+<body>
+  <div class="demo-banner"><strong>Painel da empresa</strong> — acesso apenas aos dados do próprio tenant (simulado).</div>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span data-user-company>Empresa</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <div class="nav-section">Empresa</div>
+        <a class="active" href="dashboard.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorio.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="configuracoes.html"><span class="nav-icon">◎</span> Identidade</a>
+        <a href="../index.html" target="_blank"><span class="nav-icon">◎</span> Ver canal público</a>
+        <a href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">&#9635;</span> Meu armazenamento</a>
+        <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◉</span> Acessos</a>
+        <div class="nav-section">Conta</div>
+        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+      </nav>
+      <div class="sidebar__footer">
+        <a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar aria-label="Menu">☰</button>
+          <strong>Dashboard</strong>
+        </div>
+        <div class="topbar__right">
+          <div style="position:relative">
+            <button type="button" class="btn-icon notif-btn" data-notif-btn aria-label="Notificações">🔔</button>
+            <div class="notif-dropdown" data-notif-dropdown>
+              <div class="notif-dropdown__header">Notificações</div>
+              <div data-notif-list></div>
+            </div>
+          </div>
+          <button type="button" class="btn-icon" data-toggle-theme aria-label="Tema">◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta">
+              <strong data-user-name>—</strong>
+              <span data-user-role>—</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="app-content">
+        <p id="storageDashHint" class="text-muted" hidden style="margin:0 0 .75rem;font-size:.85rem"></p>
+        <div
+          class="dashboard-board"
+          id="dashboardBoard"
+          data-layout-preset="empresa-dashboard"
+          data-layout-key="empresa-dashboard"
+        >
+          <div class="panel panel--flow" data-layout-id="flow">
+            <div class="panel__header panel__header--flow"><h3>Fluxo dos relatos</h3></div>
+            <div class="panel__body panel__body--flow">
+              <div class="flow-track" id="flowTrack"></div>
+            </div>
+          </div>
+          <div class="panel panel--risk-dist" data-layout-id="risk">
+            <div class="panel__header panel__header--plain"><h3>Distribuição por nível de risco</h3></div>
+            <div class="panel__body panel__body--risk">
+              <div class="risk-dist" id="riskDistribution"></div>
+            </div>
+          </div>
+          <div class="panel panel--categories" data-layout-id="categories">
+            <div class="panel__header panel__header--plain"><h3>Relatos por categoria</h3></div>
+            <div class="panel__body panel__body--categories">
+              <div class="cat-bars" id="categoryDistribution"></div>
+            </div>
+          </div>
+          <div class="panel" data-layout-id="status">
+            <div class="panel__header"><h3>Status dos relatos</h3></div>
+            <div class="panel__body panel__body--status">
+              <div class="status-cols" id="statusDistribution"></div>
+            </div>
+          </div>
+          <div class="panel" data-layout-id="months">
+            <div class="panel__header"><h3>Relatos por período</h3></div>
+            <div class="panel__body"><div class="chart-wrap"><canvas id="chartMonths"></canvas></div></div>
+          </div>
+          <div class="panel" data-layout-id="recent">
+            <div class="panel__header"><h3>Relatos recentes</h3><a href="relatos.html">Ver todos</a></div>
+            <div class="panel__body table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Protocolo</th>
+                    <th title="Quando o relato entrou no canal">Registro</th>
+                    <th>Categoria</th>
+                    <th>Risco</th>
+                    <th>Tipo</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="recentBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- cs-bundle: admin-shell-dashboard -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/attachments.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/card-layout.js?v=26"></script>
+  <script src="../js/dashboard.js?v=26"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['admin_empresa', 'apurador', 'superadmin']);
+      if (!session) return;
+      const companyId = session.role === 'superadmin'
+        ? (CSApp.qs('empresa') || session.companyId || 'cmp_aurora')
+        : session.companyId;
+      const metrics = await CSDashboard.renderDashboardPage(
+        document.getElementById('dashboardBoard'),
+        () => CSApi.getDashboardMetrics(companyId)
+      );
+      if (!metrics) return;
+      CSDashboard.renderRecentTable(document.getElementById('recentBody'), metrics.recent, {
+        detailBase: 'relatos.html'
+      });
+      window.addEventListener('resize', () => CSDashboard.renderCharts(metrics));
+
+      /* Indicador discreto — não altera cards KPI */
+      const hint = document.getElementById('storageDashHint');
+      if (
+        hint &&
+        (session.role === 'admin_empresa' ||
+          session.role === 'apurador' ||
+          session.role === 'superadmin') &&
+        companyId
+      ) {
+        try {
+          const usage = await CSApi.getStorageUsage(
+            session.role === 'superadmin' ? companyId : session.companyId
+          );
+          if (usage?.companies) return;
+          const used = Number(usage.storageUsedBytes) || 0;
+          const limit = Number(usage.storageLimitBytes) || 0;
+          const overLimit = Boolean(usage.overLimit) || used > limit;
+          const pct =
+            usage.storagePercent != null
+              ? usage.storagePercent
+              : limit > 0
+                ? Math.round((used / limit) * 1000) / 10
+                : 0;
+          const band =
+            typeof CSAttachments !== 'undefined'
+              ? CSAttachments.storageBand(pct, { overLimit })
+              : { label: '' };
+          const fmt =
+            typeof CSAttachments !== 'undefined'
+              ? CSAttachments.formatSize
+              : (n) => `${n} B`;
+          hint.hidden = false;
+          hint.innerHTML = `Armazenamento: ${CSApp.escapeHtml(fmt(used))} / ${CSApp.escapeHtml(fmt(limit))} (${CSApp.escapeHtml(String(pct))}%) · ${CSApp.escapeHtml(band.label || '—')} — <a href="meu-armazenamento.html">Meu armazenamento</a>`;
+        } catch {
+          /* silencioso: dashboard não depende deste indicador */
+        }
+      }
+    });
+  </script>
+</body>
+</html>

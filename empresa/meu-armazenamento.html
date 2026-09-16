@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meu armazenamento – Canal Seguro</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/pricing-plans.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+</head>
+<body>
+  <div class="demo-banner"><strong>Meu armazenamento</strong> — consumo e contratação de pacotes (contratação anual).</div>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span data-user-company>Empresa</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <div class="nav-section">Empresa</div>
+        <a href="dashboard.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorio.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="configuracoes.html"><span class="nav-icon">◎</span> Identidade</a>
+        <a href="../index.html" target="_blank"><span class="nav-icon">↗</span> Ver canal público</a>
+        <a class="active" href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">&#9635;</span> Meu armazenamento</a>
+        <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◉</span> Acessos</a>
+        <div class="nav-section">Conta</div>
+        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+      </nav>
+      <div class="sidebar__footer">
+        <a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar aria-label="Menu">☰</button>
+          <strong>Meu armazenamento</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme aria-label="Tema">◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta">
+              <strong data-user-name>—</strong>
+              <span data-user-role>—</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Meu armazenamento</h1>
+            <p>Acompanhe o uso da cota e escolha o plano ideal. A contratação é anual; a cota sobe na hora e o Adm_Plataforma recebe a solicitação comercial.</p>
+          </div>
+          <button type="button" class="btn btn-outline" id="btnRefresh">Atualizar</button>
+        </div>
+
+        <div class="panel" style="padding:1.25rem;max-width:720px;margin-bottom:1rem" id="storagePanel">
+          <p class="text-muted" id="storageStatus" style="margin:0">Carregando…</p>
+        </div>
+
+        <section class="pricing-plans pricing-plans--panel" id="plansPanel" aria-labelledby="panel-pricing-title">
+          <div class="pricing-plans__inner">
+            <header class="pricing-plans__header">
+              <p class="pricing-plans__eyebrow">
+                <span class="pricing-plans__eyebrow-line" aria-hidden="true"></span>
+                Planos e preços
+                <span class="pricing-plans__eyebrow-line" aria-hidden="true"></span>
+              </p>
+              <h2 id="panel-pricing-title">Soluções que se adaptam ao tamanho do seu negócio</h2>
+              <p class="pricing-plans__lead">
+                Valores personalizados da sua empresa. O upgrade entre planos usa a
+                <strong>porcentagem definida pelo Adm_Plataforma</strong>.
+                Contratação disponível para <strong>Adm_Empresa</strong> e <strong>Adm_Plataforma</strong>
+                (anual).
+              </p>
+              <p class="text-muted" id="pricingMeta" style="margin:-1.25rem auto 1.75rem;font-size:.85rem;text-align:center"></p>
+            </header>
+            <div class="pricing-grid" id="plansGrid">
+              <p class="text-muted" style="margin:0;grid-column:1/-1">Carregando pacotes…</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/attachments.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['admin_empresa', 'apurador', 'superadmin']);
+      if (!session) return;
+
+      const canContract = session.role === 'admin_empresa' || session.role === 'superadmin';
+      const CONTRACT_DENIED_MSG = 'Apenas o Adm_Empresa pode contratar este serviço.';
+
+      const companyId =
+        session.role === 'superadmin'
+          ? session.companyId || CSApp.qs('empresa')
+          : session.companyId;
+
+      if (!companyId) {
+        document.getElementById('storageStatus').textContent =
+          'Nenhuma empresa vinculada à sessão.';
+        document.getElementById('plansGrid').innerHTML =
+          '<p class="text-muted" style="margin:0;grid-column:1/-1">Vincule uma empresa à sessão para contratar pacotes.</p>';
+        return;
+      }
+
+      let currentLimit = 0;
+
+      const PLAN_ICONS = {
+        essencial:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19c1.2-3.2 3.6-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg>',
+        plus:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="2.6"/><circle cx="16" cy="8.5" r="2.2"/><path d="M3.8 18.5c.9-2.6 2.9-3.9 5.2-3.9 1.4 0 2.6.5 3.6 1.3"/><path d="M13.2 14.8c1.8-.4 3.5.2 4.8 2.2"/></svg>',
+        pro:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l5-3 5 3v11"/><path d="M9 20v-5h5v5"/><path d="M14 9.5V20h6V11l-3-1.5"/></svg>',
+        corporativo:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V8l4-2.5 4 2.5v12"/><path d="M7 20v-5h4v5"/><path d="M11 9.2V20h4V10.2L13 9"/><path d="M15 11.5V20h6V13l-3-1.5"/><path d="M18 20v-3h3"/></svg>'
+      };
+
+      async function loadUsage() {
+        const panel = document.getElementById('storagePanel');
+        try {
+          const usage = await CSApi.getStorageUsage(
+            session.role === 'superadmin' ? companyId : session.companyId
+          );
+          if (usage?.companies) {
+            throw new Error('Resposta inesperada: visão multi-empresa não aplicável ao painel.');
+          }
+          if (session.role !== 'superadmin' && usage.companyId && usage.companyId !== session.companyId) {
+            throw new Error('Acesso negado a dados de outra empresa.');
+          }
+
+          const used = Number(usage.storageUsedBytes) || 0;
+          const limit = Number(usage.storageLimitBytes) || 0;
+          currentLimit = limit;
+          const available =
+            usage.storageAvailableBytes != null
+              ? Number(usage.storageAvailableBytes)
+              : Math.max(0, limit - used);
+          const overLimit = Boolean(usage.overLimit) || used > limit;
+          const pct =
+            usage.storagePercent != null
+              ? usage.storagePercent
+              : limit > 0
+                ? Math.round((used / limit) * 1000) / 10
+                : 0;
+          const band = CSAttachments.storageBand(pct, { overLimit });
+          const barWidth = Math.min(100, Math.max(0, Number(pct) || 0));
+          const name = CSApp.escapeHtml(usage.nomeFantasia || usage.companyId || 'Sua empresa');
+
+          panel.innerHTML = `
+            <h2 style="margin:0 0 1rem;font-size:1.1rem">${name}</h2>
+            <div class="storage-summary" style="display:grid;gap:.75rem;margin-bottom:0">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+                <div>
+                  <div class="text-muted" style="font-size:.75rem">Utilizado</div>
+                  <strong>${CSApp.escapeHtml(CSAttachments.formatSize(used))}</strong>
+                </div>
+                <div>
+                  <div class="text-muted" style="font-size:.75rem">Limite atual</div>
+                  <strong>${CSApp.escapeHtml(CSAttachments.formatSize(limit))}</strong>
+                </div>
+                <div>
+                  <div class="text-muted" style="font-size:.75rem">Disponível</div>
+                  <strong>${CSApp.escapeHtml(CSAttachments.formatSize(available))}</strong>
+                </div>
+                <div>
+                  <div class="text-muted" style="font-size:.75rem">% usado</div>
+                  <strong>${CSApp.escapeHtml(String(pct))}%</strong>
+                </div>
+              </div>
+              <div>
+                <div class="storage-bar" role="img" aria-label="${CSApp.escapeHtml(String(pct))}% usado" style="margin-bottom:.5rem">
+                  <div class="storage-bar__fill storage-bar__fill--${CSApp.escapeHtml(band.id)}" style="width:${barWidth}%"></div>
+                </div>
+                <span class="storage-band storage-band--${CSApp.escapeHtml(band.id)}">${CSApp.escapeHtml(band.label)}</span>
+                ${
+                  overLimit
+                    ? '<p class="text-muted" style="margin:.5rem 0 0;font-size:.85rem">Uso acima do limite — novos uploads bloqueados. Contrate um pacote maior abaixo.</p>'
+                    : ''
+                }
+              </div>
+            </div>
+          `;
+        } catch (ex) {
+          panel.innerHTML = `<p class="text-muted" style="margin:0">${CSApp.escapeHtml(
+            CSErrors.userMessage(ex, 'Não foi possível carregar o consumo.')
+          )}</p>`;
+        }
+      }
+
+      function renderPlans(plans) {
+        const grid = document.getElementById('plansGrid');
+        const meta = document.getElementById('pricingMeta');
+        const list = Array.isArray(plans) ? plans : [];
+        if (!list.length) {
+          grid.innerHTML = '<p class="text-muted" style="margin:0;grid-column:1/-1">Nenhum pacote configurado.</p>';
+          if (meta) meta.textContent = '';
+          return;
+        }
+        const upgradePct = list.find((p) => p.upgradePercent != null)?.upgradePercent;
+        if (meta) {
+          meta.textContent =
+            upgradePct != null
+              ? `Upgrade comercial: +${upgradePct}% sobre o valor base a cada nível de plano.`
+              : '';
+        }
+        const upgrades = list.filter((p) => Number(p.storageLimitBytes) > currentLimit);
+        const current = [...list]
+          .filter((p) => Number(p.storageLimitBytes) <= currentLimit)
+          .sort((a, b) => b.storageLimitBytes - a.storageLimitBytes)[0];
+
+        grid.innerHTML =
+          list
+            .map((p) => {
+              const isCurrent =
+                (current && p.id === current.id) ||
+                Number(p.storageLimitBytes) === currentLimit;
+              const canUpgrade = Number(p.storageLimitBytes) > currentLimit;
+              const featured = Boolean(p.featured);
+              const storageLabel = p.storageLabel || CSAttachments.formatSize(p.storageLimitBytes);
+              const barPercent = Math.min(100, Math.max(0, Number(p.barPercent) || 0));
+              const priceLabel = p.priceLabel || '';
+              const priceSuffix = p.priceSuffix || '';
+              const ctaLabel = p.ctaLabel || 'Contratar';
+              const icon = PLAN_ICONS[p.id] || PLAN_ICONS.essencial;
+
+              let actionHtml = '';
+              if (isCurrent && !canUpgrade) {
+                actionHtml = '<span class="pricing-card__status">Plano atual</span>';
+              } else if (canUpgrade) {
+                const solid = featured ? ' pricing-card__cta--solid' : '';
+                actionHtml = `<button type="button" class="pricing-card__cta${solid}" data-contract="${CSApp.escapeHtml(p.id)}">${CSApp.escapeHtml(ctaLabel)} <span aria-hidden="true">→</span></button>`;
+              } else {
+                actionHtml = '<span class="text-muted" style="font-size:.8rem">Inferior ao limite atual</span>';
+              }
+
+              return `
+              <article class="pricing-card${featured ? ' pricing-card--featured' : ''}${isCurrent ? ' pricing-card--current' : ''}">
+                ${
+                  featured
+                    ? `<span class="pricing-card__badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.2 5.4 5.8.5-4.4 3.8 1.3 5.6L12 15.4 6.9 18.1l1.3-5.6L3.8 8.7l5.8-.5L12 2.8z"/></svg> Mais escolhido</span>`
+                    : ''
+                }
+                <div class="pricing-card__icon" aria-hidden="true">${icon}</div>
+                <h3 class="pricing-card__name">${CSApp.escapeHtml(p.name)}</h3>
+                <p class="pricing-card__desc">${CSApp.escapeHtml(p.description || '')}</p>
+                <div class="pricing-card__price">
+                  <span class="pricing-card__amount${priceSuffix ? '' : ' pricing-card__amount--consult'}">${CSApp.escapeHtml(priceLabel)}</span>
+                  ${priceSuffix ? `<span class="pricing-card__period">${CSApp.escapeHtml(priceSuffix)}</span>` : ''}
+                </div>
+                <p class="pricing-card__billing">${CSApp.escapeHtml(p.billingNote || 'Contratação anual')}</p>
+                <div class="pricing-card__storage">
+                  <span class="pricing-card__storage-pill">${CSApp.escapeHtml(storageLabel)}</span>
+                  <span class="pricing-card__storage-label">de armazenamento</span>
+                </div>
+                <div class="pricing-card__bar" role="img" aria-label="Capacidade ${CSApp.escapeHtml(storageLabel)}">
+                  <span class="pricing-card__bar-fill" style="width:${barPercent}%"></span>
+                </div>
+                <ul class="pricing-card__features">
+                  ${(Array.isArray(p.advantages) && p.advantages.length
+                    ? p.advantages
+                    : [
+                        `${storageLabel} de armazenamento`,
+                        p.usersLabel || '—',
+                        p.retentionLabel || 'Retenção de evidências por 1 ano'
+                      ]
+                  )
+                    .map(
+                      (adv) => `<li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 12.5l4 4L19 7"/></svg>
+                    ${CSApp.escapeHtml(adv)}
+                  </li>`
+                    )
+                    .join('')}
+                </ul>
+                ${actionHtml}
+              </article>`;
+            })
+            .join('') +
+          (upgrades.length
+            ? ''
+            : '<p class="text-muted" style="margin:.5rem 0 0;grid-column:1/-1;font-size:.85rem">Você já está no maior pacote disponível ou em um limite personalizado acima dos pacotes listados.</p>');
+
+        grid.querySelectorAll('[data-contract]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            if (!canContract) {
+              CSApp.toast(CONTRACT_DENIED_MSG, 'warning');
+              return;
+            }
+            const planId = btn.dataset.contract;
+            const plan = list.find((p) => p.id === planId);
+            if (!plan) return;
+            const priceNote = plan.priceSuffix
+              ? ` Valor: ${plan.priceLabel}${plan.priceSuffix}.`
+              : ` Valor: ${plan.priceLabel}.`;
+            const pctNote =
+              plan.upgradePercent != null ? ` Upgrade comercial: +${plan.upgradePercent}%.` : '';
+            const ok = await CSApp.confirmDialog({
+              title: 'Confirmar contratação',
+              message:
+                `Você está solicitando o pacote ${plan.name} (${plan.storageLabel || CSAttachments.formatSize(plan.storageLimitBytes)}).` +
+                priceNote +
+                pctNote +
+                ' A contratação é anual. A cota será atualizada imediatamente.',
+              confirmText: plan.ctaLabel || 'Contratar pacote',
+              cancelText: 'Cancelar'
+            });
+            if (!ok) return;
+            const result = await CSApp.runAsync(
+              () => CSApi.contractStoragePlan(planId, session, companyId),
+              { context: 'contractStoragePlan' }
+            );
+            if (!result) return;
+            CSApp.toast(
+              result.message ||
+                'Pacote contratado. Cota atualizada. Valores serão reajustados conforme o plano (contratação anual).',
+              'success'
+            );
+            await refreshAll();
+          });
+        });
+      }
+
+      async function loadPlans() {
+        try {
+          const data = await CSApi.getStoragePlans(session, companyId);
+          renderPlans(data?.plans || CSAttachments.STORAGE_PLANS || []);
+        } catch (ex) {
+          renderPlans(CSAttachments.STORAGE_PLANS || []);
+          CSErrors.logError(ex, 'getStoragePlans');
+        }
+      }
+
+      async function refreshAll() {
+        await loadUsage();
+        await loadPlans();
+      }
+
+      document.getElementById('btnRefresh').addEventListener('click', refreshAll);
+      await refreshAll();
+    });
+  </script>
+</body>
+</html>

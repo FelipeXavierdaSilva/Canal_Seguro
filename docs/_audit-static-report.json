@@ -1,0 +1,263 @@
+{
+  "generatedAt": "2026-09-02T20:30:22.123Z",
+  "pages": [
+    {
+      "file": "admin/auditoria.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/colaboradores.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/configuracoes.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/conteudos.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/empresas.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": [
+        {
+          "page": "admin/empresas.html",
+          "ref": "${c.logo ? CSApp.escapeHtml(c.logo) : fallbackLogo}",
+          "resolved": "admin/${c.logo "
+        }
+      ]
+    },
+    {
+      "file": "admin/index.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/indicadores.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/integracoes.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/logs-tecnico.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/relatorios.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/relatos.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "admin/usuarios.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "configurar-mfa.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "educacao.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "empresa/colaboradores.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "empresa/configuracoes.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "empresa/dashboard.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "empresa/relatorio.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "empresa/relatos.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "fale-conosco.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "faq.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "index.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "lgpd.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "login.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "politica-cookies.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "politica-privacidade.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "protocolo.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "recuperar-senha.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "redefinir-senha.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    },
+    {
+      "file": "relato.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "suporte.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "termos-de-uso.html",
+      "hasViewport": true,
+      "hasPublicFooter": true,
+      "isPublicPage": true,
+      "missing": []
+    },
+    {
+      "file": "verificar-mfa.html",
+      "hasViewport": true,
+      "hasPublicFooter": false,
+      "isPublicPage": false,
+      "missing": []
+    }
+  ],
+  "missingAssets": [
+    {
+      "page": "admin/empresas.html",
+      "ref": "${c.logo ? CSApp.escapeHtml(c.logo) : fallbackLogo}",
+      "resolved": "admin/${c.logo "
+    }
+  ],
+  "jsSyntaxErrors": [],
+  "warnings": [],
+  "info": [],
+  "counts": {
+    "htmlPages": 33,
+    "jsFiles": 22,
+    "cssFiles": 6,
+    "serverSrcFiles": 61,
+    "missingAssets": 1,
+    "jsSyntaxErrors": 0,
+    "warnings": 0,
+    "publicPages": 11,
+    "publicWithFooter": 11
+  }
+}

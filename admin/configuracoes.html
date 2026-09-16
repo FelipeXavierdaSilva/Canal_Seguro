@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Configurações – Admin</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+</head>
+<body>
+  <div class="demo-banner"><strong>Configurações</strong> — hub com páginas dedicadas por módulo.</div>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="Canal Seguro" />
+        <div class="sidebar__brand-text"><strong>Administração</strong><span>Canal Seguro</span></div>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="armazenamento.html"><span class="nav-icon">&#9635;</span> Armazenamento</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a class="active" href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Conta</div>
+        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+      </nav>
+      <div class="sidebar__footer"><a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a></div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Configurações</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <!-- HUB -->
+        <div id="configHub" class="config-hub">
+          <div class="page-header">
+            <div>
+              <h1>Configurações da plataforma</h1>
+              <p>Escolha um módulo para visualizar ou alterar parâmetros do Canal Seguro.</p>
+            </div>
+          </div>
+          <section class="settings-grid" aria-label="Módulos de configuração">
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--teal" aria-hidden="true">◎</span>
+              <h3 class="settings-card__title">Identidade</h3>
+              <p class="settings-card__text">Produto, marca, e-mail/WhatsApp comercial e prefixos de protocolo por empresa.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="identidade">Gerenciar</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--amber" aria-hidden="true">◉</span>
+              <h3 class="settings-card__title">Privacidade</h3>
+              <p class="settings-card__text">Checklist de segurança, LGPD e limites do protótipo.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="privacidade">Abrir</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--slate" aria-hidden="true">▦</span>
+              <h3 class="settings-card__title">Backup</h3>
+              <p class="settings-card__text">Status, política de retenção e snapshot DEV de export/import.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="backup">Gerenciar</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--mint" aria-hidden="true">🔑</span>
+              <h3 class="settings-card__title">Política MFA</h3>
+              <p class="settings-card__text">Obrigatoriedade, perfis e período de carência da autenticação.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="mfa">Configurar</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--rose" aria-hidden="true">↺</span>
+              <h3 class="settings-card__title">Dados demo</h3>
+              <p class="settings-card__text">Restaurar empresas, relatos e usuários fictícios do protótipo.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="demo">Abrir</button>
+            </article>
+          </section>
+        </div>
+
+        <!-- PÁGINA: Identidade -->
+        <div id="config-identidade" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Identidade da plataforma</h1>
+                <p>Parâmetros globais FX e contadores de protocolo por empresa.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body" id="settingsBox"></div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: Privacidade -->
+        <div id="config-privacidade" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Privacidade e segurança</h1>
+                <p>Requisitos de produção e limites do protótipo atual.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body">
+              <ul style="padding-left:1.1rem;list-style:disc;color:var(--cs-text-secondary);font-size:.92rem">
+                <li>Autenticação real e autorização por perfil → back-end</li>
+                <li>Criptografia em trânsito e em repouso → back-end</li>
+                <li>Armazenamento seguro de anexos → back-end</li>
+                <li>Logs e auditoria imutáveis → back-end</li>
+                <li>Adequação LGPD (bases legais, DPO, retenção) → back-end + jurídico</li>
+              </ul>
+              <div class="callout callout--warn mt-2">
+                <p>localStorage neste protótipo é apenas demonstrativo e <strong>não</strong> é seguro para dados sensíveis.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: Backup -->
+        <div id="config-backup" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Backup e recuperação</h1>
+                <p>Política, status do backend e ferramentas de snapshot DEV.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body" id="backupBox">
+              <p class="text-muted">Carregando…</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: MFA -->
+        <div id="config-mfa" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Política MFA</h1>
+                <p>Exigência de autenticação em dois fatores para perfis críticos.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body" id="mfaPolicyBox">
+              <p class="text-muted">Carregando…</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: Demo -->
+        <div id="config-demo" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Dados de demonstração</h1>
+                <p>Recarrega o conjunto fictício inicial deste navegador.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body">
+              <p class="mb-2">Recarrega 3 empresas, 12 relatos e usuários fictícios, apagando alterações locais do protótipo.</p>
+              <button type="button" class="btn btn-danger" id="btnReset">Restaurar dados demo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/backup.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+
+      const hub = document.getElementById('configHub');
+      const panels = {
+        identidade: document.getElementById('config-identidade'),
+        privacidade: document.getElementById('config-privacidade'),
+        backup: document.getElementById('config-backup'),
+        mfa: document.getElementById('config-mfa'),
+        demo: document.getElementById('config-demo')
+      };
+      const loaded = { identidade: false, backup: false, mfa: false };
+
+      function showHub() {
+        Object.values(panels).forEach((el) => {
+          el.classList.remove('is-active');
+          el.hidden = true;
+        });
+        hub.classList.remove('is-hidden');
+        if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+      }
+
+      async function showConfig(id) {
+        if (!panels[id]) return showHub();
+        hub.classList.add('is-hidden');
+        Object.entries(panels).forEach(([key, el]) => {
+          const active = key === id;
+          el.classList.toggle('is-active', active);
+          el.hidden = !active;
+        });
+        history.replaceState(null, '', `#config-${id}`);
+        if (id === 'identidade' && !loaded.identidade) {
+          await loadSettings();
+          loaded.identidade = true;
+        }
+        if (id === 'backup' && !loaded.backup) {
+          await loadBackupPanel();
+          loaded.backup = true;
+        }
+        if (id === 'mfa' && !loaded.mfa) {
+          await loadMfaPolicy();
+          loaded.mfa = true;
+        }
+      }
+
+      document.querySelectorAll('[data-config]').forEach((btn) => {
+        btn.addEventListener('click', () => showConfig(btn.getAttribute('data-config')));
+      });
+      document.querySelectorAll('[data-back-config]').forEach((btn) => {
+        btn.addEventListener('click', showHub);
+      });
+
+      async function loadSettings() {
+        const box = document.getElementById('settingsBox');
+        const platform = await CSApp.runAsync(() => CSApi.getPlatformSettings(), { context: 'loadSettings', toast: false });
+        if (!platform) {
+          CSErrors.renderLoadError(box, CSErrors.userMessage(null), loadSettings);
+          CSApp.toast(CSErrors.userMessage(null), 'error');
+          return;
+        }
+        const companies = (await CSApp.runAsync(() => CSApi.getCompanies(), { context: 'loadSettings.companies', toast: false })) || [];
+        const companyRows = await Promise.all(
+          companies.map(async (c) => {
+            const cfg = await CSApi.getCompanySettings(c.id);
+            return `<tr>
+              <td>${CSApp.escapeHtml(c.nomeFantasia)}</td>
+              <td>${CSApp.escapeHtml(cfg.protocolPrefix)}</td>
+              <td>${CSApp.escapeHtml(String(cfg.protocolCounter))}</td>
+            </tr>`;
+          })
+        );
+        box.innerHTML = `
+        <p class="text-muted mb-2" style="font-size:.9rem">Configurações globais da plataforma FX. Protocolos são geridos por empresa (tabela abaixo).</p>
+        <div class="detail-field"><div class="detail-field__label">Produto</div><div class="detail-field__value">${CSApp.escapeHtml(platform.fxProductName)}</div></div>
+        <div class="detail-field"><div class="detail-field__label">Marca</div><div class="detail-field__value">${CSApp.escapeHtml(platform.fxBrandName)}</div></div>
+        <div class="detail-field"><div class="detail-field__label">Prefixo padrão de protocolo</div><div class="detail-field__value">${CSApp.escapeHtml(platform.defaultProtocolPrefix)}</div></div>
+        <form id="commercialContactForm" class="panel" style="padding:1rem;margin:1rem 0;border:1px solid var(--cs-border);border-radius:8px">
+          <h4 style="margin:0 0 .75rem;font-size:1rem">Contato comercial (landing / planos)</h4>
+          <p class="text-muted" style="margin:0 0 1rem;font-size:.85rem">
+            Usado quando o visitante clica em “Falar com especialista”: e-mail (Fale conosco) ou WhatsApp.
+          </p>
+          <div class="form-group">
+            <label for="cfgSupportEmail">E-mail de suporte / comercial</label>
+            <input class="form-control" id="cfgSupportEmail" type="email" required value="${CSApp.escapeHtml(platform.supportEmail || '')}" />
+          </div>
+          <div class="form-group">
+            <label for="cfgCommercialWhatsApp">WhatsApp comercial</label>
+            <input class="form-control" id="cfgCommercialWhatsApp" type="tel" placeholder="047984570646" value="${CSApp.escapeHtml(platform.commercialWhatsApp || '')}" />
+            <p class="hint">DDD + número. Pode incluir o 0 do DDD (ex.: 047984570646).</p>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar contato comercial</button>
+        </form>
+        <h4 class="mt-2 mb-1" style="font-size:1rem">Configurações por empresa</h4>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Empresa</th><th>Prefixo</th><th>Contador</th></tr></thead>
+            <tbody>${companyRows.join('') || '<tr><td colspan="3" class="empty-state">Nenhuma empresa</td></tr>'}</tbody>
+          </table>
+        </div>`;
+        document.getElementById('commercialContactForm')?.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const payload = {
+            supportEmail: document.getElementById('cfgSupportEmail').value.trim(),
+            commercialWhatsApp: document.getElementById('cfgCommercialWhatsApp').value.trim()
+          };
+          const result = await CSApp.runAsync(
+            () => CSApi.updateCommercialContact(payload, session),
+            { context: 'updateCommercialContact' }
+          );
+          if (!result) return;
+          CSApp.toast('Contato comercial salvo.', 'success');
+          await loadSettings();
+        });
+      }
+
+      async function loadBackupPanel() {
+        const box = document.getElementById('backupBox');
+        const status = await CSApp.runAsync(() => CSBackup.getStatus(), { context: 'loadBackupStatus', toast: false });
+        if (!status) {
+          CSErrors.renderLoadError(box, CSErrors.userMessage(null), loadBackupPanel);
+          return;
+        }
+        const p = status.policy;
+        box.innerHTML = `
+          <div class="callout callout--warn mb-2">
+            <p><strong>${CSApp.escapeHtml(status.mode === 'prototype' ? 'Modo protótipo' : 'Modo produção')}</strong> — ${CSApp.escapeHtml(status.message)}</p>
+          </div>
+          <div class="detail-field"><div class="detail-field__label">Backend conectado</div><div class="detail-field__value">${status.backendConnected ? 'Sim' : 'Não'}</div></div>
+          <div class="detail-field"><div class="detail-field__label">Full diário</div><div class="detail-field__value">${CSApp.escapeHtml(p.schedules.fullDaily)}</div></div>
+          <div class="detail-field"><div class="detail-field__label">Retenção (full diário)</div><div class="detail-field__value">${p.retention.dailyFullDays} dias</div></div>
+          <div class="detail-field"><div class="detail-field__label">Schema do snapshot</div><div class="detail-field__value">v${CSApp.escapeHtml(String(status.storeMeta?.version ?? CSBackup.SCHEMA_VERSION))}</div></div>
+          <div class="detail-field"><div class="detail-field__label">Abrange edições do admin</div><div class="detail-field__value">${CSApp.escapeHtml(status.adminEditableNote || '')}</div></div>
+          <div class="detail-field"><div class="detail-field__label">Entidades incluídas</div><div class="detail-field__value" style="font-size:.85rem">${CSApp.escapeHtml((status.includedEntityLabels || status.includedEntities).join(' · '))}</div></div>
+          <p class="text-muted mt-2" style="font-size:.88rem">${CSApp.escapeHtml(status.attachmentsNote)}</p>
+          <p class="mt-2"><a href="../docs/BACKUP-RECOVERY.md" target="_blank" rel="noopener">Documentação técnica (BACKUP-RECOVERY.md)</a>
+            · <a href="../docs/backup/RESTORE-TEST-CHECKLIST.md" target="_blank" rel="noopener">Checklist de teste de restauração</a></p>
+          <div class="flex gap-2 mt-2 flex-wrap">
+            <button type="button" class="btn btn-outline btn-sm" id="btnBackupTrigger" disabled title="Requer backend">Disparar backup</button>
+            <button type="button" class="btn btn-outline btn-sm" id="btnBackupVerify" disabled title="Requer backend">Verificar integridade</button>
+            <button type="button" class="btn btn-outline btn-sm" id="btnBackupRestore" disabled title="Requer backend">Restaurar (staging)</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnDevExport">Exportar snapshot DEV</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnDevImport">Importar snapshot DEV</button>
+            <input type="file" id="devSnapshotFile" accept="application/json,.json" class="hidden" />
+          </div>
+          <p class="text-muted mt-1" style="font-size:.8rem">Export/import DEV: inclui FAQ, Informação e Prevenção, empresas, usuários, relatos e configurações deste navegador. Não substitui backup criptografado off-site.</p>`;
+
+        document.getElementById('btnDevExport').addEventListener('click', async () => {
+          const ok = await CSApp.confirmDialog({
+            title: 'Exportar snapshot DEV',
+            message: 'Gera um JSON com todos os dados editáveis do painel neste navegador (conteúdos, empresas, relatos, configs, etc.). NÃO é backup de produção. Continuar?',
+            confirmText: 'Exportar',
+            danger: true
+          });
+          if (!ok) return;
+          const result = await CSApp.runAsync(() => CSBackup.exportDevSnapshot(session), { context: 'exportDevSnapshot' });
+          if (!result?.ok) return;
+          CSBackup.downloadDevSnapshot(result);
+          CSApp.toast('Snapshot DEV baixado.', 'success');
+        });
+
+        const fileInput = document.getElementById('devSnapshotFile');
+        document.getElementById('btnDevImport').addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', async () => {
+          const file = fileInput.files && fileInput.files[0];
+          fileInput.value = '';
+          if (!file) return;
+          const ok = await CSApp.confirmDialog({
+            title: 'Importar snapshot DEV',
+            message: 'Isso substitui os dados locais atuais pelos do arquivo (incluindo conteúdos do admin). A página será recarregada. Continuar?',
+            confirmText: 'Importar e recarregar',
+            danger: true
+          });
+          if (!ok) return;
+          try {
+            const text = await file.text();
+            const payload = JSON.parse(text);
+            const result = await CSApp.runAsync(() => CSBackup.importDevSnapshot(payload, session), { context: 'importDevSnapshot' });
+            if (!result?.ok) return;
+            CSApp.toast(result.message, 'success');
+            setTimeout(() => location.reload(), 600);
+          } catch (err) {
+            CSErrors.logError(err, 'importDevSnapshot');
+            CSApp.toast(err.message || 'Arquivo inválido.', 'error');
+          }
+        });
+      }
+
+      async function loadMfaPolicy() {
+        const box = document.getElementById('mfaPolicyBox');
+        if (!CSRuntime.useServer()) {
+          box.innerHTML = '<p class="text-muted">Política MFA disponível apenas com API servidor.</p>';
+          return;
+        }
+        try {
+          const data = await CSHttpApi.getMfaPolicy();
+          const p = data.policy;
+          box.innerHTML = `
+            <p class="text-muted mb-2" style="font-size:.9rem">MFA obrigatório para superadmin, admin de empresa e quem tem permissão de ver identidade do relator.</p>
+            <div class="detail-field"><div class="detail-field__label">MFA habilitado</div><div class="detail-field__value">${p.enabled ? 'Sim' : 'Não'}</div></div>
+            <div class="detail-field"><div class="detail-field__label">Perfis obrigatórios</div><div class="detail-field__value">${CSApp.escapeHtml((p.requiredRoles || []).join(', '))}</div></div>
+            <div class="detail-field"><div class="detail-field__label">Período de carência</div><div class="detail-field__value">${CSApp.escapeHtml(String(p.gracePeriodDays))} dias</div></div>
+            <div class="detail-field"><div class="detail-field__label">Aplicado desde</div><div class="detail-field__value">${p.enforcedAt ? CSApp.escapeHtml(new Date(p.enforcedAt).toLocaleString('pt-BR')) : '— (carência não iniciada)'}</div></div>
+            <div class="form-row cols-2 mt-2">
+              <div class="form-group">
+                <label>Dias de carência</label>
+                <input class="form-control" type="number" id="mfaGraceDays" min="0" max="90" value="${p.gracePeriodDays || 7}" />
+              </div>
+              <div class="form-group" style="display:flex;align-items:flex-end">
+                <button type="button" class="btn btn-primary" id="btnSaveMfaPolicy">Salvar política</button>
+              </div>
+            </div>
+            <p class="text-muted mt-1" style="font-size:.8rem">Ao salvar, a exigência passa a valer após o período de carência (contado a partir de agora).</p>`;
+
+          document.getElementById('btnSaveMfaPolicy').addEventListener('click', async () => {
+            const days = parseInt(document.getElementById('mfaGraceDays').value, 10) || 7;
+            await CSApp.runAsync(
+              () => CSHttpApi.updateMfaPolicy({ gracePeriodDays: days, enforcedAt: 'now' }),
+              { context: 'updateMfaPolicy' }
+            );
+            CSApp.toast('Política MFA atualizada.', 'success');
+            loaded.mfa = false;
+            await loadMfaPolicy();
+            loaded.mfa = true;
+          });
+        } catch (err) {
+          box.innerHTML = `<p class="text-muted">${CSApp.escapeHtml(CSErrors.userMessage(err))}</p>`;
+        }
+      }
+
+      document.getElementById('btnReset').addEventListener('click', async () => {
+        const ok = await CSApp.confirmDialog({
+          title: 'Restaurar demo',
+          message: 'Isso apagará alterações feitas neste navegador e restaurará os dados fictícios iniciais.',
+          confirmText: 'Restaurar',
+          danger: true
+        });
+        if (!ok) return;
+        CSStore.resetDemoData();
+        CSApp.toast('Dados demo restaurados.', 'success');
+        setTimeout(() => location.reload(), 600);
+      });
+
+      const hash = (location.hash || '').replace(/^#config-?/, '');
+      if (hash && panels[hash]) await showConfig(hash);
+      else showHub();
+    });
+  </script>
+</body>
+</html>

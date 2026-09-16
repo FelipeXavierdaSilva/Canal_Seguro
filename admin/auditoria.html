@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Auditoria – Admin</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+</head>
+<body>
+  <div class="demo-banner"><strong>Auditoria</strong> — registros simulados; em produção devem ser imutáveis no servidor.</div>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="Canal Seguro" />
+        <div class="sidebar__brand-text"><strong>Administração</strong><span>Canal Seguro</span></div>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="armazenamento.html"><span class="nav-icon">&#9635;</span> Armazenamento</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Conta</div>
+        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+      </nav>
+      <div class="sidebar__footer"><a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a></div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Auditoria</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Logs de auditoria</h1>
+            <p>Login, logout, relatos, status, atribuições, observações, empresas, usuários e conteúdos.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Data / horário</th>
+                  <th>Usuário</th>
+                  <th>Ação</th>
+                  <th>Recurso</th>
+                  <th>Empresa</th>
+                  <th>Detalhes</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+
+      async function loadLogs() {
+        const tbody = document.getElementById('tbody');
+        try {
+          const companies = await CSApi.getCompanies();
+          const map = Object.fromEntries(companies.map(c => [c.id, c.nomeFantasia]));
+          const logs = await CSApi.getAuditLogs();
+          tbody.innerHTML = logs.map(l => `
+        <tr>
+          <td>${CSReports.formatDateTime(l.date)}</td>
+          <td>${CSApp.escapeHtml(l.userName)}</td>
+          <td>${CSApp.escapeHtml(CSAudit.actionLabel(l.action))}</td>
+          <td><code>${CSApp.escapeHtml(CSAudit.formatResource(l))}</code></td>
+          <td>${l.companyId ? CSApp.escapeHtml(map[l.companyId] || l.companyId) : '—'}</td>
+          <td class="text-muted">${CSApp.escapeHtml(CSAudit.formatDetails(l))}</td>
+        </tr>`).join('') || '<tr><td colspan="6" class="empty-state">Sem registros</td></tr>';
+        } catch (err) {
+          CSErrors.logError(err, 'loadAuditLogs');
+          CSErrors.renderTableRetry(tbody, 6, loadLogs);
+          CSApp.toast(CSErrors.userMessage(err), 'error');
+        }
+      }
+
+      await loadLogs();
+    });
+  </script>
+</body>
+</html>

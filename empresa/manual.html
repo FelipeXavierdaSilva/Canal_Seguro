@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manual de operação – Empresa</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <style>
+    .manual-toc { display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 1.25rem; }
+    .manual-toc a {
+      display:inline-flex; align-items:center; padding:.4rem .75rem; border-radius:999px;
+      border:1px solid var(--cs-border); background:var(--cs-surface, #fff);
+      color:inherit; text-decoration:none; font-size:.85rem; font-weight:600;
+    }
+    .manual-toc a:hover { border-color:var(--cs-primary, #0d6e5a); color:var(--cs-primary, #0d6e5a); }
+    .manual-section { scroll-margin-top:5rem; }
+    .manual-section h3 { margin:0 0 .5rem; font-size:1.05rem; }
+    .manual-section ul { margin:.35rem 0 0; padding-left:1.2rem; }
+    .manual-section li { margin:.35rem 0; }
+    .manual-limits {
+      border-left:3px solid var(--cs-primary, #0d6e5a); padding:.75rem 1rem;
+      background:rgba(13,110,90,.06); border-radius:0 8px 8px 0; margin:1rem 0;
+      font-size:.9rem;
+    }
+    .manual-role-tabs {
+      display:flex; gap:.5rem; flex-wrap:wrap; margin:0 0 1rem;
+    }
+    .manual-role-tabs .badge {
+      font-size:.8rem; padding:.35rem .65rem; border-radius:999px;
+      background:var(--cs-border); font-weight:600;
+    }
+    .manual-role-tabs .badge.is-you {
+      background:var(--cs-primary, #0d6e5a); color:#fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner"><strong>Manual de operação</strong> — conteúdo exibido conforme o seu perfil (Adm_Empresa ou Apurador).</div>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span data-user-company>Empresa</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <div class="nav-section">Empresa</div>
+        <a href="dashboard.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="colaboradores.html" data-roles="admin_empresa superadmin"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorio.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="configuracoes.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◎</span> Identidade</a>
+        <a href="../index.html" target="_blank"><span class="nav-icon">◎</span> Ver canal público</a>
+        <a href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">&#9635;</span> Meu armazenamento</a>
+        <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◉</span> Acessos</a>
+        <div class="nav-section">Conta</div>
+        <a class="active" href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+      </nav>
+      <div class="sidebar__footer">
+        <a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar aria-label="Menu">☰</button>
+          <strong>Manual de operação</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Manual de operação</h1>
+            <p>Guia do painel da empresa — apenas as funções permitidas ao seu perfil.</p>
+          </div>
+        </div>
+
+        <div class="manual-role-tabs" id="manualRoleBadges" aria-live="polite"></div>
+        <div class="manual-limits" id="manualRoleIntro"></div>
+
+        <nav class="manual-toc" aria-label="Seções do manual" id="manualToc"></nav>
+
+        <!-- Compartilhado -->
+        <div class="panel mb-2 manual-section" id="comum-visao" data-manual-for="admin_empresa apurador superadmin">
+          <div class="panel__body">
+            <h3>Visão geral do painel da empresa</h3>
+            <ul>
+              <li><strong>Dashboard</strong> — resumo dos relatos e alertas da sua empresa.</li>
+              <li><strong>Relatos</strong> — fila de denúncias, fluxo de apuração, comunicação com denunciante e histórico.</li>
+              <li><strong>Relatórios</strong> — exportações e visão gerencial permitida ao seu perfil.</li>
+              <li><strong>Meu armazenamento</strong> — consumo de anexos e planos da empresa.</li>
+              <li><strong>Minha Conta</strong> — nome, login, senha e contato.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="comum-relatos" data-manual-for="admin_empresa apurador superadmin">
+          <div class="panel__body">
+            <h3>Tratar um relato (passo a passo)</h3>
+            <ul>
+              <li>Abra <strong>Relatos</strong>, filtre por status, risco ou etapa do fluxo.</li>
+              <li>No detalhe, avance o <strong>fluxo de apuração</strong> conforme as etapas permitidas.</li>
+              <li>Use a <strong>comunicação com o denunciante</strong> para mensagens e pedidos de informação (visível ao protocolo público).</li>
+              <li>Em <strong>Medidas e ações executadas</strong>, registre o que foi feito (ação) e as providências (medida), com data — isso alimenta o histórico e o PDF.</li>
+              <li>Registre <strong>observações internas</strong> apenas para a equipe (não vão ao denunciante).</li>
+              <li>Ao concluir, use a etapa/status de conclusão e o resumo quando solicitado.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="comum-sigilo" data-manual-for="admin_empresa apurador superadmin">
+          <div class="panel__body">
+            <h3>Sigilo e LGPD</h3>
+            <ul>
+              <li>Trate todos os relatos como confidenciais. Não compartilhe prints fora do painel.</li>
+              <li>Não peça dados desnecessários ao denunciante na thread pública.</li>
+              <li>Anexos e identidade têm regras de acesso — respeite o que o sistema mascara.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Adm_Empresa -->
+        <div class="panel mb-2 manual-section" id="adm-limites" data-manual-for="admin_empresa superadmin" data-roles="admin_empresa superadmin">
+          <div class="panel__body">
+            <h3>Limites do Adm_Empresa</h3>
+            <ul>
+              <li>Acesso somente à <strong>sua empresa</strong> (tenant).</li>
+              <li>Pode gerenciar usuários Apurador, colaboradores (CPF), identidade visual e acessos.</li>
+              <li>Pode encaminhar relatos, ver identidade (quando não anônima) e classificar risco crítico conforme a política.</li>
+              <li>Pode contratar / solicitar upgrade de armazenamento (sujeito a tratamento comercial da plataforma).</li>
+              <li>Não acessa o painel Adm_Plataforma (empresas de outros clientes, pool global, catálogo de planos da plataforma).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="adm-usuarios" data-manual-for="admin_empresa superadmin" data-roles="admin_empresa superadmin">
+          <div class="panel__body">
+            <h3>Usuários e equipe</h3>
+            <ul>
+              <li>Em <strong>Usuários</strong>, cadastre Apuradores da sua empresa.</li>
+              <li>Em <strong>Colaboradores</strong>, mantenha a lista de CPFs autorizados a registrar relato identificado.</li>
+              <li>Em <strong>Acessos</strong>, acompanhe tentativas e acessos relevantes da empresa.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="adm-identidade" data-manual-for="admin_empresa superadmin" data-roles="admin_empresa superadmin">
+          <div class="panel__body">
+            <h3>Identidade do canal</h3>
+            <ul>
+              <li>Em <strong>Identidade</strong>, ajuste nome/logo exibidos no canal da empresa quando disponível.</li>
+              <li>Use <strong>Ver canal público</strong> para validar a experiência do denunciante.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="adm-armazenamento" data-manual-for="admin_empresa superadmin" data-roles="admin_empresa superadmin">
+          <div class="panel__body">
+            <h3>Armazenamento (Adm_Empresa)</h3>
+            <ul>
+              <li>Acompanhe uso × limite em <strong>Meu armazenamento</strong>.</li>
+              <li>Consulte planos, vantagens e valores definidos para a sua empresa.</li>
+              <li>Solicite upgrade de pacote quando necessário; o Adm_Plataforma trata o lado comercial.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="adm-encaminhar" data-manual-for="admin_empresa superadmin" data-roles="admin_empresa superadmin">
+          <div class="panel__body">
+            <h3>Encaminhar e concluir</h3>
+            <ul>
+              <li>Use <strong>Encaminhar</strong> para atribuir o relato a um Apurador.</li>
+              <li>Apuradores não encaminham — essa é função do Adm_Empresa.</li>
+              <li>Garanta que medidas/ações estejam registradas antes de concluir casos sensíveis.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Apurador -->
+        <div class="panel mb-2 manual-section" id="apu-limites" data-manual-for="apurador" data-roles="apurador">
+          <div class="panel__body">
+            <h3>Limites do Apurador</h3>
+            <ul>
+              <li>Acesso somente à empresa vinculada à sua conta.</li>
+              <li>Pode ler relatos, atualizar status/fluxo, comentar, registrar medidas e falar com o denunciante.</li>
+              <li><strong>Não pode</strong> encaminhar (assign), gerenciar usuários, colaboradores, identidade nem acessos.</li>
+              <li>Identidade do denunciante pode aparecer <strong>mascarada</strong> — use só o necessário para a apuração.</li>
+              <li>Em armazenamento: visualização do consumo; contratação de pacote é do Adm_Empresa.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="apu-rotina" data-manual-for="apurador" data-roles="apurador">
+          <div class="panel__body">
+            <h3>Rotina recomendada do Apurador</h3>
+            <ul>
+              <li>Priorize relatos urgentes / risco elevado no Dashboard e em Relatos.</li>
+              <li>Avance o fluxo com justificativa quando o sistema exigir.</li>
+              <li>Registre cada ação relevante em <strong>Medidas e ações executadas</strong>.</li>
+              <li>Se precisar de encaminhamento ou acesso a dados restritos, solicite ao Adm_Empresa.</li>
+              <li>Não compartilhe protocolo + código de acompanhamento com terceiros.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="apu-armazenamento" data-manual-for="apurador" data-roles="apurador">
+          <div class="panel__body">
+            <h3>Armazenamento (Apurador)</h3>
+            <ul>
+              <li>Consulte <strong>Meu armazenamento</strong> para entender limites de anexos.</li>
+              <li>Se o limite estiver crítico, avise o Adm_Empresa para upgrade — você não contrata o pacote.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: empresa-shell -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['admin_empresa', 'apurador', 'superadmin']);
+      if (!session) return;
+
+      const role = session.role;
+      const roleLabel =
+        role === 'admin_empresa' ? 'Adm_Empresa' :
+        role === 'apurador' ? 'Apurador' :
+        role === 'superadmin' ? 'Adm_Plataforma (visão empresa)' : role;
+
+      const badges = document.getElementById('manualRoleBadges');
+      badges.innerHTML = `
+        <span class="badge ${role === 'admin_empresa' || role === 'superadmin' ? 'is-you' : ''}">Adm_Empresa</span>
+        <span class="badge ${role === 'apurador' ? 'is-you' : ''}">Apurador</span>
+        <span class="text-muted" style="align-self:center;font-size:.85rem">Você está como: <strong>${CSApp.escapeHtml(roleLabel)}</strong></span>
+      `;
+
+      document.getElementById('manualRoleIntro').innerHTML =
+        role === 'apurador'
+          ? `<strong>Perfil Apurador:</strong> este manual mostra só o que você pode operar. Itens de gestão (usuários, colaboradores, identidade, encaminhamento) ficam ocultos.`
+          : `<strong>Perfil Adm_Empresa:</strong> este manual cobre gestão da empresa e tratamento de relatos. Funções exclusivas do Apurador não se aplicam a você da mesma forma — você tem poderes adicionais.`;
+
+      const tocDefs = [
+        { id: 'comum-visao', label: 'Visão geral', roles: null },
+        { id: 'comum-relatos', label: 'Tratar relatos', roles: null },
+        { id: 'comum-sigilo', label: 'Sigilo', roles: null },
+        { id: 'adm-limites', label: 'Limites Adm_Empresa', roles: ['admin_empresa', 'superadmin'] },
+        { id: 'adm-usuarios', label: 'Usuários', roles: ['admin_empresa', 'superadmin'] },
+        { id: 'adm-identidade', label: 'Identidade', roles: ['admin_empresa', 'superadmin'] },
+        { id: 'adm-armazenamento', label: 'Armazenamento', roles: ['admin_empresa', 'superadmin'] },
+        { id: 'adm-encaminhar', label: 'Encaminhar', roles: ['admin_empresa', 'superadmin'] },
+        { id: 'apu-limites', label: 'Limites Apurador', roles: ['apurador'] },
+        { id: 'apu-rotina', label: 'Rotina Apurador', roles: ['apurador'] },
+        { id: 'apu-armazenamento', label: 'Armazenamento', roles: ['apurador'] }
+      ];
+
+      const toc = document.getElementById('manualToc');
+      toc.innerHTML = tocDefs
+        .filter((t) => !t.roles || t.roles.includes(role))
+        .map((t) => `<a href="#${t.id}">${CSApp.escapeHtml(t.label)}</a>`)
+        .join('');
+
+      document.querySelectorAll('[data-manual-for]').forEach((el) => {
+        const allowed = String(el.dataset.manualFor || '')
+          .split(/[\s,]+/)
+          .filter(Boolean);
+        if (allowed.length && !allowed.includes(role)) {
+          el.hidden = true;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logs técnicos – Admin</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+</head>
+<body>
+  <div class="demo-banner"><strong>Logs técnicos</strong> — infraestrutura e segurança; separado da auditoria funcional.</div>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="Canal Seguro" />
+        <div class="sidebar__brand-text"><strong>Administração</strong><span>Canal Seguro</span></div>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="armazenamento.html"><span class="nav-icon">&#9635;</span> Armazenamento</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a class="active" href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Conta</div>
+        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+      </nav>
+      <div class="sidebar__footer"><a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a></div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Logs técnicos</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Logs de infraestrutura e segurança</h1>
+            <p>Aplicação, segurança, banco e acesso — distinto da <a href="auditoria.html">auditoria funcional</a>.</p>
+          </div>
+        </div>
+        <div class="panel mb-2">
+          <div class="panel__body">
+            <form id="filters" class="filters-bar">
+              <div class="form-group" style="min-width:140px">
+                <label for="techCat">Categoria</label>
+                <select class="form-control" id="techCat" name="category">
+                  <option value="">Todas</option>
+                  <option value="application">Aplicação</option>
+                  <option value="security">Segurança</option>
+                  <option value="database">Banco</option>
+                  <option value="access">Acesso</option>
+                </select>
+              </div>
+              <div class="form-group" style="min-width:120px">
+                <label for="techSev">Severidade</label>
+                <select class="form-control" id="techSev" name="severity">
+                  <option value="">Todas</option>
+                  <option value="info">Info</option>
+                  <option value="warn">Aviso</option>
+                  <option value="error">Erro</option>
+                  <option value="critical">Crítico</option>
+                </select>
+              </div>
+              <div class="form-group" style="flex:0;min-width:auto">
+                <span class="filters-bar__label-spacer" aria-hidden="true"></span>
+                <label class="filters-bar__check">
+                  <input type="checkbox" name="alertOnly" /> Somente alertas
+                </label>
+              </div>
+              <div class="form-group filters-bar__actions">
+                <span class="filters-bar__label-spacer" aria-hidden="true"></span>
+                <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
+              </div>
+            </form>
+            <p class="text-muted mt-2" style="font-size:.85rem" id="policyNote"></p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Data / horário</th>
+                  <th>Categoria</th>
+                  <th>Evento</th>
+                  <th>Severidade</th>
+                  <th>Usuário</th>
+                  <th>Contexto</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell-infra-log -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/infra-log.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+
+      const policy = await CSApp.runAsync(() => CSApi.getInfraLogPolicy(), { context: 'infraPolicy', toast: false });
+      if (policy) {
+        document.getElementById('policyNote').textContent =
+          `${policy.note} Retenção demo: app ${policy.retentionMax.application}, security ${policy.retentionMax.security}. ` +
+          `Documentação: docs/INFRA-SECURITY-LOGS.md`;
+      }
+
+      async function loadLogs() {
+        const tbody = document.getElementById('tbody');
+        const fd = new FormData(document.getElementById('filters'));
+        const filters = { limit: 200 };
+        if (fd.get('category')) filters.category = fd.get('category');
+        if (fd.get('severity')) filters.severity = fd.get('severity');
+        if (fd.get('alertOnly')) filters.alertOnly = true;
+        try {
+          const logs = await CSApi.getTechLogs(filters, session);
+          tbody.innerHTML = logs.map((l) => `
+            <tr${l.alert ? ' style="background:var(--cs-primary-soft)"' : ''}>
+              <td>${CSReports.formatDateTime(l.date)}</td>
+              <td>${CSApp.escapeHtml(CSInfraLog.categoryLabel(l.category))}</td>
+              <td>${CSApp.escapeHtml(CSInfraLog.eventLabel(l.event))}${l.alert ? ' <span class="badge badge--danger">alerta</span>' : ''}</td>
+              <td>${CSApp.escapeHtml(l.severity || '—')}</td>
+              <td>${CSApp.escapeHtml(l.actor?.userName || '—')}</td>
+              <td class="text-muted" style="font-size:.82rem;max-width:280px;word-break:break-word">${CSApp.escapeHtml(JSON.stringify(l.context || {}))}</td>
+            </tr>`).join('') ||
+            '<tr><td colspan="6" class="empty-state">Nenhum log técnico registrado.</td></tr>';
+        } catch (err) {
+          CSErrors.logError(err, 'loadTechLogs');
+          CSErrors.renderTableRetry(tbody, 6, loadLogs);
+          CSApp.toast(CSErrors.userMessage(err), 'error');
+        }
+      }
+
+      document.getElementById('filters').addEventListener('submit', (e) => {
+        e.preventDefault();
+        loadLogs();
+      });
+      await loadLogs();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Indicadores – Admin</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+</head>
+<body>
+  <div class="demo-banner"><strong>Indicadores preventivos</strong> — sem identificação de pessoas.</div>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="Canal Seguro" />
+        <div class="sidebar__brand-text"><strong>Administração</strong><span>Canal Seguro</span></div>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="armazenamento.html"><span class="nav-icon">&#9635;</span> Armazenamento</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a class="active" href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Conta</div>
+        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+      </nav>
+      <div class="sidebar__footer"><a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a></div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Indicadores</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Indicadores de gestão preventiva</h1>
+            <p>Agregados estatísticos — não permitem identificar automaticamente pessoas.</p>
+          </div>
+          <div class="form-group" style="margin:0;min-width:200px">
+            <label class="sr-only">Empresa</label>
+            <select class="form-control" id="companyFilter"><option value="">Todas as empresas</option></select>
+          </div>
+        </div>
+        <div class="kpi-grid" id="kpis"></div>
+        <div class="panel-grid cols-2">
+          <div class="panel" data-layout-id="categories">
+            <div class="panel__header"><h3>Categorias mais frequentes</h3></div>
+            <div class="panel__body"><div class="chart-wrap"><canvas id="chartCategories"></canvas></div></div>
+          </div>
+          <div class="panel" data-layout-id="months">
+            <div class="panel__header"><h3>Evolução mensal</h3></div>
+            <div class="panel__body"><div class="chart-wrap"><canvas id="chartMonths"></canvas></div></div>
+          </div>
+        </div>
+        <div class="panel-grid cols-2">
+          <div class="panel" data-layout-id="sectors">
+            <div class="panel__header"><h3>Setores com mais registros</h3></div>
+            <div class="panel__body" id="sectors"></div>
+          </div>
+          <div class="panel" data-layout-id="status">
+            <div class="panel__header"><h3>Status</h3></div>
+            <div class="panel__body"><div class="chart-wrap"><canvas id="chartStatus"></canvas></div></div>
+          </div>
+        </div>
+        <div class="callout">
+          <p><strong>Tempo médio de tratamento:</strong> <span id="avgTime">—</span> (cálculo aproximado entre criação e conclusão, quando houver).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell-dashboard -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/card-layout.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+      const sel = document.getElementById('companyFilter');
+      (await CSApi.getCompanies()).forEach(c => {
+        const o = document.createElement('option');
+        o.value = c.id; o.textContent = c.nomeFantasia;
+        sel.appendChild(o);
+      });
+
+      async function refresh() {
+        const companyId = sel.value || null;
+        const metrics = await CSDashboard.renderDashboardPage(
+          document.getElementById('kpis'),
+          () => CSApi.getDashboardMetrics(companyId)
+        );
+        if (!metrics) return;
+        const sectors = Object.entries(metrics.bySector).sort((a,b) => b[1]-a[1]);
+        document.getElementById('sectors').innerHTML = sectors.length
+          ? `<ul>${sectors.map(([s,n]) => `<li style="display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--cs-border)"><span>${CSApp.escapeHtml(s)}</span><strong>${n}</strong></li>`).join('')}</ul>`
+          : '<p class="text-muted">Sem dados</p>';
+
+        const reports = await CSApi.getReports(companyId ? { companyId } : {});
+        const done = reports.filter(r => r.status === 'concluido');
+        if (done.length) {
+          const avgMs = done.reduce((acc, r) => acc + (new Date(r.updatedAt) - new Date(r.createdAt)), 0) / done.length;
+          const days = Math.round(avgMs / 86400000);
+          document.getElementById('avgTime').textContent = `${days} dia(s) (amostra de ${done.length} concluído(s))`;
+        } else {
+          document.getElementById('avgTime').textContent = 'Sem relatos concluídos na amostra';
+        }
+      }
+      sel.addEventListener('change', refresh);
+      await refresh();
+      window.addEventListener('resize', refresh);
+    });
+  </script>
+</body>
+</html>

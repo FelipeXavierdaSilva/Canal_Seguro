@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Colaboradores – Admin</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+</head>
+<body>
+  <div class="demo-banner"><strong>Colaboradores (multiempresa)</strong> — gestão central de CPFs admitidos.</div>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="Canal Seguro" />
+        <div class="sidebar__brand-text"><strong>Administração</strong><span>Canal Seguro</span></div>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="armazenamento.html"><span class="nav-icon">&#9635;</span> Armazenamento</a>
+        <a href="colaboradores.html" class="active"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Conta</div>
+        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+      </nav>
+      <div class="sidebar__footer"><a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a></div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Colaboradores</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div id="listView">
+          <div class="page-header">
+            <div>
+              <h1>Colaboradores admitidos</h1>
+              <p>Cadastro de CPFs por empresa para liberação do canal de relato.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="btnNew">Novo colaborador</button>
+          </div>
+          <form class="filters-bar" id="searchForm">
+            <div class="form-group">
+              <label class="sr-only" for="filterCompany">Empresa</label>
+              <select class="form-control" id="filterCompany" name="companyId" aria-label="Empresa">
+                <option value="">Todas as empresas</option>
+              </select>
+            </div>
+            <div class="search-input form-group" style="flex:2">
+              <label class="sr-only" for="filterQ">Buscar</label>
+              <input class="form-control" id="filterQ" name="q" placeholder="Buscar..." aria-label="Buscar" />
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="filterStatus">Status</label>
+              <select class="form-control" id="filterStatus" name="status" aria-label="Status">
+                <option value="">Status</option>
+                <option value="ativo">Ativo</option>
+                <option value="desligado">Desligado</option>
+              </select>
+            </div>
+            <div class="form-group filters-bar__actions">
+              <button class="btn btn-outline" type="submit">Filtrar</button>
+            </div>
+          </form>
+          <div class="panel">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Empresa</th><th>Nome</th><th>CPF</th><th>Matrícula</th><th>Setor</th><th>Status</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div id="formView" class="hidden">
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" id="btnBack" title="Voltar à lista" aria-label="Voltar à lista">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div><h1 id="formTitle">Novo colaborador</h1></div>
+            </div>
+          </div>
+          <form class="panel" id="empForm" style="padding:1.25rem">
+            <input type="hidden" name="id" />
+            <div class="form-group"><label>Empresa</label>
+              <select class="form-control" name="companyId" required></select>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group"><label>Nome</label><input class="form-control" name="nome" required /></div>
+              <div class="form-group"><label>CPF</label><input class="form-control" name="cpf" required /></div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group"><label>Matrícula</label><input class="form-control" name="matricula" /></div>
+              <div class="form-group"><label>Status</label>
+                <select class="form-control" name="status">
+                  <option value="ativo">Ativo</option>
+                  <option value="inativo">Inativo</option>
+                  <option value="desligado">Desligado</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group"><label>Setor</label><input class="form-control" name="setor" /></div>
+              <div class="form-group"><label>Cargo</label><input class="form-control" name="cargo" /></div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group"><label>E-mail</label><input class="form-control" type="email" name="email" /></div>
+              <div class="form-group"><label>Telefone</label><input class="form-control" name="telefone" /></div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-outline" id="btnCancel">Cancelar</button>
+              <div class="right">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell-validation -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/validation.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+      const companies = await CSApi.getCompanies();
+      const map = Object.fromEntries(companies.map(c => [c.id, c.nomeFantasia]));
+      const listView = document.getElementById('listView');
+      const formView = document.getElementById('formView');
+      const form = document.getElementById('empForm');
+      const searchForm = document.getElementById('searchForm');
+
+      companies.forEach(c => {
+        [searchForm.companyId, form.companyId].forEach(sel => {
+          const o = document.createElement('option');
+          o.value = c.id; o.textContent = c.nomeFantasia;
+          sel.appendChild(o);
+        });
+      });
+
+      async function loadList() {
+        const tbody = document.getElementById('tbody');
+        try {
+        const fd = new FormData(searchForm);
+        const filters = { q: fd.get('q'), status: fd.get('status') };
+        if (fd.get('companyId')) filters.companyId = fd.get('companyId');
+        const list = await CSApi.getEmployees(filters);
+        tbody.innerHTML = list.map(e => {
+          const badge = e.status === 'ativo' ? 'badge--success' : 'badge--danger';
+          return `<tr>
+            <td>${CSApp.escapeHtml(map[e.companyId] || '—')}</td>
+            <td>${CSApp.escapeHtml(e.nome)}</td>
+            <td>${CSApp.escapeHtml(e.cpfMasked)}</td>
+            <td>${CSApp.escapeHtml(e.matricula || '—')}</td>
+            <td>${CSApp.escapeHtml(e.setor || '—')}</td>
+            <td><span class="badge ${badge}">${CSApp.escapeHtml(e.status)}</span></td>
+            <td class="table-actions">${CSApp.rowActionsHtml(e.id)}</td>
+          </tr>`;
+        }).join('') || '<tr><td colspan="7" class="empty-state">Nenhum registro</td></tr>';
+        document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => openForm(b.dataset.edit, 'edit')));
+        document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => openForm(b.dataset.view, 'view')));
+        document.querySelectorAll('[data-delete]').forEach(b => b.addEventListener('click', async () => {
+          const ok = await CSApp.confirmDialog({
+            title: 'Excluir colaborador',
+            message: 'O colaborador será removido permanentemente. Confirma?',
+            confirmText: 'Excluir',
+            danger: true
+          });
+          if (!ok) return;
+          const deleted = await CSApp.runAsync(
+            () => CSApi.deleteEmployee(b.dataset.delete, session),
+            { context: 'deleteEmployee' }
+          );
+          if (!deleted) return;
+          CSApp.toast('Colaborador excluído.', 'success');
+          loadList();
+        }));
+        } catch (err) {
+          CSErrors.logError(err, 'loadEmployees');
+          CSErrors.renderTableRetry(tbody, 7, loadList);
+          CSApp.toast(CSErrors.userMessage(err), 'error');
+        }
+      }
+
+      function openForm(id, mode = 'edit') {
+        listView.classList.add('hidden');
+        formView.classList.remove('hidden');
+        form.reset();
+        form.companyId.disabled = false;
+        CSApp.setFormReadonly(form, false);
+        const viewOnly = mode === 'view';
+        companies.forEach(c => {
+          if (!form.companyId.querySelector(`option[value="${c.id}"]`)) {
+            const o = document.createElement('option');
+            o.value = c.id; o.textContent = c.nomeFantasia;
+            form.companyId.appendChild(o);
+          }
+        });
+        if (!id) {
+          document.getElementById('formTitle').textContent = 'Novo colaborador';
+          form.id.value = '';
+          const submitBtn = form.querySelector('button[type="submit"]');
+          if (submitBtn) submitBtn.classList.remove('hidden');
+          return;
+        }
+        const raw = CSStore.loadStore().employees.find(e => e.id === id);
+        if (!raw) return;
+        document.getElementById('formTitle').textContent = viewOnly ? 'Visualizar colaborador' : 'Editar colaborador';
+        form.id.value = raw.id;
+        form.companyId.value = raw.companyId;
+        form.companyId.disabled = true;
+        form.nome.value = raw.nome;
+        form.cpf.value = CSValidation.formatCpf(raw.cpf);
+        form.matricula.value = raw.matricula || '';
+        form.setor.value = raw.setor || '';
+        form.cargo.value = raw.cargo || '';
+        form.email.value = raw.email || '';
+        form.telefone.value = raw.telefone || '';
+        form.status.value = raw.status;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.classList.toggle('hidden', viewOnly);
+        CSApp.setFormReadonly(form, viewOnly);
+        if (viewOnly) form.companyId.disabled = true;
+      }
+
+      function back() {
+        form.companyId.disabled = false;
+        CSApp.setFormReadonly(form, false);
+        formView.classList.add('hidden');
+        listView.classList.remove('hidden');
+        loadList();
+      }
+
+      document.getElementById('btnNew').addEventListener('click', () => openForm());
+      document.getElementById('btnBack').addEventListener('click', back);
+      document.getElementById('btnCancel').addEventListener('click', back);
+      searchForm.addEventListener('submit', e => { e.preventDefault(); loadList(); });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+          companyId: form.companyId.value,
+          nome: form.nome.value.trim(),
+          cpf: form.cpf.value.trim(),
+          matricula: form.matricula.value.trim(),
+          setor: form.setor.value.trim(),
+          cargo: form.cargo.value.trim(),
+          email: form.email.value.trim(),
+          telefone: form.telefone.value.trim(),
+          status: form.status.value,
+          _actorId: session.id,
+          _actorName: session.nome
+        };
+        const saved = await CSApp.runAsync(
+          () =>
+            form.id.value
+              ? CSApi.updateEmployee(form.id.value, payload)
+              : CSApi.createEmployee(payload),
+          { context: 'saveEmployee' }
+        );
+        if (!saved) return;
+        CSApp.toast('Salvo.', 'success');
+        back();
+      });
+
+      await loadList();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Empresas – Admin</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+</head>
+<body>
+  <div class="demo-banner"><strong>CRUD de empresas</strong> — personalização multi-tenant.</div>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="Canal Seguro" />
+        <div class="sidebar__brand-text"><strong>Administração</strong><span>Canal Seguro</span></div>
+      </div>
+      <nav class="sidebar__nav">
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a class="active" href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="armazenamento.html"><span class="nav-icon">&#9635;</span> Armazenamento</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Conta</div>
+        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+      </nav>
+      <div class="sidebar__footer"><a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a></div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Empresas</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div id="listView">
+          <div class="page-header">
+            <div>
+              <h1>Empresas clientes</h1>
+              <p>Cadastro, personalização e status. Domínios futuros: empresa.canalseguro.com.br</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="btnNew">Nova empresa</button>
+          </div>
+          <form class="filters-bar" id="searchForm">
+            <div class="search-input form-group" style="flex:2">
+              <label class="sr-only" for="empSearchQ">Buscar</label>
+              <input class="form-control" id="empSearchQ" name="q" placeholder="Buscar por nome ou CNPJ" aria-label="Buscar" />
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="empSearchStatus">Status</label>
+              <select class="form-control" id="empSearchStatus" name="status" aria-label="Status">
+                <option value="">Todos os status</option>
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+              </select>
+            </div>
+            <div class="form-group filters-bar__actions">
+              <button class="btn btn-outline" type="submit">Filtrar</button>
+            </div>
+          </form>
+          <div class="panel">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Empresa</th>
+                    <th>CNPJ</th>
+                    <th>Domínio</th>
+                    <th>Responsável</th>
+                    <th>Cores</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="formView" class="hidden">
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" id="btnBack" title="Voltar à lista" aria-label="Voltar à lista">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1 id="formTitle">Nova empresa</h1>
+                <p>Personalização do canal e dados cadastrais.</p>
+              </div>
+            </div>
+          </div>
+          <form class="panel" id="companyForm" style="padding:1.25rem">
+            <input type="hidden" name="id" />
+            <div class="form-row cols-2">
+              <div class="form-group"><label>Razão social</label><input class="form-control" name="razaoSocial" required /></div>
+              <div class="form-group"><label>Nome fantasia</label><input class="form-control" name="nomeFantasia" required /></div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group"><label>CNPJ</label><input class="form-control" name="cnpj" required /></div>
+              <div class="form-group"><label>Domínio / subdomínio</label><input class="form-control" name="dominio" placeholder="empresa.canalseguro.com.br" required /></div>
+            </div>
+            <div class="form-group"><label>Endereço</label><input class="form-control" name="endereco" /></div>
+            <div class="form-row cols-3">
+              <div class="form-group"><label>Responsável</label><input class="form-control" name="responsavel" /></div>
+              <div class="form-group"><label>E-mail</label><input class="form-control" type="email" name="email" /></div>
+              <div class="form-group"><label>Telefone</label><input class="form-control" name="telefone" /></div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group"><label>Nome do canal</label><input class="form-control" name="nomeCanal" /></div>
+              <div class="form-group"><label>Status</label>
+                <select class="form-control" name="status">
+                  <option value="ativo">Ativo</option>
+                  <option value="inativo">Inativo</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Mensagem inicial</label>
+              <textarea class="form-control" name="mensagemInicial" rows="3"></textarea>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label>Cor principal</label>
+                <div class="color-preview">
+                  <input type="color" name="corPrincipal" value="#6b9e9e" />
+                  <input class="form-control" name="corPrincipalText" value="#6b9e9e" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Cor secundária</label>
+                <div class="color-preview">
+                  <input type="color" name="corSecundaria" value="#3a5f7d" />
+                  <input class="form-control" name="corSecundariaText" value="#3a5f7d" />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Foto / logo da empresa</label>
+              <div class="logo-uploader" id="logoUploader">
+                <div class="logo-uploader__preview-wrap">
+                  <img class="logo-uploader__preview is-empty" data-logo-preview src="../assets/images/logo-empresa.svg" alt="Pré-visualização da logo" />
+                  <button type="button" class="btn btn-ghost btn-sm hidden" data-logo-remove>Remover foto</button>
+                </div>
+                <div>
+                  <div class="logo-uploader__zone" data-logo-zone>
+                    <strong>Clique ou arraste a imagem</strong>
+                    <span>PNG, JPG, WEBP ou SVG · até ~2,5 MB</span>
+                  </div>
+                  <input type="file" data-logo-input accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml,.png,.jpg,.jpeg,.webp,.gif,.svg" />
+                  <input type="hidden" name="logo" data-logo-value />
+                  <span class="hint" style="display:block;margin-top:.55rem;font-size:.8rem;color:var(--cs-text-muted)">
+                    A foto aparece no canal público do cliente. Em produção, o arquivo seria enviado a um storage seguro.
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="panel" id="storageUsagePanel" style="margin:1rem 0;padding:1rem;background:var(--cs-surface-2, transparent);border:1px solid var(--cs-border, #ddd);border-radius:8px">
+              <h3 style="margin:0 0 .5rem;font-size:1rem">Armazenamento de anexos</h3>
+              <p class="text-muted" id="storageUsageText" style="margin:0;font-size:.9rem">Carregue uma empresa para ver o consumo.</p>
+              <div class="form-group mt-2" style="margin-top:.75rem">
+                <label>Quota (bytes)</label>
+                <input class="form-control" name="storageLimitBytes" type="number" min="10485760" max="2199023255552" step="1048576" placeholder="5368709120" />
+                <span class="hint" style="font-size:.8rem">10&nbsp;MiB – 2&nbsp;TiB. Se o uso atual superar o novo limite, arquivos existentes permanecem; novos uploads são bloqueados. Visão consolidada em <a href="armazenamento.html">Armazenamento</a>.</span>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-outline" id="btnCancel">Cancelar</button>
+              <div class="right">
+                <button type="button" class="btn btn-danger hidden" id="btnDeactivate">Inativar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell-validation -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/validation.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/attachments.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    let session;
+    CSApp.onReady(async () => {
+      session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+      const listView = document.getElementById('listView');
+      const formView = document.getElementById('formView');
+      const form = document.getElementById('companyForm');
+
+      const logoUploader = CSCompanies.bindLogoUploader(document.getElementById('logoUploader'));
+
+      form.corPrincipal.addEventListener('input', () => form.corPrincipalText.value = form.corPrincipal.value);
+      form.corPrincipalText.addEventListener('input', () => { if (/^#?[0-9a-fA-F]{6}$/.test(form.corPrincipalText.value)) form.corPrincipal.value = form.corPrincipalText.value.startsWith('#') ? form.corPrincipalText.value : '#'+form.corPrincipalText.value; });
+      form.corSecundaria.addEventListener('input', () => form.corSecundariaText.value = form.corSecundaria.value);
+      form.corSecundariaText.addEventListener('input', () => { if (/^#?[0-9a-fA-F]{6}$/.test(form.corSecundariaText.value)) form.corSecundaria.value = form.corSecundariaText.value.startsWith('#') ? form.corSecundariaText.value : '#'+form.corSecundariaText.value; });
+
+      async function loadList() {
+        const tbody = document.getElementById('tbody');
+        try {
+        const fd = new FormData(document.getElementById('searchForm'));
+        const list = await CSApi.getCompanies({ q: fd.get('q'), status: fd.get('status') });
+        const fallbackLogo = CSCompanies.defaultLogoUrl();
+        const safeHex = (hex) => (/^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/.test(hex || '') ? hex : '#cccccc');
+        document.getElementById('tbody').innerHTML = list.map(c => `
+          <tr>
+            <td class="cell-company-name">
+              <div class="cell-company-name__row">
+                <img class="company-logo-thumb" src="${c.logo ? CSApp.escapeHtml(c.logo) : fallbackLogo}" alt="" />
+                <div class="cell-company-name__text">
+                  <strong class="cell-company-name__fantasy">${CSApp.escapeHtml(c.nomeFantasia)}</strong>
+                  <span class="cell-company-name__legal text-muted" title="${CSApp.escapeHtml(c.razaoSocial)}">${CSApp.escapeHtml(c.razaoSocial)}</span>
+                </div>
+              </div>
+            </td>
+            <td>${CSApp.escapeHtml(c.cnpj)}</td>
+            <td><code style="font-size:.8rem">${CSApp.escapeHtml(c.dominio)}</code></td>
+            <td>${CSApp.escapeHtml(c.responsavel || '—')}</td>
+            <td>
+              <span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${safeHex(c.corPrincipal)};vertical-align:middle"></span>
+              <span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${safeHex(c.corSecundaria)};vertical-align:middle"></span>
+            </td>
+            <td><span class="badge ${c.status==='ativo'?'badge--success':'badge--danger'}">${CSApp.escapeHtml(c.status)}</span></td>
+            <td class="table-actions">${CSApp.rowActionsHtml(c.id)}</td>
+          </tr>`).join('') || '<tr><td colspan="7" class="empty-state">Nenhuma empresa</td></tr>';
+        document.querySelectorAll('[data-edit]').forEach(btn => btn.addEventListener('click', () => openForm(btn.dataset.edit, 'edit')));
+        document.querySelectorAll('[data-view]').forEach(btn => btn.addEventListener('click', () => openForm(btn.dataset.view, 'view')));
+        document.querySelectorAll('[data-delete]').forEach(btn => btn.addEventListener('click', async () => {
+          const ok = await CSApp.confirmDialog({
+            title: 'Excluir empresa definitivamente',
+            message:
+              'Isso apaga a empresa e, em cascata, colaboradores, usuários da empresa, relatos e anexos vinculados. Esta ação não pode ser desfeita.',
+            confirmText: 'Excluir tudo',
+            danger: true
+          });
+          if (!ok) return;
+          const okDelete = await CSApp.runAsync(
+            () => CSApi.deleteCompany(btn.dataset.delete, session),
+            { context: 'deleteCompany' }
+          );
+          if (!okDelete) return;
+          CSApp.toast('Empresa excluída.', 'success');
+          loadList();
+        }));
+        } catch (err) {
+          CSErrors.logError(err, 'loadCompanies');
+          CSErrors.renderTableRetry(tbody, 7, loadList);
+          CSApp.toast(CSErrors.userMessage(err), 'error');
+        }
+      }
+
+      async function openForm(id, mode = 'edit') {
+        listView.classList.add('hidden');
+        formView.classList.remove('hidden');
+        form.reset();
+        logoUploader.setValue('');
+        document.getElementById('btnDeactivate').classList.add('hidden');
+        const viewOnly = mode === 'view';
+        CSApp.setFormReadonly(form, false);
+        if (!id) {
+          document.getElementById('formTitle').textContent = 'Nova empresa';
+          form.id.value = '';
+          form.corPrincipal.value = '#6b9e9e';
+          form.corPrincipalText.value = '#6b9e9e';
+          form.corSecundaria.value = '#3a5f7d';
+          form.corSecundariaText.value = '#3a5f7d';
+          const submitBtn = form.querySelector('button[type="submit"]');
+          if (submitBtn) submitBtn.classList.remove('hidden');
+          return;
+        }
+        const c = await CSApp.runAsync(() => CSApi.getCompany(id), { context: 'openCompanyForm' });
+        if (!c) {
+          back();
+          return;
+        }
+        document.getElementById('formTitle').textContent = viewOnly ? 'Visualizar empresa' : 'Editar empresa';
+        Object.keys(c).forEach(k => {
+          if (k === 'logo') return;
+          if (form.elements[k]) form.elements[k].value = c[k] ?? '';
+        });
+        logoUploader.setValue(c.logo || '');
+        form.corPrincipalText.value = c.corPrincipal;
+        form.corSecundariaText.value = c.corSecundaria;
+        document.getElementById('btnDeactivate').classList.toggle('hidden', viewOnly || c.status !== 'ativo');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) submitBtn.classList.toggle('hidden', viewOnly);
+        CSApp.setFormReadonly(form, viewOnly);
+        const usageEl = document.getElementById('storageUsageText');
+        if (usageEl) {
+          try {
+            const usage = await CSApi.getStorageUsage(c.id);
+            const fmt = (n) => (typeof CSAttachments !== 'undefined' ? CSAttachments.formatSize(n) : `${n} B`);
+            const overLimit = Boolean(usage.overLimit);
+            const band =
+              typeof CSAttachments !== 'undefined'
+                ? CSAttachments.storageBand(usage.storagePercent, { overLimit })
+                : null;
+            usageEl.textContent = `Usado: ${fmt(usage.storageUsedBytes)} / ${fmt(usage.storageLimitBytes)} (${usage.storagePercent}%)${band ? ` · ${band.label}` : ''}${overLimit ? ' — uploads bloqueados' : ''}`;
+            if (form.elements.storageLimitBytes) {
+              form.elements.storageLimitBytes.value = usage.storageLimitBytes;
+              form.elements.storageLimitBytes.readOnly = viewOnly;
+            }
+          } catch {
+            usageEl.textContent = 'Consumo indisponível. Veja a página Armazenamento.';
+          }
+        }
+      }
+
+      function back() {
+        formView.classList.add('hidden');
+        listView.classList.remove('hidden');
+        CSApp.setFormReadonly(form, false);
+        loadList();
+      }
+
+      document.getElementById('btnNew').addEventListener('click', () => openForm());
+      document.getElementById('btnBack').addEventListener('click', back);
+      document.getElementById('btnCancel').addEventListener('click', back);
+      document.getElementById('searchForm').addEventListener('submit', e => { e.preventDefault(); loadList(); });
+
+      document.getElementById('btnDeactivate').addEventListener('click', async () => {
+        const ok = await CSApp.confirmDialog({
+          title: 'Inativar empresa',
+          message: 'A empresa deixará de aparecer como ativa. Confirma?',
+          confirmText: 'Inativar',
+          danger: true
+        });
+        if (!ok) return;
+        const okDeactivate = await CSApp.runAsync(
+          () => CSApi.deactivateCompany(form.id.value, session),
+          { context: 'deactivateCompany' }
+        );
+        if (!okDeactivate) return;
+        CSApp.toast('Empresa inativada.', 'success');
+        back();
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+          razaoSocial: form.razaoSocial.value.trim(),
+          nomeFantasia: form.nomeFantasia.value.trim(),
+          cnpj: form.cnpj.value.trim(),
+          endereco: form.endereco.value.trim(),
+          responsavel: form.responsavel.value.trim(),
+          email: form.email.value.trim(),
+          telefone: form.telefone.value.trim(),
+          logo: logoUploader.getValue(),
+          corPrincipal: form.corPrincipal.value,
+          corSecundaria: form.corSecundaria.value,
+          dominio: form.dominio.value.trim(),
+          nomeCanal: form.nomeCanal.value.trim(),
+          mensagemInicial: form.mensagemInicial.value.trim(),
+          status: form.status.value,
+          _actorId: session.id,
+          _actorName: session.nome
+        };
+        if (CSValidation.cnpj(payload.cnpj)) {
+          CSApp.toast(CSValidation.cnpj(payload.cnpj), 'warning');
+          return;
+        }
+        const saved = await CSApp.runAsync(
+          () =>
+            form.id.value
+              ? CSApi.updateCompany(form.id.value, payload)
+              : CSApi.createCompany(payload),
+          { context: 'saveCompany' }
+        );
+        if (!saved) return;
+        if (form.id.value && form.elements.storageLimitBytes?.value) {
+          const quotaOk = await CSApp.runAsync(
+            () => CSApi.updateStorageLimit(form.id.value, Number(form.elements.storageLimitBytes.value), session),
+            { context: 'updateStorageLimit' }
+          );
+          if (!quotaOk) return;
+        }
+        CSApp.toast('Empresa salva.', 'success');
+        back();
+      });
+
+      const editId = CSApp.qs('id');
+      if (editId) openForm(editId);
+      else loadList();
+    });
+  </script>
+</body>
+</html>
