@@ -7,13 +7,14 @@ const reportsService = require('./reports.service');
 const { stageLabel, getCompanyWorkflowPolicy } = require('./workflow-policy.service');
 const { redactReportIdentity, sectionsForType } = require('./export-policy.service');
 const { hasPermission } = require('../utils/tokens');
+const { assertReportVisibility } = require('./report-access.service');
 
 const PDF_VERSION = '1.0';
 
 function assertReportAccess(user, report) {
-  if (!report) return { ok: false, status: 404, error: 'Relato não encontrado.' };
-  if (user.role !== 'superadmin' && user.companyId !== report.companyId) {
-    return { ok: false, status: 404, error: 'Relato não encontrado.' };
+  const access = assertReportVisibility(user, report);
+  if (!access.ok) {
+    return { ok: false, status: access.status || 404, error: 'Relato não encontrado.' };
   }
   return { ok: true };
 }

@@ -7,6 +7,7 @@ const reporterSession = require('./reporter-session.service');
 const notification = require('./notification.service');
 const { gateAttempt } = require('../utils/rate-limit-gate');
 const { appendAudit } = require('./audit.service');
+const { assertReportVisibility } = require('./report-access.service');
 
 const MESSAGE_MAX_LEN = 5000;
 const PUBLIC_AUTHOR_LABEL = 'Você';
@@ -193,9 +194,8 @@ function sendCompanyMessage(user, reportId, { text, messageType = 'message', att
   const data = store.load();
   const report = (data.reports || []).find((r) => r.id === reportId);
   if (!report) return { ok: false, status: 404, error: 'Relato não encontrado.' };
-  if (user.role !== 'superadmin' && user.companyId !== report.companyId) {
-    return { ok: false, status: 404, error: 'Relato não encontrado.' };
-  }
+  const access = assertReportVisibility(user, report);
+  if (!access.ok) return { ok: false, status: access.status || 404, error: 'Relato não encontrado.' };
   const type = messageType === 'info_request' ? 'info_request' : 'message';
   return createMessage(report, {
     direction: 'company',
@@ -241,9 +241,8 @@ function getThreadForStaff(user, reportId) {
   const data = store.load();
   const report = (data.reports || []).find((r) => r.id === reportId);
   if (!report) return { ok: false, status: 404, error: 'Relato não encontrado.' };
-  if (user.role !== 'superadmin' && user.companyId !== report.companyId) {
-    return { ok: false, status: 404, error: 'Relato não encontrado.' };
-  }
+  const access = assertReportVisibility(user, report);
+  if (!access.ok) return { ok: false, status: access.status || 404, error: 'Relato não encontrado.' };
   markRead(reportId, { reader: 'company' });
   return {
     ok: true,

@@ -1,363 +1,416 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Canal Seguro – orientação, prevenção e comunicação responsável no ambiente de trabalho." />
   <title>Canal Seguro</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=2" />
   <link rel="stylesheet" href="css/forms.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/landing-home.css" />
-  <link rel="stylesheet" href="css/pricing-plans.css" />
+  <link rel="stylesheet" href="css/channel-home.css?v=11" />
+  <link rel="stylesheet" href="css/support-assistant.css?v=6" />
   <link rel="stylesheet" href="css/responsive.css" />
-  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
 </head>
 <body class="public-page landing-home">
-  <div class="demo-banner">
-    <strong>Protótipo demonstrativo</strong> — dados fictícios em localStorage. Autenticação real, anonimato e armazenamento seguro exigem back-end.
-  </div>
 
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="brand brand--platform" href="index.html" data-tenant-link>
-        <img class="brand__logo brand__logo--platform" src="assets/images/logo-canal-seguro.png" alt="Canal Seguro — Canal de Denúncias" data-company-logo data-default-logo="assets/images/logo-canal-seguro.png" />
-        <div class="brand__text brand__text--sr">
+      <a class="brand brand--platform brand--channel" href="index.html" data-tenant-link>
+        <img
+          class="brand__logo brand__logo--mark"
+          src="assets/images/logo-canal-seguro-mark.png?v=shield3"
+          alt=""
+          width="40"
+          height="46"
+          decoding="async"
+        />
+        <span class="brand__meta">
+          <span class="brand__meta-name" data-canal-name>
+            <span class="brand__meta-name-canal">Canal</span>
+            <span class="brand__meta-name-seguro">Seguro</span>
+          </span>
+          <span class="brand__meta-sub">Denúncias com sigilo e segurança</span>
+        </span>
+        <span class="brand__text brand__text--sr">
           <span class="brand__name" data-canal-name>Canal Seguro</span>
-          <span class="brand__sub"><span data-company-name>Empresa</span></span>
-        </div>
+        </span>
       </a>
-      <nav class="nav-public" aria-label="Principal">
-        <a href="index.html" data-tenant-link class="active">Início</a>
+      <nav class="nav-public" aria-label="Principal" data-home-nav>
+        <a href="index.html" data-tenant-link data-nav-section="inicio" class="active">Início</a>
         <a href="educacao.html" data-tenant-link>Sobre</a>
-        <a href="index.html#como-funciona" data-tenant-link>Como funciona</a>
-        <a href="index.html#planos-e-precos" data-tenant-link>Planos</a>
-        <a href="protocolo.html" data-tenant-link>Consultar</a>
-        <a href="faq.html" data-tenant-link>FAQ</a>
-        <a href="fale-conosco.html" data-tenant-link>Fale conosco</a>
+        <a href="index.html#orientacoes" data-tenant-link data-nav-section="orientacoes">Orientações</a>
+        <a href="index.html#faq" data-tenant-link data-nav-section="faq">FAQ</a>
+        <a href="index.html#fale-conosco" data-tenant-link data-nav-section="fale-conosco">Fale conosco</a>
       </nav>
       <div class="header-actions">
-        <button type="button" class="btn-icon" data-toggle-theme title="Alternar tema" aria-label="Alternar tema">◐</button>
-        <a class="btn btn-primary btn-sm" href="relato.html" data-tenant-link>Fazer um Relato</a>
+        <a class="btn-ch btn-ch--secondary" href="protocolo.html" data-tenant-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          Consultar protocolo
+        </a>
+        <a class="btn-ch btn-ch--primary" href="relato.html" data-tenant-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+          Fazer uma denúncia
+        </a>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div class="hero__atmosphere" aria-hidden="true"></div>
-      <div class="container hero__inner">
-        <div class="hero__content fade-in">
-          <p class="hero__tagline">Ambiente seguro. Sua voz tem valor.</p>
-          <h1>Denuncie com<br /><strong class="text-accent">segurança e sigilo</strong></h1>
-          <p class="hero__lead" data-canal-message>
-            Este é um canal seguro destinado à orientação, prevenção e comunicação de situações que possam comprometer o respeito, a segurança e o bem-estar no ambiente de trabalho.
+    <section class="ch-hero" aria-labelledby="ch-hero-title">
+      <figure class="ch-hero__media">
+        <img
+          class="ch-hero__img"
+          src="assets/images/channel-hero-person.jpg?v=20260916-2017"
+          alt="Pessoa em ambiente profissional, transmitindo acolhimento e confiança"
+          width="1024"
+          height="512"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </figure>
+      <div class="ch-hero__overlay">
+        <div class="ch-hero__content fade-in">
+          <p class="ch-eyebrow">Canal de denúncia</p>
+          <h1 id="ch-hero-title" class="ch-hero__title">
+            Um espaço seguro para <span class="ch-accent">comunicar o que aconteceu.</span>
+          </h1>
+          <p class="ch-hero__text" data-canal-message>
+            O Canal Seguro é um canal confidencial para relatar situações de assédio, desrespeito ou outras condutas inadequadas no ambiente de trabalho.
           </p>
-          <ul class="hero__trust" aria-label="Garantias do canal">
-            <li>100% Confidencial</li>
-            <li>Protegido por tecnologia</li>
-            <li>Acompanhamento seguro</li>
-          </ul>
-          <div class="hero__ctas">
-            <a class="btn btn-primary btn-lg btn-hero" href="relato.html" data-tenant-link>
+          <div class="ch-hero__ctas">
+            <a class="btn-ch btn-ch--primary btn-ch--lg" href="relato.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
               Fazer uma denúncia
-              <img class="btn-hero__icon" src="assets/images/logo-shield-btn.svg" alt="" width="18" height="18" />
+            </a>
+            <a class="btn-ch btn-ch--secondary btn-ch--lg" href="protocolo.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              Consultar protocolo
             </a>
           </div>
+          <div class="ch-hero__trust">
+            <span class="ch-hero__trust-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            </span>
+            <p>Você pode registrar seu relato de forma identificada ou, quando disponível, anônima.</p>
+          </div>
         </div>
-        <div class="hero__visual" aria-hidden="true">
+      </div>
+    </section>
+
+    <section class="ch-section ch-section--alt ch-actions" id="acesso-canal" aria-labelledby="ch-actions-title">
+      <div class="ch-container">
+        <div class="ch-actions__header">
+          <h2 id="ch-actions-title" class="ch-title">O que você precisa fazer?</h2>
+          <p class="ch-lead">Escolha o que melhor se encaixa no seu momento.</p>
+        </div>
+        <div class="ch-actions__grid">
+          <a class="ch-card" href="relato.html" data-tenant-link>
+            <span class="ch-card__icon ch-card__icon--teal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+            </span>
+            <h3>Quero fazer uma denúncia</h3>
+            <p>Relate uma situação que aconteceu com você, que presenciou ou que considera inadequada.</p>
+            <span class="ch-card__link">Começar denúncia →</span>
+          </a>
+          <a class="ch-card" href="protocolo.html" data-tenant-link>
+            <span class="ch-card__icon ch-card__icon--blue" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </span>
+            <h3>Já fiz uma denúncia</h3>
+            <p>Acompanhe seu relato utilizando o número do protocolo.</p>
+            <span class="ch-card__link">Consultar protocolo →</span>
+          </a>
+          <a class="ch-card" href="educacao.html#assedio" data-tenant-link>
+            <span class="ch-card__icon ch-card__icon--purple" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
+            </span>
+            <h3>Não sei se o que aconteceu é assédio</h3>
+            <p>Veja informações e exemplos antes de registrar seu relato.</p>
+            <span class="ch-card__link">Entender melhor →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-story" id="pilares" aria-labelledby="ch-story-title">
+      <div class="ch-container">
+        <div class="ch-story__header">
+          <p class="ch-eyebrow">O que nos guia</p>
+          <h2 id="ch-story-title" class="ch-title">Confiança, respeito e acompanhamento</h2>
+          <p class="ch-lead">Um canal feito para acolher com seriedade — do primeiro relato ao andamento do protocolo.</p>
+        </div>
+
+        <div class="ch-carousel" data-carousel>
+          <div class="ch-carousel__viewport" aria-live="polite">
+            <article class="ch-carousel__slide is-active" data-slide>
+              <figure class="ch-carousel__media">
+                <img src="assets/images/carousel-sigilo.jpg" alt="Ambiente corporativo calmo e discreto" width="1600" height="900" decoding="async" />
+              </figure>
+              <div class="ch-carousel__panel">
+                <p class="ch-carousel__kicker">01 — Sigilo</p>
+                <h3>Um espaço discreto para falar</h3>
+                <p>Relatos tratados com confidencialidade, em um ambiente projetado para proteger informações e identidade conforme as regras do canal.</p>
+                <a class="ch-carousel__link" href="politica-privacidade.html" data-tenant-link>Política de privacidade →</a>
+              </div>
+            </article>
+            <article class="ch-carousel__slide" data-slide hidden>
+              <figure class="ch-carousel__media">
+                <img src="assets/images/carousel-respeito.jpg" alt="Equipe colaborando com respeito no ambiente de trabalho" width="1600" height="900" loading="lazy" decoding="async" />
+              </figure>
+              <div class="ch-carousel__panel">
+                <p class="ch-carousel__kicker">02 — Respeito</p>
+                <h3>Cultura de respeito no trabalho</h3>
+                <p>Orientação clara para identificar situações inadequadas e fortalecer um ambiente ético, seguro e responsável.</p>
+                <a class="ch-carousel__link" href="educacao.html" data-tenant-link>Conhecer orientações →</a>
+              </div>
+            </article>
+            <article class="ch-carousel__slide" data-slide hidden>
+              <figure class="ch-carousel__media">
+                <img src="assets/images/carousel-acompanhar.jpg" alt="Documentos e protocolo em mesa de trabalho" width="1600" height="900" loading="lazy" decoding="async" />
+              </figure>
+              <div class="ch-carousel__panel">
+                <p class="ch-carousel__kicker">03 — Acompanhamento</p>
+                <h3>Do registro ao protocolo</h3>
+                <p>Após registrar, você recebe um protocolo para consultar o andamento com segurança e sem expor dados sensíveis.</p>
+                <a class="ch-carousel__link" href="protocolo.html" data-tenant-link>Consultar protocolo →</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="ch-carousel__controls">
+            <button type="button" class="ch-carousel__btn" data-carousel-prev aria-label="Slide anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="ch-carousel__dots" role="tablist" aria-label="Slides do carrossel">
+              <button type="button" class="is-active" data-carousel-dot="0" aria-label="Ir para slide 1" aria-selected="true"></button>
+              <button type="button" data-carousel-dot="1" aria-label="Ir para slide 2" aria-selected="false"></button>
+              <button type="button" data-carousel-dot="2" aria-label="Ir para slide 3" aria-selected="false"></button>
+            </div>
+            <button type="button" class="ch-carousel__btn" data-carousel-next aria-label="Próximo slide">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-guide" id="orientacoes" aria-labelledby="ch-guide-title">
+      <div class="ch-container">
+        <div class="ch-guide__intro">
+          <h2 id="ch-guide-title" class="ch-title">Você não precisa saber exatamente como classificar o que aconteceu.</h2>
+          <p class="ch-lead">Nem toda situação inadequada é fácil de identificar. Conheça alguns exemplos antes de registrar seu relato.</p>
+          <a class="btn-ch btn-ch--secondary" href="educacao.html#orientacoes" data-tenant-link>Ver orientações completas →</a>
+        </div>
+        <div class="ch-guide__cats" role="list">
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3"/><path d="M5 19c1.2-3.2 3.5-4.8 7-4.8s5.8 1.6 7 4.8"/></svg></div>
+            <h3>Assédio moral</h3>
+            <p>Humilhações, isolamento ou pressão reiterada.</p>
+          </article>
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 11V8a4 4 0 0 1 8 0v3"/><rect x="5" y="11" width="14" height="10" rx="2"/></svg></div>
+            <h3>Assédio sexual</h3>
+            <p>Condutas de natureza sexual indesejadas.</p>
+          </article>
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="9" r="2.5"/><circle cx="16" cy="9" r="2.5"/><path d="M3.5 18c.8-2.4 2.6-3.6 4.5-3.6 1.2 0 2.3.5 3.2 1.3"/><path d="M12.8 15.7c1.1-.5 2.3-.7 3.7-.7 1.9 0 3.7 1.2 4.5 3.6"/></svg></div>
+            <h3>Discriminação</h3>
+            <p>Tratamento desigual por características pessoais.</p>
+          </article>
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 3 19h18L12 3z"/><path d="M12 10v4M12 17h.01"/></svg></div>
+            <h3>Conflitos no trabalho</h3>
+            <p>Situações tensas que merecem atenção responsável.</p>
+          </article>
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.5L3 21l1.7-4.8A8.5 8.5 0 1 1 21 12z"/></svg></div>
+            <h3>Outras condutas</h3>
+            <p>Outras práticas inadequadas no ambiente de trabalho.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-section--alt ch-process" id="como-funciona" aria-labelledby="ch-process-title">
+      <div class="ch-container">
+        <div class="ch-process__header">
+          <p class="ch-eyebrow">Como funciona</p>
+          <h2 id="ch-process-title" class="ch-title">Do registro ao acompanhamento</h2>
+          <p class="ch-lead">Um caminho simples, discreto e responsável.</p>
+        </div>
+        <div class="ch-process__steps">
+          <article class="ch-step">
+            <div class="ch-step__top">
+              <span class="ch-step__num">01</span>
+              <span class="ch-step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></span>
+            </div>
+            <h3>Registrar</h3>
+            <p>Conte o que aconteceu da forma que conseguir.</p>
+          </article>
+          <article class="ch-step">
+            <div class="ch-step__top">
+              <span class="ch-step__num">02</span>
+              <span class="ch-step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 4h7l3 3v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v4h4"/><path d="m9 13 2 2 4-4"/></svg></span>
+            </div>
+            <h3>Receber</h3>
+            <p>As informações são registradas no canal.</p>
+          </article>
+          <article class="ch-step">
+            <div class="ch-step__top">
+              <span class="ch-step__num">03</span>
+              <span class="ch-step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+            </div>
+            <h3>Analisar</h3>
+            <p>O relato é encaminhado para análise conforme o procedimento da organização.</p>
+          </article>
+          <article class="ch-step">
+            <div class="ch-step__top">
+              <span class="ch-step__num">04</span>
+              <span class="ch-step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            </div>
+            <h3>Acompanhar</h3>
+            <p>Utilize seu protocolo para consultar informações sobre o andamento, quando disponível.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-privacy" id="privacidade" aria-labelledby="ch-privacy-title">
+      <div class="ch-container">
+        <p class="ch-eyebrow" style="color:#7ee0d4">Privacidade e segurança</p>
+        <h2 id="ch-privacy-title" class="ch-title">Sua privacidade importa.</h2>
+        <p class="ch-lead">Tratamos as informações do relato com confidencialidade e respeito.</p>
+        <a class="btn-ch btn-ch--ghost" href="politica-privacidade.html" data-tenant-link>Saiba mais sobre nossa política →</a>
+        <div class="ch-privacy__grid">
+          <article class="ch-privacy__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3 4 7v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7l-8-4z"/></svg>
+            <h3>Confidencialidade</h3>
+            <p>As informações são tratadas de acordo com as regras de privacidade aplicáveis.</p>
+          </article>
+          <article class="ch-privacy__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 19c1.2-3.2 3.5-4.8 7-4.8s5.8 1.6 7 4.8"/></svg>
+            <h3>Identificação</h3>
+            <p>Quando necessária, a identificação é utilizada apenas conforme as regras e finalidade do canal.</p>
+          </article>
+          <article class="ch-privacy__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            <h3>Proteção</h3>
+            <p>Informações e dados devem ser protegidos por medidas de segurança apropriadas.</p>
+          </article>
+          <article class="ch-privacy__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 4h7l3 3v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v4h4M9 12h5M9 15h5"/></svg>
+            <h3>Acompanhamento</h3>
+            <p>O protocolo permite consultar o andamento conforme as regras do canal.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-final" aria-labelledby="ch-final-title">
+      <div class="ch-final__banner">
+        <figure class="ch-final__media">
           <img
-            class="hero__visual-img"
-            src="assets/images/hero-shield-visual.jpg"
-            alt=""
-            width="906"
-            height="1024"
+            class="ch-final__img"
+            src="assets/images/channel-cta-office.jpg?v=20260916-2045"
+            alt="Ambiente de trabalho organizado e acolhedor"
+            width="1024"
+            height="512"
+            loading="lazy"
             decoding="async"
-            fetchpriority="high"
           />
-        </div>
-      </div>
-      <a class="hero__scroll-hint" href="#como-funciona" aria-label="Rolar para Como funciona">
-        <span>Como funciona</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-      </a>
-    </section>
-
-    <section class="section section--process scroll-reveal" id="como-funciona">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__eyebrow">Processo</span>
-          <h2>Como funciona</h2>
-          <p>Um fluxo simples e discreto, do registro ao retorno.</p>
-        </div>
-        <div class="process-flow stagger">
-          <article class="process-step">
-            <div class="process-step__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l3 3V7L6 10H4a1 1 0 0 0-1 1z"/><path d="M13 8a4 4 0 0 1 0 8"/><path d="M17 6a7 7 0 0 1 0 12"/></svg>
+        </figure>
+        <div class="ch-final__overlay">
+          <div class="ch-container ch-final__inner">
+            <div class="ch-final__content fade-in">
+              <p class="ch-eyebrow">Está pronto para registrar seu relato?</p>
+              <h2 id="ch-final-title" class="ch-final__title">
+                Se você decidiu falar, estamos aqui para te orientar.
+              </h2>
+              <p class="ch-final__text">
+                O Canal Seguro é um espaço seguro, ético e responsável para que sua voz seja ouvida.
+              </p>
+              <div class="ch-final__ctas">
+                <a class="btn-ch btn-ch--primary btn-ch--lg" href="relato.html" data-tenant-link>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+                  Fazer uma denúncia
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </a>
+                <a class="btn-ch btn-ch--secondary btn-ch--lg" href="protocolo.html" data-tenant-link>
+                  Consultar protocolo
+                </a>
+              </div>
             </div>
-            <h3>1. Faça sua denúncia</h3>
-            <p>Relate o ocorrido com todos os detalhes.</p>
-          </article>
-          <article class="process-step">
-            <div class="process-step__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><path d="m9 11 2 2 4-4"/></svg>
-            </div>
-            <h3>2. Recebimento</h3>
-            <p>Sua denúncia é recebida com total sigilo.</p>
-          </article>
-          <article class="process-step">
-            <div class="process-step__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 7l4 9M16 7l-4 9"/></svg>
-            </div>
-            <h3>3. Análise</h3>
-            <p>A equipe responsável analisa e toma as providências.</p>
-          </article>
-          <article class="process-step">
-            <div class="process-step__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M12 3 4 7v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7l-8-4z"/><path d="m9 11 2 2 4-4"/></svg>
-            </div>
-            <h3>4. Retorno</h3>
-            <p>Você acompanha o andamento de forma segura.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--resources">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__eyebrow">Escolha seu caminho</span>
-          <h2>Como podemos ajudar?</h2>
-          <p>Escolha o que fizer mais sentido para você neste momento.</p>
-        </div>
-        <div class="action-grid stagger">
-          <a class="action-card action-card--primary" href="relato.html" data-tenant-link>
-            <div class="action-card__icon">✉</div>
-            <h3>Fazer um Relato</h3>
-            <p>Registre uma comunicação de forma segura, identificada ou anônima.</p>
-          </a>
-          <a class="action-card" href="educacao.html#assedio" data-tenant-link>
-            <div class="action-card__icon">📖</div>
-            <h3>Entender o Assédio</h3>
-            <p>Conceitos, exemplos e diferenças em relação a conflitos e feedback.</p>
-          </a>
-          <a class="action-card" href="educacao.html#direitos" data-tenant-link>
-            <div class="action-card__icon">⚖</div>
-            <h3>Conheça seus Direitos</h3>
-            <p>Orientações gerais sobre respeito, dignidade e proteção no trabalho.</p>
-          </a>
-          <a class="action-card" href="educacao.html#como-funciona" data-tenant-link>
-            <div class="action-card__icon">🔄</div>
-            <h3>Como funciona</h3>
-            <p>Do registro ao acompanhamento do protocolo, passo a passo.</p>
-          </a>
-          <a class="action-card" href="faq.html" data-tenant-link>
-            <div class="action-card__icon">❓</div>
-            <h3>Perguntas Frequentes</h3>
-            <p>Dúvidas comuns sobre anonimato, prazos e confidencialidade.</p>
-          </a>
-          <a class="action-card" href="educacao.html#orientacoes" data-tenant-link>
-            <div class="action-card__icon">🗒</div>
-            <h3>Orientações</h3>
-            <p>Boas práticas para descrever fatos com clareza e responsabilidade.</p>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--pricing" id="planos-e-precos" aria-labelledby="pricing-title">
-      <div class="pricing-plans" aria-hidden="false">
-        <div class="pricing-plans__glow pricing-plans__glow--tl" aria-hidden="true"></div>
-        <div class="pricing-plans__glow pricing-plans__glow--br" aria-hidden="true"></div>
-        <div class="container pricing-plans__inner">
-          <header class="pricing-plans__header">
-            <p class="pricing-plans__eyebrow">
-              <span class="pricing-plans__eyebrow-line" aria-hidden="true"></span>
-              Planos e preços
-              <span class="pricing-plans__eyebrow-line" aria-hidden="true"></span>
+            <p class="ch-final__caption ch-script">
+              Juntos por um ambiente de trabalho mais respeitoso.
             </p>
-            <h2 id="pricing-title">Soluções que se adaptam ao tamanho do seu negócio</h2>
-            <p class="pricing-plans__lead">
-              Mais segurança, transparência e conformidade para o seu canal de denúncias.<br />
-              Escolha o plano ideal e fortaleça a cultura ética da sua empresa.
-            </p>
-          </header>
-
-          <div class="pricing-grid" id="pricingGrid">
-            <article class="pricing-card">
-              <div class="pricing-card__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19c1.2-3.2 3.6-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg>
-              </div>
-              <h3 class="pricing-card__name">Essencial</h3>
-              <p class="pricing-card__desc">Indicado para empresas pequenas.</p>
-              <div class="pricing-card__price">
-                <span class="pricing-card__amount">R$&nbsp;149</span>
-                <span class="pricing-card__period">/mês</span>
-              </div>
-              <p class="pricing-card__billing">Contratação anual</p>
-              <div class="pricing-card__storage">
-                <span class="pricing-card__storage-pill">5 GB</span>
-                <span class="pricing-card__storage-label">de armazenamento</span>
-              </div>
-              <div class="pricing-card__bar" role="img" aria-label="Capacidade 5 GB de 30 GB">
-                <span class="pricing-card__bar-fill" style="width:17%"></span>
-              </div>
-              <ul class="pricing-card__features">
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>
-                  5 GB de armazenamento
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5.5 19c1.1-3 3.4-4.5 6.5-4.5s5.4 1.5 6.5 4.5"/></svg>
-                  2 usuários
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 11h16"/></svg>
-                  Retenção de evidências por 1 ano
-                </li>
-              </ul>
-              <a class="pricing-card__cta" href="fale-conosco.html?plano=essencial" data-tenant-link data-commercial-cta data-plan-id="essencial" data-plan-name="Essencial">
-                Contratar
-                <span aria-hidden="true">→</span>
-              </a>
-            </article>
-
-            <article class="pricing-card pricing-card--featured">
-              <span class="pricing-card__badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.2 5.4 5.8.5-4.4 3.8 1.3 5.6L12 15.4 6.9 18.1l1.3-5.6L3.8 8.7l5.8-.5L12 2.8z"/></svg>
-                Mais escolhido
-              </span>
-              <div class="pricing-card__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="2.6"/><circle cx="16" cy="8.5" r="2.2"/><path d="M3.8 18.5c.9-2.6 2.9-3.9 5.2-3.9 1.4 0 2.6.5 3.6 1.3"/><path d="M13.2 14.8c1.8-.4 3.5.2 4.8 2.2"/></svg>
-              </div>
-              <h3 class="pricing-card__name">Plus</h3>
-              <p class="pricing-card__desc">Indicado para pequenas empresas.</p>
-              <div class="pricing-card__price">
-                <span class="pricing-card__amount">R$&nbsp;299</span>
-                <span class="pricing-card__period">/mês</span>
-              </div>
-              <p class="pricing-card__billing">Contratação anual</p>
-              <div class="pricing-card__storage">
-                <span class="pricing-card__storage-pill">10 GB</span>
-                <span class="pricing-card__storage-label">de armazenamento</span>
-              </div>
-              <div class="pricing-card__bar" role="img" aria-label="Capacidade 10 GB de 30 GB">
-                <span class="pricing-card__bar-fill" style="width:33%"></span>
-              </div>
-              <ul class="pricing-card__features">
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>
-                  10 GB de armazenamento
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="9" cy="8" r="2.5"/><circle cx="16" cy="8.5" r="2.1"/><path d="M3.8 18.5c.9-2.6 2.9-3.9 5.2-3.9 1.4 0 2.6.5 3.6 1.3"/><path d="M13.2 14.8c1.8-.4 3.5.2 4.8 2.2"/></svg>
-                  3 usuários
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 11h16"/></svg>
-                  Retenção de evidências por 1 ano
-                </li>
-              </ul>
-              <a class="pricing-card__cta pricing-card__cta--solid" href="fale-conosco.html?plano=plus" data-tenant-link data-commercial-cta data-plan-id="plus" data-plan-name="Plus">
-                Contratar
-                <span aria-hidden="true">→</span>
-              </a>
-            </article>
-
-            <article class="pricing-card">
-              <div class="pricing-card__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l5-3 5 3v11"/><path d="M9 20v-5h5v5"/><path d="M14 9.5V20h6V11l-3-1.5"/></svg>
-              </div>
-              <h3 class="pricing-card__name">Pro</h3>
-              <p class="pricing-card__desc">Indicado para empresas médias.</p>
-              <div class="pricing-card__price">
-                <span class="pricing-card__amount">R$&nbsp;599</span>
-                <span class="pricing-card__period">/mês</span>
-              </div>
-              <p class="pricing-card__billing">Contratação anual</p>
-              <div class="pricing-card__storage">
-                <span class="pricing-card__storage-pill">20 GB</span>
-                <span class="pricing-card__storage-label">de armazenamento</span>
-              </div>
-              <div class="pricing-card__bar" role="img" aria-label="Capacidade 20 GB de 30 GB">
-                <span class="pricing-card__bar-fill" style="width:67%"></span>
-              </div>
-              <ul class="pricing-card__features">
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>
-                  20 GB de armazenamento
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="9" cy="8" r="2.5"/><circle cx="16" cy="8.5" r="2.1"/><path d="M3.8 18.5c.9-2.6 2.9-3.9 5.2-3.9 1.4 0 2.6.5 3.6 1.3"/><path d="M13.2 14.8c1.8-.4 3.5.2 4.8 2.2"/></svg>
-                  5 usuários
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 11h16"/></svg>
-                  Retenção de evidências por 1 ano
-                </li>
-              </ul>
-              <a class="pricing-card__cta" href="fale-conosco.html?plano=pro" data-tenant-link data-commercial-cta data-plan-id="pro" data-plan-name="Pro">
-                Contratar
-                <span aria-hidden="true">→</span>
-              </a>
-            </article>
-
-            <article class="pricing-card">
-              <div class="pricing-card__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V8l4-2.5 4 2.5v12"/><path d="M7 20v-5h4v5"/><path d="M11 9.2V20h4V10.2L13 9"/><path d="M15 11.5V20h6V13l-3-1.5"/><path d="M18 20v-3h3"/></svg>
-              </div>
-              <h3 class="pricing-card__name">Corporativo</h3>
-              <p class="pricing-card__desc">Indicado para empresas maiores.</p>
-              <div class="pricing-card__price">
-                <span class="pricing-card__amount pricing-card__amount--consult">Sob consulta</span>
-              </div>
-              <p class="pricing-card__billing">Contratação anual</p>
-              <div class="pricing-card__storage">
-                <span class="pricing-card__storage-pill">30 GB</span>
-                <span class="pricing-card__storage-label">de armazenamento</span>
-              </div>
-              <div class="pricing-card__bar" role="img" aria-label="Capacidade 30 GB de 30 GB">
-                <span class="pricing-card__bar-fill" style="width:100%"></span>
-              </div>
-              <ul class="pricing-card__features">
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>
-                  30 GB de armazenamento
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="9" cy="8" r="2.5"/><circle cx="16" cy="8.5" r="2.1"/><path d="M3.8 18.5c.9-2.6 2.9-3.9 5.2-3.9 1.4 0 2.6.5 3.6 1.3"/><path d="M13.2 14.8c1.8-.4 3.5.2 4.8 2.2"/></svg>
-                  Usuários ilimitados
-                </li>
-                <li>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 11h16"/></svg>
-                  Retenção de evidências por 1 ano
-                </li>
-              </ul>
-              <a class="pricing-card__cta" href="fale-conosco.html?plano=corporativo" data-tenant-link data-commercial-cta data-plan-id="corporativo" data-plan-name="Corporativo">
-                Falar com especialista
-                <span aria-hidden="true">→</span>
-              </a>
-            </article>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section section--demo" id="acesso-canal" style="padding-top:0">
-      <div class="container">
-        <div class="info-cards">
-          <div class="info-card fade-in">
-            <h3>Consultar andamento</h3>
-            <p>Com o número de protocolo, acompanhe o status sem expor dados confidenciais.</p>
-            <a class="btn btn-outline" href="protocolo.html" data-tenant-link>Consultar Relato</a>
-          </div>
-          <div class="info-card fade-in" style="animation-delay:.1s">
-            <h3>Canal multiempresa</h3>
-            <p>Esta página é o acesso único para denunciantes. Ao informar o CPF no relato, o sistema identifica a empresa em que você está cadastrado.</p>
-            <a class="btn btn-outline" href="relato.html" data-tenant-link>Fazer um Relato</a>
-          </div>
+    <section class="ch-section ch-section--alt ch-faq" id="faq" aria-labelledby="ch-faq-title">
+      <div class="ch-container">
+        <div class="ch-faq__header">
+          <p class="ch-eyebrow">Dúvidas</p>
+          <h2 id="ch-faq-title" class="ch-title">Perguntas frequentes</h2>
+          <p class="ch-lead">Respostas objetivas para ajudar você a utilizar o canal com segurança e responsabilidade.</p>
+        </div>
+        <div class="ch-faq__list" id="homeFaqList">
+          <p class="ch-faq__loading">Carregando perguntas…</p>
         </div>
       </div>
     </section>
+
+    <section class="ch-section ch-contact" id="fale-conosco" aria-labelledby="ch-contact-title">
+      <div class="ch-container ch-contact__grid">
+        <div class="ch-contact__intro">
+          <p class="ch-eyebrow">Contato</p>
+          <h2 id="ch-contact-title" class="ch-title">Fale conosco</h2>
+          <p class="ch-lead">
+            Envie uma mensagem para dúvidas gerais sobre o canal. Para denúncias e relatos, use
+            <a href="relato.html" data-tenant-link>Fazer uma denúncia</a>.
+          </p>
+          <ul class="ch-contact__notes">
+            <li>Dúvidas sobre o uso do canal</li>
+            <li>Orientações gerais e sugestões</li>
+            <li>Outras questões não relacionadas a denúncias</li>
+          </ul>
+        </div>
+        <div class="ch-contact__card">
+          <form id="homeContactForm" class="ch-contact__form">
+            <div class="ch-field">
+              <label for="homeContactName">Nome</label>
+              <input id="homeContactName" name="contactName" autocomplete="name" placeholder="Seu nome" required />
+            </div>
+            <div class="ch-field">
+              <label for="homeContactEmail">E-mail</label>
+              <input id="homeContactEmail" name="contactEmail" type="email" autocomplete="email" placeholder="seu@email.com" required />
+            </div>
+            <div class="ch-field">
+              <label for="homeContactSubject">Assunto</label>
+              <select id="homeContactSubject" name="contactSubject" required>
+                <option value="">Selecione</option>
+                <option value="duvida">Dúvida sobre o canal</option>
+                <option value="acesso">Problema de acesso</option>
+                <option value="sugestao">Sugestão</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+            <div class="ch-field">
+              <label for="homeContactMessage">Mensagem</label>
+              <textarea id="homeContactMessage" name="contactMessage" rows="4" placeholder="Descreva sua mensagem com clareza." required></textarea>
+            </div>
+            <button type="submit" class="btn-ch btn-ch--primary btn-ch--lg ch-contact__submit">Enviar mensagem</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer footer-canal">
@@ -390,15 +443,9 @@
             </a>
           </li>
           <li>
-            <a href="index.html#planos-e-precos" data-tenant-link>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16v3H4zM4 14h7v6H4zM13 14h7v6h-7z"/></svg>
-              Planos e preços
-            </a>
-          </li>
-          <li>
-            <a href="index.html#como-funciona" data-tenant-link>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M4.9 6.4l1.6 1.6M17.5 16l1.6 1.6M3.5 12h2.2M18.3 12h2.2M4.9 17.6l1.6-1.6M17.5 8l1.6-1.6"/></svg>
-              Como funciona
+            <a href="index.html#orientacoes" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 5h9a1 1 0 0 1 1 1v13l-2.2-1.4L13.5 19 11.2 17.6 9 19V6a1 1 0 0 1 1-1z"/><path d="M10.5 9h5M10.5 12h5M10.5 15h3.2"/></svg>
+              Orientações
             </a>
           </li>
           <li>
@@ -408,13 +455,13 @@
             </a>
           </li>
           <li>
-            <a href="faq.html" data-tenant-link>
+            <a href="index.html#faq" data-tenant-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9.5 9.2a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.7V14"/><circle cx="12" cy="16.5" r=".7" fill="currentColor" stroke="none"/></svg>
               FAQ
             </a>
           </li>
           <li>
-            <a href="fale-conosco.html" data-tenant-link>
+            <a href="index.html#fale-conosco" data-tenant-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7.2 4.8h2.3l1.1 3.2-1.5 1.1a11 11 0 0 0 5.3 5.3l1.1-1.5 3.2 1.1v2.3c0 .7-.6 1.3-1.3 1.3A13.7 13.7 0 0 1 4.5 6.1c0-.7.6-1.3 1.3-1.3z"/></svg>
               Fale conosco
             </a>
@@ -468,7 +515,7 @@
         </a>
         <p class="footer-canal__confidencial">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6" y="10" width="12" height="10" rx="1.5"/><path d="M8.5 10V8a3.5 3.5 0 0 1 7 0v2"/></svg>
-          100% confidencial
+          Tratamento confidencial conforme as regras do canal
         </p>
       </div>
 
@@ -484,7 +531,7 @@
           <li>
             <a href="index.html#acesso-canal" data-tenant-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-6h6v6M9 10h.01M12 10h.01M15 10h.01M9 13h.01M12 13h.01M15 13h.01"/></svg>
-              Plataforma Multiempresa
+              Atalhos do canal
             </a>
           </li>
           <li>
@@ -520,15 +567,108 @@
   <script src="js/runtime.js"></script>
   <script src="js/http-api.js"></script>
   <script src="js/seed.js"></script>
-  <script src="js/api.js"></script>
+  <script src="js/api.js?v=45"></script>
   <script src="js/companies.js"></script>
   <script src="js/errors.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=46"></script>
   <script>
     CSApp.onReady(async () => {
       await CSApp.initPublic({ platformHome: true });
 
-      const processSection = document.querySelector('.section--process');
+      // FAQ na home
+      const homeFaqList = document.getElementById('homeFaqList');
+      if (homeFaqList) {
+        try {
+          const tenantId = CSCompanies.getTenantId();
+          const contents = await CSApi.getContents({
+            type: 'faq',
+            companyId: tenantId || undefined,
+            globalOnly: !tenantId,
+            status: 'publicado'
+          });
+          if (!contents.length) {
+            homeFaqList.innerHTML = '<p class="ch-faq__loading">Nenhuma pergunta frequente publicada no momento.</p>';
+          } else {
+            homeFaqList.innerHTML = '';
+            contents.forEach((c, idx) => {
+              const d = document.createElement('details');
+              d.className = 'ch-faq__item';
+              if (idx === 0) d.open = true;
+              d.innerHTML =
+                `<summary>${CSApp.escapeHtml(c.title)}</summary>` +
+                `<div class="ch-faq__body">${CSApp.escapeHtml(c.body)}</div>`;
+              homeFaqList.appendChild(d);
+            });
+          }
+        } catch (err) {
+          CSErrors.logError(err, 'homeFaq');
+          homeFaqList.innerHTML = '<p class="ch-faq__loading">Não foi possível carregar as perguntas frequentes.</p>';
+        }
+      }
+
+      // Fale conosco na home
+      const homeContactForm = document.getElementById('homeContactForm');
+      if (homeContactForm) {
+        homeContactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          CSApp.toast(
+            'Mensagem recebida. Em breve a equipe comercial entrará em contato.',
+            'success'
+          );
+          homeContactForm.reset();
+        });
+      }
+
+      // Carrossel temático
+      const carousel = document.querySelector('[data-carousel]');
+      if (carousel) {
+        const slides = Array.from(carousel.querySelectorAll('[data-slide]'));
+        const dots = Array.from(carousel.querySelectorAll('[data-carousel-dot]'));
+        const prevBtn = carousel.querySelector('[data-carousel-prev]');
+        const nextBtn = carousel.querySelector('[data-carousel-next]');
+        let index = 0;
+        let timer = null;
+
+        const show = (next) => {
+          index = (next + slides.length) % slides.length;
+          slides.forEach((slide, i) => {
+            const active = i === index;
+            slide.classList.toggle('is-active', active);
+            slide.hidden = !active;
+          });
+          dots.forEach((dot, i) => {
+            const active = i === index;
+            dot.classList.toggle('is-active', active);
+            dot.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+        };
+
+        const start = () => {
+          stop();
+          timer = window.setInterval(() => show(index + 1), 6500);
+        };
+        const stop = () => {
+          if (timer) window.clearInterval(timer);
+          timer = null;
+        };
+
+        prevBtn?.addEventListener('click', () => { show(index - 1); start(); });
+        nextBtn?.addEventListener('click', () => { show(index + 1); start(); });
+        dots.forEach((dot) => {
+          dot.addEventListener('click', () => {
+            show(Number(dot.getAttribute('data-carousel-dot')) || 0);
+            start();
+          });
+        });
+        carousel.addEventListener('mouseenter', stop);
+        carousel.addEventListener('mouseleave', start);
+        carousel.addEventListener('focusin', stop);
+        carousel.addEventListener('focusout', start);
+        show(0);
+        start();
+      }
+
+      const processSection = document.querySelector('.ch-process, .section--process');
       if (processSection) {
         const revealProcess = () => processSection.classList.add('is-visible');
         if ('IntersectionObserver' in window) {
@@ -546,119 +686,80 @@
         }
       }
 
-      const ICON_SVGS = [
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.25"/><path d="M5.5 19c1.2-3.2 3.6-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg>',
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="2.6"/><circle cx="16" cy="8.5" r="2.2"/><path d="M3.8 18.5c.9-2.6 2.9-3.9 5.2-3.9 1.4 0 2.6.5 3.6 1.3"/><path d="M13.2 14.8c1.8-.4 3.5.2 4.8 2.2"/></svg>',
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l5-3 5 3v11"/><path d="M9 20v-5h5v5"/><path d="M14 9.5V20h6V11l-3-1.5"/></svg>',
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V8l4-2.5 4 2.5v12"/><path d="M7 20v-5h4v5"/><path d="M11 9.2V20h4V10.2L13 9"/><path d="M15 11.5V20h6V13l-3-1.5"/><path d="M18 20v-3h3"/></svg>'
-      ];
-      const FEAT_ICONS = [
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg>',
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><circle cx="9" cy="8" r="2.5"/><circle cx="16" cy="8.5" r="2.1"/><path d="M3.8 18.5c.9-2.6 2.9-3.9 5.2-3.9 1.4 0 2.6.5 3.6 1.3"/><path d="M13.2 14.8c1.8-.4 3.5.2 4.8 2.2"/></svg>',
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 11h16"/></svg>'
-      ];
-
-      function renderPublicPricingPlans(plans) {
-        const grid = document.getElementById('pricingGrid');
-        if (!grid || !Array.isArray(plans) || !plans.length) return;
-        const esc = CSApp.escapeHtml;
-        grid.innerHTML = plans
-          .map((plan, idx) => {
-            const featured = Boolean(plan.featured);
-            const hidePrice =
-              Boolean(plan.hidePriceOnPublic) ||
-              Boolean(plan.consultPricing) ||
-              plan.priceLabel === 'Sob consulta';
-            const amountClass = hidePrice
-              ? 'pricing-card__amount pricing-card__amount--consult'
-              : 'pricing-card__amount';
-            const amountText = esc(plan.priceLabel || 'Sob consulta').replace(/ /g, '&nbsp;');
-            const periodHtml =
-              !hidePrice && plan.priceSuffix
-                ? `<span class="pricing-card__period">${esc(plan.priceSuffix)}</span>`
-                : '';
-            const advantages = Array.isArray(plan.advantages) && plan.advantages.length
-              ? plan.advantages
-              : [
-                  `${plan.storageLabel || ''} de armazenamento`,
-                  plan.usersLabel,
-                  plan.retentionLabel
-                ].filter(Boolean);
-            const featuresHtml = advantages
-              .map(
-                (adv, i) =>
-                  `<li>${FEAT_ICONS[i % FEAT_ICONS.length]}${esc(adv)}</li>`
-              )
-              .join('');
-            const badge = featured
-              ? `<span class="pricing-card__badge">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.2 5.4 5.8.5-4.4 3.8 1.3 5.6L12 15.4 6.9 18.1l1.3-5.6L3.8 8.7l5.8-.5L12 2.8z"/></svg>
-                Mais escolhido
-              </span>`
-              : '';
-            const ctaClass = featured
-              ? 'pricing-card__cta pricing-card__cta--solid'
-              : 'pricing-card__cta';
-            const ctaLabel = esc(plan.ctaLabel || 'Falar com especialista');
-            const planId = esc(plan.id || '');
-            const planName = esc(plan.name || plan.id || '');
-            const bar = Math.min(100, Math.max(1, Number(plan.barPercent) || 1));
-            const storageLabel = esc(plan.storageLabel || '—');
-            return `<article class="pricing-card${featured ? ' pricing-card--featured' : ''}">
-              ${badge}
-              <div class="pricing-card__icon" aria-hidden="true">${ICON_SVGS[idx % ICON_SVGS.length]}</div>
-              <h3 class="pricing-card__name">${esc(plan.name || plan.id)}</h3>
-              <p class="pricing-card__desc">${esc(plan.description || '')}</p>
-              <div class="pricing-card__price">
-                <span class="${amountClass}">${amountText}</span>
-                ${periodHtml}
-              </div>
-              <p class="pricing-card__billing">${esc(plan.billingNote || 'Contratação anual')}</p>
-              <div class="pricing-card__storage">
-                <span class="pricing-card__storage-pill">${storageLabel}</span>
-                <span class="pricing-card__storage-label">de armazenamento</span>
-              </div>
-              <div class="pricing-card__bar" role="img" aria-label="Capacidade ${storageLabel}">
-                <span class="pricing-card__bar-fill" style="width:${bar}%"></span>
-              </div>
-              <ul class="pricing-card__features">${featuresHtml}</ul>
-              <button type="button" class="${ctaClass}" data-commercial-cta data-plan-id="${planId}" data-plan-name="${planName}">
-                ${ctaLabel}
-                <span aria-hidden="true">→</span>
-              </button>
-            </article>`;
-          })
-          .join('');
-        grid.querySelectorAll('[data-commercial-cta]').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            CSApp.openCommercialContact({
-              planId: btn.dataset.planId || '',
-              planName: btn.dataset.planName || '',
-              origin: 'landing-planos',
-              originLabel: 'site Canal Seguro (seção Planos e preços)'
-            });
-          });
-        });
-      }
-
-      try {
-        const data = await CSApi.getPublicStoragePlans();
-        if (data?.plans?.length) renderPublicPricingPlans(data.plans);
-      } catch (ex) {
-        if (typeof CSErrors !== 'undefined') CSErrors.logError(ex, 'getPublicStoragePlans');
-      }
-
-      document.querySelectorAll('#pricingGrid [data-commercial-cta]').forEach((el) => {
-        el.addEventListener('click', (e) => {
-          e.preventDefault();
-          CSApp.openCommercialContact({
-            planId: el.dataset.planId || '',
-            planName: el.dataset.planName || '',
-            origin: 'landing-planos',
-            originLabel: 'site Canal Seguro (seção Planos e preços)'
-          });
+      // Slot de imagem do hero: se o arquivo ainda não existir, mostra o fundo preparado
+      document.querySelectorAll('.ch-hero__img, .ch-final__img').forEach((img) => {
+        img.addEventListener('error', () => {
+          img.style.display = 'none';
+          const fallback = img.parentElement?.querySelector('.ch-hero__media-fallback');
+          if (fallback) fallback.hidden = false;
         });
       });
+
+      // Sublinhado do menu acompanha a seção visível na rolagem
+      const homeNav = document.querySelector('[data-home-nav]');
+      if (homeNav) {
+        const sectionLinks = Array.from(homeNav.querySelectorAll('[data-nav-section]'));
+        const sectionMap = [
+          { id: 'inicio', el: document.querySelector('.ch-hero') || document.body },
+          { id: 'orientacoes', el: document.getElementById('orientacoes') },
+          { id: 'faq', el: document.getElementById('faq') },
+          { id: 'fale-conosco', el: document.getElementById('fale-conosco') }
+        ].filter((s) => s.el);
+
+        const setActiveNav = (sectionId) => {
+          sectionLinks.forEach((link) => {
+            const on = link.getAttribute('data-nav-section') === sectionId;
+            link.classList.toggle('active', on);
+            if (on) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+          });
+        };
+
+        const updateActiveFromScroll = () => {
+          const headerOffset = (document.querySelector('.site-header')?.offsetHeight || 72) + 24;
+          const y = window.scrollY + headerOffset;
+          let current = 'inicio';
+          for (const section of sectionMap) {
+            const top = section.el.getBoundingClientRect().top + window.scrollY;
+            if (y >= top - 8) current = section.id;
+          }
+          // No final da página, prioriza a última seção (Fale conosco)
+          const nearBottom =
+            window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 48;
+          if (nearBottom && sectionMap.length) {
+            current = sectionMap[sectionMap.length - 1].id;
+          }
+          setActiveNav(current);
+        };
+
+        let ticking = false;
+        window.addEventListener(
+          'scroll',
+          () => {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(() => {
+              updateActiveFromScroll();
+              ticking = false;
+            });
+          },
+          { passive: true }
+        );
+        window.addEventListener('resize', updateActiveFromScroll, { passive: true });
+
+        sectionLinks.forEach((link) => {
+          link.addEventListener('click', () => {
+            const id = link.getAttribute('data-nav-section');
+            if (id) setActiveNav(id);
+          });
+        });
+
+        // Hash inicial (ex.: index.html#faq)
+        const hash = (location.hash || '').replace(/^#/, '');
+        if (hash && sectionMap.some((s) => s.id === hash)) setActiveNav(hash);
+        else updateActiveFromScroll();
+      }
+
     });
   </script>
 </body>

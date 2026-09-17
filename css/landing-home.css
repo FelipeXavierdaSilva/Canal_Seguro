@@ -6,7 +6,7 @@ body.public-page {
   --landing-forest: #004d3d;
   --landing-forest-deep: #003328;
   --header-h: 96px;
-  --demo-banner-h: 2.35rem;
+  --demo-banner-h: 0px;
   --landing-max: 1180px;
   --landing-gutter: clamp(1rem, 3vw, 1.75rem);
 }

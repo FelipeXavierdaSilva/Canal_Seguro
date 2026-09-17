@@ -64,12 +64,15 @@ before(async () => {
     r1.workflowStageAt = '2026-08-10T16:00:00.000Z';
     r1.status = 'apuracao';
     r1.assigneeId = 'usr_aurora_ap';
+    r1.teamIds = ['usr_aurora_ap'];
   }
   const r2 = data.reports.find((r) => r.id === 'rpt_002');
   if (r2) {
     r2.workflowStage = 'classificacao_risco';
     r2.priority = 'alta';
     r2.status = 'analise';
+    r2.assigneeId = 'usr_aurora_ap';
+    r2.teamIds = ['usr_aurora_ap'];
   }
   store.save(data);
 });
@@ -157,6 +160,7 @@ describe('Transições governadas', () => {
     report.workflowStageAt = new Date().toISOString();
     report.status = 'acompanhamento';
     report.assigneeId = 'usr_aurora_ap';
+    report.teamIds = ['usr_aurora_ap'];
     report.riskLevel = 'critical';
     store.save(data);
 

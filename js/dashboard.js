@@ -581,21 +581,22 @@ const CSDashboard = (() => {
     }
 
     const items = [
-      { id: 'total', label: 'Total de relatos', value: metrics.total, cls: 'kpi-card--accent' },
-      { id: 'critical', label: 'Críticos', value: metrics.criticalCount || 0, cls: 'kpi-card--danger' },
-      { id: 'high', label: 'Alto risco', value: metrics.highCount || 0, cls: 'kpi-card--warn' },
-      { id: 'unclassified', label: 'Não classificados', value: metrics.unclassifiedCount || 0 },
-      { id: 'novos', label: 'Novos', value: metrics.novos, cls: 'kpi-card--warn' },
-      { id: 'analise', label: 'Em análise', value: metrics.emAnalise },
-      { id: 'concluidos', label: 'Concluídos', value: metrics.concluidos, cls: 'kpi-card--success' }
+      { id: 'total', label: 'Total de relatos', value: metrics.total, cls: 'kpi-card--accent', hint: 'Base completa' },
+      { id: 'critical', label: 'Críticos', value: metrics.criticalCount || 0, cls: 'kpi-card--danger', hint: 'Risco crítico' },
+      { id: 'high', label: 'Alto risco', value: metrics.highCount || 0, cls: 'kpi-card--warn', hint: 'Prioridade alta' },
+      { id: 'unclassified', label: 'Não classificados', value: metrics.unclassifiedCount || 0, hint: 'Sem risco' },
+      { id: 'novos', label: 'Novos', value: metrics.novos, cls: 'kpi-card--warn', hint: 'Recebidos' },
+      { id: 'analise', label: 'Em análise', value: metrics.emAnalise, hint: 'Em avaliação' },
+      { id: 'concluidos', label: 'Concluídos', value: metrics.concluidos, cls: 'kpi-card--success', hint: 'Finalizados' }
     ];
     container.innerHTML = items
       .map(
         (i) => `
-      <div class="kpi-card ${i.cls || ''}" data-layout-id="${i.id}">
+      <article class="kpi-card ${i.cls || ''}" data-layout-id="${i.id}">
         <div class="kpi-card__label">${i.label}</div>
         <div class="kpi-card__value">${i.value}</div>
-      </div>`
+        ${i.hint ? `<div class="kpi-card__hint">${i.hint}</div>` : ''}
+      </article>`
       )
       .join('');
   }
@@ -623,7 +624,7 @@ const CSDashboard = (() => {
       { id: 'recebido', title: 'Recebidos', sub: 'Aguardando', tone: 'danger', icon: 'inbox' },
       { id: 'analise', title: 'Em análise', sub: 'Avaliação', tone: 'warn', icon: 'search' },
       { id: 'apuracao', title: 'Apuração', sub: 'Investigação', tone: 'amber', icon: 'shield' },
-      { id: 'acompanhamento', title: 'Acompanh.', sub: 'Monitoramento', tone: 'mint', icon: 'people' },
+      { id: 'acompanhamento', title: 'Acompanhamento', sub: 'Monitoramento', tone: 'mint', icon: 'people' },
       { id: 'concluido', title: 'Concluídos', sub: 'Finalizado', tone: 'success', icon: 'check' }
     ];
     container.innerHTML = stages
@@ -659,7 +660,7 @@ const CSDashboard = (() => {
       { id: 'recebido', title: 'Recebidos', sub: 'Aguardando', color: '#c53030', icon: 'inbox' },
       { id: 'analise', title: 'Análise', sub: 'Avaliação', color: '#e07a2f', icon: 'search' },
       { id: 'apuracao', title: 'Apuração', sub: 'Investigação', color: '#d4a017', icon: 'shield' },
-      { id: 'acompanhamento', title: 'Acompanh.', sub: 'Monitoramento', color: '#6db37a', icon: 'people' },
+      { id: 'acompanhamento', title: 'Acompanhamento', sub: 'Monitoramento', color: '#6db37a', icon: 'people' },
       { id: 'concluido', title: 'Concluídos', sub: 'Finalizado', color: '#2d8a5e', icon: 'check' }
     ].map((s) => ({ ...s, value: byStatus[s.id] || 0 }));
     const max = Math.max(...stages.map((s) => s.value), 1);
@@ -874,7 +875,9 @@ const CSDashboard = (() => {
       await renderCharts(metrics);
       if (typeof CSCardLayout !== 'undefined' && kpiContainer) {
         const root = kpiContainer.closest('.app-content') || document;
-        CSCardLayout.bindPage(root);
+        if (!root.classList.contains('indicators-layout')) {
+          CSCardLayout.bindPage(root);
+        }
       }
       const catList = document.getElementById('categoryDistribution');
       if (catList) renderCategoryBars(catList, metrics);

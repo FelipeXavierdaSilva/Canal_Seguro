@@ -3,49 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Colaboradores � Painel da Empresa</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <title>Colaboradores – Painel da Empresa</title>
+  <link rel="stylesheet" href="../css/style.css?v=2" />
   <link rel="stylesheet" href="../css/forms.css" />
-  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=44" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
   <link rel="stylesheet" href="../css/responsive.css" />
-  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
 </head>
 <body>
-  <div class="demo-banner"><strong>Colaboradores admitidos</strong> � apenas CPFs cadastrados e ativos podem acessar o relato.</div>
   <div class="sidebar-overlay" data-close-sidebar></div>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="sidebar__brand">
-        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png" />
-        <div class="sidebar__brand-text"><strong>Canal Seguro</strong><span data-user-company>Empresa</span></div>
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png?v=shield3" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span data-panel-tagline>Sua voz, nosso compromisso</span>
+        </div>
       </div>
-      <nav class="sidebar__nav">
-        <a href="dashboard.html"><span class="nav-icon">?</span> Dashboard</a>
-        <a href="relatos.html"><span class="nav-icon">?</span> Relatos</a>
-        <a class="active" href="colaboradores.html"><span class="nav-icon">??</span> Colaboradores</a>
-        <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">?</span> Usu�rios</a>
-        <a href="relatorio.html"><span class="nav-icon">?</span> Relat�rios</a>
-        <a href="configuracoes.html"><span class="nav-icon">?</span> Identidade</a>
-        <a href="../index.html" target="_blank"><span class="nav-icon">?</span> Ver canal p�blico</a>
-        <a href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">&#9635;</span> Meu armazenamento</a>
-        <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">?</span> Acessos</a>
+      <nav class="sidebar__nav" data-empresa-nav>
+        <div class="nav-section">Principal</div>
+        <a href="dashboard.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <div class="nav-section">Gestão</div>
+        <a class="active" href="colaboradores.html" data-roles="admin_empresa superadmin"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorio.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◉</span> Acessos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="empresa.html" data-roles="admin_empresa superadmin"><span class="nav-icon">⬡</span> Empresa</a>
+        <a href="configuracoes.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◎</span> Aparência / Identidade</a>
+        <a href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▤</span> Armazenamento</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="suporte-tecnico.html"><span class="nav-icon">🛠</span> Suporte Técnico</a>
+        <a href="sugestoes.html"><span class="nav-icon">✎</span> Sugestões</a>
+        <a href="../index.html" target="_blank" rel="noopener" data-tenant-link><span class="nav-icon">⌂</span> Canal Seguro</a>
         <div class="nav-section">Conta</div>
-        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
-        <a href="minha-conta.html"><span class="nav-icon">??</span> Minha Conta</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
       </nav>
-      <div class="sidebar__footer"><a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a></div>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
     </aside>
     <div class="app-main">
       <header class="topbar">
         <div class="topbar__left">
-          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>?</button>
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar aria-label="Menu">☰</button>
           <strong>Colaboradores</strong>
         </div>
         <div class="topbar__right">
-          <button type="button" class="btn-icon" data-toggle-theme>?</button>
+          <button type="button" class="btn-icon" data-toggle-theme aria-label="Tema">◐</button>
           <div class="topbar__user">
             <div class="topbar__avatar" data-user-avatar>?</div>
-            <div class="topbar__user-meta"><strong data-user-name>�</strong><span data-user-role>�</span></div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
           </div>
         </div>
       </header>
@@ -54,14 +70,14 @@
           <div class="page-header">
             <div>
               <h1>Colaboradores admitidos</h1>
-              <p>Cadastre CPFs autorizados a registrar comunica��es neste canal.</p>
+              <p>Cadastre CPFs autorizados a registrar comunicações neste canal.</p>
             </div>
             <button type="button" class="btn btn-primary" id="btnNew">Novo colaborador</button>
           </div>
           <form class="filters-bar" id="searchForm">
             <div class="search-input form-group" style="flex:2">
               <label class="sr-only" for="colabQ">Buscar</label>
-              <input class="form-control" id="colabQ" name="q" placeholder="Nome, CPF, matr�cula, setor" aria-label="Buscar" />
+              <input class="form-control" id="colabQ" name="q" placeholder="Nome, CPF, matrícula, setor" aria-label="Buscar" />
             </div>
             <div class="form-group">
               <label class="sr-only" for="colabStatus">Status</label>
@@ -78,9 +94,9 @@
           </form>
           <div class="panel">
             <div class="table-wrap">
-              <table class="data-table">
+              <table class="data-table data-table--colaboradores">
                 <thead>
-                  <tr><th>Nome</th><th>CPF</th><th>Matr�cula</th><th>Setor</th><th>Cargo</th><th>Status</th><th>A��es</th></tr>
+                  <tr><th>Nome</th><th>CPF</th><th>Matrícula</th><th>Setor</th><th>Cargo</th><th>Status</th><th>Ações</th></tr>
                 </thead>
                 <tbody id="tbody"></tbody>
               </table>
@@ -90,12 +106,12 @@
         <div id="formView" class="hidden">
           <div class="page-header">
             <div class="page-header__lead">
-              <button type="button" class="btn-back" id="btnBack" title="Voltar � lista" aria-label="Voltar � lista">
+              <button type="button" class="btn-back" id="btnBack" title="Voltar à lista" aria-label="Voltar à lista">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
               </button>
               <div>
                 <h1 id="formTitle">Novo colaborador</h1>
-                <p>Dados b�sicos para valida��o de acesso por CPF.</p>
+                <p>Dados básicos para validação de acesso por CPF.</p>
               </div>
             </div>
           </div>
@@ -106,7 +122,7 @@
               <div class="form-group"><label>CPF</label><input class="form-control" name="cpf" placeholder="000.000.000-00" required /></div>
             </div>
             <div class="form-row cols-2">
-              <div class="form-group"><label>Matr�cula</label><input class="form-control" name="matricula" /></div>
+              <div class="form-group"><label>Matrícula</label><input class="form-control" name="matricula" /></div>
               <div class="form-group"><label>Status</label>
                 <select class="form-control" name="status">
                   <option value="ativo">Ativo</option>
@@ -141,13 +157,13 @@
   <script src="../js/seed.js"></script>
   <script src="../js/audit.js"></script>
   <script src="../js/validation.js"></script>
-  <script src="../js/api.js"></script>
+  <script src="../js/api.js?v=45"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/users.js"></script>
   <script src="../js/companies.js"></script>
   <script src="../js/reports.js"></script>
   <script src="../js/errors.js"></script>
-  <script src="../js/app.js"></script>
+  <script src="../js/app.js?v=46"></script>
   <script>
     CSApp.onReady(async () => {
       const session = await CSApp.initAdminShell(['admin_empresa', 'superadmin']);
@@ -171,9 +187,9 @@
           return `<tr>
             <td><strong>${CSApp.escapeHtml(e.nome)}</strong></td>
             <td>${e.cpfMasked}</td>
-            <td>${CSApp.escapeHtml(e.matricula || '�')}</td>
-            <td>${CSApp.escapeHtml(e.setor || '�')}</td>
-            <td>${CSApp.escapeHtml(e.cargo || '�')}</td>
+            <td>${CSApp.escapeHtml(e.matricula || '—')}</td>
+            <td>${CSApp.escapeHtml(e.setor || '—')}</td>
+            <td>${CSApp.escapeHtml(e.cargo || '—')}</td>
             <td><span class="badge ${badge}">${CSApp.escapeHtml(e.status)}</span></td>
             <td class="table-actions">${CSApp.rowActionsHtml(e.id)}</td>
           </tr>`;
@@ -183,7 +199,7 @@
         document.querySelectorAll('[data-delete]').forEach(b => b.addEventListener('click', async () => {
           const ok = await CSApp.confirmDialog({
             title: 'Excluir colaborador',
-            message: 'O colaborador ser� removido permanentemente. Confirma?',
+            message: 'O colaborador será removido permanentemente. Confirma?',
             confirmText: 'Excluir',
             danger: true
           });
@@ -193,7 +209,7 @@
             { context: 'deleteEmployee' }
           );
           if (!deleted) return;
-          CSApp.toast('Colaborador exclu�do.', 'success');
+          CSApp.toast('Colaborador excluído.', 'success');
           loadList();
         }));
         } catch (err) {
@@ -217,12 +233,12 @@
           if (submitBtn) submitBtn.classList.remove('hidden');
           return;
         }
-        const raw = CSStore.loadStore().employees.find(e => e.id === id);
+        const raw = await CSApp.runAsync(() => CSApi.getEmployee(id), { context: 'openEmployee' });
         if (!raw) return;
         document.getElementById('formTitle').textContent = viewOnly ? 'Visualizar colaborador' : 'Editar colaborador';
         form.id.value = raw.id;
         form.nome.value = raw.nome;
-        form.cpf.value = CSValidation.formatCpf(raw.cpf);
+        form.cpf.value = raw.cpf ? CSValidation.formatCpf(raw.cpf) : '';
         form.matricula.value = raw.matricula || '';
         form.setor.value = raw.setor || '';
         form.cargo.value = raw.cargo || '';
@@ -248,7 +264,7 @@
       document.getElementById('searchForm').addEventListener('submit', e => { e.preventDefault(); loadList(); });
 
       document.getElementById('btnDeactivate').addEventListener('click', async () => {
-        const ok = await CSApp.confirmDialog({ title: 'Desligar colaborador', message: 'Ele n�o poder� mais registrar relatos.', confirmText: 'Confirmar', danger: true });
+        const ok = await CSApp.confirmDialog({ title: 'Desligar colaborador', message: 'Ele não poderá mais registrar relatos.', confirmText: 'Confirmar', danger: true });
         if (!ok) return;
         const okDeactivate = await CSApp.runAsync(
           () => CSApi.deactivateEmployee(form.id.value, session),

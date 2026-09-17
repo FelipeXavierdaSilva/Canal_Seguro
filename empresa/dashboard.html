@@ -1,44 +1,54 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Dashboard da Empresa – Canal Seguro</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/style.css?v=2" />
   <link rel="stylesheet" href="../css/forms.css" />
-  <link rel="stylesheet" href="../css/dashboard.css?v=26" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=44" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
   <link rel="stylesheet" href="../css/responsive.css" />
-  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
 </head>
 <body>
-  <div class="demo-banner"><strong>Painel da empresa</strong> — acesso apenas aos dados do próprio tenant (simulado).</div>
   <div class="sidebar-overlay" data-close-sidebar></div>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar__brand">
-        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png" />
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png?v=shield3" />
         <div class="sidebar__brand-text">
           <strong>Canal Seguro</strong>
-          <span data-user-company>Empresa</span>
+          <span data-panel-tagline>Sua voz, nosso compromisso</span>
         </div>
       </div>
-      <nav class="sidebar__nav">
-        <div class="nav-section">Empresa</div>
+      <nav class="sidebar__nav" data-empresa-nav>
+        <div class="nav-section">Principal</div>
         <a class="active" href="dashboard.html"><span class="nav-icon">▣</span> Dashboard</a>
         <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
-        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <div class="nav-section">Gestão</div>
+        <a href="colaboradores.html" data-roles="admin_empresa superadmin"><span class="nav-icon">👤</span> Colaboradores</a>
         <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">☺</span> Usuários</a>
-        <a href="relatorio.html"><span class="nav-icon">▦</span> Relatórios</a>
-        <a href="configuracoes.html"><span class="nav-icon">◎</span> Identidade</a>
-        <a href="../index.html" target="_blank"><span class="nav-icon">◎</span> Ver canal público</a>
-        <a href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">&#9635;</span> Meu armazenamento</a>
+        <a href="relatorio.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▦</span> Relatórios</a>
         <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◉</span> Acessos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="empresa.html" data-roles="admin_empresa superadmin"><span class="nav-icon">⬡</span> Empresa</a>
+        <a href="configuracoes.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◎</span> Aparência / Identidade</a>
+        <a href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▤</span> Armazenamento</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="suporte-tecnico.html"><span class="nav-icon">🛠</span> Suporte Técnico</a>
+        <a href="sugestoes.html"><span class="nav-icon">✎</span> Sugestões</a>
+        <a href="../index.html" target="_blank" rel="noopener" data-tenant-link><span class="nav-icon">⌂</span> Canal Seguro</a>
         <div class="nav-section">Conta</div>
-        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
-        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
       </nav>
       <div class="sidebar__footer">
-        <a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a>
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
       </div>
     </aside>
 
@@ -70,7 +80,7 @@
       <div class="app-content">
         <p id="storageDashHint" class="text-muted" hidden style="margin:0 0 .75rem;font-size:.85rem"></p>
         <div
-          class="dashboard-board"
+          class="dashboard-board dashboard-board--ops"
           id="dashboardBoard"
           data-layout-preset="empresa-dashboard"
           data-layout-key="empresa-dashboard"
@@ -132,16 +142,16 @@
   <script src="../js/http-api.js"></script>
   <script src="../js/seed.js"></script>
   <script src="../js/audit.js"></script>
-  <script src="../js/api.js"></script>
+  <script src="../js/api.js?v=45"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/users.js"></script>
   <script src="../js/companies.js"></script>
   <script src="../js/reports.js"></script>
   <script src="../js/errors.js"></script>
   <script src="../js/attachments.js"></script>
-  <script src="../js/app.js"></script>
-  <script src="../js/card-layout.js?v=26"></script>
-  <script src="../js/dashboard.js?v=26"></script>
+  <script src="../js/app.js?v=46"></script>
+  <script src="../js/card-layout.js?v=30"></script>
+  <script src="../js/dashboard.js?v=30"></script>
   <script>
     CSApp.onReady(async () => {
       const session = await CSApp.initAdminShell(['admin_empresa', 'apurador', 'superadmin']);
@@ -191,7 +201,7 @@
               ? CSAttachments.formatSize
               : (n) => `${n} B`;
           hint.hidden = false;
-          hint.innerHTML = `Armazenamento: ${CSApp.escapeHtml(fmt(used))} / ${CSApp.escapeHtml(fmt(limit))} (${CSApp.escapeHtml(String(pct))}%) · ${CSApp.escapeHtml(band.label || '—')} — <a href="meu-armazenamento.html">Meu armazenamento</a>`;
+          hint.innerHTML = `Armazenamento: ${CSApp.escapeHtml(fmt(used))} / ${CSApp.escapeHtml(fmt(limit))} (${CSApp.escapeHtml(String(pct))}%) · ${CSApp.escapeHtml(band.label || '—')} — <a href="meu-armazenamento.html">Armazenamento</a>`;
         } catch {
           /* silencioso: dashboard não depende deste indicador */
         }

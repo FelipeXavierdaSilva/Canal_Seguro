@@ -39,15 +39,17 @@
 }
 
 .logo-platform--auth {
-  --logo-platform-h: 54px;
-  max-width: min(280px, 88vw);
+  --logo-platform-h: 4.75rem;
+  max-width: 4.4rem;
   margin-inline: auto;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0;
+  object-position: center;
 }
 
 .logo-platform-mark {
-  width: 42px;
-  height: 42px;
+  width: auto;
+  height: 54px;
+  max-width: 50px;
   padding: 0;
   border-radius: 0;
   background: transparent !important;
@@ -57,9 +59,22 @@
 }
 
 .logo-platform--footer {
-  --logo-platform-h: 5.5rem;
-  max-width: min(520px, 65vw);
+  --logo-platform-h: 4.75rem;
+  max-width: min(420px, 85vw);
   margin-bottom: 0.75rem;
+  /* Extremidades em fade para fundir com o fundo do rodapé */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
 }
 
 .site-footer__brand {
@@ -68,6 +83,6 @@
   align-items: flex-start;
 }
 
-.login-card__brand .logo-platform--auth + .login-card__subtitle {
-  margin-top: 0.5rem;
+.login-card__brand .login-card__identity + .login-card__subtitle {
+  margin-top: 0;
 }

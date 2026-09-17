@@ -28,14 +28,16 @@ Legenda: **Permitido** / **Negado**
 | `POST /api/v1/public/consult` | Público | — | Permitido (protocolo + tracking) |
 | `GET /api/v1/public/companies/:key` | Público | — | Permitido (campos públicos) |
 | `GET /api/v1/reports` | admin_empresa, apurador | `reports:read` | Permitido (tenant do token) |
+| `GET /api/v1/reports` | apurador | `reports:read` | Só relatos encaminhados a ele (`assigneeId` / `teamIds`) |
 | `GET /api/v1/reports` | admin_empresa | query `companyId` outro tenant | Negado (ignora query) |
 | `GET /api/v1/reports` | superadmin | `reports:read` | Permitido (todos ou filtro auditado) |
 | `GET /api/v1/reports/:id` | tenant errado | `reports:read` | Negado (404) |
-| `PATCH /api/v1/reports/:id/status` | apurador, admin_empresa | `reports:update_status` | Permitido (tenant) |
+| `GET /api/v1/reports/:id` | apurador sem encaminhamento | `reports:read` | Negado (404) |
+| `PATCH /api/v1/reports/:id/status` | apurador, admin_empresa | `reports:update_status` | Permitido (tenant; Apurador só se direcionado) |
 | `PATCH /api/v1/reports/:id/status` | outro tenant | — | Negado (404) |
-| `POST /api/v1/reports/:id/assign` | admin_empresa | `reports:assign` | Permitido (tenant) |
+| `POST /api/v1/reports/:id/assign` | admin_empresa | `reports:assign` | Permitido (tenant; define ciência exclusiva do Apurador) |
 | `POST /api/v1/reports/:id/assign` | apurador | — | Negado (403) |
-| `POST /api/v1/reports/:id/observations` | apurador, admin_empresa | `reports:comment` | Permitido (tenant) |
+| `POST /api/v1/reports/:id/observations` | apurador, admin_empresa | `reports:comment` | Permitido (tenant; Apurador só se direcionado) |
 | `GET /api/v1/reports/:id` (identidade) | apurador | `reports:view_identity` | Negado (campos mascarados) |
 | `GET /api/v1/reports/:id` (identidade) | admin_empresa | `reports:view_identity` | Permitido (se não anônimo) |
 | `POST /api/v1/employee/reports` | Colaborador (cookie/token) | `reports:create` | Permitido (tenant do token) |
@@ -49,8 +51,8 @@ Legenda: **Permitido** / **Negado**
 | Área | Rotas futuras | Status |
 |------|---------------|--------|
 | Anexos | `POST /attachments/:id/download-token` | Protótipo frontend |
-| Usuários CRUD | `POST/PATCH /users` | localStorage |
-| Empresas CRUD | `POST/PATCH /companies` | localStorage |
+| Usuários CRUD | `POST /users` | Backend: superadmin / admin_empresa (tenant) |
+| Empresas CRUD | `POST/PATCH /companies` | localStorage + `PUT /companies/:id` |
 | Exportações | `POST /reports/export` | localStorage |
 | Backup | `/admin/backups` | Stubs |
 | Configurações | `/settings/*` | localStorage |

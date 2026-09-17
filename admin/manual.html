@@ -4,11 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Manual de operação – Adm_Plataforma</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/style.css?v=2" />
   <link rel="stylesheet" href="../css/forms.css" />
-  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=38" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
   <link rel="stylesheet" href="../css/responsive.css" />
-  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
   <style>
     .manual-toc { display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 1.25rem; }
     .manual-toc a {
@@ -19,6 +20,7 @@
     .manual-toc a:hover { border-color:var(--cs-primary, #0d6e5a); color:var(--cs-primary, #0d6e5a); }
     .manual-section { scroll-margin-top:5rem; }
     .manual-section h3 { margin:0 0 .5rem; font-size:1.05rem; }
+    .manual-section h4 { margin:1rem 0 .4rem; font-size:.95rem; color:var(--cs-text-secondary, #445); }
     .manual-section ul { margin:.35rem 0 0; padding-left:1.2rem; }
     .manual-section li { margin:.35rem 0; }
     .manual-limits {
@@ -26,38 +28,62 @@
       background:rgba(13,110,90,.06); border-radius:0 8px 8px 0; margin:1rem 0;
       font-size:.9rem;
     }
+    .manual-map {
+      display:grid; gap:.65rem; margin-top:.75rem;
+      grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+    }
+    .manual-map__item {
+      border:1px solid var(--cs-border); border-radius:10px; padding:.65rem .75rem;
+      background:var(--cs-surface, #fff); font-size:.86rem;
+    }
+    .manual-map__item strong { display:block; margin-bottom:.2rem; }
+    .manual-map__item span { color:var(--cs-text-muted, #5b6b63); font-size:.8rem; }
   </style>
 </head>
 <body>
-  <div class="demo-banner"><strong>Manual de operação</strong> — guia do Adm_Plataforma conforme os limites deste perfil.</div>
   <div class="sidebar-overlay" data-close-sidebar></div>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="sidebar__brand">
-        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="Canal Seguro" />
-        <div class="sidebar__brand-text"><strong>Administração</strong><span>Canal Seguro</span></div>
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="Canal Seguro" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span>Painel da Plataforma</span>
+        </div>
       </div>
       <nav class="sidebar__nav">
         <div class="nav-section">Principal</div>
         <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
-        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
-        <a href="armazenamento.html"><span class="nav-icon">&#9635;</span> Armazenamento</a>
-        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
         <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
         <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
-        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
         <div class="nav-section">Gestão</div>
-        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
         <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="armazenamento.html"><span class="nav-icon">▤</span> Armazenamento</a>
         <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
         <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <div class="nav-section">Sistema</div>
         <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
         <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="suporte.html"><span class="nav-icon">💬</span> Suporte empresas</a>
+        <a href="faq-bot.html"><span class="nav-icon">❔</span> FAQ do bot</a>
+        <a class="active" href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="../index.html" target="_blank" rel="noopener"><span class="nav-icon">⌂</span> Canal Seguro</a>
         <div class="nav-section">Conta</div>
-        <a class="active" href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
-        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
       </nav>
-      <div class="sidebar__footer"><a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a></div>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
     </aside>
     <div class="app-main">
       <header class="topbar">
@@ -77,63 +103,97 @@
         <div class="page-header">
           <div>
             <h1>Manual de operação — Adm_Plataforma</h1>
-            <p>Procedimentos e limites do perfil de administrador da plataforma Canal Seguro.</p>
+            <p>Mapa do painel e procedimentos do administrador da plataforma Canal Seguro.</p>
           </div>
         </div>
 
         <div class="manual-limits">
           <strong>Seu perfil:</strong> Adm_Plataforma (<code>superadmin</code>).
-          Acesso global a todas as empresas, quotas, planos, conteúdos públicos, usuários e auditoria.
-          Não substitui o tratamento operacional feito pelo Adm_Empresa / Apurador no painel da empresa — você supervisiona e configura a plataforma.
+          Acesso global a empresas, quotas, planos, conteúdos, suporte, usuários e auditoria.
+          O tratamento diário dos relatos continua com Adm_Empresa / Apurador no painel da empresa — você configura, supervisiona e atende o suporte.
         </div>
 
         <nav class="manual-toc" aria-label="Seções do manual">
-          <a href="#visao">Visão geral</a>
-          <a href="#empresas">Empresas</a>
-          <a href="#armazenamento">Armazenamento e planos</a>
-          <a href="#relatos">Relatos</a>
-          <a href="#conteudos">Conteúdos e landing</a>
-          <a href="#usuarios">Usuários e MFA</a>
-          <a href="#comercial">Contato comercial</a>
-          <a href="#auditoria">Auditoria e logs</a>
-          <a href="#limites">O que você não deve fazer</a>
+          <a href="#mapa">Mapa do painel</a>
+          <a href="#principal">Principal</a>
+          <a href="#empresas">Empresas e equipe</a>
+          <a href="#relatos">Relatos e apuração</a>
+          <a href="#armazenamento">Armazenamento</a>
+          <a href="#conteudos">Conteúdos</a>
+          <a href="#suporte">Suporte empresas</a>
+          <a href="#faq-bot">FAQ do bot</a>
+          <a href="#config">Configurações</a>
+          <a href="#sistema">Auditoria e logs</a>
+          <a href="#conta">Minha conta</a>
+          <a href="#limites">Limites</a>
         </nav>
 
-        <div class="panel mb-2 manual-section" id="visao">
+        <div class="panel mb-2 manual-section" id="mapa">
           <div class="panel__body">
-            <h3>1. Visão geral do painel</h3>
+            <h3>1. Mapa do painel (menu lateral)</h3>
+            <p>Cada item do menu abre um módulo. Use este mapa como referência rápida:</p>
+            <div class="manual-map">
+              <div class="manual-map__item"><strong>Dashboard</strong><span>Visão consolidada da plataforma</span></div>
+              <div class="manual-map__item"><strong>Relatos</strong><span>Consulta transversal de denúncias</span></div>
+              <div class="manual-map__item"><strong>Indicadores</strong><span>Métricas e tendências</span></div>
+              <div class="manual-map__item"><strong>Empresas</strong><span>Cadastro e status dos clientes</span></div>
+              <div class="manual-map__item"><strong>Colaboradores</strong><span>Allowlist de CPF (visão global)</span></div>
+              <div class="manual-map__item"><strong>Usuários</strong><span>Contas de plataforma e empresas</span></div>
+              <div class="manual-map__item"><strong>Relatórios</strong><span>Exportações gerenciais</span></div>
+              <div class="manual-map__item"><strong>Conteúdos</strong><span>FAQ/educação do site público</span></div>
+              <div class="manual-map__item"><strong>Armazenamento</strong><span>Pool, planos e preços</span></div>
+              <div class="manual-map__item"><strong>Configurações</strong><span>Identidade, MFA, backup, comercial</span></div>
+              <div class="manual-map__item"><strong>Integrações</strong><span>Conexões e webhooks</span></div>
+              <div class="manual-map__item"><strong>Auditoria</strong><span>Trilha de ações relevantes</span></div>
+              <div class="manual-map__item"><strong>Logs técnicos</strong><span>Diagnóstico operacional</span></div>
+              <div class="manual-map__item"><strong>Suporte empresas</strong><span>Inbox humano (SLA 24h)</span></div>
+              <div class="manual-map__item"><strong>FAQ do bot</strong><span>Respostas do assistente no painel empresa</span></div>
+              <div class="manual-map__item"><strong>Manual</strong><span>Este guia</span></div>
+              <div class="manual-map__item"><strong>Minha conta</strong><span>Perfil e senha</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="principal">
+          <div class="panel__body">
+            <h3>2. Principal — Dashboard, Indicadores e Relatórios</h3>
+            <h4>Dashboard</h4>
             <ul>
-              <li><strong>Dashboard</strong> — visão consolidada da plataforma.</li>
-              <li><strong>Empresas</strong> — cadastro, status e dados das empresas clientes.</li>
-              <li><strong>Armazenamento</strong> — pool da plataforma, catálogo de planos, preços por empresa e solicitações comerciais.</li>
-              <li><strong>Relatos / Indicadores / Relatórios</strong> — acompanhamento transversal (respeitando regras de identidade quando aplicável).</li>
-              <li><strong>Conteúdos</strong> — FAQ e materiais de educação exibidos no canal público.</li>
-              <li><strong>Configurações</strong> — identidade, MFA, backup e contato comercial (e-mail / WhatsApp).</li>
+              <li>Visão consolidada: volume de relatos, empresas, alertas e atalhos de operação.</li>
+              <li>Use para priorizar o que exige atenção da plataforma (capacidade, suporte atrasado, etc.).</li>
+            </ul>
+            <h4>Indicadores</h4>
+            <ul>
+              <li>Métricas agregadas (status, risco, prazos) para acompanhamento transversal.</li>
+              <li>Não substitui o tratamento caso a caso no painel da empresa.</li>
+            </ul>
+            <h4>Relatórios</h4>
+            <ul>
+              <li>Gere exportações gerenciais (PDF/Excel/CSV conforme permissões).</li>
+              <li>Evite incluir dados sensíveis desnecessários em relatórios compartilhados fora do painel.</li>
             </ul>
           </div>
         </div>
 
         <div class="panel mb-2 manual-section" id="empresas">
           <div class="panel__body">
-            <h3>2. Empresas</h3>
+            <h3>3. Empresas, colaboradores e usuários</h3>
+            <h4>Empresas</h4>
             <ul>
-              <li>Cadastre e mantenha empresas ativas para o canal multiempresa.</li>
+              <li>Cadastre e mantenha empresas ativas no modelo multiempresa.</li>
               <li>O domínio / chave pública identifica a empresa no canal do denunciante.</li>
               <li>Desativar uma empresa impede novos acessos públicos vinculados a ela.</li>
-              <li>Colaboradores (allowlist de CPF) podem ser geridos no painel admin ou pela própria empresa.</li>
             </ul>
-          </div>
-        </div>
-
-        <div class="panel mb-2 manual-section" id="armazenamento">
-          <div class="panel__body">
-            <h3>3. Armazenamento, planos e preços</h3>
+            <h4>Colaboradores</h4>
             <ul>
-              <li><strong>Pool da plataforma</strong> — acompanhe uso real × alocado; alertas não bloqueiam overcommit.</li>
-              <li><strong>Catálogo de planos</strong> — crie/edite/exclua planos (GB, usuários, preço de referência, vantagens). O mesmo catálogo alimenta a landing e o painel da empresa.</li>
-              <li><strong>Ocultar preço na landing</strong> — exibe “Sob consulta” no site sem apagar o preço interno.</li>
-              <li><strong>Preços por empresa</strong> — valor base, % de upgrade e vantagens personalizadas em “Meu armazenamento”.</li>
-              <li><strong>Solicitações de pacote</strong> — quando a empresa contrata upgrade, trate o reajuste comercial e marque como tratado.</li>
+              <li>Allowlist de CPF autorizados a registrar relato identificado.</li>
+              <li>Também pode ser gerida pela própria empresa no painel dela.</li>
+            </ul>
+            <h4>Usuários</h4>
+            <ul>
+              <li>Crie contas de plataforma e de empresas (Adm_Empresa, Apurador).</li>
+              <li>Respeite o tenant: usuário de empresa não enxerga dados de outro cliente.</li>
+              <li>Política MFA e reset de MFA ficam em <strong>Configurações</strong>.</li>
             </ul>
           </div>
         </div>
@@ -142,65 +202,113 @@
           <div class="panel__body">
             <h3>4. Relatos e apuração (visão plataforma)</h3>
             <ul>
-              <li>Você pode consultar relatos de qualquer empresa e acompanhar fluxo, risco e histórico.</li>
-              <li>O tratamento diário (status, encaminhamento, medidas) é responsabilidade da empresa — use este painel para supervisão e suporte.</li>
+              <li>Consulte relatos de qualquer empresa e acompanhe fluxo, risco e histórico.</li>
+              <li>O tratamento diário (status, encaminhamento, medidas, thread) é da empresa.</li>
+              <li><strong>Need-to-know:</strong> no painel da empresa, o Apurador só vê relatos encaminhados a ele. Oriente o Adm_Empresa a usar <em>Encaminhar</em> — isso evita conflito de interesse.</li>
               <li>Medidas e ações executadas ficam no detalhe do relato e entram no PDF de apuração.</li>
+              <li>Não use a conta Adm_Plataforma para “apurar no lugar” da empresa, salvo suporte excepcional.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="armazenamento">
+          <div class="panel__body">
+            <h3>5. Armazenamento, planos e preços</h3>
+            <ul>
+              <li><strong>Pool da plataforma</strong> — uso real × alocado; alertas não bloqueiam overcommit automaticamente.</li>
+              <li><strong>Catálogo de planos</strong> — crie/edite/exclua planos (GB, usuários, preço de referência, vantagens). Alimenta a landing e o painel da empresa.</li>
+              <li><strong>Ocultar preço na landing</strong> — exibe “Sob consulta” sem apagar o preço interno.</li>
+              <li><strong>Preços por empresa</strong> — valor base, % de upgrade e vantagens em “Armazenamento” no painel da empresa.</li>
+              <li><strong>Solicitações de pacote</strong> — quando a empresa pede upgrade, trate o reajuste comercial e marque como tratado.</li>
+              <li>Quota abaixo do uso atual não apaga anexos: marca overLimit e bloqueia novos uploads até regularizar.</li>
             </ul>
           </div>
         </div>
 
         <div class="panel mb-2 manual-section" id="conteudos">
           <div class="panel__body">
-            <h3>5. Conteúdos e landing pública</h3>
+            <h3>6. Conteúdos (site público)</h3>
             <ul>
-              <li>Edite FAQ e conteúdos de educação usados no site público.</li>
-              <li>Planos da home vêm do catálogo (Armazenamento). CTA comercial: e-mail ou WhatsApp.</li>
+              <li>Edite FAQ e materiais de educação do <strong>canal público</strong> (páginas FAQ / Educação do site).</li>
+              <li><strong>Não confundir</strong> com <strong>FAQ do bot</strong> (menu Ajuda): aquele alimenta o assistente flutuante do painel da empresa.</li>
               <li>Não publique dados internos de empresas ou relatos no canal público.</li>
             </ul>
           </div>
         </div>
 
-        <div class="panel mb-2 manual-section" id="usuarios">
+        <div class="panel mb-2 manual-section" id="suporte">
           <div class="panel__body">
-            <h3>6. Usuários, MFA e segurança</h3>
+            <h3>7. Suporte empresas (inbox humano)</h3>
             <ul>
-              <li>Crie usuários de plataforma e de empresas (Adm_Empresa, Apurador).</li>
-              <li>Configure política MFA e reset de MFA quando necessário (Configurações).</li>
-              <li>Senhas fortes e MFA são obrigatórios para perfis administrativos conforme a política vigente.</li>
+              <li>Menu <strong>Ajuda ? Suporte empresas</strong>: inbox das conversas abertas pelo botão flutuante no painel da empresa.</li>
+              <li><strong>SLA:</strong> compromisso de primeira resposta em até <strong>24 horas</strong>. Conversas atrasadas aparecem destacadas.</li>
+              <li>Status típicos: <em>Aguardando</em>, <em>Aguardando (atrasado)</em>, <em>Respondido</em>, <em>Fechado</em>.</li>
+              <li>Responda no thread; a empresa vê a mensagem no widget e recebe indicação de não lidas no ícone (badge laranja).</li>
+              <li>Feche a conversa quando o atendimento estiver concluído.</li>
+              <li>Quem pode abrir suporte pelo painel da empresa: <strong>Adm_Empresa</strong> e <strong>Apurador</strong>.</li>
             </ul>
           </div>
         </div>
 
-        <div class="panel mb-2 manual-section" id="comercial">
+        <div class="panel mb-2 manual-section" id="faq-bot">
           <div class="panel__body">
-            <h3>7. Contato comercial (landing)</h3>
+            <h3>8. FAQ do bot (assistente da empresa)</h3>
             <ul>
-              <li>Em <strong>Configurações → Identidade</strong>, defina e-mail e WhatsApp comercial.</li>
-              <li>Visitantes que clicam em “Falar com especialista” escolhem e-mail ou WhatsApp; a mensagem já indica a origem e o plano de interesse.</li>
-              <li>Número padrão cadastrado: <code>047984570646</code> (pode ser alterado a qualquer momento).</li>
+              <li>Menu <strong>Ajuda ? FAQ do bot</strong>: cadastre perguntas, respostas, palavras-chave, público (todos / Adm_Empresa / Apurador) e ordem.</li>
+              <li>No painel da empresa, o widget abre como <strong>Assistente Virtual</strong> (aba Ajuda). Se não resolver, a pessoa envia pela aba <strong>Mensagem</strong>.</li>
+              <li>Mantenha FAQs ativas e com palavras-chave claras (ex.: encaminhar, armazenamento, anônimo, 24h).</li>
+              <li>Desative FAQs desatualizadas em vez de apagar histórico quando fizer sentido.</li>
+              <li>Lembrete: o bot <strong>não</strong> substitui o conteúdo público de <strong>Conteúdos</strong>.</li>
             </ul>
           </div>
         </div>
 
-        <div class="panel mb-2 manual-section" id="auditoria">
+        <div class="panel mb-2 manual-section" id="config">
           <div class="panel__body">
-            <h3>8. Auditoria e logs técnicos</h3>
+            <h3>9. Configurações, integrações e comercial</h3>
+            <h4>Configurações</h4>
             <ul>
-              <li><strong>Auditoria</strong> — trilha de ações relevantes (login, alterações, planos, medidas etc.).</li>
-              <li><strong>Logs técnicos</strong> — diagnóstico operacional; não compartilhe com quem não precisa.</li>
+              <li>Identidade da plataforma, padrões de UI, privacidade, backup e política MFA.</li>
+              <li><strong>Contato comercial</strong> (e-mail / WhatsApp): usado na landing (“Falar com especialista”). A mensagem indica origem e plano de interesse.</li>
+            </ul>
+            <h4>Integrações</h4>
+            <ul>
+              <li>Configure conexões / webhooks conforme a política de segurança do ambiente.</li>
+              <li>Não compartilhe segredos de integração em canais inseguros.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="sistema">
+          <div class="panel__body">
+            <h3>10. Auditoria e logs técnicos</h3>
+            <ul>
+              <li><strong>Auditoria</strong> — trilha de ações relevantes (login, planos, medidas, suporte, anexos etc.).</li>
+              <li><strong>Logs técnicos</strong> — diagnóstico operacional; acesso restrito; não compartilhe com quem não precisa.</li>
               <li>Backup: use o módulo em Configurações conforme a política documentada.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel mb-2 manual-section" id="conta">
+          <div class="panel__body">
+            <h3>11. Minha conta</h3>
+            <ul>
+              <li>Atualize nome, contato e senha.</li>
+              <li>Mantenha MFA ativo conforme a política — perfil Adm_Plataforma exige cuidado redobrado.</li>
             </ul>
           </div>
         </div>
 
         <div class="panel mb-2 manual-section" id="limites">
           <div class="panel__body">
-            <h3>9. Limites e boas práticas</h3>
+            <h3>12. Limites e boas práticas</h3>
             <ul>
-              <li>Não use a conta Adm_Plataforma para “apurar” no lugar da empresa, salvo suporte excepcional.</li>
               <li>Não exponha protocolo + código de acompanhamento, anexos ou identidade de denunciantes fora do painel.</li>
               <li>Alterações de quota e planos impactam clientes — confirme o contexto comercial antes de salvar.</li>
-              <li>Em caso de dúvida sobre um relato específico, oriente o Adm_Empresa a registrar medidas no próprio painel da empresa.</li>
+              <li>Responda o suporte das empresas dentro do SLA de 24h; priorize itens atrasados.</li>
+              <li>Ao orientar empresas: reforce need-to-know (encaminhar Apurador) e o uso do Assistente Virtual antes de escalar.</li>
+              <li>Em dúvida sobre um relato específico, oriente o Adm_Empresa a registrar medidas no próprio painel da empresa.</li>
             </ul>
           </div>
         </div>
@@ -212,13 +320,13 @@
   <script src="../js/http-api.js"></script>
   <script src="../js/seed.js"></script>
   <script src="../js/audit.js"></script>
-  <script src="../js/api.js"></script>
+  <script src="../js/api.js?v=45"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/users.js"></script>
   <script src="../js/companies.js"></script>
   <script src="../js/reports.js"></script>
   <script src="../js/errors.js"></script>
-  <script src="../js/app.js"></script>
+  <script src="../js/app.js?v=45"></script>
   <script>
     CSApp.onReady(async () => {
       await CSApp.initAdminShell(['superadmin']);

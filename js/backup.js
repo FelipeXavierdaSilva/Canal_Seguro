@@ -1,8 +1,8 @@
 /**
- * backup.js – Contrato de backup e recuperação (Canal Seguro).
+ * backup.js – Backup e recuperação (Canal Seguro).
  *
- * Produção: jobs no servidor, storage off-site criptografado, API REST.
- * Protótipo: stubs honestos + export/import DEV rotulado (superadmin) — NÃO substitui backup real.
+ * Com API servidor: backup operacional completo (store.json + anexos).
+ * Sem API: snapshot DEV no localStorage (não substitui backup de produção).
  *
  * Ver docs/BACKUP-RECOVERY.md
  */
@@ -16,28 +16,28 @@ const CSBackup = (() => {
     ok: false,
     code: 'backend_required',
     message:
-      'Backup e restauração de produção exigem backend, banco de dados e armazenamento off-site. Não disponível no protótipo localStorage.'
+      'Backup operacional exige o servidor da API. Inicie o backend (cd server && npm start) e recarregue o painel.'
   };
 
-  /** Política alvo documentada — aplicada pelo backend quando integrado. */
+  /** Política alvo / operacional exibida no painel. */
   const PRODUCTION_POLICY = {
     apiVersion: API_VERSION,
     schemaVersion: SCHEMA_VERSION,
     schedules: {
-      fullDaily: '02:00 UTC',
-      incrementalDb: 'WAL / PITR contínuo (PostgreSQL)',
-      attachmentsSync: 'Após cada upload + delta diário'
+      fullDaily: 'Manual / antes de cada atualização',
+      incrementalDb: 'N/A (store JSON)',
+      attachmentsSync: 'Incluídos no backup full'
     },
     retention: {
       dailyFullDays: 30,
       weeklyFullWeeks: 12,
       monthlyArchiveMonths: 12,
-      walDays: 14
+      walDays: null
     },
     storage: {
-      primary: 'Object storage privado (ex.: S3 sa-east-1)',
-      replica: 'Cross-region (ex.: us-east-1)',
-      encryption: 'SSE-KMS + TLS',
+      primary: 'server/data/backups/',
+      replica: 'Copie a pasta backups/ para off-site',
+      encryption: 'Criptografe o volume / cópia off-site',
       publicAccess: false
     },
     verification: {
@@ -47,10 +47,6 @@ const CSBackup = (() => {
     }
   };
 
-  /**
-   * Coleções do store incluídas no snapshot (painel admin + operação).
-   * Ordem estável para manifesto / UI.
-   */
   const STORE_KEYS = [
     'companies',
     'users',
@@ -68,10 +64,13 @@ const CSBackup = (() => {
     'companySettings',
     'categories',
     'statuses',
+    'supportFaqs',
+    'platformSupportThreads',
+    'platformInternalSupportThreads',
+    'storageUpgradeRequests',
     '_meta'
   ];
 
-  /** Chaves efêmeras / sensíveis de servidor — nunca no snapshot DEV do browser. */
   const EXCLUDED_KEYS = new Set([
     'passwordResetTokens',
     'emailQueue',
@@ -82,7 +81,6 @@ const CSBackup = (() => {
     'sessions'
   ]);
 
-  /** Rótulos para o painel (o que o admin edita / opera). */
   const ENTITY_LABELS = {
     companies: 'Empresas (dados e branding do canal)',
     users: 'Usuários e perfis',
@@ -99,11 +97,19 @@ const CSBackup = (() => {
     platformSettings: 'Configurações da plataforma',
     companySettings: 'Configurações por empresa (protocolo, workflow, e-mail, risco)',
     categories: 'Categorias de relato',
-    statuses: 'Status de relato'
+    statuses: 'Status de relato',
+    supportFaqs: 'FAQ do Assistente Virtual',
+    platformSupportThreads: 'Suporte técnico (empresas)',
+    platformInternalSupportThreads: 'Atendimento interno',
+    storageUpgradeRequests: 'Solicitações de armazenamento'
   };
 
+  function useHttpBackup() {
+    return typeof CSHttpApi !== 'undefined' && typeof CSHttpApi.enabled === 'function' && CSHttpApi.enabled();
+  }
+
   function isBackendConnected() {
-    return Boolean(window.CS_BACKUP_API_BASE);
+    return useHttpBackup() || Boolean(window.CS_BACKUP_API_BASE);
   }
 
   function assertSuperadmin(actor) {
@@ -121,7 +127,6 @@ const CSBackup = (() => {
     return actor || {};
   }
 
-  /** Registra evento técnico de backup (techLogs — não auditoria funcional). */
   function logTechnicalEvent(action, actor = {}, details = {}) {
     if (typeof CSInfraLog === 'undefined' || typeof window.CSStore === 'undefined') return null;
     return CSInfraLog.application(action, {
@@ -129,7 +134,7 @@ const CSBackup = (() => {
       outcome: details.outcome || (details.ok === false ? 'failure' : 'success'),
       actor,
       context: {
-        mode: isBackendConnected() ? 'production' : 'prototype',
+        mode: isBackendConnected() ? 'operational' : 'prototype',
         backupId: details.backupId || null,
         snapshotId: details.snapshotId || null,
         reason: details.reason || null,
@@ -169,22 +174,28 @@ const CSBackup = (() => {
   }
 
   async function getPolicy() {
+    if (useHttpBackup()) {
+      const status = await CSHttpApi.getBackupStatus();
+      return status.policy || { ...PRODUCTION_POLICY, backendConnected: true };
+    }
     await delay();
-    return { ...PRODUCTION_POLICY, backendConnected: isBackendConnected() };
+    return { ...PRODUCTION_POLICY, backendConnected: false };
   }
 
   async function getStatus() {
+    if (useHttpBackup()) {
+      return CSHttpApi.getBackupStatus();
+    }
     await delay();
     const policy = await getPolicy();
     const data = typeof window.CSStore !== 'undefined' ? window.CSStore.loadStore() : null;
     const includedKeys = listIncludedKeys(data || {}).filter((k) => k !== '_meta');
     return {
       ok: true,
-      mode: isBackendConnected() ? 'production' : 'prototype',
-      backendConnected: isBackendConnected(),
-      message: isBackendConnected()
-        ? 'Backend de backup conectado.'
-        : 'Protótipo: backup automático desativado. Consulte docs/BACKUP-RECOVERY.md.',
+      mode: 'prototype',
+      backendConnected: false,
+      message:
+        'API offline: apenas snapshot DEV do navegador. Com o servidor ligado, o backup operacional restaura store + anexos após atualizações.',
       policy,
       storeMeta: data?._meta || null,
       includedEntities: includedKeys,
@@ -192,58 +203,83 @@ const CSBackup = (() => {
       adminEditableNote:
         'Inclui tudo editável no painel (empresas, usuários, colaboradores, relatos, conteúdos FAQ/educação, configurações e auditoria).',
       attachmentsNote:
-        'Metadados de anexos no store; binários exigem object storage separado em produção.'
+        'No modo protótipo: só metadados. Com servidor: binários de anexos entram no backup.',
+      lastBackup: null,
+      backupCount: 0
     };
   }
 
   async function listBackups() {
-    await delay();
-    if (isBackendConnected()) {
-      throw new Error('Integração GET /api/v1/admin/backups pendente de implementação no backend.');
+    if (useHttpBackup()) {
+      return CSHttpApi.listBackups();
     }
+    await delay();
     return { ...BACKEND_REQUIRED, items: [] };
   }
 
   async function getBackup(backupId) {
-    await delay();
     if (!backupId) throw new Error('ID do backup não informado.');
+    if (useHttpBackup()) {
+      return CSHttpApi.getBackup(backupId);
+    }
+    await delay();
     return BACKEND_REQUIRED;
   }
 
-  async function triggerBackup(actor = {}) {
-    await delay();
-    assertSuperadmin(resolveActor(actor));
-    if (!isBackendConnected()) {
-      logTechnicalEvent('backup_falhou', actor, {
-        reason: 'backend_required',
-        errorCode: 'backend_unavailable'
-      });
-      return BACKEND_REQUIRED;
+  async function triggerBackup(actor = {}, options = {}) {
+    const a = resolveActor(actor);
+    assertSuperadmin(a);
+    if (useHttpBackup()) {
+      const created = await CSHttpApi.createBackup({ note: options.note || null });
+      logTechnicalEvent('backup_concluido', a, { backupId: created.id, ok: true });
+      return { ok: true, ...created };
     }
-    throw new Error('Integração POST /api/v1/admin/backups pendente no backend.');
+    await delay();
+    logTechnicalEvent('backup_falhou', a, {
+      reason: 'backend_required',
+      errorCode: 'backend_unavailable'
+    });
+    return BACKEND_REQUIRED;
   }
 
   async function verifyBackup(backupId, actor = {}) {
-    await delay();
-    assertSuperadmin(resolveActor(actor));
-    if (!isBackendConnected()) {
-      logTechnicalEvent('backup_verificacao_falhou', actor, { backupId, reason: 'backend_required' });
-      return BACKEND_REQUIRED;
+    const a = resolveActor(actor);
+    assertSuperadmin(a);
+    if (useHttpBackup()) {
+      return CSHttpApi.verifyBackup(backupId);
     }
-    throw new Error('Integração POST /api/v1/admin/backups/:id/verify pendente no backend.');
+    await delay();
+    logTechnicalEvent('backup_verificacao_falhou', a, { backupId, reason: 'backend_required' });
+    return BACKEND_REQUIRED;
   }
 
   async function restoreBackup(backupId, actor = {}, options = {}) {
+    const a = resolveActor(actor);
+    assertSuperadmin(a);
+    if (useHttpBackup()) {
+      const result = await CSHttpApi.restoreBackup(backupId, {
+        confirm: options.confirm !== false,
+        skipSafetyBackup: Boolean(options.skipSafetyBackup)
+      });
+      logTechnicalEvent('restore_concluido', a, { backupId, ok: true });
+      return result;
+    }
     await delay();
-    assertSuperadmin(resolveActor(actor));
-    if (options.target === 'production') {
-      throw new Error('Restauração direta em produção via UI não é permitida. Use runbook em staging.');
+    logTechnicalEvent('restore_falhou', a, { backupId, reason: 'backend_required' });
+    return BACKEND_REQUIRED;
+  }
+
+  async function restoreLatestBackup(actor = {}, options = {}) {
+    const a = resolveActor(actor);
+    assertSuperadmin(a);
+    if (useHttpBackup()) {
+      return CSHttpApi.restoreLatestBackup({
+        confirm: options.confirm !== false,
+        skipSafetyBackup: Boolean(options.skipSafetyBackup)
+      });
     }
-    if (!isBackendConnected()) {
-      logTechnicalEvent('restore_falhou', actor, { backupId, reason: 'backend_required' });
-      return BACKEND_REQUIRED;
-    }
-    throw new Error('Integração POST /api/v1/admin/backups/:id/restore pendente no backend.');
+    await delay();
+    return BACKEND_REQUIRED;
   }
 
   function buildDevManifest(data, snapshotData) {
@@ -267,11 +303,6 @@ const CSBackup = (() => {
     };
   }
 
-  /**
-   * Exporta snapshot JSON local — apenas superadmin, rotulado DEV.
-   * Inclui coleções do painel admin (conteúdos, empresas, configs, etc.).
-   * Não substitui backup de produção (requisito 11).
-   */
   async function exportDevSnapshot(actor = {}) {
     await delay(150);
     const a = resolveActor(actor);
@@ -298,7 +329,7 @@ const CSBackup = (() => {
       filename: `canal-seguro-DEV-SNAPSHOT-${manifest.exportedAt.replace(/[:.]/g, '-')}.json`,
       payload,
       message:
-        'Snapshot DEV exportado (inclui edições do painel admin). Armazene apenas em ambiente controlado. Produção exige backend + storage off-site criptografado.'
+        'Snapshot DEV exportado. Para atualização em produção, use o backup operacional do servidor (Gerar backup).'
     };
   }
 
@@ -312,10 +343,6 @@ const CSBackup = (() => {
     URL.revokeObjectURL(a.href);
   }
 
-  /**
-   * Restaura snapshot DEV no localStorage (substitui o store atual).
-   * Superadmin apenas. Não é restore de produção.
-   */
   async function importDevSnapshot(payload, actor = {}) {
     await delay(150);
     const a = resolveActor(actor);
@@ -343,7 +370,6 @@ const CSBackup = (() => {
       next[key] = incoming[key];
     });
 
-    // Garante coleções críticas mesmo se ausentes no arquivo antigo
     STORE_KEYS.forEach((key) => {
       if (key === '_meta') return;
       if (next[key] === undefined) {
@@ -388,6 +414,7 @@ const CSBackup = (() => {
     triggerBackup,
     verifyBackup,
     restoreBackup,
+    restoreLatestBackup,
     exportDevSnapshot,
     downloadDevSnapshot,
     importDevSnapshot,

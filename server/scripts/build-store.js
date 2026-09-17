@@ -86,6 +86,9 @@ const sandbox = {
 vm.runInNewContext(fnCode, sandbox);
 const data = sandbox.createDemoData();
 
+const supportFaq = require('../src/services/support-faq.service');
+supportFaq.ensureFaqs(data);
+
 data.users = data.users.map((u) => {
   const { senha, ...rest } = u;
   return {

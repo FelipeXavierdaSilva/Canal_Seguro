@@ -1,9 +1,9 @@
 /**
- * card-layout.js – Layout fixo dos dashboards Adm_Empresa / Adm_Plataforma.
- * Posição/tamanho vêm do padrão oficial (sem edição de arrastar/redimensionar).
+ * card-layout.js – Layout dos dashboards Adm_Empresa / Adm_Plataforma.
+ * Ops usam CSS Grid estático (sem freeform/altura fixa) para não cortar conteúdo.
  */
 const CSCardLayout = (() => {
-  const LAYOUT_REV = 19;
+  const LAYOUT_REV = 20;
   const PREFIX = `cs_card_layout_v${LAYOUT_REV}:`;
   const MIN_W = 140;
   const MIN_H = 88;
@@ -27,57 +27,48 @@ const CSCardLayout = (() => {
     return preset === 'empresa-dashboard' || preset === 'plataforma-dashboard';
   }
 
+  function clearAbsoluteStyles(el) {
+    if (!el) return;
+    el.style.position = '';
+    el.style.left = '';
+    el.style.top = '';
+    el.style.width = '';
+    el.style.height = '';
+    el.style.margin = '';
+    el.style.maxWidth = '';
+    el.style.gridColumn = '';
+    el.style.gridRow = '';
+    el.style.zIndex = '';
+  }
+
   /**
-   * Padrão oficial Adm_Empresa / Adm_Plataforma:
+   * Layout oficial em CSS Grid (sem posição absoluta / overflow hidden).
    * Esquerda: KPIs → Atenção → Fluxo|Status
-   * Direita (do topo até antes do período): Categoria + Risco
-   * Período em largura total; Recentes alto (~10 linhas) em largura total
+   * Direita: Categorias + Risco
+   * Em seguida: Período e Recentes em largura total
    */
+  function applyOpsGrid(container) {
+    container.classList.remove('is-layout-freeform');
+    container.classList.add('dashboard-board--ops');
+    container.style.position = '';
+    container.style.display = '';
+    container.style.minHeight = '';
+    [...container.querySelectorAll(':scope > [data-layout-id]')].forEach((el) => {
+      clearAbsoluteStyles(el);
+      stripEditChrome(el);
+    });
+    try {
+      localStorage.removeItem(keyFor(container));
+      sessionStorage.removeItem(keyFor(container));
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  /** Mantido para compatibilidade de export / debug — não usado no layout live. */
   function computeOpsDefault(width) {
     const w = Math.max(960, width || 1180);
-    const gap = 12;
-    const items = {};
-
-    const rightW = Math.floor(w * 0.27);
-    const leftW = w - rightW - gap;
-
-    const kpiIds = ['total', 'triage', 'apuracao', 'concluidos'];
-    const kpiW = Math.floor((leftW - gap * (kpiIds.length - 1)) / kpiIds.length);
-    const kpiH = 128;
-    kpiIds.forEach((id, i) => {
-      items[id] = { x: i * (kpiW + gap), y: 0, w: kpiW, h: kpiH };
-    });
-
-    const yAttn = kpiH + gap;
-    const attnH = 156;
-    items.attention = { x: 0, y: yAttn, w: leftW, h: attnH };
-
-    const yMid = yAttn + attnH + gap;
-    const flowW = Math.floor(leftW * 0.58);
-    const statusW = leftW - flowW - gap;
-
-    /* Direita: categorias + risco (altura do risco inclui o botão CTA) */
-    const rightRefH = yMid + 280;
-    const catH = Math.floor(rightRefH * 0.55);
-    const riskH = Math.max(292, rightRefH - catH - gap + 28);
-    items.categories = { x: leftW + gap, y: 0, w: rightW, h: catH };
-    items.risk = { x: leftW + gap, y: catH + gap, w: rightW, h: riskH };
-
-    /* Fluxo e Status alinham a base com o card de risco */
-    const riskBottom = catH + gap + riskH;
-    const midH = Math.max(280, riskBottom - yMid);
-    items.flow = { x: 0, y: yMid, w: flowW, h: midH };
-    items.status = { x: flowW + gap, y: yMid, w: statusW, h: midH };
-
-    const yPeriod = Math.max(yMid + midH, riskBottom) + gap;
-    const periodH = 280;
-    items.months = { x: 0, y: yPeriod, w, h: periodH };
-
-    const yRecent = yPeriod + periodH + 16;
-    const recentH = 680;
-    items.recent = { x: 0, y: yRecent, w, h: recentH };
-
-    return { freeform: true, rev: LAYOUT_REV, height: yRecent + recentH + 8, items };
+    return { freeform: false, rev: LAYOUT_REV, grid: 'ops', boardWidth: w, items: {} };
   }
 
   function readState(container) {
@@ -219,10 +210,7 @@ const CSCardLayout = (() => {
 
   function applyPresetOrSaved(container) {
     if (isOpsDashboard(container)) {
-      /* Sempre o padrão oficial — Adm_Empresa e Adm_Plataforma ficam idênticos */
-      toFreeform(container);
-      applyBoxes(container, computeOpsDefault(container.clientWidth));
-      saveState(container);
+      applyOpsGrid(container);
       return true;
     }
     const saved = readState(container);
@@ -353,6 +341,11 @@ const CSCardLayout = (() => {
       bindResize(item, container);
     });
 
+    if (container.classList.contains('dashboard-board--ops')) {
+      container.classList.add('is-layout-ready');
+      notifyContentResize();
+      return;
+    }
     if (!placed && !container.classList.contains('is-layout-freeform')) {
       container.classList.add('is-layout-ready');
     } else {

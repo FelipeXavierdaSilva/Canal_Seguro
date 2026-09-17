@@ -1,44 +1,44 @@
 /* ============================================================
    Canal Seguro
-   Design: confiança institucional — verde corporativo, clareza, sigilo
+   Design: confiança institucional — navy + teal (identidade do canal)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Outfit:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import url('brand.css');
 
 :root {
-  --cs-primary: #064e3b;
-  --cs-primary-hover: #053d2f;
-  --cs-primary-light: #0d7a5c;
-  --cs-primary-soft: rgba(6, 78, 59, 0.1);
-  --cs-primary-muted: rgba(6, 78, 59, 0.06);
-  --cs-secondary: #1a6b52;
-  --cs-accent: #28a745;
-  --cs-accent-hover: #218838;
-  --cs-accent-soft: rgba(40, 167, 69, 0.12);
+  --cs-primary: #0b2c4a;
+  --cs-primary-hover: #071f36;
+  --cs-primary-light: #2f6fa8;
+  --cs-primary-soft: rgba(11, 44, 74, 0.1);
+  --cs-primary-muted: rgba(11, 44, 74, 0.06);
+  --cs-secondary: #1a4a6e;
+  --cs-accent: #1fb8a8;
+  --cs-accent-hover: #14958a;
+  --cs-accent-soft: rgba(31, 184, 168, 0.14);
 
-  --cs-success: #198754;
+  --cs-success: #14958a;
   --cs-warning: #e6a020;
   --cs-danger: #dc4c4c;
-  --cs-info: #2b7a99;
+  --cs-info: #2f6fa8;
 
-  --cs-bg: #f4f6f5;
+  --cs-bg: #f3f7fb;
   --cs-bg-elevated: #ffffff;
-  --cs-bg-muted: #eef1ef;
+  --cs-bg-muted: #e8eef6;
   --cs-surface: #ffffff;
   --cs-glass: rgba(255, 255, 255, 0.92);
-  --cs-border: rgba(15, 40, 32, 0.08);
-  --cs-border-strong: rgba(15, 40, 32, 0.14);
+  --cs-border: rgba(15, 50, 80, 0.1);
+  --cs-border-strong: rgba(15, 50, 80, 0.16);
 
-  --cs-text: #1a2e28;
-  --cs-text-secondary: #4a5f58;
-  --cs-text-muted: #7a8f88;
+  --cs-text: #14324a;
+  --cs-text-secondary: #5a7188;
+  --cs-text-muted: #7a90a4;
   --cs-text-inverse: #ffffff;
 
-  --cs-shadow-sm: 0 1px 2px rgba(6, 30, 24, 0.04), 0 2px 8px rgba(6, 30, 24, 0.03);
-  --cs-shadow: 0 4px 20px rgba(6, 30, 24, 0.07);
-  --cs-shadow-lg: 0 12px 40px rgba(6, 30, 24, 0.1);
-  --cs-shadow-calm: 0 8px 28px rgba(6, 78, 59, 0.14);
+  --cs-shadow-sm: 0 1px 2px rgba(11, 44, 74, 0.04), 0 2px 8px rgba(11, 44, 74, 0.03);
+  --cs-shadow: 0 4px 20px rgba(11, 44, 74, 0.08);
+  --cs-shadow-lg: 0 12px 40px rgba(11, 44, 74, 0.12);
+  --cs-shadow-calm: 0 8px 28px rgba(31, 184, 168, 0.16);
 
   --cs-radius: 12px;
   --cs-radius-sm: 8px;
@@ -46,48 +46,57 @@
   --cs-radius-full: 999px;
 
   --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-body: 'Manrope', 'Segoe UI', sans-serif;
 
   --header-h: 72px;
-  --sidebar-w: 260px;
+  --sidebar-w: 272px;
   --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 
-  --mesh-1: rgba(6, 78, 59, 0.07);
-  --mesh-2: rgba(40, 167, 69, 0.05);
-  --mesh-3: rgba(26, 107, 82, 0.04);
+  --mesh-1: rgba(31, 184, 168, 0.07);
+  --mesh-2: rgba(47, 111, 168, 0.06);
+  --mesh-3: rgba(11, 44, 74, 0.04);
+
+  /* Escala tipográfica das planilhas (data-table-font) */
+  --cs-table-font-scale: 1;
 }
 
+[data-table-font="sm"] { --cs-table-font-scale: 0.88; }
+[data-table-font="md"] { --cs-table-font-scale: 1; }
+[data-table-font="lg"] { --cs-table-font-scale: 1.18; }
+[data-table-font="xl"] { --cs-table-font-scale: 1.35; }
+
 [data-theme="dark"] {
-  --cs-primary: #3dd68c;
-  --cs-primary-hover: #5ee0a0;
-  --cs-primary-light: #7aebb4;
-  --cs-primary-soft: rgba(61, 214, 140, 0.14);
-  --cs-primary-muted: rgba(61, 214, 140, 0.08);
-  --cs-secondary: #2a9d72;
-  --cs-accent: #4ade80;
-  --cs-accent-soft: rgba(74, 222, 128, 0.12);
+  --cs-primary: #3ec9bc;
+  --cs-primary-hover: #5ed9cd;
+  --cs-primary-light: #7ad4ef;
+  --cs-primary-soft: rgba(62, 201, 188, 0.14);
+  --cs-primary-muted: rgba(62, 201, 188, 0.08);
+  --cs-secondary: #5aa0d4;
+  --cs-accent: #3ec9bc;
+  --cs-accent-hover: #5ed9cd;
+  --cs-accent-soft: rgba(62, 201, 188, 0.14);
 
-  --cs-bg: #0f1614;
-  --cs-bg-elevated: #161f1c;
-  --cs-bg-muted: #1c2824;
-  --cs-surface: #1a2421;
-  --cs-glass: rgba(22, 31, 28, 0.94);
-  --cs-border: rgba(220, 235, 228, 0.08);
-  --cs-border-strong: rgba(220, 235, 228, 0.14);
+  --cs-bg: #071824;
+  --cs-bg-elevated: #0b2236;
+  --cs-bg-muted: #0f2a40;
+  --cs-surface: #0d2438;
+  --cs-glass: rgba(13, 36, 56, 0.94);
+  --cs-border: rgba(180, 210, 230, 0.1);
+  --cs-border-strong: rgba(180, 210, 230, 0.16);
 
-  --cs-text: #eef5f2;
-  --cs-text-secondary: #b8ccc4;
-  --cs-text-muted: #849a92;
-  --cs-text-inverse: #0f1614;
+  --cs-text: #e8f1f8;
+  --cs-text-secondary: #a8c0d4;
+  --cs-text-muted: #7a98b0;
+  --cs-text-inverse: #071824;
 
   --cs-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.28);
   --cs-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
   --cs-shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.45);
-  --cs-shadow-calm: 0 8px 28px rgba(61, 214, 140, 0.08);
+  --cs-shadow-calm: 0 8px 28px rgba(62, 201, 188, 0.1);
 
-  --mesh-1: rgba(61, 214, 140, 0.06);
-  --mesh-2: rgba(42, 157, 114, 0.05);
-  --mesh-3: rgba(74, 222, 128, 0.04);
+  --mesh-1: rgba(62, 201, 188, 0.06);
+  --mesh-2: rgba(47, 111, 168, 0.08);
+  --mesh-3: rgba(11, 44, 74, 0.2);
 }
 
 *,
@@ -209,6 +218,17 @@ button, input, select, textarea {
   box-shadow: var(--cs-shadow-sm);
 }
 
+.brand__logo--mark {
+  width: auto;
+  height: 3.25rem;
+  max-width: 3rem;
+  padding: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+  object-fit: contain;
+}
+
 .brand__logo--platform,
 .brand__logo.logo-platform {
   width: auto;
@@ -307,41 +327,41 @@ button, input, select, textarea {
 }
 
 .btn-primary {
-  background: linear-gradient(180deg, #0a5c45 0%, #004d3d 100%);
+  background: linear-gradient(180deg, #143a5c 0%, #0b2c4a 100%);
   color: var(--cs-text-inverse);
-  box-shadow: 0 4px 14px rgba(0, 77, 61, 0.22);
+  box-shadow: 0 4px 14px rgba(11, 44, 74, 0.28);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(180deg, #0c6b50 0%, #003d30 100%);
+  background: linear-gradient(180deg, #1a4a73 0%, #071f36 100%);
   color: var(--cs-text-inverse);
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(0, 77, 61, 0.28);
+  box-shadow: 0 8px 22px rgba(11, 44, 74, 0.34);
 }
 
 .btn-accent {
-  background: linear-gradient(180deg, #2fbf5a 0%, #1f9a45 100%);
+  background: linear-gradient(180deg, #2bc4b3 0%, #1fb8a8 100%);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(40, 167, 69, 0.22);
+  box-shadow: 0 4px 14px rgba(31, 184, 168, 0.28);
 }
 
 .btn-accent:hover {
-  background: linear-gradient(180deg, #36c962 0%, #1b8a3d 100%);
+  background: linear-gradient(180deg, #34d0bf 0%, #14958a 100%);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(40, 167, 69, 0.28);
+  box-shadow: 0 8px 22px rgba(31, 184, 168, 0.34);
 }
 
 .btn-outline {
   background: transparent;
-  border-color: rgba(0, 77, 61, 0.22);
-  color: #004d3d;
+  border-color: rgba(11, 44, 74, 0.22);
+  color: #0b2c4a;
 }
 
 .btn-outline:hover {
-  border-color: #004d3d;
-  color: #004d3d;
-  background: rgba(0, 77, 61, 0.06);
+  background: rgba(11, 44, 74, 0.05);
+  border-color: rgba(11, 44, 74, 0.35);
+  color: #071f36;
   transform: translateY(-1px);
 }
 
@@ -382,18 +402,18 @@ button, input, select, textarea {
 .btn-block { width: 100%; }
 
 [data-theme="dark"] .btn-primary {
-  background: linear-gradient(180deg, #1a7a58 0%, #0d5c42 100%);
-  color: #eef5f2;
+  background: linear-gradient(180deg, #2aa89c 0%, #1a7a72 100%);
+  color: #e8f1f8;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
 }
 
 [data-theme="dark"] .btn-primary:hover {
-  background: linear-gradient(180deg, #219368 0%, #0f6b4c 100%);
-  color: #eef5f2;
+  background: linear-gradient(180deg, #34b8ab 0%, #1f8a80 100%);
+  color: #e8f1f8;
 }
 
 [data-theme="dark"] .btn-outline {
-  border-color: rgba(61, 214, 140, 0.35);
+  border-color: rgba(62, 201, 188, 0.35);
   color: var(--cs-primary);
 }
 
@@ -540,7 +560,7 @@ button, input, select, textarea {
   border-radius: var(--cs-radius-lg);
   background:
     radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.12), transparent 55%),
-    linear-gradient(160deg, #064e3b 0%, #0a6b4f 48%, #1a8f6a 100%);
+    linear-gradient(160deg, #071f36 0%, #0b2c4a 48%, #1fb8a8 100%);
   overflow: hidden;
   box-shadow: var(--cs-shadow-lg), var(--cs-shadow-calm);
   display: flex;

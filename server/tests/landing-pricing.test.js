@@ -63,4 +63,19 @@ describe('Preços — escopo Página inicial', () => {
     const pubPlan = pub.data.plans.find((p) => p.id === first.id);
     assert.equal(pubPlan.priceLabel, 'Sob consulta');
   });
+
+  it('permite ocultar a seção de planos na Página Inicial', () => {
+    const data = store.load();
+    const previous = Boolean(data.platformSettings?.hideLandingPlans);
+    const saved = storagePlans.updatePricingConfig(user, storagePlans.LANDING_SCOPE_ID, {
+      hideLandingPlans: true
+    });
+    assert.equal(saved.ok, true);
+    assert.equal(saved.data.hideLandingPlans, true);
+    const pub = storagePlans.listPublicPlans();
+    assert.equal(pub.data.hideLandingPlans, true);
+    storagePlans.updatePricingConfig(user, storagePlans.LANDING_SCOPE_ID, {
+      hideLandingPlans: previous
+    });
+  });
 });

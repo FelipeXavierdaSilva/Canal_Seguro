@@ -6,16 +6,47 @@ const DEFAULT_EVENTS = {
   password_reset: { enabled: true },
   user_created: { enabled: true },
   account_activation: { enabled: true },
-  report_new: { enabled: true, roles: ['admin_empresa', 'apurador'] },
-  report_status: { enabled: true, roles: ['admin_empresa', 'apurador'], notifyAssignee: true },
-  report_message: { enabled: true, notifyReporter: true, notifyInternal: true },
+  // Need-to-know: novo relato só Adm_Empresa (+ e-mail cadastral). Apurador só após Encaminhar.
+  report_new: {
+    enabled: true,
+    roles: ['admin_empresa'],
+    notifyCompanyEmail: true
+  },
+  report_assigned: {
+    enabled: true,
+    roles: [],
+    notifyAssignee: true,
+    notifyTeam: true
+  },
+  report_status: {
+    enabled: true,
+    roles: ['admin_empresa'],
+    notifyAssignee: true,
+    notifyTeam: true
+  },
+  report_message: {
+    enabled: true,
+    roles: ['admin_empresa'],
+    notifyReporter: true,
+    notifyInternal: true,
+    notifyAssignee: true,
+    notifyTeam: true
+  },
   report_info_request: { enabled: true, notifyReporter: true },
   report_completed: {
     enabled: true,
-    roles: ['admin_empresa', 'apurador'],
-    notifyReporter: true
+    roles: ['admin_empresa'],
+    notifyReporter: true,
+    notifyAssignee: true,
+    notifyTeam: true
   },
-  sla_alert: { enabled: true, roles: ['admin_empresa', 'apurador'], daysInStatus: 5 },
+  sla_alert: {
+    enabled: true,
+    roles: ['admin_empresa'],
+    notifyAssignee: true,
+    notifyTeam: true,
+    daysInStatus: 5
+  },
   critical_alert: {
     enabled: true,
     roles: ['admin_empresa'],
@@ -24,9 +55,12 @@ const DEFAULT_EVENTS = {
   },
   risk_critical: {
     enabled: true,
-    roles: ['admin_empresa', 'apurador'],
+    roles: ['admin_empresa'],
+    notifyAssignee: true,
+    notifyTeam: true,
     notifySuperadmin: true
-  }
+  },
+  platform_support: { enabled: true }
 };
 
 function defaultCompanyEmailSettings(company) {
@@ -56,7 +90,17 @@ function isEventEnabled(data, companyId, eventType) {
   return ev ? ev.enabled !== false : false;
 }
 
-function resolveInternalRecipients(data, companyId, eventType, { assigneeId } = {}) {
+function addUserIfMissing(users, user) {
+  if (!user || user.status !== 'ativo') return users;
+  if (users.some((u) => u.id === user.id)) return users;
+  return [...users, user];
+}
+
+/**
+ * Destinatários internos. Apuradores só entram se forem assignee/team do relato
+ * (need-to-know), mesmo que a política armazenada ainda liste o papel `apurador`.
+ */
+function resolveInternalRecipients(data, companyId, eventType, { assigneeId, teamIds } = {}) {
   const policy = getCompanyPolicy(data, companyId);
   const ev = policy.events?.[eventType] || {};
   const roles = ev.roles || ['admin_empresa'];
@@ -66,20 +110,33 @@ function resolveInternalRecipients(data, companyId, eventType, { assigneeId } = 
 
   if (ev.notifyAssignee && assigneeId) {
     const assignee = (data.users || []).find((u) => u.id === assigneeId && u.status === 'ativo');
-    if (assignee && !users.some((u) => u.id === assignee.id)) {
-      users = [...users, assignee];
+    users = addUserIfMissing(users, assignee);
+  }
+
+  if (ev.notifyTeam && Array.isArray(teamIds)) {
+    for (const tid of teamIds) {
+      const member = (data.users || []).find((u) => u.id === tid && u.status === 'ativo');
+      users = addUserIfMissing(users, member);
     }
   }
 
   if (ev.notifySuperadmin) {
     const supers = (data.users || []).filter((u) => u.status === 'ativo' && u.role === 'superadmin');
-    users = [...users, ...supers];
+    for (const s of supers) users = addUserIfMissing(users, s);
   }
+
+  // Need-to-know: Apurador sem direcionamento nunca recebe ciência do relato
+  users = users.filter((u) => {
+    if (u.role !== 'apurador') return true;
+    if (assigneeId && u.id === assigneeId) return true;
+    if (Array.isArray(teamIds) && teamIds.includes(u.id)) return true;
+    return false;
+  });
 
   const seen = new Set();
   return users.filter((u) => {
-    const key = u.email.toLowerCase();
-    if (seen.has(key)) return false;
+    const key = String(u.email || '').toLowerCase();
+    if (!key || seen.has(key)) return false;
     seen.add(key);
     return true;
   });

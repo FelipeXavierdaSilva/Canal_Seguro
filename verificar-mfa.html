@@ -1,22 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Verificar MFA – Canal Seguro</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=2" />
   <link rel="stylesheet" href="css/forms.css" />
   <link rel="stylesheet" href="css/responsive.css" />
-  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
 </head>
 <body>
-  <div class="demo-banner" id="modeBanner">
-    <strong>Verificação MFA</strong> — segunda etapa do login (Etapa 05).
-  </div>
   <div class="login-page">
     <div class="login-card">
       <div class="login-card__brand">
-        <img class="logo-platform logo-platform--auth" src="assets/images/logo-canal-seguro.png" alt="Canal Seguro — Canal de Denúncias" />
+        <img class="logo-platform logo-platform--auth" src="assets/images/logo-canal-seguro.png?v=shield3" alt="Canal Seguro — Canal de Denúncias" />
         <h1>Verificação em duas etapas</h1>
         <p id="subtitle">Informe o código do aplicativo autenticador</p>
       </div>
@@ -50,7 +47,7 @@
   <script src="js/http-api.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/errors.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=45"></script>
   <script>
     CSApp.onReady(async () => {
       CSApp.initTheme();
@@ -62,8 +59,6 @@
       }
 
       document.getElementById('verifyForm').classList.remove('hidden');
-      document.getElementById('modeBanner').innerHTML =
-        '<strong>Modo servidor</strong> — informe o código TOTP ou de recuperação.';
 
       let recoveryVisible = false;
       document.getElementById('toggleRecovery').addEventListener('click', () => {

@@ -13,6 +13,9 @@ function ensurePlatformSettings(data) {
   if (ps.commercialWhatsApp == null || ps.commercialWhatsApp === '') {
     ps.commercialWhatsApp = DEFAULT_COMMERCIAL_WHATSAPP;
   }
+  if (typeof ps.hideLandingPlans !== 'boolean') {
+    ps.hideLandingPlans = false;
+  }
   return ps;
 }
 
@@ -76,7 +79,8 @@ function getCommercialContactForAdmin(user) {
     data: {
       supportEmail: ps.supportEmail || DEFAULT_SUPPORT_EMAIL,
       commercialWhatsApp: formatWhatsAppDisplay(ps.commercialWhatsApp),
-      commercialWhatsAppE164: normalizeWhatsAppE164(ps.commercialWhatsApp) || null
+      commercialWhatsAppE164: normalizeWhatsAppE164(ps.commercialWhatsApp) || null,
+      hideLandingPlans: Boolean(ps.hideLandingPlans)
     }
   };
 }
@@ -91,7 +95,8 @@ function updateCommercialContact(user, payload = {}) {
   const ps = ensurePlatformSettings(data);
   const previous = {
     supportEmail: ps.supportEmail,
-    commercialWhatsApp: ps.commercialWhatsApp
+    commercialWhatsApp: ps.commercialWhatsApp,
+    hideLandingPlans: Boolean(ps.hideLandingPlans)
   };
 
   if (payload.supportEmail != null) {
@@ -119,6 +124,10 @@ function updateCommercialContact(user, payload = {}) {
     }
   }
 
+  if (payload.hideLandingPlans != null) {
+    ps.hideLandingPlans = Boolean(payload.hideLandingPlans);
+  }
+
   data.platformSettings = ps;
   appendAudit(data, {
     userId: user.id,
@@ -130,7 +139,8 @@ function updateCommercialContact(user, payload = {}) {
     previousValue: previous,
     newValue: {
       supportEmail: ps.supportEmail,
-      commercialWhatsApp: ps.commercialWhatsApp
+      commercialWhatsApp: ps.commercialWhatsApp,
+      hideLandingPlans: Boolean(ps.hideLandingPlans)
     }
   });
   store.save(data);
@@ -139,7 +149,8 @@ function updateCommercialContact(user, payload = {}) {
     data: {
       supportEmail: ps.supportEmail,
       commercialWhatsApp: formatWhatsAppDisplay(ps.commercialWhatsApp),
-      commercialWhatsAppE164: normalizeWhatsAppE164(ps.commercialWhatsApp) || null
+      commercialWhatsAppE164: normalizeWhatsAppE164(ps.commercialWhatsApp) || null,
+      hideLandingPlans: Boolean(ps.hideLandingPlans)
     }
   };
 }

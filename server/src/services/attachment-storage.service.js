@@ -4,7 +4,7 @@ const path = require('path');
 const store = require('../store');
 const config = require('../config');
 const { appendAudit } = require('./audit.service');
-const { assertTenantAccess } = require('./reports.service');
+const { assertReportVisibility } = require('./reports.service');
 const { getStorage } = require('./storage');
 const companyStorage = require('./company-storage.service');
 const { sha256Hex } = require('../utils/attachment-hash');
@@ -127,7 +127,7 @@ function uploadAttachment(user, reportId, { name, mimeType, dataBase64 }) {
   const data = store.load();
   const report = findReport(data, reportId);
   if (!report) return { ok: false, status: 404, error: 'Relato não encontrado.' };
-  const access = assertTenantAccess(user, report.companyId);
+  const access = assertReportVisibility(user, report);
   if (!access.ok) {
     auditDenied(data, user, {
       action: 'acesso_anexo_negado',
@@ -281,7 +281,7 @@ function downloadAttachment(user, reportId, attachmentId) {
   const data = store.load();
   const report = findReport(data, reportId);
   if (!report) return { ok: false, status: 404, error: 'Relato não encontrado.' };
-  const access = assertTenantAccess(user, report.companyId);
+  const access = assertReportVisibility(user, report);
   if (!access.ok) {
     auditDenied(data, user, {
       action: 'acesso_anexo_negado',

@@ -1,7 +1,7 @@
 'use strict';
 
 /** Prefixos de URL que nunca devem ser servidos como arquivos estáticos. */
-const BLOCKED_PREFIXES = ['/server', '/node_modules', '/.git'];
+const BLOCKED_PREFIXES = ['/server', '/node_modules', '/.git', '/data'];
 
 function blockSensitiveStatic(req, res, next) {
   const pathLower = (req.path || '').toLowerCase();

@@ -4,40 +4,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Empresas – Admin</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/style.css?v=2" />
   <link rel="stylesheet" href="../css/forms.css" />
-  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=38" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
   <link rel="stylesheet" href="../css/responsive.css" />
-  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
 </head>
 <body>
-  <div class="demo-banner"><strong>CRUD de empresas</strong> — personalização multi-tenant.</div>
   <div class="sidebar-overlay" data-close-sidebar></div>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="sidebar__brand">
-        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="Canal Seguro" />
-        <div class="sidebar__brand-text"><strong>Administração</strong><span>Canal Seguro</span></div>
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="Canal Seguro" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span>Painel da Plataforma</span>
+        </div>
       </div>
       <nav class="sidebar__nav">
+        <div class="nav-section">Principal</div>
         <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
-        <a class="active" href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
-        <a href="armazenamento.html"><span class="nav-icon">&#9635;</span> Armazenamento</a>
-        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
         <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
         <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <div class="nav-section">Gestão</div>
+        <a class="active" href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
         <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
         <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
-        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <div class="nav-section">Configurações</div>
+        <a href="armazenamento.html"><span class="nav-icon">▤</span> Armazenamento</a>
         <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
         <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <div class="nav-section">Sistema</div>
         <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
         <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="suporte.html"><span class="nav-icon">💬</span> Suporte empresas</a>
+        <a href="faq-bot.html"><span class="nav-icon">❔</span> FAQ do bot</a>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="../index.html" target="_blank" rel="noopener"><span class="nav-icon">⌂</span> Canal Seguro</a>
         <div class="nav-section">Conta</div>
-        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
-        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
       </nav>
-      <div class="sidebar__footer"><a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a></div>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
     </aside>
     <div class="app-main">
       <header class="topbar">
@@ -81,7 +98,7 @@
           </form>
           <div class="panel">
             <div class="table-wrap">
-              <table class="data-table">
+              <table class="data-table data-table--empresas">
                 <thead>
                   <tr>
                     <th>Empresa</th>
@@ -126,6 +143,16 @@
               <div class="form-group"><label>Responsável</label><input class="form-control" name="responsavel" /></div>
               <div class="form-group"><label>E-mail</label><input class="form-control" type="email" name="email" /></div>
               <div class="form-group"><label>Telefone</label><input class="form-control" name="telefone" /></div>
+            </div>
+            <div class="panel" id="emailNotifyPanel" style="margin:0 0 1rem;padding:1rem;background:var(--cs-surface-2, transparent);border:1px solid var(--cs-border, #ddd);border-radius:8px">
+              <h3 style="margin:0 0 .35rem;font-size:1rem">Notificação de novos relatos</h3>
+              <p class="text-muted" style="margin:0 0 .75rem;font-size:.85rem">
+                Envia e-mail genérico (sem o conteúdo da denúncia) para o e-mail cadastral acima quando um colaborador registrar um relato.
+              </p>
+              <label class="checkbox-label" style="display:flex;align-items:flex-start;gap:.6rem;cursor:pointer">
+                <input type="checkbox" name="notifyCompanyEmail" checked style="margin-top:.2rem" />
+                <span>Notificar o e-mail cadastral ao receber novo relato</span>
+              </label>
             </div>
             <div class="form-row cols-2">
               <div class="form-group"><label>Nome do canal</label><input class="form-control" name="nomeCanal" /></div>
@@ -203,14 +230,14 @@
   <script src="../js/seed.js"></script>
   <script src="../js/audit.js"></script>
   <script src="../js/validation.js"></script>
-  <script src="../js/api.js"></script>
+  <script src="../js/api.js?v=45"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/users.js"></script>
   <script src="../js/companies.js"></script>
   <script src="../js/attachments.js"></script>
   <script src="../js/reports.js"></script>
   <script src="../js/errors.js"></script>
-  <script src="../js/app.js"></script>
+  <script src="../js/app.js?v=45"></script>
   <script>
     let session;
     CSApp.onReady(async () => {
@@ -246,7 +273,7 @@
               </div>
             </td>
             <td>${CSApp.escapeHtml(c.cnpj)}</td>
-            <td><code style="font-size:.8rem">${CSApp.escapeHtml(c.dominio)}</code></td>
+            <td><code class="cell-domain">${CSApp.escapeHtml(c.dominio)}</code></td>
             <td>${CSApp.escapeHtml(c.responsavel || '—')}</td>
             <td>
               <span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:${safeHex(c.corPrincipal)};vertical-align:middle"></span>
@@ -296,6 +323,7 @@
           form.corPrincipalText.value = '#6b9e9e';
           form.corSecundaria.value = '#3a5f7d';
           form.corSecundariaText.value = '#3a5f7d';
+          if (form.elements.notifyCompanyEmail) form.elements.notifyCompanyEmail.checked = true;
           const submitBtn = form.querySelector('button[type="submit"]');
           if (submitBtn) submitBtn.classList.remove('hidden');
           return;
@@ -313,6 +341,15 @@
         logoUploader.setValue(c.logo || '');
         form.corPrincipalText.value = c.corPrincipal;
         form.corSecundariaText.value = c.corSecundaria;
+        if (form.elements.notifyCompanyEmail) {
+          form.elements.notifyCompanyEmail.checked = true;
+          const notifyRes = await CSApp.runAsync(
+            () => CSApi.getCompanyEmailNotifications(c.id, session),
+            { context: 'openCompanyEmailPolicy' }
+          );
+          const reportNew = notifyRes?.policy?.events?.report_new || {};
+          form.elements.notifyCompanyEmail.checked = reportNew.notifyCompanyEmail !== false;
+        }
         document.getElementById('btnDeactivate').classList.toggle('hidden', viewOnly || c.status !== 'ativo');
         const submitBtn = form.querySelector('button[type="submit"]');
         if (submitBtn) submitBtn.classList.toggle('hidden', viewOnly);
@@ -399,6 +436,18 @@
           { context: 'saveCompany' }
         );
         if (!saved) return;
+        const companyId = saved.id || form.id.value;
+        const notifyCompanyEmail = Boolean(form.elements.notifyCompanyEmail?.checked);
+        const policyOk = await CSApp.runAsync(
+          () =>
+            CSApi.updateCompanyEmailNotifications(
+              companyId,
+              { events: { report_new: { notifyCompanyEmail } } },
+              session
+            ),
+          { context: 'saveCompanyEmailPolicy' }
+        );
+        if (!policyOk) return;
         if (form.id.value && form.elements.storageLimitBytes?.value) {
           const quotaOk = await CSApp.runAsync(
             () => CSApi.updateStorageLimit(form.id.value, Number(form.elements.storageLimitBytes.value), session),

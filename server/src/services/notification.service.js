@@ -105,11 +105,18 @@ function emitAccountActivation({ user, companyId }) {
   );
 }
 
+function reportRecipientOpts(report) {
+  return {
+    assigneeId: report?.assigneeId || null,
+    teamIds: Array.isArray(report?.teamIds) ? report.teamIds : []
+  };
+}
+
 function emitReportNew(report) {
   const data = store.load();
   const base = appBase();
   const ch = channelName(data, report.companyId);
-  return enqueueToInternalUsers(
+  const results = enqueueToInternalUsers(
     data,
     report.companyId,
     EMAIL_EVENTS.REPORT_NEW,
@@ -120,7 +127,62 @@ function emitReportNew(report) {
       ctaLabel: 'Ver relatos no painel'
     }),
     `report_new:${report.id}`,
-    { assigneeId: report.assigneeId }
+    reportRecipientOpts(report)
+  );
+
+  const policy = emailPolicy.getCompanyPolicy(data, report.companyId);
+  const ev = policy.events?.[EMAIL_EVENTS.REPORT_NEW] || {};
+  if (ev.notifyCompanyEmail !== false && emailPolicy.isEventEnabled(data, report.companyId, EMAIL_EVENTS.REPORT_NEW)) {
+    const company = (data.companies || []).find((c) => c.id === report.companyId);
+    const to = String(company?.email || policy.replyTo || '')
+      .trim()
+      .toLowerCase();
+    if (to) {
+      const internal = emailPolicy.resolveInternalRecipients(
+        data,
+        report.companyId,
+        EMAIL_EVENTS.REPORT_NEW,
+        reportRecipientOpts(report)
+      );
+      const alreadyNotified = internal.some((u) => String(u.email || '').trim().toLowerCase() === to);
+      if (!alreadyNotified) {
+        results.push(
+          enqueueSafe(
+            EMAIL_EVENTS.REPORT_NEW,
+            to,
+            report.companyId,
+            {
+              firstName: company?.nomeFantasia || company?.nomeCanal || 'Equipe',
+              actionUrl: internalReportUrl(base, report.id),
+              channelName: ch,
+              ctaLabel: 'Ver relatos no painel'
+            },
+            `report_new:${report.id}:company`
+          )
+        );
+      }
+    }
+  }
+
+  return results;
+}
+
+function emitReportAssigned(report) {
+  const data = store.load();
+  const base = appBase();
+  const ch = channelName(data, report.companyId);
+  return enqueueToInternalUsers(
+    data,
+    report.companyId,
+    EMAIL_EVENTS.REPORT_ASSIGNED,
+    (user) => ({
+      firstName: firstName(user.nome),
+      actionUrl: internalReportUrl(base, report.id),
+      channelName: ch,
+      ctaLabel: 'Abrir relato encaminhado'
+    }),
+    `report_assigned:${report.id}:${report.assigneeId || 'none'}`,
+    reportRecipientOpts(report)
   );
 }
 
@@ -142,7 +204,7 @@ function emitReportStatusChanged(report, previousStatus) {
       ctaLabel: 'Ver atualização no painel'
     }),
     `${eventType}:${report.id}:${report.status}`,
-    { assigneeId: report.assigneeId }
+    reportRecipientOpts(report)
   );
 
   const reporterResults = [];
@@ -200,7 +262,7 @@ function emitReportMessage(report, actor, { kind = 'message' } = {}) {
         ctaLabel: 'Ver mensagens no painel'
       }),
       `${eventType}:internal:${report.id}:${Date.now()}`,
-      { assigneeId: report.assigneeId }
+      reportRecipientOpts(report)
     );
   }
 
@@ -244,7 +306,7 @@ function emitRiskCritical(report) {
       ctaLabel: 'Ver relato classificado como crítico'
     }),
     `risk_critical:${report.id}:${report.riskClassifiedAt || Date.now()}`,
-    { assigneeId: report.assigneeId, notifySuperadmin: true }
+    reportRecipientOpts(report)
   );
 }
 
@@ -280,7 +342,7 @@ function runScheduledAlerts() {
               ctaLabel: 'Ver relato no painel'
             }),
             `sla_alert:${report.id}:${report.status}`,
-            { assigneeId: report.assigneeId }
+            reportRecipientOpts(report)
           )
         );
       }
@@ -308,7 +370,7 @@ function runScheduledAlerts() {
               ctaLabel: 'Verificar no painel'
             }),
             `critical_alert:${report.id}`,
-            { assigneeId: report.assigneeId, notifySuperadmin: critCfg.notifySuperadmin }
+            reportRecipientOpts(report)
           )
         );
       }
@@ -330,10 +392,15 @@ function updateCompanyEmailPolicy(actor, companyId, patch) {
   data.companySettings = data.companySettings || {};
   data.companySettings[companyId] = data.companySettings[companyId] || {};
   const prev = emailPolicy.getCompanyPolicy(data, companyId);
+  const { events: patchEvents, ...restPatch } = patch || {};
+  const patchedEvents = { ...(prev.events || {}) };
+  for (const [key, value] of Object.entries(patchEvents || {})) {
+    patchedEvents[key] = { ...(patchedEvents[key] || {}), ...(value || {}) };
+  }
   const next = {
     ...prev,
-    ...patch,
-    events: { ...prev.events, ...(patch.events || {}) }
+    ...restPatch,
+    events: patchedEvents
   };
   data.companySettings[companyId].emailNotifications = next;
 
@@ -359,15 +426,85 @@ function getCompanyEmailPolicy(companyId) {
   return emailPolicy.getCompanyPolicy(data, companyId);
 }
 
+function emitPlatformSupportNew(thread) {
+  const data = store.load();
+  const base = appBase();
+  const results = [];
+  const payload = {
+    firstName: 'Equipe',
+    actionUrl: `${base}/admin/suporte.html`,
+    channelName: channelName(data, thread.companyId),
+    ctaLabel: 'Abrir inbox de suporte'
+  };
+
+  const supers = (data.users || []).filter((u) => u.status === 'ativo' && u.role === 'superadmin');
+  for (const user of supers) {
+    results.push(
+      enqueueSafe(
+        EMAIL_EVENTS.PLATFORM_SUPPORT,
+        user.email,
+        thread.companyId,
+        {
+          ...payload,
+          firstName: firstName(user.nome)
+        },
+        `platform_support:${thread.id}:${emailPolicy.emailHash(user.email)}`
+      )
+    );
+  }
+
+  const commercial = require('./commercial-contact.service');
+  const ps = commercial.ensurePlatformSettings(data);
+  const supportTo = String(ps.supportEmail || '')
+    .trim()
+    .toLowerCase();
+  if (supportTo && !supers.some((u) => String(u.email || '').toLowerCase() === supportTo)) {
+    results.push(
+      enqueueSafe(
+        EMAIL_EVENTS.PLATFORM_SUPPORT,
+        supportTo,
+        thread.companyId,
+        payload,
+        `platform_support:${thread.id}:support`
+      )
+    );
+  }
+  return results;
+}
+
+function emitPlatformSupportReply(thread) {
+  const data = store.load();
+  const base = appBase();
+  const creator = (data.users || []).find((u) => u.id === thread.createdByUserId && u.status === 'ativo');
+  if (!creator?.email) return [];
+  return [
+    enqueueSafe(
+      EMAIL_EVENTS.PLATFORM_SUPPORT,
+      creator.email,
+      thread.companyId,
+      {
+        firstName: firstName(creator.nome),
+        actionUrl: `${base}/empresa/dashboard.html`,
+        channelName: channelName(data, thread.companyId),
+        ctaLabel: 'Ver resposta no painel'
+      },
+      `platform_support_reply:${thread.id}:${thread.updatedAt || Date.now()}`
+    )
+  ];
+}
+
 module.exports = {
   emitPasswordReset,
   emitUserCreated,
   emitAccountActivation,
   emitReportNew,
+  emitReportAssigned,
   emitReportStatusChanged,
   emitReportMessage,
   emitReportThreadMessage,
   emitRiskCritical,
+  emitPlatformSupportNew,
+  emitPlatformSupportReply,
   runScheduledAlerts,
   updateCompanyEmailPolicy,
   getCompanyEmailPolicy,

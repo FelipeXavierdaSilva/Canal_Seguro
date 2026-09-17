@@ -116,29 +116,49 @@ Eventos registrados em auditoria técnica (`backup_iniciado`, `backup_concluido`
 
 ---
 
-## 8. API REST (integração futura)
+## 8. API REST (operacional — store JSON + anexos)
 
-Substituir stubs em `CSBackup` por `fetch` quando `window.CS_BACKUP_API_BASE` estiver definido:
+Implementado em `server/src/routes/backups.routes.js` (role `superadmin` + CSRF/cookie):
 
 ```
+GET    /api/v1/admin/backups/status
 GET    /api/v1/admin/backups
 GET    /api/v1/admin/backups/:id
 POST   /api/v1/admin/backups
+POST   /api/v1/admin/backups/restore-latest
 POST   /api/v1/admin/backups/:id/verify
-POST   /api/v1/admin/backups/:id/restore   (target=staging only)
-GET    /api/v1/admin/backups/policy
+POST   /api/v1/admin/backups/:id/restore   { "confirm": true }
 ```
 
-Headers: `Authorization: Bearer …`, role `superadmin`.
+Cada backup fica em `server/data/backups/bkp_<timestamp>/` com:
+- `store.json` (cópia completa: empresas, usuários, relatos, FAQ do bot, suporte, configs, planos, etc.)
+- `attachments/` (binários)
+- `manifest.json` (checksums SHA-256)
+
+### Fluxo de atualização do sistema
+
+1. **Antes do deploy:** `cd server && npm run backup` (ou botão **Gerar backup** no painel).
+2. Atualize o código do sistema.
+3. **Depois do deploy:** `cd server && npm run backup:restore` (restaura o **último** backup)  
+   ou escolha um ID: `node scripts/backup-restore.js bkp_...`  
+   ou use **Restaurar último backup** no painel admin.
+4. Reinicie o servidor Node e recarregue o painel.
+
+A restauração cria automaticamente um backup de segurança do estado anterior.
+
+CLI:
+
+```
+npm run backup
+npm run backup:restore
+```
 
 ---
 
-## 9. Protótipo atual
+## 9. Protótipo / fallback no navegador
 
-- Dados em `localStorage` (`canal_seguro_fx_v1`).
-- `CSBackup.getStatus()` → `mode: prototype`; lista entidades cobertas (inclui CMS admin).
-- **Exportar snapshot DEV** (`exportDevSnapshot`) — superadmin; JSON com edições do painel (FAQ, educação, empresas, etc.); arquivo rotulado `DEV-SNAPSHOT`.
-- **Importar snapshot DEV** (`importDevSnapshot`) — superadmin; substitui o store local e recarrega a página.
+- Sem API: snapshot DEV em `localStorage` (`exportDevSnapshot` / `importDevSnapshot`).
+- Com API ligada: o painel usa o backup operacional do servidor (recomendado para produção).
 - Botão **Restaurar dados demo** — reinicia seed; **não** é restore de backup.
 
 ---
@@ -153,7 +173,9 @@ Checklist mensal: [backup/RESTORE-TEST-CHECKLIST.md](./backup/RESTORE-TEST-CHECK
 
 | Arquivo | Função |
 |---------|--------|
-| `js/backup.js` | Contrato `CSBackup` |
-| `js/audit.js` | Labels de ações técnicas |
-| `admin/configuracoes.html` | Painel informativo (superadmin) |
-| `js/seed.js` | Schema `_meta.version` |
+| `server/src/services/backup.service.js` | Criar / verificar / restaurar |
+| `server/src/routes/backups.routes.js` | API REST |
+| `server/scripts/backup-create.js` | CLI criar |
+| `server/scripts/backup-restore.js` | CLI restaurar |
+| `js/backup.js` | Cliente `CSBackup` |
+| `admin/configuracoes.html` | Painel (superadmin) |

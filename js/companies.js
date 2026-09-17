@@ -145,7 +145,7 @@ const CSCompanies = (() => {
   }
 
   function defaultLogoUrl() {
-    return assetPath('assets/images/logo-empresa.svg');
+    return assetPath('assets/images/logo-canal-seguro-mark.png');
   }
 
   /**

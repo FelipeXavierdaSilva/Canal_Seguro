@@ -6,13 +6,15 @@ const EMAIL_EVENTS = {
   USER_CREATED: 'user_created',
   ACCOUNT_ACTIVATION: 'account_activation',
   REPORT_NEW: 'report_new',
+  REPORT_ASSIGNED: 'report_assigned',
   REPORT_STATUS: 'report_status',
   REPORT_MESSAGE: 'report_message',
   REPORT_INFO_REQUEST: 'report_info_request',
   REPORT_COMPLETED: 'report_completed',
   SLA_ALERT: 'sla_alert',
   CRITICAL_ALERT: 'critical_alert',
-  RISK_CRITICAL: 'risk_critical'
+  RISK_CRITICAL: 'risk_critical',
+  PLATFORM_SUPPORT: 'platform_support'
 };
 
 const EVENT_LABELS = {
@@ -20,13 +22,15 @@ const EVENT_LABELS = {
   user_created: 'Novo usuário',
   account_activation: 'Ativação de conta',
   report_new: 'Novo relato',
+  report_assigned: 'Relato encaminhado',
   report_status: 'Alteração de status',
   report_message: 'Nova mensagem do apurador',
   report_info_request: 'Solicitação de informações',
   report_completed: 'Relato concluído',
   sla_alert: 'Alerta de SLA',
   critical_alert: 'Alerta crítico',
-  risk_critical: 'Classificação de risco crítico'
+  risk_critical: 'Classificação de risco crítico',
+  platform_support: 'Suporte da plataforma'
 };
 
 module.exports = { EMAIL_EVENTS, EVENT_LABELS };

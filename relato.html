@@ -1,47 +1,73 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fazer um Relato – Canal Seguro</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="description" content="Registrar denúncia confidencial – Canal Seguro." />
+  <title>Fazer uma denúncia – Canal Seguro</title>
+  <link rel="stylesheet" href="css/style.css?v=2" />
   <link rel="stylesheet" href="css/forms.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/landing-home.css" />
+  <link rel="stylesheet" href="css/channel-home.css?v=8" />
+  <link rel="stylesheet" href="css/support-assistant.css?v=6" />
   <link rel="stylesheet" href="css/responsive.css" />
-  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
 </head>
-<body class="public-page">
-  <div class="demo-banner"><strong>Protótipo</strong> — o envio grava dados locais de demonstração (não é armazenamento seguro).</div>
+<body class="public-page landing-home">
+
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="brand brand--platform" href="index.html" data-tenant-link>
-        <img class="brand__logo brand__logo--platform" src="assets/images/logo-canal-seguro.png" alt="Canal Seguro — Canal de Denúncias" data-company-logo data-default-logo="assets/images/logo-canal-seguro.png" />
-        <div class="brand__text brand__text--sr">
+      <a class="brand brand--platform brand--channel" href="index.html" data-tenant-link>
+        <img
+          class="brand__logo brand__logo--mark"
+          src="assets/images/logo-canal-seguro-mark.png?v=shield3"
+          alt=""
+          width="40"
+          height="46"
+          decoding="async"
+        />
+        <span class="brand__meta">
+          <span class="brand__meta-name" data-canal-name>
+            <span class="brand__meta-name-canal">Canal</span>
+            <span class="brand__meta-name-seguro">Seguro</span>
+          </span>
+          <span class="brand__meta-sub">Denúncias com sigilo e segurança</span>
+        </span>
+        <span class="brand__text brand__text--sr">
           <span class="brand__name" data-canal-name>Canal Seguro</span>
-          <span class="brand__sub"><span data-company-name>Empresa</span></span>
-        </div>
+        </span>
       </a>
       <nav class="nav-public" aria-label="Principal">
         <a href="index.html" data-tenant-link>Início</a>
         <a href="educacao.html" data-tenant-link>Sobre</a>
-        <a href="index.html#como-funciona" data-tenant-link>Como funciona</a>
-        <a href="protocolo.html" data-tenant-link>Consultar</a>
-        <a href="faq.html" data-tenant-link>FAQ</a>
-        <a href="fale-conosco.html" data-tenant-link>Fale conosco</a>
+        <a href="index.html#orientacoes" data-tenant-link>Orientações</a>
+        <a href="index.html#faq" data-tenant-link>FAQ</a>
+        <a href="index.html#fale-conosco" data-tenant-link>Fale conosco</a>
       </nav>
       <div class="header-actions">
-        <button type="button" class="btn-icon" data-toggle-theme title="Alternar tema" aria-label="Alternar tema">◐</button>
-        <a class="btn btn-primary btn-sm" href="relato.html" data-tenant-link>Fazer um Relato</a>
+        <a class="btn-ch btn-ch--secondary" href="protocolo.html" data-tenant-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          Consultar protocolo
+        </a>
+        <a class="btn-ch btn-ch--primary" href="relato.html" data-tenant-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+          Fazer uma denúncia
+        </a>
       </div>
     </div>
   </header>
 
-  <main class="container form-page">
+  <main class="ch-report">
+    <div class="ch-container form-page">
     <!-- Validação por CPF (colaborador admitido) -->
     <div id="accessView">
       <div class="form-shell">
         <div class="form-shell__intro">
-          <h1>Acesso ao canal</h1>
+          <p class="ch-eyebrow">Registro confidencial</p>
+          <h1 class="ch-title">Acesso ao canal</h1>
           <p>Somente colaboradores admitidos e cadastrados podem registrar uma comunicação. Informe seu CPF — o sistema identifica automaticamente a empresa em que você está vinculado.</p>
         </div>
         <div class="form-shell__body">
@@ -53,8 +79,51 @@
             </div>
             <button type="submit" class="btn btn-primary btn-block">Validar acesso</button>
           </form>
-          <div class="callout mt-2">
-            <p><strong>Demo:</strong> Aurora 529.982.247-25 · Horizon 390.533.447-05 · Verde Campo 403.644.788-29</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aviso obrigatório após validação do CPF -->
+    <div id="noticeView" class="hidden">
+      <div class="form-shell ch-notice">
+        <div class="form-shell__intro">
+          <div class="flex justify-between items-center flex-wrap gap-1">
+            <div>
+              <p class="ch-eyebrow">Antes de registrar</p>
+              <h1 class="ch-title">Importante — leia com atenção</h1>
+            </div>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnNoticeChangeCpf">Trocar CPF</button>
+          </div>
+          <p id="noticeWelcome" class="mt-1"></p>
+        </div>
+        <div class="form-shell__body">
+          <div class="ch-notice__panel">
+            <p class="ch-notice__kicker">Canal de denúncias</p>
+            <div class="ch-notice__prose">
+              <p>Este Canal de Denúncias foi criado para receber relatos de situações que possam representar irregularidades, assédio, discriminação, violência, descumprimento de normas internas ou outras condutas inadequadas.</p>
+              <p>O registro de uma denúncia <strong>não significa</strong> que o fato relatado foi comprovado. Toda manifestação estará sujeita à análise e, quando aplicável, à apuração dos fatos.</p>
+              <p>Utilize o canal de forma responsável e de boa-fé, relatando fatos que você presenciou, vivenciou ou sobre os quais possui informações relevantes.</p>
+              <p>Evite acusações baseadas exclusivamente em boatos, especulações ou informações que você sabe serem falsas.</p>
+              <p>Sempre que possível, informe o que aconteceu, quando aconteceu, onde aconteceu, quem estava envolvido e quais evidências ou testemunhas podem contribuir para a apuração.</p>
+              <p>O uso indevido do canal poderá ser analisado de acordo com as políticas internas da empresa e a legislação aplicável.</p>
+            </div>
+          </div>
+
+          <div class="ch-notice__declare">
+            <h2 class="ch-notice__declare-title">Declaração do denunciante</h2>
+            <label class="ch-notice__check">
+              <input type="checkbox" id="noticeDeclare" />
+              <span>Declaro que estou realizando este relato de boa-fé e que, de acordo com meu conhecimento, as informações fornecidas são verdadeiras e foram apresentadas com o objetivo de permitir a análise dos fatos. Estou ciente de que o registro desta manifestação não representa, por si só, a comprovação da ocorrência relatada.</span>
+            </label>
+            <label class="ch-notice__check ch-notice__check--accent">
+              <input type="checkbox" id="noticeAgree" />
+              <span>Li e concordo com a declaração acima</span>
+            </label>
+          </div>
+
+          <div class="form-actions ch-notice__actions">
+            <button type="button" class="btn btn-outline" id="btnNoticeBack">Voltar</button>
+            <button type="button" class="btn btn-primary" id="btnNoticeContinue" disabled>Continuar para o relato</button>
           </div>
         </div>
       </div>
@@ -64,7 +133,10 @@
       <div class="form-shell">
         <div class="form-shell__intro">
           <div class="flex justify-between items-center flex-wrap gap-1">
-            <h1>Fazer Denúncia</h1>
+            <div>
+              <p class="ch-eyebrow">Registro confidencial</p>
+              <h1 class="ch-title">Fazer uma denúncia</h1>
+            </div>
             <button type="button" class="btn btn-ghost btn-sm" id="btnChangeCpf">Trocar CPF</button>
           </div>
           <p id="accessWelcome" class="mt-1"></p>
@@ -174,10 +246,32 @@
             <div class="form-step hidden" data-step="4">
               <div class="form-step-label">Etapa 4 de 7</div>
               <h2>Descrição da situação</h2>
+
+              <aside class="ch-report-tip" aria-label="Como relatar corretamente">
+                <div class="ch-report-tip__head">
+                  <span class="ch-report-tip__mark" aria-hidden="true">?</span>
+                  <div>
+                    <p class="ch-report-tip__eyebrow">Orientação</p>
+                    <h3 class="ch-report-tip__title">Como relatar corretamente?</h3>
+                  </div>
+                </div>
+                <p class="ch-report-tip__lead">Procure informar <strong>fatos</strong>, não conclusões.</p>
+                <div class="ch-report-tip__grid">
+                  <div class="ch-report-tip__card ch-report-tip__card--avoid">
+                    <p class="ch-report-tip__label">Evite</p>
+                    <blockquote>“O gerente é um assediador e persegue todo mundo.”</blockquote>
+                  </div>
+                  <div class="ch-report-tip__card ch-report-tip__card--prefer">
+                    <p class="ch-report-tip__label">Prefira</p>
+                    <blockquote>“No dia 12/09, aproximadamente às 14h, na sala de reuniões, o gerente elevou a voz e disse determinada frase na presença de três colaboradores.”</blockquote>
+                  </div>
+                </div>
+              </aside>
+
               <div class="form-group">
                 <label for="description">Descreva, da forma mais objetiva possível, o que aconteceu.</label>
-                <textarea class="form-control lg" id="description" name="description" required></textarea>
-                <span class="hint">Evite incluir informações que não estejam relacionadas ao fato comunicado.</span>
+                <textarea class="form-control lg" id="description" name="description" required placeholder="Ex.: data, horário aproximado, local, o que foi dito ou feito, quem estava presente…"></textarea>
+                <span class="hint">Inclua o que aconteceu, quando, onde e quem estava envolvido, sempre que souber.</span>
               </div>
             </div>
 
@@ -197,8 +291,8 @@
               <h2>Anexos</h2>
               <div class="upload-zone" id="uploadZone">
                 <strong>Selecionar arquivos</strong>
-                <p>Imagens, documentos ou outros arquivos (interface de demonstração)</p>
-                <p class="hint">Upload seguro e armazenamento definitivo dependem do back-end.</p>
+                <p>Imagens, documentos ou outros arquivos que ajudem na apuração.</p>
+                <p class="hint">Os anexos ficam protegidos e associados apenas a este protocolo.</p>
                 <input type="file" id="files" multiple hidden accept="image/*,.pdf,.doc,.docx,.txt" />
               </div>
               <div class="file-list" id="fileList"></div>
@@ -247,8 +341,9 @@
 
     <div id="successView" class="hidden">
       <div class="protocol-card">
-        <div class="protocol-card__icon">✓</div>
-        <h1>Seu relato foi registrado.</h1>
+        <div class="protocol-card__icon" aria-hidden="true">✓</div>
+        <p class="ch-eyebrow">Confirmação</p>
+        <h1 class="ch-title">Seu relato foi registrado.</h1>
         <p class="mt-1">O número do protocolo é:</p>
         <div class="protocol-number" id="protocolNumber">—</div>
         <p class="mt-2">Código de acompanhamento (confidencial):</p>
@@ -261,6 +356,7 @@
           <a class="btn btn-ghost" href="index.html" data-tenant-link>Voltar ao início</a>
         </div>
       </div>
+    </div>
     </div>
   </main>
 
@@ -294,9 +390,9 @@
             </a>
           </li>
           <li>
-            <a href="index.html#como-funciona" data-tenant-link>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M4.9 6.4l1.6 1.6M17.5 16l1.6 1.6M3.5 12h2.2M18.3 12h2.2M4.9 17.6l1.6-1.6M17.5 8l1.6-1.6"/></svg>
-              Como funciona
+            <a href="index.html#orientacoes" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 5h9a1 1 0 0 1 1 1v13l-2.2-1.4L13.5 19 11.2 17.6 9 19V6a1 1 0 0 1 1-1z"/><path d="M10.5 9h5M10.5 12h5M10.5 15h3.2"/></svg>
+              Orientações
             </a>
           </li>
           <li>
@@ -306,13 +402,13 @@
             </a>
           </li>
           <li>
-            <a href="faq.html" data-tenant-link>
+            <a href="index.html#faq" data-tenant-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9.5 9.2a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.7V14"/><circle cx="12" cy="16.5" r=".7" fill="currentColor" stroke="none"/></svg>
               FAQ
             </a>
           </li>
           <li>
-            <a href="fale-conosco.html" data-tenant-link>
+            <a href="index.html#fale-conosco" data-tenant-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7.2 4.8h2.3l1.1 3.2-1.5 1.1a11 11 0 0 0 5.3 5.3l1.1-1.5 3.2 1.1v2.3c0 .7-.6 1.3-1.3 1.3A13.7 13.7 0 0 1 4.5 6.1c0-.7.6-1.3 1.3-1.3z"/></svg>
               Fale conosco
             </a>
@@ -382,7 +478,7 @@
           <li>
             <a href="index.html#acesso-canal" data-tenant-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-6h6v6M9 10h.01M12 10h.01M15 10h.01M9 13h.01M12 13h.01M15 13h.01"/></svg>
-              Plataforma Multiempresa
+              Atalhos do canal
             </a>
           </li>
           <li>
@@ -421,27 +517,55 @@
   <script src="js/identifiers.js"></script>
   <script src="js/audit.js"></script>
   <script src="js/attachments.js"></script>
-  <script src="js/api.js"></script>
+  <script src="js/api.js?v=45"></script>
   <script src="js/validation.js"></script>
   <script src="js/employee-auth.js"></script>
   <script src="js/companies.js"></script>
   <script src="js/reports.js"></script>
   <script src="js/errors.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=45"></script>
   <script>
     CSApp.onReady(async () => {
-      await CSApp.initPublic();
+      await CSApp.initPublic({ platformHome: true });
       let employeeSession = CSEmployeeAuth.getSession();
 
       const accessView = document.getElementById('accessView');
+      const noticeView = document.getElementById('noticeView');
       const formView = document.getElementById('formView');
       const form = document.getElementById('reportForm');
+      const noticeDeclare = document.getElementById('noticeDeclare');
+      const noticeAgree = document.getElementById('noticeAgree');
+      const btnNoticeContinue = document.getElementById('btnNoticeContinue');
+
+      function syncNoticeContinue() {
+        btnNoticeContinue.disabled = !(noticeDeclare.checked && noticeAgree.checked);
+      }
+
+      function resetNoticeChecks() {
+        noticeDeclare.checked = false;
+        noticeAgree.checked = false;
+        syncNoticeContinue();
+      }
 
       function showAccess() {
         CSEmployeeAuth.clearSession();
         employeeSession = null;
         accessView.classList.remove('hidden');
+        noticeView.classList.add('hidden');
         formView.classList.add('hidden');
+        resetNoticeChecks();
+      }
+
+      function showNotice(session) {
+        employeeSession = session;
+        accessView.classList.add('hidden');
+        formView.classList.add('hidden');
+        noticeView.classList.remove('hidden');
+        resetNoticeChecks();
+        const firstName = (session.nome || '').split(' ')[0] || 'colaborador';
+        document.getElementById('noticeWelcome').textContent =
+          `Acesso validado. Olá, ${firstName}. Antes de iniciar o registro, leia as orientações abaixo.`;
+        noticeView.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
       async function showForm(session) {
@@ -451,6 +575,7 @@
           await CSCompanies.renderCompanyBrand();
         }
         accessView.classList.add('hidden');
+        noticeView.classList.add('hidden');
         formView.classList.remove('hidden');
         document.getElementById('accessWelcome').textContent =
           `Acesso validado. Olá, ${session.nome.split(' ')[0]} — você pode prosseguir com o relato.`;
@@ -461,11 +586,33 @@
         if (form.telefone && session.telefone) form.telefone.value = session.telefone;
         if (form.sector && session.setor) form.sector.value = session.setor;
         await initReportForm();
+        formView.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
       if (employeeSession && employeeSession.companyId) {
-        await showForm(employeeSession);
+        showNotice(employeeSession);
       }
+
+      noticeDeclare.addEventListener('change', syncNoticeContinue);
+      noticeAgree.addEventListener('change', syncNoticeContinue);
+
+      btnNoticeContinue.addEventListener('click', async () => {
+        if (!(noticeDeclare.checked && noticeAgree.checked)) {
+          CSApp.toast('Confirme as duas declarações para continuar.', 'warning');
+          return;
+        }
+        if (!employeeSession) {
+          CSApp.toast('Sessão expirada. Valide o CPF novamente.', 'warning');
+          showAccess();
+          return;
+        }
+        await showForm(employeeSession);
+      });
+
+      document.getElementById('btnNoticeBack').addEventListener('click', () => showAccess());
+      document.getElementById('btnNoticeChangeCpf').addEventListener('click', () => {
+        if (confirm('Deseja sair e validar outro CPF?')) showAccess();
+      });
 
       document.getElementById('accessForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -476,10 +623,9 @@
           return;
         }
         try {
-          // CPF resolve a empresa automaticamente (portal multiempresa)
           const session = await CSEmployeeAuth.validateAccess(null, cpf);
           CSApp.toast('Acesso autorizado.', 'success');
-          await showForm(session);
+          showNotice(session);
         } catch (ex) {
           CSApp.toast(CSErrors.userMessage(ex, CSErrors.ACTION_FALLBACK), 'error');
         }
@@ -657,6 +803,7 @@
           const report = await CSApi.createReport(payload);
           CSEmployeeAuth.clearSession();
           document.getElementById('formView').classList.add('hidden');
+          document.getElementById('noticeView')?.classList.add('hidden');
           document.getElementById('successView').classList.remove('hidden');
           document.getElementById('protocolNumber').textContent = report.protocol;
           document.getElementById('trackingCodeNumber').textContent = report.trackingCode || '—';

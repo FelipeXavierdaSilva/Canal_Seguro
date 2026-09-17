@@ -299,7 +299,9 @@ function createDemoData() {
       telefone: null,
       role: 'superadmin',
       companyId: null,
-      status: 'ativo'
+      status: 'ativo',
+      isPlatformMaster: true,
+      createdAt: '2024-01-01T00:00:00.000Z'
     },
     {
       id: 'usr_aurora_admin',
@@ -318,6 +320,18 @@ function createDemoData() {
       nome: 'Paulo Ferreira',
       username: 'Aurora_Apurador',
       email: 'apuracao@aurora-demo.com.br',
+      senha: 'empresa123',
+      cpf: null,
+      telefone: null,
+      role: 'apurador',
+      companyId: 'cmp_aurora',
+      status: 'ativo'
+    },
+    {
+      id: 'usr_aurora_ap2',
+      nome: 'Marina Rocha',
+      username: 'Aurora_Apurador2',
+      email: 'apuracao2@aurora-demo.com.br',
       senha: 'empresa123',
       cpf: null,
       telefone: null,
@@ -414,7 +428,7 @@ function createDemoData() {
         cargo: 'Assistente'
       },
       sector: 'Administrativo',
-      assigneeId: null,
+      assigneeId: 'usr_aurora_ap',
       createdAt: '2026-08-02T11:05:00.000Z',
       updatedAt: '2026-08-02T11:05:00.000Z'
     },
@@ -929,10 +943,76 @@ function createDemoData() {
   ];
 
   const notifications = [
-    { id: 'ntf_1', title: 'Novo relato recebido', message: 'Protocolo CS-2026-000112 aguarda triagem.', companyId: 'cmp_aurora', read: false, createdAt: '2026-08-21T10:45:00.000Z' },
-    { id: 'ntf_2', title: 'Relato aguardando análise', message: 'Protocolo CS-2026-000102 está com status Recebido.', companyId: 'cmp_aurora', read: false, createdAt: '2026-08-02T11:05:00.000Z' },
-    { id: 'ntf_3', title: 'Relato atualizado', message: 'Protocolo CS-2026-000103 movido para Em apuração.', companyId: 'cmp_horizon', read: true, createdAt: '2026-08-18T09:30:00.000Z' },
-    { id: 'ntf_4', title: 'Prazo de acompanhamento próximo', message: 'Protocolo CS-2026-000104 em acompanhamento.', companyId: 'cmp_horizon', read: false, createdAt: '2026-08-20T08:00:00.000Z' }
+    {
+      id: 'ntf_1',
+      type: 'report_new',
+      title: 'Novo relato recebido',
+      message: 'Protocolo CS-2026-000112 aguarda triagem.',
+      companyId: 'cmp_aurora',
+      reportId: 'rpt_012',
+      protocol: 'CS-2026-000112',
+      read: false,
+      createdAt: '2026-08-21T10:45:00.000Z'
+    },
+    {
+      id: 'ntf_2',
+      type: 'report_assigned',
+      title: 'Relato encaminhado',
+      message: 'Protocolo CS-2026-000102 encaminhado para Paulo Ferreira.',
+      companyId: 'cmp_aurora',
+      reportId: 'rpt_002',
+      protocol: 'CS-2026-000102',
+      read: false,
+      createdAt: '2026-08-02T11:05:00.000Z'
+    },
+    {
+      id: 'ntf_2b',
+      type: 'report_assigned',
+      title: 'Relato encaminhado a você',
+      message: 'Protocolo CS-2026-000102 foi encaminhado para sua apuração.',
+      companyId: 'cmp_aurora',
+      reportId: 'rpt_002',
+      protocol: 'CS-2026-000102',
+      userId: 'usr_aurora_ap',
+      assigneeId: 'usr_aurora_ap',
+      read: false,
+      createdAt: '2026-08-02T11:05:00.000Z'
+    },
+    {
+      id: 'ntf_3',
+      type: 'report_status',
+      title: 'Relato atualizado',
+      message: 'Protocolo CS-2026-000103 — status: Em apuração.',
+      companyId: 'cmp_horizon',
+      reportId: 'rpt_003',
+      protocol: 'CS-2026-000103',
+      read: false,
+      createdAt: '2026-08-18T09:30:00.000Z'
+    },
+    {
+      id: 'ntf_4',
+      type: 'report_assigned',
+      title: 'Relato encaminhado',
+      message: 'Protocolo CS-2026-000112 encaminhado para Paulo Ferreira.',
+      companyId: 'cmp_aurora',
+      reportId: 'rpt_012',
+      protocol: 'CS-2026-000112',
+      read: false,
+      createdAt: '2026-08-21T11:00:00.000Z'
+    },
+    {
+      id: 'ntf_4b',
+      type: 'report_assigned',
+      title: 'Relato encaminhado a você',
+      message: 'Protocolo CS-2026-000112 foi encaminhado para sua apuração.',
+      companyId: 'cmp_aurora',
+      reportId: 'rpt_012',
+      protocol: 'CS-2026-000112',
+      userId: 'usr_aurora_ap',
+      assigneeId: 'usr_aurora_ap',
+      read: false,
+      createdAt: '2026-08-21T11:00:00.000Z'
+    }
   ];
 
   const auditLogs = [
@@ -1120,6 +1200,7 @@ function createDemoData() {
     auditLogs,
     techLogs: [],
     storageUpgradeRequests: [],
+    platformSupportThreads: [],
     platformSettings,
     companySettings,
     categories: DEMO_CATEGORIES,

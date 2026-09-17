@@ -260,9 +260,17 @@ function toPublicPlanView(plan) {
 /** Lista planos ativos para a landing pública (sem preço bruto nem campos internos). */
 function listPublicPlans() {
   const store = require('../store');
+  const commercial = require('./commercial-contact.service');
   const data = store.load();
+  const ps = commercial.ensurePlatformSettings(data);
   const plans = getStoragePlansCatalog(data).map(toPublicPlanView);
-  return { ok: true, data: { plans } };
+  return {
+    ok: true,
+    data: {
+      plans,
+      hideLandingPlans: Boolean(ps.hideLandingPlans)
+    }
+  };
 }
 
 /** @deprecated use getStoragePlansCatalog — mantido para exports/testes */
@@ -310,6 +318,17 @@ function sanitizePlanDetails(rawDetails) {
     }
     const advantages = sanitizeAdvantages(raw.advantages);
     if (advantages && advantages.length) detail.advantages = advantages;
+    if (typeof raw.consultPricing === 'boolean') detail.consultPricing = raw.consultPricing;
+    if (typeof raw.hidePriceForApurador === 'boolean') {
+      detail.hidePriceForApurador = raw.hidePriceForApurador;
+    }
+    if (typeof raw.featured === 'boolean') detail.featured = raw.featured;
+    if (raw.priceAmount === null || raw.priceAmount === '') {
+      detail.priceAmount = null;
+    } else if (raw.priceAmount != null) {
+      const n = Number(raw.priceAmount);
+      if (Number.isFinite(n) && n >= 0) detail.priceAmount = roundMoney(n);
+    }
     if (Object.keys(detail).length) out[id] = detail;
   }
   return out;
@@ -429,6 +448,16 @@ function getCompanyPricing(data, companyId) {
  * Preço do plano: override manual → Corporativo sob consulta → base * (1 + %)^tier.
  */
 function resolvePlanAmount(plan, pricing) {
+  const detail =
+    pricing.planDetails && typeof pricing.planDetails[plan.id] === 'object'
+      ? pricing.planDetails[plan.id]
+      : {};
+  if (detail.consultPricing === true) return null;
+  if (Object.prototype.hasOwnProperty.call(detail, 'priceAmount')) {
+    if (detail.priceAmount === null || detail.priceAmount === '') return null;
+    const fromDetail = Number(detail.priceAmount);
+    if (Number.isFinite(fromDetail) && fromDetail >= 0) return roundMoney(fromDetail);
+  }
   if (Object.prototype.hasOwnProperty.call(pricing.planAmounts, plan.id)) {
     const override = pricing.planAmounts[plan.id];
     if (override === null) return null;
@@ -443,6 +472,13 @@ function applyPricingToPlan(plan, pricing, platformCatalog = {}) {
   const amount = resolvePlanAmount(plan, pricing);
   const consult = amount == null;
   const details = resolvePlanDetails(plan, pricing, platformCatalog);
+  const companyDetail =
+    pricing.planDetails && typeof pricing.planDetails[plan.id] === 'object'
+      ? pricing.planDetails[plan.id]
+      : {};
+  const hidePriceForApurador = companyDetail.hidePriceForApurador !== false;
+  const featured =
+    typeof companyDetail.featured === 'boolean' ? companyDetail.featured : Boolean(plan.featured);
   return {
     ...plan,
     ...details,
@@ -451,8 +487,11 @@ function applyPricingToPlan(plan, pricing, platformCatalog = {}) {
     priceSuffix: consult ? '' : '/mês',
     upgradePercent: pricing.upgradePercent,
     pricingMode: 'company',
+    consultPricing: consult,
+    hidePriceForApurador,
+    featured,
     ctaLabel:
-      consult && (plan.consultPricing || plan.id === 'corporativo')
+      consult && (plan.consultPricing || plan.id === 'corporativo' || companyDetail.consultPricing)
         ? plan.ctaLabel || 'Falar com especialista'
         : plan.ctaLabel || 'Contratar'
   };
@@ -467,13 +506,31 @@ function catalogPlans() {
   }));
 }
 
-function listPlans(companyId = null) {
+function listPlans(companyId = null, options = {}) {
   const store = require('../store');
   const data = store.load();
   const plans = getStoragePlansCatalog(data);
   const pricing = getCompanyPricing(data, companyId);
   const catalog = getPlatformPlanCatalog(data);
-  return plans.map((p) => applyPricingToPlan(p, pricing, catalog));
+  const listed = plans.map((p) => applyPricingToPlan(p, pricing, catalog));
+  if (options.forApurador) {
+    return listed.map((p) =>
+      p.hidePriceForApurador !== false ? redactPlanPriceForApurador(p) : p
+    );
+  }
+  return listed;
+}
+
+function redactPlanPriceForApurador(plan) {
+  return {
+    ...plan,
+    priceAmount: null,
+    priceLabel: 'Sob consulta',
+    priceSuffix: '',
+    upgradePercent: null,
+    priceHiddenForApurador: true,
+    ctaLabel: plan.ctaLabel || 'Contratar'
+  };
 }
 
 function findPlan(planId, data = null) {
@@ -514,6 +571,8 @@ function isLandingScope(id) {
 }
 
 function getLandingPlansView(data) {
+  const commercial = require('./commercial-contact.service');
+  const ps = commercial.ensurePlatformSettings(data);
   const plans = getStoragePlansCatalog(data).map((p) => ({
     ...p,
     advantages:
@@ -523,6 +582,7 @@ function getLandingPlansView(data) {
     companyId: LANDING_SCOPE_ID,
     companyName: LANDING_SCOPE_NAME,
     scope: 'landing',
+    hideLandingPlans: Boolean(ps.hideLandingPlans),
     pricing: {
       baseAmount: null,
       upgradePercent: null,
@@ -617,6 +677,12 @@ function updateLandingPlansConfig(user, payload = {}) {
   }
 
   data.platformSettings.storagePlans = recomputeBarPercents(list);
+  if (payload.hideLandingPlans != null) {
+    const commercial = require('./commercial-contact.service');
+    const ps = commercial.ensurePlatformSettings(data);
+    ps.hideLandingPlans = Boolean(payload.hideLandingPlans);
+    data.platformSettings = ps;
+  }
   appendAudit(data, {
     userId: user.id,
     userName: user.nome,
@@ -631,7 +697,13 @@ function updateLandingPlansConfig(user, payload = {}) {
       priceAmount: p.priceAmount,
       hidePriceOnPublic: p.hidePriceOnPublic,
       featured: p.featured
-    }))
+    })),
+    meta: {
+      hideLandingPlans:
+        payload.hideLandingPlans != null
+          ? Boolean(payload.hideLandingPlans)
+          : Boolean(data.platformSettings?.hideLandingPlans)
+    }
   });
   store.save(data);
   return { ok: true, data: getLandingPlansView(data) };
@@ -758,6 +830,17 @@ function updatePricingConfig(user, companyId, payload = {}) {
       ...next.planDetails,
       ...payload.planDetails
     });
+    // Sync preço/sob consulta dos cards para planAmounts
+    next.planAmounts = { ...next.planAmounts };
+    for (const [id, detail] of Object.entries(next.planDetails)) {
+      if (!detail || typeof detail !== 'object') continue;
+      if (detail.consultPricing === true || detail.priceAmount === null) {
+        next.planAmounts[id] = null;
+      } else if (detail.priceAmount != null && detail.priceAmount !== '') {
+        const n = Number(detail.priceAmount);
+        if (Number.isFinite(n) && n >= 0) next.planAmounts[id] = roundMoney(n);
+      }
+    }
   }
   if (payload.platformCatalog && typeof payload.platformCatalog === 'object') {
     data.platformSettings.storagePlanCatalog = sanitizePlanDetails({
@@ -1124,6 +1207,7 @@ module.exports = {
   DEFAULT_PRICING,
   catalogPlans,
   listPlans,
+  redactPlanPriceForApurador,
   findPlan,
   planForLimit,
   resolveCompanyIdForPlans,

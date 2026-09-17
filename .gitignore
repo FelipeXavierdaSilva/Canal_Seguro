@@ -1,0 +1,33 @@
+# Secrets e ambiente
+.env
+.env.*
+!.env.example
+
+# Dependências
+node_modules/
+server/node_modules/
+
+# Dados locais / produção (nunca versionar)
+server/data/store.json
+server/data/db-config.json
+server/data/attachments/
+server/data/backups/
+**/db-config.json
+
+# Logs e SO
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Cobertura / temp
+coverage/
+.tmp/
+temp/

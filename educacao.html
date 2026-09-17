@@ -1,55 +1,89 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Informação e Prevenção – Canal Seguro</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="description" content="Informação e prevenção – Canal Seguro." />
+  <title>Sobre – Canal Seguro</title>
+  <link rel="stylesheet" href="css/style.css?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/landing-home.css" />
+  <link rel="stylesheet" href="css/channel-home.css?v=4" />
+  <link rel="stylesheet" href="css/support-assistant.css?v=6" />
   <link rel="stylesheet" href="css/responsive.css" />
-  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
 </head>
-<body class="public-page">
-  <div class="demo-banner"><strong>Protótipo</strong> — conteúdo educativo gerenciado no painel admin.</div>
+<body class="public-page landing-home">
+
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="brand brand--platform" href="index.html" data-tenant-link>
-        <img class="brand__logo brand__logo--platform" src="assets/images/logo-canal-seguro.png" alt="Canal Seguro — Canal de Denúncias" data-company-logo data-default-logo="assets/images/logo-canal-seguro.png" />
-        <div class="brand__text brand__text--sr">
+      <a class="brand brand--platform brand--channel" href="index.html" data-tenant-link>
+        <img
+          class="brand__logo brand__logo--mark"
+          src="assets/images/logo-canal-seguro-mark.png?v=shield3"
+          alt=""
+          width="40"
+          height="46"
+          decoding="async"
+        />
+        <span class="brand__meta">
+          <span class="brand__meta-name" data-canal-name>
+            <span class="brand__meta-name-canal">Canal</span>
+            <span class="brand__meta-name-seguro">Seguro</span>
+          </span>
+          <span class="brand__meta-sub">Denúncias com sigilo e segurança</span>
+        </span>
+        <span class="brand__text brand__text--sr">
           <span class="brand__name" data-canal-name>Canal Seguro</span>
-          <span class="brand__sub"><span data-company-name>Empresa</span></span>
-        </div>
+        </span>
       </a>
       <nav class="nav-public" aria-label="Principal">
         <a href="index.html" data-tenant-link>Início</a>
         <a href="educacao.html" data-tenant-link class="active">Sobre</a>
-        <a href="index.html#como-funciona" data-tenant-link>Como funciona</a>
-        <a href="protocolo.html" data-tenant-link>Consultar</a>
-        <a href="faq.html" data-tenant-link>FAQ</a>
-        <a href="fale-conosco.html" data-tenant-link>Fale conosco</a>
+        <a href="index.html#orientacoes" data-tenant-link>Orientações</a>
+        <a href="index.html#faq" data-tenant-link>FAQ</a>
+        <a href="index.html#fale-conosco" data-tenant-link>Fale conosco</a>
       </nav>
       <div class="header-actions">
-        <button type="button" class="btn-icon" data-toggle-theme title="Alternar tema" aria-label="Alternar tema">◐</button>
-        <a class="btn btn-primary btn-sm" href="relato.html" data-tenant-link>Fazer um Relato</a>
+        <a class="btn-ch btn-ch--secondary" href="protocolo.html" data-tenant-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          Consultar protocolo
+        </a>
+        <a class="btn-ch btn-ch--primary" href="relato.html" data-tenant-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+          Fazer uma denúncia
+        </a>
       </div>
     </div>
   </header>
 
-  <main class="container content-layout">
-    <aside class="content-nav">
-      <h3>Informação e Prevenção</h3>
-      <div id="eduNav"></div>
-    </aside>
+  <main>
+    <section class="ch-section ch-about" aria-labelledby="ch-about-title">
+      <div class="ch-container">
+        <div class="ch-about__header">
+          <p class="ch-eyebrow">Informação e prevenção</p>
+          <h1 id="ch-about-title" class="ch-title">Sobre o respeito no ambiente de trabalho</h1>
+          <p class="ch-lead">
+            Conteúdo educativo para promover respeito, prevenção e comunicação responsável.
+            As explicações abaixo são orientativas e não substituem avaliação caso a caso.
+          </p>
+        </div>
 
-    <article class="content-panel">
-      <div class="page-title-bar" style="padding-top:0">
-        <h1>Informação e Prevenção</h1>
-        <p>Conteúdo educativo para promover respeito, prevenção e comunicação responsável. As explicações abaixo são orientativas e não substituem avaliação caso a caso.</p>
+        <div class="ch-about__layout">
+          <aside class="ch-about__nav" aria-label="Tópicos">
+            <h2 class="ch-about__nav-title">Tópicos</h2>
+            <div id="eduNav" class="ch-about__nav-list"></div>
+          </aside>
+          <article class="ch-about__panel">
+            <div id="eduSections">
+              <p class="ch-about__loading">Carregando conteúdo…</p>
+            </div>
+          </article>
+        </div>
       </div>
-      <div id="eduSections">
-        <p class="muted">Carregando conteúdo…</p>
-      </div>
-    </article>
+    </section>
   </main>
 
   <footer class="site-footer footer-canal">
@@ -82,9 +116,9 @@
             </a>
           </li>
           <li>
-            <a href="index.html#como-funciona" data-tenant-link>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M4.9 6.4l1.6 1.6M17.5 16l1.6 1.6M3.5 12h2.2M18.3 12h2.2M4.9 17.6l1.6-1.6M17.5 8l1.6-1.6"/></svg>
-              Como funciona
+            <a href="index.html#orientacoes" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 5h9a1 1 0 0 1 1 1v13l-2.2-1.4L13.5 19 11.2 17.6 9 19V6a1 1 0 0 1 1-1z"/><path d="M10.5 9h5M10.5 12h5M10.5 15h3.2"/></svg>
+              Orientações
             </a>
           </li>
           <li>
@@ -94,13 +128,13 @@
             </a>
           </li>
           <li>
-            <a href="faq.html" data-tenant-link>
+            <a href="index.html#faq" data-tenant-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9.5 9.2a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.7V14"/><circle cx="12" cy="16.5" r=".7" fill="currentColor" stroke="none"/></svg>
               FAQ
             </a>
           </li>
           <li>
-            <a href="fale-conosco.html" data-tenant-link>
+            <a href="index.html#fale-conosco" data-tenant-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7.2 4.8h2.3l1.1 3.2-1.5 1.1a11 11 0 0 0 5.3 5.3l1.1-1.5 3.2 1.1v2.3c0 .7-.6 1.3-1.3 1.3A13.7 13.7 0 0 1 4.5 6.1c0-.7.6-1.3 1.3-1.3z"/></svg>
               Fale conosco
             </a>
@@ -170,7 +204,7 @@
           <li>
             <a href="index.html#acesso-canal" data-tenant-link>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-6h6v6M9 10h.01M12 10h.01M15 10h.01M9 13h.01M12 13h.01M15 13h.01"/></svg>
-              Plataforma Multiempresa
+              Atalhos do canal
             </a>
           </li>
           <li>
@@ -203,14 +237,16 @@
   </footer>
 
   <!-- cs-bundle: public-light -->
+  <script src="js/runtime.js"></script>
+  <script src="js/http-api.js"></script>
   <script src="js/seed.js"></script>
-  <script src="js/api.js"></script>
+  <script src="js/api.js?v=45"></script>
   <script src="js/companies.js"></script>
   <script src="js/errors.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=45"></script>
   <script>
     CSApp.onReady(async () => {
-      await CSApp.initPublic();
+      await CSApp.initPublic({ platformHome: true });
       const nav = document.getElementById('eduNav');
       const sections = document.getElementById('eduSections');
       try {
@@ -222,7 +258,7 @@
           status: 'publicado'
         });
         if (!contents.length) {
-          sections.innerHTML = '<p class="muted">Nenhum conteúdo educativo publicado no momento.</p>';
+          sections.innerHTML = '<p class="ch-about__loading">Nenhum conteúdo educativo publicado no momento.</p>';
           return;
         }
         nav.innerHTML = contents.map((c) => {
@@ -231,7 +267,7 @@
         }).join('');
         sections.innerHTML = contents.map((c) => {
           const slug = c.slug || CSApp.slugify(c.title) || c.id;
-          return `<section id="${CSApp.escapeHtml(slug)}"><h2>${CSApp.escapeHtml(c.title)}</h2>${CSApp.sanitizeHtml(c.body)}</section>`;
+          return `<section class="ch-about__section" id="${CSApp.escapeHtml(slug)}"><h2>${CSApp.escapeHtml(c.title)}</h2>${CSApp.sanitizeHtml(c.body)}</section>`;
         }).join('');
         document.querySelectorAll('#eduSections [data-tenant-link]').forEach((a) => {
           const href = a.getAttribute('href');
@@ -243,7 +279,7 @@
         }
       } catch (err) {
         CSErrors.logError(err, 'getContentsEducacao');
-        sections.innerHTML = '<p class="muted">Não foi possível carregar o conteúdo educativo.</p>';
+        sections.innerHTML = '<p class="ch-about__loading">Não foi possível carregar o conteúdo educativo.</p>';
         CSApp.toast(CSErrors.userMessage(err), 'error');
       }
     });

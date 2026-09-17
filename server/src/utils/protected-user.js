@@ -1,7 +1,7 @@
 'use strict';
 
 /** Conta Adm_Plataforma que não pode ser excluída / desativada / rebaixada. */
-const PROTECTED_PLATFORM_EMAIL = 'felipesilva.tst.mte@gmail.com';
+const PROTECTED_PLATFORM_EMAIL = 'admin@fxfelipexavier.com.br';
 
 function normalizeEmail(value) {
   return String(value || '')

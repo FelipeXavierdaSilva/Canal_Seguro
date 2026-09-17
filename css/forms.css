@@ -481,16 +481,22 @@ textarea.form-control.lg {
 .login-card__brand {
   text-align: center;
   margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.login-card__brand img.logo-platform {
+.login-card__brand img.logo-platform,
+.login-card__brand img.logo-platform--auth {
   width: auto;
-  height: var(--logo-platform-h, 54px);
-  max-width: min(280px, 88vw);
-  margin: 0 auto 0.25rem;
+  height: 4.75rem;
+  max-width: 4.4rem;
+  margin: 0 auto 0.85rem;
   border-radius: 0;
-  background: transparent;
+  background: transparent !important;
   padding: 0;
+  box-shadow: none;
+  object-fit: contain;
 }
 
 .login-card__brand img:not(.logo-platform) {
@@ -502,13 +508,54 @@ textarea.form-control.lg {
   padding: 8px;
 }
 
+.login-card__identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin: 0 0 0.95rem;
+}
+
+.login-card__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3.6vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.login-card__name-canal {
+  color: var(--cs-primary, #0b2c4a);
+}
+
+.login-card__name-seguro {
+  color: var(--cs-accent, #1fb8a8);
+  margin-left: 0.22em;
+}
+
+.login-card__tagline {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--cs-primary, #0b2c4a);
+  opacity: 0.78;
+  letter-spacing: 0.01em;
+}
+
 .login-card__brand h1 {
   font-size: 1.35rem;
 }
 
-.login-card__brand p {
-  font-size: 0.88rem;
-  margin-top: 0.35rem;
+.login-card__brand p.login-card__subtitle,
+.login-card__subtitle {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cs-text-muted);
 }
 
 .login-demo {

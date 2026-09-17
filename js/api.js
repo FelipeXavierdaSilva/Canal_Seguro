@@ -54,7 +54,7 @@ const CSApi = (() => {
     return resolveActor(actor).role === 'superadmin';
   }
 
-  const PROTECTED_PLATFORM_EMAIL = 'felipesilva.tst.mte@gmail.com';
+  const PROTECTED_PLATFORM_EMAIL = 'admin@fxfelipexavier.com.br';
 
   function normalizeEmail(value) {
     return String(value || '')
@@ -110,7 +110,23 @@ const CSApi = (() => {
   function assertReportAccess(report, actor, message = 'Acesso não autorizado a este relato.') {
     if (!report) throw new Error('Relato não encontrado.');
     assertCompanyScope(report.companyId, actor, message);
+    const a = resolveActor(actor);
+    if (a.role === 'apurador') {
+      const onTeam = Array.isArray(report.teamIds) && report.teamIds.includes(a.id);
+      if (report.assigneeId !== a.id && !onTeam) {
+        throw new Error('Relato não encontrado.');
+      }
+    }
     return report;
+  }
+
+  function filterReportsForActor(list, actor) {
+    const a = resolveActor(actor);
+    if (!a.id || a.role !== 'apurador') return list;
+    return list.filter((r) => {
+      if (r.assigneeId === a.id) return true;
+      return Array.isArray(r.teamIds) && r.teamIds.includes(a.id);
+    });
   }
 
   /** Força companyId do token quando o usuário não é superadmin. */
@@ -146,6 +162,14 @@ const CSApi = (() => {
       ) {
         data.platformSettings.commercialWhatsApp = '047984570646';
       }
+      if (typeof data.platformSettings.hideLandingPlans !== 'boolean') {
+        data.platformSettings.hideLandingPlans = false;
+      }
+      if (!data.platformSettings.uiDefaults || typeof data.platformSettings.uiDefaults !== 'object') {
+        data.platformSettings.uiDefaults = { tableFontSize: 'md' };
+      } else if (!['sm', 'md', 'lg', 'xl'].includes(data.platformSettings.uiDefaults.tableFontSize)) {
+        data.platformSettings.uiDefaults.tableFontSize = 'md';
+      }
       return data.platformSettings;
     }
     const legacy = data.settings || {};
@@ -155,6 +179,7 @@ const CSApi = (() => {
       fxProductName: legacy.fxProductName || 'Canal Seguro',
       supportEmail: legacy.supportEmail || 'contato@fxfelipexavier.com.br',
       commercialWhatsApp: '047984570646',
+      hideLandingPlans: false,
       defaultProtocolPrefix: legacy.protocolPrefix || 'CS'
     };
   }
@@ -188,6 +213,9 @@ const CSApi = (() => {
         const platform = platformSettingsSync(data);
         if (contact?.supportEmail) platform.supportEmail = contact.supportEmail;
         if (contact?.commercialWhatsApp != null) platform.commercialWhatsApp = contact.commercialWhatsApp;
+        if (typeof contact?.hideLandingPlans === 'boolean') {
+          platform.hideLandingPlans = contact.hideLandingPlans;
+        }
         data.platformSettings = platform;
         persist(data);
         return { ...platform };
@@ -213,15 +241,65 @@ const CSApi = (() => {
     };
   }
 
+  async function getDatabaseConfig() {
+    if (CSRuntime.useServer()) {
+      return CSHttpApi.getDatabaseConfig();
+    }
+    return {
+      enabled: false,
+      host: '',
+      port: 3306,
+      user: '',
+      database: '',
+      hasPassword: false,
+      source: 'local',
+      envOverridesActive: false,
+      persistenceMode: 'json',
+      mysqlReady: false,
+      note: 'Configuração MySQL disponível apenas com API servidor.'
+    };
+  }
+
+  async function updateDatabaseConfig(payload = {}, actor = null) {
+    if (CSRuntime.useServer()) {
+      return CSHttpApi.updateDatabaseConfig(payload);
+    }
+    throw new Error('Configuração MySQL requer o servidor API.');
+  }
+
+  async function testDatabaseConnection(payload = {}, actor = null) {
+    if (CSRuntime.useServer()) {
+      return CSHttpApi.testDatabaseConnection(payload);
+    }
+    throw new Error('Teste de MySQL requer o servidor API.');
+  }
+
   async function updateCommercialContact(payload = {}, actor = null) {
-    if (useHttp()) return CSHttpApi.updateCommercialContact(payload);
+    if (useHttp()) {
+      const result = await CSHttpApi.updateCommercialContact(payload);
+      try {
+        const data = store();
+        const platform = platformSettingsSync(data);
+        if (result?.supportEmail) platform.supportEmail = result.supportEmail;
+        if (result?.commercialWhatsApp != null) platform.commercialWhatsApp = result.commercialWhatsApp;
+        if (typeof result?.hideLandingPlans === 'boolean') {
+          platform.hideLandingPlans = result.hideLandingPlans;
+        }
+        data.platformSettings = platform;
+        persist(data);
+      } catch {
+        /* ignore local sync */
+      }
+      return result;
+    }
     await delay(40);
     assertSuperadmin(resolveActor(actor));
     const data = store();
     const platform = platformSettingsSync(data);
     const previous = {
       supportEmail: platform.supportEmail,
-      commercialWhatsApp: platform.commercialWhatsApp
+      commercialWhatsApp: platform.commercialWhatsApp,
+      hideLandingPlans: Boolean(platform.hideLandingPlans)
     };
     if (payload.supportEmail != null) {
       const email = String(payload.supportEmail || '').trim().slice(0, 120);
@@ -242,6 +320,9 @@ const CSApi = (() => {
         platform.commercialWhatsApp = '';
       }
     }
+    if (payload.hideLandingPlans != null) {
+      platform.hideLandingPlans = Boolean(payload.hideLandingPlans);
+    }
     data.platformSettings = platform;
     audit(data, {
       ...auditActor({}, resolveActor(actor)),
@@ -252,15 +333,175 @@ const CSApi = (() => {
       previousValue: previous,
       newValue: {
         supportEmail: platform.supportEmail,
-        commercialWhatsApp: platform.commercialWhatsApp
+        commercialWhatsApp: platform.commercialWhatsApp,
+        hideLandingPlans: Boolean(platform.hideLandingPlans)
       }
     });
     persist(data);
     return {
       supportEmail: platform.supportEmail,
       commercialWhatsApp: platform.commercialWhatsApp,
-      commercialWhatsAppE164: normalizeLocalWhatsAppE164(platform.commercialWhatsApp) || null
+      commercialWhatsAppE164: normalizeLocalWhatsAppE164(platform.commercialWhatsApp) || null,
+      hideLandingPlans: Boolean(platform.hideLandingPlans)
     };
+  }
+
+  const TABLE_FONT_SIZES = ['sm', 'md', 'lg', 'xl'];
+
+  function normalizeLocalTableFont(value) {
+    const v = String(value || '').trim().toLowerCase();
+    return TABLE_FONT_SIZES.includes(v) ? v : null;
+  }
+
+  function ensureLocalPlatformUiDefaults(data) {
+    const platform = platformSettingsSync(data);
+    if (!platform.uiDefaults || typeof platform.uiDefaults !== 'object') platform.uiDefaults = {};
+    if (!normalizeLocalTableFont(platform.uiDefaults.tableFontSize)) {
+      platform.uiDefaults.tableFontSize = 'md';
+    }
+    data.platformSettings = platform;
+    return platform.uiDefaults;
+  }
+
+  function isLocalCompanyTableFontConfigured(cfg) {
+    const ui = cfg?.uiDefaults;
+    if (!ui || typeof ui !== 'object') return false;
+    if (ui.tableFontSizeConfigured === true) return true;
+    return Boolean(normalizeLocalTableFont(ui.tableFontSize));
+  }
+
+  function buildLocalUiDefaults(actor) {
+    const data = store();
+    const uiPlat = ensureLocalPlatformUiDefaults(data);
+    const platformSize = normalizeLocalTableFont(uiPlat.tableFontSize) || 'md';
+    let companySize = null;
+    let companyConfigured = false;
+    if (actor?.companyId) {
+      const cfg = ensureCompanySettings(data, actor.companyId);
+      companyConfigured = isLocalCompanyTableFontConfigured(cfg);
+      if (companyConfigured) companySize = normalizeLocalTableFont(cfg.uiDefaults.tableFontSize);
+    }
+    const userRec = (data.users || []).find((u) => u.id === actor?.id);
+    const userSize = normalizeLocalTableFont(userRec?.preferences?.tableFontSize);
+    const effective = userSize || companySize || platformSize;
+    const source = userSize ? 'user' : companySize ? 'company' : 'platform';
+    return {
+      tableFontSize: effective,
+      source,
+      layers: { user: userSize || null, company: companySize, platform: platformSize },
+      companyConfigured,
+      options: TABLE_FONT_SIZES.slice(),
+      canEditPlatform: actor?.role === 'superadmin',
+      canEditCompany: actor?.role === 'admin_empresa' && Boolean(actor?.companyId)
+    };
+  }
+
+  async function getUiDefaults(actor = null) {
+    if (useHttp()) {
+      try {
+        return await CSHttpApi.getUiDefaults();
+      } catch {
+        /* fallback local */
+      }
+    }
+    await delay(20);
+    return buildLocalUiDefaults(resolveActor(actor));
+  }
+
+  async function updatePlatformUiDefaults(payload = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.updatePlatformUiDefaults(payload);
+    await delay(40);
+    const a = resolveActor(actor);
+    assertSuperadmin(a);
+    const size = normalizeLocalTableFont(payload.tableFontSize);
+    if (!size) throw new Error('Tamanho de fonte inválido.');
+    const data = store();
+    const ui = ensureLocalPlatformUiDefaults(data);
+    const previous = ui.tableFontSize;
+    ui.tableFontSize = size;
+    data.platformSettings.uiDefaults = ui;
+    audit(data, {
+      ...auditActor({}, a),
+      action: 'atualizacao_ui_defaults_plataforma',
+      resourceType: 'platform_settings',
+      resourceId: 'ui_defaults',
+      companyId: null,
+      previousValue: { tableFontSize: previous },
+      newValue: { tableFontSize: size }
+    });
+    persist(data);
+    return buildLocalUiDefaults(a);
+  }
+
+  async function updateCompanyUiDefaults(payload = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.updateCompanyUiDefaults(payload);
+    await delay(40);
+    const a = resolveActor(actor);
+    if (a.role !== 'admin_empresa' || !a.companyId) {
+      throw new Error('Apenas o Adm_Empresa pode definir o padrão das planilhas no painel da empresa.');
+    }
+    const clear = payload.tableFontSize == null || String(payload.tableFontSize).trim() === '';
+    const size = clear ? null : normalizeLocalTableFont(payload.tableFontSize);
+    if (!clear && !size) throw new Error('Tamanho de fonte inválido.');
+    const data = store();
+    const cfg = ensureCompanySettings(data, a.companyId);
+    if (!cfg.uiDefaults || typeof cfg.uiDefaults !== 'object') cfg.uiDefaults = {};
+    const previous = {
+      tableFontSize: cfg.uiDefaults.tableFontSize || null,
+      tableFontSizeConfigured: Boolean(cfg.uiDefaults.tableFontSizeConfigured)
+    };
+    if (clear) {
+      delete cfg.uiDefaults.tableFontSize;
+      cfg.uiDefaults.tableFontSizeConfigured = false;
+    } else {
+      cfg.uiDefaults.tableFontSize = size;
+      cfg.uiDefaults.tableFontSizeConfigured = true;
+    }
+    audit(data, {
+      ...auditActor({}, a),
+      action: 'atualizacao_ui_defaults_empresa',
+      resourceType: 'company_settings',
+      resourceId: 'ui_defaults',
+      companyId: a.companyId,
+      previousValue: previous,
+      newValue: {
+        tableFontSize: cfg.uiDefaults.tableFontSize || null,
+        tableFontSizeConfigured: Boolean(cfg.uiDefaults.tableFontSizeConfigured)
+      }
+    });
+    persist(data);
+    return buildLocalUiDefaults(a);
+  }
+
+  async function updateMyUiDefaults(payload = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.updateMyUiDefaults(payload);
+    await delay(40);
+    const a = resolveActor(actor);
+    if (!a.id) throw new Error('Sessão inválida.');
+    const clear = payload.tableFontSize == null || String(payload.tableFontSize).trim() === '';
+    const size = clear ? null : normalizeLocalTableFont(payload.tableFontSize);
+    if (!clear && !size) throw new Error('Tamanho de fonte inválido.');
+    const data = store();
+    const idx = (data.users || []).findIndex((u) => u.id === a.id);
+    if (idx < 0) throw new Error('Usuário não encontrado.');
+    if (!data.users[idx].preferences || typeof data.users[idx].preferences !== 'object') {
+      data.users[idx].preferences = {};
+    }
+    const previous = data.users[idx].preferences.tableFontSize || null;
+    if (clear) delete data.users[idx].preferences.tableFontSize;
+    else data.users[idx].preferences.tableFontSize = size;
+    audit(data, {
+      userId: a.id,
+      userName: data.users[idx].nome,
+      action: 'atualizacao_preferencia_fonte_planilha',
+      resourceType: 'user',
+      resourceId: a.id,
+      companyId: data.users[idx].companyId || null,
+      previousValue: { tableFontSize: previous },
+      newValue: { tableFontSize: data.users[idx].preferences.tableFontSize || null }
+    });
+    persist(data);
+    return buildLocalUiDefaults({ ...a, preferences: data.users[idx].preferences });
   }
 
   async function getCompanySettings(companyId, actor = null) {
@@ -274,6 +515,7 @@ const CSApi = (() => {
 
   /* ---------- Companies ---------- */
   async function getCompanies(filters = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.getCompanies(filters);
     await delay();
     const scoped = scopeFilters({}, actor);
     let list = [...store().companies];
@@ -333,6 +575,10 @@ const CSApi = (() => {
   }
 
   async function createCompany(payload) {
+    if (useHttp()) {
+      const { _actorId, _actorName, ...body } = payload || {};
+      return CSHttpApi.createCompany(body);
+    }
     await delay();
     assertSuperadmin(resolveActor(payload));
     const data = store();
@@ -364,6 +610,10 @@ const CSApi = (() => {
   }
 
   async function updateCompany(id, payload) {
+    if (useHttp()) {
+      const { _actorId, _actorName, ...body } = payload || {};
+      return CSHttpApi.updateCompany(id, body);
+    }
     await delay();
     const data = store();
     const idx = data.companies.findIndex((c) => c.id === id);
@@ -378,6 +628,13 @@ const CSApi = (() => {
     }
     data.companies[idx] = { ...data.companies[idx], ...payload, id };
     const updated = data.companies[idx];
+    if (typeof payload.email === 'string') {
+      const cfg = ensureCompanySettings(data, id);
+      cfg.emailNotifications = {
+        ...(cfg.emailNotifications || {}),
+        replyTo: payload.email.trim() || cfg.emailNotifications?.replyTo || null
+      };
+    }
     const statusChanged = payload.status && payload.status !== previous.status;
     audit(data, {
       ...auditActor(payload),
@@ -390,6 +647,67 @@ const CSApi = (() => {
     });
     persist(data);
     return data.companies[idx];
+  }
+
+  async function getCompanyEmailNotifications(companyId, actor = null) {
+    if (useHttp()) return CSHttpApi.getCompanyEmailNotifications(companyId);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    if (a.id) assertCompanyScope(companyId, a);
+    const data = store();
+    const company = data.companies.find((c) => c.id === companyId);
+    const cfg = ensureCompanySettings(data, companyId);
+    const defaults = {
+      enabled: true,
+      fromName: company?.nomeCanal || 'Canal Seguro',
+      replyTo: company?.email || null,
+      events: {
+        report_new: {
+          enabled: true,
+          roles: ['admin_empresa'],
+          notifyCompanyEmail: true
+        }
+      }
+    };
+    const stored = cfg.emailNotifications || {};
+    return {
+      policy: {
+        ...defaults,
+        ...stored,
+        events: { ...defaults.events, ...(stored.events || {}) }
+      }
+    };
+  }
+
+  async function updateCompanyEmailNotifications(companyId, patch, actor = null) {
+    if (useHttp()) return CSHttpApi.updateCompanyEmailNotifications(companyId, patch);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    if (a.id) assertCompanyScope(companyId, a);
+    if (a.role && a.role !== 'superadmin' && a.role !== 'admin_empresa') {
+      throw new Error('Acesso negado.');
+    }
+    const data = store();
+    const cfg = ensureCompanySettings(data, companyId);
+    const prev = (await getCompanyEmailNotifications(companyId, a)).policy;
+    const { events: patchEvents, ...restPatch } = patch || {};
+    const patchedEvents = { ...(prev.events || {}) };
+    for (const [key, value] of Object.entries(patchEvents || {})) {
+      patchedEvents[key] = { ...(patchedEvents[key] || {}), ...(value || {}) };
+    }
+    const next = { ...prev, ...restPatch, events: patchedEvents };
+    cfg.emailNotifications = next;
+    audit(data, {
+      ...auditActor(actor || {}),
+      action: 'email_politica_alterada',
+      resourceType: 'company',
+      resourceId: companyId,
+      companyId,
+      previousValue: { enabled: prev.enabled },
+      newValue: { enabled: next.enabled }
+    });
+    persist(data);
+    return { policy: next };
   }
 
   async function deactivateCompany(id, actor = {}) {
@@ -467,6 +785,7 @@ const CSApi = (() => {
   }
 
   async function getEmployees(filters = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.getEmployees(scopeFilters(filters, actor));
     await delay();
     const scoped = scopeFilters(filters, actor);
     let list = [...(store().employees || [])];
@@ -487,6 +806,7 @@ const CSApi = (() => {
   }
 
   async function getEmployee(id, actor = null) {
+    if (useHttp()) return CSHttpApi.getEmployee(id);
     await delay();
     const emp = (store().employees || []).find((e) => e.id === id);
     if (emp) {
@@ -537,6 +857,10 @@ const CSApi = (() => {
   }
 
   async function createEmployee(payload) {
+    if (useHttp()) {
+      const { _actorId, _actorName, ...body } = payload || {};
+      return CSHttpApi.createEmployee(body);
+    }
     await delay();
     assertCompanyScope(payload.companyId, payload);
     const data = store();
@@ -572,6 +896,10 @@ const CSApi = (() => {
   }
 
   async function updateEmployee(id, payload) {
+    if (useHttp()) {
+      const { _actorId, _actorName, ...body } = payload || {};
+      return CSHttpApi.updateEmployee(id, body);
+    }
     await delay();
     const data = store();
     const idx = (data.employees || []).findIndex((e) => e.id === id);
@@ -699,6 +1027,7 @@ const CSApi = (() => {
         );
       });
     }
+    list = filterReportsForActor(list, actor !== null ? actor : {});
     list.sort((a, b) => {
       const rw = riskSortWeight(b.riskLevel) - riskSortWeight(a.riskLevel);
       if (rw !== 0) return rw;
@@ -1442,11 +1771,15 @@ const CSApi = (() => {
       durationMs: 0,
       createdAt: now
     });
+    fresh.notifications = fresh.notifications || [];
     fresh.notifications.unshift({
       id: uid('ntf'),
+      type: 'report_new',
       title: 'Novo relato recebido',
       message: `Protocolo ${protocol} aguarda triagem.`,
       companyId: report.companyId,
+      reportId: report.id,
+      protocol: report.protocol,
       read: false,
       createdAt: report.createdAt
     });
@@ -1513,6 +1846,18 @@ const CSApi = (() => {
       protocol: report.protocol,
       previousValue: { status: previousStatus },
       newValue: { status }
+    });
+    data.notifications = data.notifications || [];
+    data.notifications.unshift({
+      id: uid('ntf'),
+      type: status === 'concluido' ? 'report_completed' : 'report_status',
+      title: status === 'concluido' ? 'Relato concluído' : 'Relato atualizado',
+      message: `Protocolo ${report.protocol} — status: ${label}.`,
+      companyId: report.companyId,
+      reportId: report.id,
+      protocol: report.protocol,
+      read: false,
+      createdAt: report.updatedAt
     });
     persist(data);
     return report;
@@ -1626,13 +1971,16 @@ const CSApi = (() => {
     const data = store();
     const report = data.reports.find((r) => r.id === reportId);
     if (!report) throw new Error('Relato não encontrado');
+    const a = resolveActor(actor);
+    if (a.role === 'apurador') throw new Error('Sem permissão para encaminhar relatos.');
     assertReportAccess(report, actor);
     const user = data.users.find((u) => u.id === assigneeId);
     if (user && user.companyId && user.companyId !== report.companyId) {
       throw new Error('Responsável não pertence à empresa deste relato.');
     }
     const previousAssigneeId = report.assigneeId;
-    report.assigneeId = assigneeId;
+    report.assigneeId = assigneeId || null;
+    report.teamIds = assigneeId ? [assigneeId] : [];
     report.updatedAt = new Date().toISOString();
     data.reportHistory.push({
       id: uid('hist'),
@@ -1650,8 +1998,36 @@ const CSApi = (() => {
       companyId: report.companyId,
       protocol: report.protocol,
       previousValue: { assigneeId: previousAssigneeId },
-      newValue: { assigneeId, assigneeName: user ? user.nome : assigneeId }
+      newValue: { assigneeId, assigneeName: user ? user.nome : assigneeId, teamIds: report.teamIds }
     });
+    if (assigneeId && assigneeId !== previousAssigneeId) {
+      data.notifications = data.notifications || [];
+      const assigneeName = user ? user.nome : 'apurador';
+      data.notifications.unshift({
+        id: uid('ntf'),
+        type: 'report_assigned',
+        title: 'Relato encaminhado',
+        message: `Protocolo ${report.protocol} encaminhado para ${assigneeName}.`,
+        companyId: report.companyId,
+        reportId: report.id,
+        protocol: report.protocol,
+        read: false,
+        createdAt: report.updatedAt
+      });
+      data.notifications.unshift({
+        id: uid('ntf'),
+        type: 'report_assigned',
+        title: 'Relato encaminhado a você',
+        message: `Protocolo ${report.protocol} foi encaminhado para sua apuração.`,
+        companyId: report.companyId,
+        reportId: report.id,
+        protocol: report.protocol,
+        userId: assigneeId,
+        assigneeId,
+        read: false,
+        createdAt: report.updatedAt
+      });
+    }
     persist(data);
     return report;
   }
@@ -1894,6 +2270,17 @@ const CSApi = (() => {
           .slice(0, 20);
         if (adv.length) detail.advantages = adv;
       }
+      if (typeof raw.consultPricing === 'boolean') detail.consultPricing = raw.consultPricing;
+      if (typeof raw.hidePriceForApurador === 'boolean') {
+        detail.hidePriceForApurador = raw.hidePriceForApurador;
+      }
+      if (typeof raw.featured === 'boolean') detail.featured = raw.featured;
+      if (raw.priceAmount === null || raw.priceAmount === '') {
+        detail.priceAmount = null;
+      } else if (raw.priceAmount != null) {
+        const n = Number(raw.priceAmount);
+        if (Number.isFinite(n) && n >= 0) detail.priceAmount = Math.round(n * 100) / 100;
+      }
       if (Object.keys(detail).length) out[id] = detail;
     }
     return out;
@@ -2092,8 +2479,18 @@ const CSApi = (() => {
     const catalog = Array.isArray(plans) ? plans : [];
     return catalog.map((p, idx) => {
       const tierIndex = typeof p.tierIndex === 'number' ? p.tierIndex : idx;
+      const companyDetail = pricing.planDetails?.[p.id] || {};
+      const platformDetail = platformCatalog?.[p.id] || {};
       let amount = null;
-      if (Object.prototype.hasOwnProperty.call(pricing.planAmounts || {}, p.id)) {
+      if (companyDetail.consultPricing === true) {
+        amount = null;
+      } else if (Object.prototype.hasOwnProperty.call(companyDetail, 'priceAmount')) {
+        if (companyDetail.priceAmount === null || companyDetail.priceAmount === '') amount = null;
+        else {
+          const n = Number(companyDetail.priceAmount);
+          amount = Number.isFinite(n) && n >= 0 ? Math.round(n * 100) / 100 : null;
+        }
+      } else if (Object.prototype.hasOwnProperty.call(pricing.planAmounts || {}, p.id)) {
         const o = pricing.planAmounts[p.id];
         amount = o === null || o === '' ? null : Number(o);
       } else if (p.id === 'corporativo' && pricing.corporativoConsult) {
@@ -2105,8 +2502,6 @@ const CSApi = (() => {
           ) / 100;
       }
       const consult = amount == null || !Number.isFinite(amount);
-      const companyDetail = pricing.planDetails?.[p.id] || {};
-      const platformDetail = platformCatalog?.[p.id] || {};
       const usersLabel = companyDetail.usersLabel || platformDetail.usersLabel || p.usersLabel;
       const retentionLabel =
         companyDetail.retentionLabel || platformDetail.retentionLabel || p.retentionLabel;
@@ -2123,6 +2518,9 @@ const CSApi = (() => {
           usersLabel,
           retentionLabel
         ].filter(Boolean);
+      const hidePriceForApurador = companyDetail.hidePriceForApurador !== false;
+      const featured =
+        typeof companyDetail.featured === 'boolean' ? companyDetail.featured : Boolean(p.featured);
       return {
         ...p,
         tierIndex,
@@ -2135,7 +2533,11 @@ const CSApi = (() => {
         priceLabel: consult ? 'Sob consulta' : formatStoragePriceLabel(amount),
         priceSuffix: consult ? '' : '/mês',
         upgradePercent: pricing.upgradePercent,
-        pricingMode: 'company'
+        pricingMode: 'company',
+        consultPricing: consult,
+        hidePriceForApurador,
+        featured,
+        ctaLabel: consult ? p.ctaLabel || 'Falar com especialista' : p.ctaLabel || 'Contratar'
       };
     });
   }
@@ -2383,7 +2785,22 @@ const CSApi = (() => {
     const platformCatalog = platformSettingsSync(data).storagePlanCatalog || {};
     const catalog = getLocalStoragePlansCatalog(data);
     persist(data);
-    return { plans: applyLocalPlanPricing(catalog, pricing, platformCatalog), companyId };
+    let plans = applyLocalPlanPricing(catalog, pricing, platformCatalog);
+    if (a?.role === 'apurador') {
+      plans = plans.map((p) =>
+        p.hidePriceForApurador !== false
+          ? {
+              ...p,
+              priceAmount: null,
+              priceLabel: 'Sob consulta',
+              priceSuffix: '',
+              upgradePercent: null,
+              priceHiddenForApurador: true
+            }
+          : p
+      );
+    }
+    return { plans, companyId };
   }
 
   const LOCAL_LANDING_SCOPE_ID = 'pagina_inicial';
@@ -2430,6 +2847,7 @@ const CSApi = (() => {
         companyId: LOCAL_LANDING_SCOPE_ID,
         companyName: 'Página inicial',
         scope: 'landing',
+        hideLandingPlans: Boolean(platformSettingsSync(data).hideLandingPlans),
         pricing: {
           baseAmount: null,
           upgradePercent: null,
@@ -2511,6 +2929,11 @@ const CSApi = (() => {
       }
       if (featuredId) list.forEach((p) => { p.featured = p.id === featuredId; });
       data.platformSettings.storagePlans = recomputeLocalBarPercents(list);
+      if (payload.hideLandingPlans != null) {
+        const platform = platformSettingsSync(data);
+        platform.hideLandingPlans = Boolean(payload.hideLandingPlans);
+        data.platformSettings = platform;
+      }
       audit(data, {
         ...auditActor({}, a),
         action: 'atualizacao_planos_landing',
@@ -2523,6 +2946,7 @@ const CSApi = (() => {
         companyId: LOCAL_LANDING_SCOPE_ID,
         companyName: 'Página inicial',
         scope: 'landing',
+        hideLandingPlans: Boolean(platformSettingsSync(data).hideLandingPlans),
         pricing: { baseAmount: null, upgradePercent: null, corporativoConsult: false },
         plans: getLocalStoragePlansCatalog(data)
       };
@@ -2555,6 +2979,16 @@ const CSApi = (() => {
         ...next.planDetails,
         ...payload.planDetails
       });
+      next.planAmounts = { ...next.planAmounts };
+      for (const [id, detail] of Object.entries(next.planDetails)) {
+        if (!detail || typeof detail !== 'object') continue;
+        if (detail.consultPricing === true || detail.priceAmount === null) {
+          next.planAmounts[id] = null;
+        } else if (detail.priceAmount != null && detail.priceAmount !== '') {
+          const n = Number(detail.priceAmount);
+          if (Number.isFinite(n) && n >= 0) next.planAmounts[id] = Math.round(n * 100) / 100;
+        }
+      }
     }
     if (payload.platformCatalog && typeof payload.platformCatalog === 'object') {
       const platform = platformSettingsSync(data);
@@ -2721,6 +3155,1151 @@ const CSApi = (() => {
     return { request: data.storageUpgradeRequests[idx] };
   }
 
+  async function listPlatformSupport(filters = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.listPlatformSupport(filters);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    const data = store();
+    if (!Array.isArray(data.platformSupportThreads)) data.platformSupportThreads = [];
+    let list = [...data.platformSupportThreads];
+    if (a.role === 'superadmin') {
+      if (filters.companyId) list = list.filter((t) => t.companyId === filters.companyId);
+      if (filters.status) list = list.filter((t) => t.status === filters.status);
+    } else if (a.role === 'admin_empresa' || a.role === 'apurador') {
+      list = list.filter((t) => t.companyId === a.companyId);
+    } else {
+      throw new Error('Acesso negado.');
+    }
+    list.sort((x, y) => (x.updatedAt < y.updatedAt ? 1 : -1));
+    const threads = list.map((t) => {
+      const messages = Array.isArray(t.messages) ? t.messages : [];
+      const unreadCount = messages.filter(
+        (m) => m.direction === 'platform' && m.readByCompany !== true
+      ).length;
+      return { ...t, messages, unreadCount };
+    });
+    const unreadTotal = threads.reduce((sum, t) => sum + (Number(t.unreadCount) || 0), 0);
+    return { threads, slaHours: 24, unreadTotal };
+  }
+
+  async function createPlatformSupport(payload = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.createPlatformSupport(payload);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    if (a.role !== 'admin_empresa' && a.role !== 'apurador') {
+      throw new Error('Apenas usuários da empresa podem abrir suporte.');
+    }
+    if (!a.companyId) throw new Error('Nenhuma empresa vinculada à sessão.');
+    const body = String(payload.body || '')
+      .trim()
+      .replace(/<[^>]*>/g, '')
+      .slice(0, 4000);
+    if (!body) throw new Error('Escreva a mensagem para o suporte.');
+    const subject =
+      String(payload.subject || 'Solicitação de suporte')
+        .trim()
+        .replace(/<[^>]*>/g, '')
+        .slice(0, 160) || 'Solicitação de suporte';
+    const categoryRaw = String(payload.category || 'suporte_tecnico')
+      .trim()
+      .toLowerCase()
+      .slice(0, 40);
+    const category =
+      categoryRaw === 'problema' || categoryRaw === 'suporte_tecnico' ? categoryRaw : 'suporte_tecnico';
+    const data = store();
+    const company = (data.companies || []).find((c) => c.id === a.companyId);
+    const now = new Date().toISOString();
+    const thread = {
+      id: uid('psup'),
+      companyId: a.companyId,
+      companyName: company?.nomeFantasia || company?.razaoSocial || a.companyId,
+      subject,
+      category,
+      status: 'aberto',
+      createdAt: now,
+      updatedAt: now,
+      respondBy: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      firstResponseAt: null,
+      closedAt: null,
+      createdByUserId: a.id,
+      createdByName: a.nome || a.email || a.id,
+      createdByRole: a.role,
+      messages: [
+        {
+          id: uid('psmsg'),
+          direction: 'company',
+          body,
+          actorUserId: a.id,
+          actorName: a.nome || a.email || a.id,
+          createdAt: now,
+          readByCompany: true
+        }
+      ]
+    };
+    if (!Array.isArray(data.platformSupportThreads)) data.platformSupportThreads = [];
+    data.platformSupportThreads.unshift(thread);
+    data.notifications = data.notifications || [];
+    const preview = body.slice(0, 120);
+    const supers = (data.users || []).filter((u) => u.status === 'ativo' && u.role === 'superadmin');
+    if (supers.length) {
+      supers.forEach((admin) => {
+        data.notifications.unshift({
+          id: uid('ntf'),
+          type: 'platform_support_message',
+          title: 'Nova mensagem de suporte',
+          message: `${thread.companyName}: ${preview}`,
+          role: 'superadmin',
+          userId: admin.id,
+          companyId: thread.companyId,
+          threadId: thread.id,
+          read: false,
+          createdAt: now
+        });
+      });
+    } else {
+      data.notifications.unshift({
+        id: uid('ntf'),
+        type: 'platform_support_message',
+        title: 'Nova mensagem de suporte',
+        message: `${thread.companyName}: ${preview}`,
+        role: 'superadmin',
+        companyId: thread.companyId,
+        threadId: thread.id,
+        read: false,
+        createdAt: now
+      });
+    }
+    persist(data);
+    return thread;
+  }
+
+  async function getPlatformSupportThread(threadId, actor = null) {
+    if (useHttp()) return CSHttpApi.getPlatformSupportThread(threadId);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    const data = store();
+    const thread = (data.platformSupportThreads || []).find((t) => t.id === threadId);
+    if (!thread) throw new Error('Conversa não encontrada.');
+    if (a.role !== 'superadmin' && thread.companyId !== a.companyId) {
+      throw new Error('Conversa não encontrada.');
+    }
+    return thread;
+  }
+
+  async function replyPlatformSupport(threadId, bodyText, actor = null) {
+    if (useHttp()) return CSHttpApi.replyPlatformSupport(threadId, bodyText);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    const body = String(bodyText || '')
+      .trim()
+      .replace(/<[^>]*>/g, '')
+      .slice(0, 4000);
+    if (!body) throw new Error('Mensagem vazia.');
+    const data = store();
+    const thread = (data.platformSupportThreads || []).find((t) => t.id === threadId);
+    if (!thread) throw new Error('Conversa não encontrada.');
+    if (a.role !== 'superadmin' && thread.companyId !== a.companyId) {
+      throw new Error('Conversa não encontrada.');
+    }
+    if (thread.status === 'fechado') throw new Error('Esta conversa está fechada.');
+    const now = new Date().toISOString();
+    const isPlatform = a.role === 'superadmin';
+    thread.messages = thread.messages || [];
+    thread.messages.push({
+      id: uid('psmsg'),
+      direction: isPlatform ? 'platform' : 'company',
+      body,
+      actorUserId: a.id,
+      actorName: a.nome || a.email || a.id,
+      createdAt: now,
+      readByCompany: isPlatform ? false : true
+    });
+    thread.updatedAt = now;
+    data.notifications = data.notifications || [];
+    if (isPlatform) {
+      if (!thread.firstResponseAt) thread.firstResponseAt = now;
+      thread.status = 'respondido';
+      thread.lastResponderUserId = a.id;
+      thread.lastResponderName = a.nome || a.email || a.id;
+      (data.notifications || []).forEach((n) => {
+        if (n.type === 'platform_support_message' && n.threadId === thread.id && !n.read) {
+          n.read = true;
+          n.readAt = now;
+          n.clearedByReply = true;
+        }
+      });
+      data.notifications.unshift({
+        id: uid('ntf'),
+        type: 'platform_support_reply',
+        title: 'Resposta do suporte da plataforma',
+        message: body.slice(0, 120),
+        companyId: thread.companyId,
+        threadId: thread.id,
+        read: false,
+        createdAt: now
+      });
+    } else {
+      thread.status = 'aberto';
+      thread.respondBy = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+      const preview = body.slice(0, 120);
+      const supers = (data.users || []).filter((u) => u.status === 'ativo' && u.role === 'superadmin');
+      if (supers.length) {
+        supers.forEach((admin) => {
+          data.notifications.unshift({
+            id: uid('ntf'),
+            type: 'platform_support_message',
+            title: 'Nova mensagem de suporte',
+            message: `${thread.companyName}: ${preview}`,
+            role: 'superadmin',
+            userId: admin.id,
+            companyId: thread.companyId,
+            threadId: thread.id,
+            read: false,
+            createdAt: now
+          });
+        });
+      } else {
+        data.notifications.unshift({
+          id: uid('ntf'),
+          type: 'platform_support_message',
+          title: 'Nova mensagem de suporte',
+          message: `${thread.companyName}: ${preview}`,
+          role: 'superadmin',
+          companyId: thread.companyId,
+          threadId: thread.id,
+          read: false,
+          createdAt: now
+        });
+      }
+    }
+    persist(data);
+    return thread;
+  }
+
+  async function closePlatformSupport(threadId, actor = null) {
+    if (useHttp()) return CSHttpApi.closePlatformSupport(threadId);
+    await delay();
+    const a = assertSuperadmin(resolveActor(actor));
+    const data = store();
+    const thread = (data.platformSupportThreads || []).find((t) => t.id === threadId);
+    if (!thread) throw new Error('Conversa não encontrada.');
+    const now = new Date().toISOString();
+    thread.status = 'fechado';
+    thread.closedAt = now;
+    thread.updatedAt = now;
+    persist(data);
+    return thread;
+  }
+
+  async function markPlatformSupportRead(threadId = null, actor = null) {
+    if (useHttp()) return CSHttpApi.markPlatformSupportRead(threadId);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    if (a.role !== 'admin_empresa' && a.role !== 'apurador') {
+      throw new Error('Acesso negado.');
+    }
+    if (!a.companyId) throw new Error('Nenhuma empresa vinculada à sessão.');
+    const data = store();
+    const now = new Date().toISOString();
+    let marked = 0;
+    (data.platformSupportThreads || []).forEach((thread) => {
+      if (thread.companyId !== a.companyId) return;
+      if (threadId && thread.id !== threadId) return;
+      (thread.messages || []).forEach((m) => {
+        if (m.direction === 'platform' && m.readByCompany !== true) {
+          m.readByCompany = true;
+          m.readByCompanyAt = now;
+          marked += 1;
+        }
+      });
+    });
+    (data.notifications || []).forEach((n) => {
+      if (
+        n.type === 'platform_support_reply' &&
+        n.companyId === a.companyId &&
+        !n.read &&
+        (!threadId || n.threadId === threadId)
+      ) {
+        n.read = true;
+        n.readAt = now;
+      }
+    });
+    persist(data);
+    return { marked, unreadTotal: 0 };
+  }
+
+  function resolveLocalPlatformMaster(data) {
+    const supers = (data.users || []).filter((u) => u.role === 'superadmin' && u.status === 'ativo');
+    if (!supers.length) return null;
+    const flagged = supers.find((u) => u.isPlatformMaster === true);
+    if (flagged) return flagged;
+    return supers
+      .slice()
+      .sort((a, b) => {
+        const ca = String(a.createdAt || '');
+        const cb = String(b.createdAt || '');
+        if (ca && cb && ca !== cb) return ca.localeCompare(cb);
+        if (ca && !cb) return -1;
+        if (!ca && cb) return 1;
+        return String(a.id || '').localeCompare(String(b.id || ''));
+      })[0];
+  }
+
+  function enrichInternalThread(thread, actor, data) {
+    const messages = Array.isArray(thread.messages) ? thread.messages : [];
+    const master = resolveLocalPlatformMaster(data);
+    const isMaster = Boolean(master && actor.id === master.id);
+    let unreadCount = 0;
+    messages.forEach((m) => {
+      const readBy = m.readBy && typeof m.readBy === 'object' ? m.readBy : {};
+      if (isMaster) {
+        if (m.direction === 'requester' && readBy[actor.id] !== true) unreadCount += 1;
+      } else if (m.direction === 'attendant' && readBy[actor.id] !== true) {
+        unreadCount += 1;
+      }
+    });
+    return {
+      ...thread,
+      messages,
+      unreadCount,
+      assigneeUserId: thread.assigneeUserId || master?.id || null,
+      assigneeName: thread.assigneeName || master?.nome || 'Adm_Plataforma Master',
+      isMasterViewer: isMaster
+    };
+  }
+
+  async function listInternalSupport(actor = null) {
+    if (useHttp()) return CSHttpApi.listInternalSupport();
+    await delay();
+    const a = assertSuperadmin(resolveActor(actor !== null ? actor : {}));
+    const data = store();
+    const master = resolveLocalPlatformMaster(data);
+    const threads = (data.platformInternalSupportThreads || [])
+      .slice()
+      .sort((x, y) => (x.updatedAt < y.updatedAt ? 1 : -1))
+      .map((t) => enrichInternalThread(t, a, data));
+    const unreadTotal = threads.reduce((s, t) => s + (Number(t.unreadCount) || 0), 0);
+    return {
+      threads,
+      slaHours: 24,
+      unreadTotal,
+      master: master
+        ? { id: master.id, nome: master.nome || master.email || master.id, email: master.email || null }
+        : null,
+      isMaster: Boolean(master && master.id === a.id)
+    };
+  }
+
+  async function createInternalSupport(payload = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.createInternalSupport(payload);
+    await delay();
+    const a = assertSuperadmin(resolveActor(actor !== null ? actor : {}));
+    const data = store();
+    const master = resolveLocalPlatformMaster(data);
+    if (!master) throw new Error('Nenhum Adm_Plataforma Master disponível.');
+    if (a.id === master.id) {
+      throw new Error('O Adm_Plataforma Master já é o atendente deste canal.');
+    }
+    const body = String(payload.body || '')
+      .trim()
+      .replace(/<[^>]*>/g, '')
+      .slice(0, 4000);
+    if (!body) throw new Error('Escreva a mensagem para o Master.');
+    const subject =
+      String(payload.subject || 'Suporte interno')
+        .trim()
+        .replace(/<[^>]*>/g, '')
+        .slice(0, 160) || 'Suporte interno';
+    const now = new Date().toISOString();
+    const thread = {
+      id: uid('pisup'),
+      channel: 'internal',
+      subject,
+      status: 'aberto',
+      createdAt: now,
+      updatedAt: now,
+      respondBy: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      firstResponseAt: null,
+      closedAt: null,
+      createdByUserId: a.id,
+      createdByName: a.nome || a.email || a.id,
+      assigneeUserId: master.id,
+      assigneeName: master.nome || master.email || master.id,
+      messages: [
+        {
+          id: uid('pimsg'),
+          direction: 'requester',
+          body,
+          actorUserId: a.id,
+          actorName: a.nome || a.email || a.id,
+          createdAt: now,
+          readBy: { [a.id]: true }
+        }
+      ]
+    };
+    if (!Array.isArray(data.platformInternalSupportThreads)) data.platformInternalSupportThreads = [];
+    data.platformInternalSupportThreads.unshift(thread);
+    data.notifications = data.notifications || [];
+    data.notifications.unshift({
+      id: uid('ntf'),
+      type: 'platform_internal_support',
+      title: 'Mensagem interna de Adm_Plataforma',
+      message: `${thread.createdByName}: ${body.slice(0, 120)}`,
+      role: 'superadmin',
+      userId: master.id,
+      threadId: thread.id,
+      channel: 'internal',
+      read: false,
+      createdAt: now
+    });
+    persist(data);
+    return enrichInternalThread(thread, a, data);
+  }
+
+  async function getInternalSupportThread(threadId, actor = null) {
+    if (useHttp()) return CSHttpApi.getInternalSupportThread(threadId);
+    await delay();
+    const a = assertSuperadmin(resolveActor(actor !== null ? actor : {}));
+    const data = store();
+    const thread = (data.platformInternalSupportThreads || []).find((t) => t.id === threadId);
+    if (!thread) throw new Error('Conversa não encontrada.');
+    return enrichInternalThread(thread, a, data);
+  }
+
+  async function replyInternalSupport(threadId, bodyText, actor = null) {
+    if (useHttp()) return CSHttpApi.replyInternalSupport(threadId, bodyText);
+    await delay();
+    const a = assertSuperadmin(resolveActor(actor !== null ? actor : {}));
+    const body = String(bodyText || '')
+      .trim()
+      .replace(/<[^>]*>/g, '')
+      .slice(0, 4000);
+    if (!body) throw new Error('Mensagem vazia.');
+    const data = store();
+    const master = resolveLocalPlatformMaster(data);
+    const thread = (data.platformInternalSupportThreads || []).find((t) => t.id === threadId);
+    if (!thread) throw new Error('Conversa não encontrada.');
+    if (thread.status === 'fechado') throw new Error('Esta conversa está fechada.');
+    const asMaster = Boolean(master && a.id === master.id);
+    const now = new Date().toISOString();
+    thread.messages = thread.messages || [];
+    thread.messages.push({
+      id: uid('pimsg'),
+      direction: asMaster ? 'attendant' : 'requester',
+      body,
+      actorUserId: a.id,
+      actorName: a.nome || a.email || a.id,
+      createdAt: now,
+      readBy: { [a.id]: true }
+    });
+    thread.updatedAt = now;
+    data.notifications = data.notifications || [];
+    if (asMaster) {
+      if (!thread.firstResponseAt) thread.firstResponseAt = now;
+      thread.status = 'respondido';
+      thread.lastResponderUserId = a.id;
+      thread.lastResponderName = a.nome || a.email || a.id;
+      data.notifications.unshift({
+        id: uid('ntf'),
+        type: 'platform_internal_support_reply',
+        title: 'Resposta do Adm_Plataforma Master',
+        message: body.slice(0, 120),
+        role: 'superadmin',
+        userId: thread.createdByUserId,
+        threadId: thread.id,
+        channel: 'internal',
+        read: false,
+        createdAt: now
+      });
+      (data.notifications || []).forEach((n) => {
+        if (n.type === 'platform_internal_support' && n.threadId === thread.id && n.userId === a.id) {
+          n.read = true;
+          n.readAt = now;
+        }
+      });
+    } else {
+      thread.status = 'aberto';
+      thread.respondBy = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+      if (master) {
+        data.notifications.unshift({
+          id: uid('ntf'),
+          type: 'platform_internal_support',
+          title: 'Mensagem interna de Adm_Plataforma',
+          message: `${a.nome || a.email}: ${body.slice(0, 120)}`,
+          role: 'superadmin',
+          userId: master.id,
+          threadId: thread.id,
+          channel: 'internal',
+          read: false,
+          createdAt: now
+        });
+      }
+    }
+    persist(data);
+    return enrichInternalThread(thread, a, data);
+  }
+
+  async function markInternalSupportRead(threadId = null, actor = null) {
+    if (useHttp()) return CSHttpApi.markInternalSupportRead(threadId);
+    await delay();
+    const a = assertSuperadmin(resolveActor(actor !== null ? actor : {}));
+    const data = store();
+    const master = resolveLocalPlatformMaster(data);
+    const isMaster = Boolean(master && master.id === a.id);
+    const now = new Date().toISOString();
+    let marked = 0;
+    (data.platformInternalSupportThreads || []).forEach((thread) => {
+      if (threadId && thread.id !== threadId) return;
+      (thread.messages || []).forEach((m) => {
+        if (!m.readBy || typeof m.readBy !== 'object') m.readBy = {};
+        const relevant = isMaster ? m.direction === 'requester' : m.direction === 'attendant';
+        if (relevant && m.readBy[a.id] !== true) {
+          m.readBy[a.id] = true;
+          marked += 1;
+        }
+      });
+    });
+    (data.notifications || []).forEach((n) => {
+      if (
+        (n.type === 'platform_internal_support' || n.type === 'platform_internal_support_reply') &&
+        n.userId === a.id &&
+        !n.read &&
+        (!threadId || n.threadId === threadId)
+      ) {
+        n.read = true;
+        n.readAt = now;
+      }
+    });
+    persist(data);
+    return { marked, unreadTotal: 0, isMaster };
+  }
+
+  async function getInternalSupportMaster(actor = null) {
+    if (useHttp()) return CSHttpApi.getInternalSupportMaster();
+    await delay();
+    const a = assertSuperadmin(resolveActor(actor !== null ? actor : {}));
+    const data = store();
+    const master = resolveLocalPlatformMaster(data);
+    return {
+      master: master
+        ? { id: master.id, nome: master.nome || master.email || master.id, email: master.email || null }
+        : null,
+      isMaster: Boolean(master && master.id === a.id)
+    };
+  }
+
+  async function submitAssistantFeedback(payload = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.submitAssistantFeedback(payload);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    if (a.role !== 'admin_empresa' && a.role !== 'apurador') {
+      throw new Error('Acesso negado.');
+    }
+    if (!a.companyId) throw new Error('Nenhuma empresa vinculada à sessão.');
+    const categoryRaw = String(payload.category || payload.type || '')
+      .trim()
+      .toLowerCase()
+      .slice(0, 40);
+    const isFreeform = categoryRaw === 'sugestao' || categoryRaw === 'reclamacao';
+    const category = isFreeform ? categoryRaw : 'avaliacao';
+    const subject = String(payload.subject || '')
+      .trim()
+      .replace(/<[^>]*>/g, '')
+      .slice(0, 160);
+    const message = String(payload.message || payload.improvement || payload.body || '')
+      .trim()
+      .replace(/<[^>]*>/g, '')
+      .slice(0, 2000);
+    let rating = null;
+    if (isFreeform) {
+      if (!message) {
+        throw new Error(category === 'reclamacao' ? 'Descreva a reclamação.' : 'Descreva a sugestão.');
+      }
+    } else {
+      rating = Number(payload.rating);
+      if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+        throw new Error('Informe uma nota de 1 a 5.');
+      }
+      if (rating < 5 && !message) {
+        throw new Error('Descreva o que poderíamos melhorar.');
+      }
+    }
+    const data = store();
+    if (!Array.isArray(data.assistantFeedback)) data.assistantFeedback = [];
+    const company = (data.companies || []).find((c) => c.id === a.companyId);
+    const entry = {
+      id: uid('afb'),
+      companyId: a.companyId,
+      companyName: company?.nomeFantasia || company?.razaoSocial || a.companyId,
+      userId: a.id || null,
+      userName: a.nome || a.email || null,
+      role: a.role,
+      category,
+      subject: subject || '',
+      rating: isFreeform ? null : rating,
+      improvement: isFreeform ? message : rating < 5 ? message : '',
+      source: String(payload.source || (isFreeform ? `empresa_${category}` : 'assistente_virtual')).slice(0, 40),
+      createdAt: new Date().toISOString()
+    };
+    data.assistantFeedback.unshift(entry);
+    persist(data);
+    return { id: entry.id, rating: entry.rating, category: entry.category };
+  }
+
+  async function listAssistantFeedback(filters = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.listAssistantFeedback(filters);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    if (a.role !== 'superadmin') throw new Error('Acesso negado.');
+    const data = store();
+    let list = [...(data.assistantFeedback || [])];
+    const rating = filters.rating != null && filters.rating !== '' ? Number(filters.rating) : null;
+    if (Number.isInteger(rating) && rating >= 1 && rating <= 5) {
+      list = list.filter((f) => Number(f.rating) === rating);
+    }
+    if (filters.withImprovement) {
+      list = list.filter((f) => String(f.improvement || '').trim());
+    }
+    if (filters.companyId) {
+      list = list.filter((f) => f.companyId === filters.companyId);
+    }
+    const category = String(filters.category || '')
+      .trim()
+      .toLowerCase();
+    if (category) {
+      list = list.filter((f) => String(f.category || 'avaliacao').toLowerCase() === category);
+    }
+    list.sort((x, y) => (x.createdAt < y.createdAt ? 1 : -1));
+    const rated = list.filter((f) => Number(f.rating) >= 1);
+    const summary = {
+      total: list.length,
+      avgRating:
+        rated.length > 0
+          ? Number((rated.reduce((s, f) => s + (Number(f.rating) || 0), 0) / rated.length).toFixed(2))
+          : null,
+      withImprovement: list.filter((f) => String(f.improvement || '').trim()).length,
+      sugestoes: list.filter((f) => f.category === 'sugestao').length,
+      reclamacoes: list.filter((f) => f.category === 'reclamacao').length,
+      byRating: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+    };
+    list.forEach((f) => {
+      const r = Number(f.rating);
+      if (summary.byRating[r] != null) summary.byRating[r] += 1;
+    });
+    return { items: list.slice(0, 200), summary };
+  }
+
+  function ensureLocalSupportFaqs(data) {
+    if (!Array.isArray(data.supportFaqs)) data.supportFaqs = [];
+    const now = new Date().toISOString();
+    const seeds = [
+      {
+        id: 'faq_seed_suporte',
+        question: 'Como falar com o suporte da plataforma?',
+        answer:
+          'Use o botão flutuante no canto da tela (Assistente Virtual). Abra a aba Ajuda. Se não resolver, envie uma mensagem — resposta em até 24h.',
+        keywords: ['suporte', 'ajuda', 'humano', '24h', 'faq'],
+        audience: ['all'],
+        sortOrder: 10
+      },
+      {
+        id: 'faq_seed_badge',
+        question: 'O que significa o número laranja no ícone de ajuda?',
+        answer:
+          'São respostas novas da plataforma ainda não vistas. Ao abrir a aba Mensagem e visualizar, o contador zera.',
+        keywords: ['badge', 'laranja', 'numero', 'icone', 'contador'],
+        audience: ['all'],
+        sortOrder: 20
+      },
+      {
+        id: 'faq_seed_need_to_know',
+        question: 'Por que o Apurador não vê todos os relatos?',
+        answer:
+          'Por need-to-know: só vê relatos encaminhados a ele pelo Adm_Empresa.',
+        keywords: ['need-to-know', 'apurador', 'acesso', 'relato'],
+        audience: ['all'],
+        sortOrder: 40
+      },
+      {
+        id: 'faq_seed_tratar_relato',
+        question: 'Como tratar um relato passo a passo?',
+        answer:
+          'Em Relatos, avance o fluxo, fale com o denunciante, registre Medidas e ações e conclua quando apropriado.',
+        keywords: ['tratar', 'relato', 'fluxo', 'medida'],
+        audience: ['all'],
+        sortOrder: 50
+      },
+      {
+        id: 'faq_seed_sigilo',
+        question: 'Quais regras de sigilo e LGPD devo seguir?',
+        answer:
+          'Não compartilhe prints nem protocolo + código. Peça só dados necessários ao denunciante.',
+        keywords: ['sigilo', 'lgpd', 'protocolo', 'confidencial'],
+        audience: ['all'],
+        sortOrder: 80
+      },
+      {
+        id: 'faq_seed_encaminhar',
+        question: 'Como encaminhar um relato para um Apurador?',
+        answer:
+          'No detalhe do relato, use Encaminhar e escolha o Apurador. Só ele verá aquele caso.',
+        keywords: ['encaminhar', 'atribuir', 'apurador'],
+        audience: ['admin_empresa'],
+        sortOrder: 200
+      },
+      {
+        id: 'faq_seed_usuarios',
+        question: 'Como cadastrar usuários da empresa?',
+        answer: 'Em Usuários, cadastre Adm_Empresa e Apuradores da sua empresa.',
+        keywords: ['usuarios', 'cadastrar', 'apurador'],
+        audience: ['admin_empresa'],
+        sortOrder: 220
+      },
+      {
+        id: 'faq_seed_armazenamento_adm',
+        question: 'Como solicitar mais armazenamento?',
+        answer:
+          'Em Armazenamento, consulte os pacotes e solicite upgrade. O Adm_Plataforma trata o comercial.',
+        keywords: ['armazenamento', 'upgrade', 'pacote', 'quota'],
+        audience: ['admin_empresa'],
+        sortOrder: 260
+      },
+      {
+        id: 'faq_seed_apurador_limites',
+        question: 'O que o Apurador pode e não pode fazer?',
+        answer:
+          'Pode tratar relatos encaminhados a você. Não pode encaminhar nem gerenciar usuários/colaboradores/identidade.',
+        keywords: ['limites', 'apurador', 'pode'],
+        audience: ['apurador'],
+        sortOrder: 300
+      },
+      {
+        id: 'faq_seed_apurador_visibilidade',
+        question: 'Quais relatos aparecem para mim como Apurador?',
+        answer: 'Somente os encaminhados a você pelo Adm_Empresa.',
+        keywords: ['visibilidade', 'encaminhado', 'relatos'],
+        audience: ['apurador'],
+        sortOrder: 310
+      },
+      {
+        id: 'faq_seed_apurador_armazenamento',
+        question: 'Posso contratar mais armazenamento como Apurador?',
+        answer: 'Não. Só consulte o consumo; a contratação é do Adm_Empresa.',
+        keywords: ['armazenamento', 'contratar', 'apurador'],
+        audience: ['apurador'],
+        sortOrder: 330
+      },
+      {
+        id: 'faq_seed_public_fazer_denuncia',
+        question: 'Como faço uma denúncia neste canal?',
+        answer:
+          'Como fazer uma denúncia\n1. Acesse o formulário oficial pelo botão “Fazer uma denúncia”.\n2. Informe o CPF para validar o vínculo com a empresa cadastrada.\n3. Escolha se o relato será identificado ou anônimo, quando a opção estiver disponível.\n4. Descreva os fatos com clareza e anexe documentos, se necessário.\n5. Envie o relato e guarde o protocolo e o código de acompanhamento em local seguro.',
+        keywords: ['denuncia', 'relato', 'fazer', 'registrar', 'como', 'comecar', 'enviar', 'cpf', 'formulario'],
+        audience: ['public'],
+        sortOrder: 10
+      },
+      {
+        id: 'faq_seed_public_assedio_moral',
+        question: 'O que é assédio moral?',
+        answer:
+          'Assédio moral, de forma geral, envolve condutas abusivas e reiteradas que humilham, isolam ou pressionam alguém no ambiente de trabalho.\n\nEste assistente oferece orientação geral. Para exemplos e conteúdos educativos, consulte a área Sobre / Orientações. Se você vivenciou uma situação inadequada, utilize o formulário oficial de denúncia.',
+        keywords: ['assedio', 'moral', 'humilhacao', 'pressao', 'isolamento', 'o que e'],
+        audience: ['public'],
+        sortOrder: 15
+      },
+      {
+        id: 'faq_seed_public_anonimo',
+        question: 'Posso fazer uma denúncia anônima?',
+        answer:
+          'Quando a opção estiver disponível no canal da sua organização, você pode escolher o modo anônimo. Nesse caso, dados pessoais não são obrigatórios.',
+        keywords: ['anonimo', 'anonimato', 'identificado', 'sigilo'],
+        audience: ['public'],
+        sortOrder: 20
+      },
+      {
+        id: 'faq_seed_public_protocolo',
+        question: 'Como consulto o andamento da minha denúncia?',
+        answer:
+          'Como acompanhar uma denúncia\n1. Acesse “Consultar protocolo” na página inicial.\n2. Informe o número do protocolo e o código de acompanhamento recebidos no registro.\n3. Consulte as informações disponíveis sobre o andamento.\n\nSem protocolo e código, o canal não exibe o andamento — isso protege a confidencialidade.',
+        keywords: ['protocolo', 'consultar', 'andamento', 'codigo', 'acompanhamento', 'acompanhar'],
+        audience: ['public'],
+        sortOrder: 30
+      },
+      {
+        id: 'faq_seed_public_depois',
+        question: 'O que acontece depois que eu envio o relato?',
+        answer:
+          'O relato é registrado e encaminhado conforme o procedimento da organização. Acompanhe pela consulta com protocolo e código.',
+        keywords: ['depois', 'envio', 'analise', 'prazo'],
+        audience: ['public'],
+        sortOrder: 40
+      },
+      {
+        id: 'faq_seed_public_provas',
+        question: 'Preciso ter provas para denunciar?',
+        answer:
+          'Não é obrigatório ter provas completas para iniciar. Descreva o que aconteceu com clareza; anexos podem ser enviados nas etapas do formulário.',
+        keywords: ['provas', 'evidencias', 'anexo', 'obrigatorio'],
+        audience: ['public'],
+        sortOrder: 50
+      },
+      {
+        id: 'faq_seed_public_confidencial',
+        question: 'O canal é confidencial?',
+        answer:
+          'Sim. O Canal Seguro foi pensado para comunicação confidencial.\n\nO acesso interno aos relatos é restrito a perfis autorizados. Não compartilhe protocolo, código ou detalhes do caso com terceiros. Para mais detalhes, consulte a Política de Privacidade.',
+        keywords: ['confidencial', 'sigilo', 'privacidade', 'lgpd', 'minha denuncia'],
+        audience: ['public'],
+        sortOrder: 60
+      },
+      {
+        id: 'faq_seed_public_fale_conosco',
+        question: 'Qual a diferença entre Fale conosco e fazer uma denúncia?',
+        answer:
+          '“Fazer uma denúncia” é para relatar situações inadequadas. “Fale conosco” é para dúvidas gerais sobre o uso do canal — não substitui o registro de um relato.',
+        keywords: ['fale', 'conosco', 'contato', 'duvida', 'diferenca'],
+        audience: ['public'],
+        sortOrder: 70
+      },
+      {
+        id: 'faq_seed_public_esqueci_protocolo',
+        question: 'Esqueci o protocolo ou o código de acompanhamento. E agora?',
+        answer:
+          'Por política de privacidade, o canal não reenvia nem revela protocolo ou código por este assistente. Guarde esses dados no momento do registro.',
+        keywords: ['esqueci', 'perdi', 'protocolo', 'codigo', 'recuperar'],
+        audience: ['public'],
+        sortOrder: 80
+      }
+    ];
+    const byId = new Map(data.supportFaqs.map((f) => [f.id, f]));
+    let changed = false;
+    for (const seed of seeds) {
+      if (!byId.has(seed.id)) {
+        data.supportFaqs.push({ ...seed, enabled: true, createdAt: now, updatedAt: now });
+        changed = true;
+      }
+    }
+    if (changed) persist(data);
+    return data.supportFaqs;
+  }
+
+  function localFaqNorm(text) {
+    return String(text || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  const LOCAL_FAQ_MATCH_THRESHOLD = 2.5;
+  const LOCAL_FAQ_SUGGESTION_MIN = 0.8;
+  const LOCAL_FAQ_SUGGESTION_MAX = 4;
+  const LOCAL_FAQ_CONFIDENT_SCORE = 18;
+  const LOCAL_FAQ_CONFIDENT_GAP = 5;
+  const LOCAL_FAQ_STOP = new Set([
+    'a', 'o', 'os', 'as', 'de', 'da', 'do', 'das', 'dos', 'e', 'ou', 'um', 'uma',
+    'para', 'por', 'com', 'no', 'na', 'nos', 'nas', 'em', 'que', 'como', 'qual',
+    'quais', 'meu', 'minha', 'seu', 'sua'
+  ]);
+
+  function localFaqTokenize(text) {
+    return localFaqNorm(text)
+      .split(' ')
+      .filter((w) => w.length > 2 && !LOCAL_FAQ_STOP.has(w));
+  }
+
+  function scoreLocalFaq(faq, queryNorm, queryTokens) {
+    const q = localFaqNorm(faq.question);
+    const ans = localFaqNorm(faq.answer);
+    const keywords = (faq.keywords || []).map(localFaqNorm);
+    let score = 0;
+
+    if (q && queryNorm === q) score += 20;
+    else if (q && (q.includes(queryNorm) || queryNorm.includes(q))) score += 8;
+
+    for (const kw of keywords) {
+      if (!kw) continue;
+      if (queryNorm.includes(kw)) score += 4;
+      if (queryTokens.includes(kw)) score += 2.5;
+      const kwTokens = kw.split(' ').filter((w) => w.length > 2);
+      if (kwTokens.length > 1 && kwTokens.every((t) => queryNorm.includes(t))) score += 3;
+      for (const kt of kwTokens) {
+        if (queryTokens.includes(kt)) score += 1.8;
+      }
+    }
+
+    const qTokens = localFaqTokenize(faq.question);
+    for (const t of queryTokens) {
+      if (qTokens.includes(t)) score += 1.2;
+      if (ans.includes(t)) score += 0.25;
+    }
+
+    return score;
+  }
+
+  function rankLocalFaqs(faqs, queryNorm, queryTokens) {
+    return faqs
+      .map((faq) => ({ faq, score: scoreLocalFaq(faq, queryNorm, queryTokens) }))
+      .sort((a, b) => b.score - a.score);
+  }
+
+  function buildLocalFaqSuggestions(ranked, { excludeId = null, minScore = LOCAL_FAQ_SUGGESTION_MIN } = {}) {
+    const out = [];
+    const seen = new Set();
+    for (const row of ranked) {
+      if (row.score < minScore) continue;
+      if (excludeId && row.faq.id === excludeId) continue;
+      if (seen.has(row.faq.id)) continue;
+      seen.add(row.faq.id);
+      out.push({
+        id: row.faq.id,
+        question: row.faq.question,
+        score: Number(row.score.toFixed(2))
+      });
+      if (out.length >= LOCAL_FAQ_SUGGESTION_MAX) break;
+    }
+    return out;
+  }
+
+  function evaluateLocalFaqQuery(ranked, matchThreshold, { queryTokens = [] } = {}) {
+    const best = ranked[0];
+    if (!best || best.score < LOCAL_FAQ_SUGGESTION_MIN) {
+      return {
+        matched: false,
+        partialMatch: false,
+        best: null,
+        score: 0,
+        suggestions: []
+      };
+    }
+
+    const second = ranked[1];
+    const gap = second ? best.score - second.score : best.score;
+    const candidates = ranked.filter((row) => row.score >= LOCAL_FAQ_SUGGESTION_MIN);
+    const shortQuery = queryTokens.length > 0 && queryTokens.length <= 2;
+
+    let confident = false;
+    if (best.score >= matchThreshold) {
+      if (best.score >= LOCAL_FAQ_CONFIDENT_SCORE) {
+        confident = true;
+      } else if (shortQuery && candidates.length >= 2) {
+        confident = false;
+      } else if (candidates.length === 1) {
+        confident = true;
+      } else if (!shortQuery && gap >= 2.5) {
+        confident = true;
+      } else if (gap >= LOCAL_FAQ_CONFIDENT_GAP) {
+        confident = true;
+      }
+    }
+
+    if (confident) {
+      return {
+        matched: true,
+        partialMatch: false,
+        best,
+        score: Number(best.score.toFixed(2)),
+        suggestions: buildLocalFaqSuggestions(ranked, {
+          excludeId: best.faq.id,
+          minScore: 1
+        })
+      };
+    }
+
+    const suggestions = buildLocalFaqSuggestions(ranked, {
+      excludeId: null,
+      minScore: LOCAL_FAQ_SUGGESTION_MIN
+    });
+    return {
+      matched: false,
+      partialMatch: suggestions.length > 0,
+      best: null,
+      score: 0,
+      suggestions
+    };
+  }
+
+  async function listSupportFaqs(opts = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.listSupportFaqs(opts);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    const data = store();
+    let list = [...ensureLocalSupportFaqs(data)];
+    if (a.role === 'superadmin') {
+      if (!opts.all) list = list.filter((f) => f.enabled !== false);
+    } else if (a.role === 'admin_empresa' || a.role === 'apurador') {
+      list = list.filter((f) => {
+        if (f.enabled === false) return false;
+        const aud = f.audience || ['all'];
+        return aud.includes('all') || aud.includes(a.role);
+      });
+    } else throw new Error('Acesso negado.');
+    list.sort((x, y) => (x.sortOrder || 0) - (y.sortOrder || 0));
+    return { faqs: list };
+  }
+
+  async function askSupportFaq(query, actor = null) {
+    if (useHttp()) return CSHttpApi.askSupportFaq(query);
+    await delay();
+    const a = resolveActor(actor !== null ? actor : {});
+    const q = String(query || '').trim();
+    if (!q) throw new Error('Digite sua pergunta.');
+    const data = store();
+    const role = a.role === 'superadmin' ? 'admin_empresa' : a.role;
+    const faqs = ensureLocalSupportFaqs(data).filter((f) => {
+      if (f.enabled === false) return false;
+      const aud = f.audience || ['all'];
+      if (role === 'public') return aud.includes('public');
+      return aud.includes('all') || aud.includes(role);
+    });
+    const qn = localFaqNorm(q);
+    const tokens = localFaqTokenize(q);
+    const ranked = rankLocalFaqs(faqs, qn, tokens);
+    const evalResult = evaluateLocalFaqQuery(ranked, LOCAL_FAQ_MATCH_THRESHOLD, {
+      queryTokens: tokens
+    });
+    return {
+      matched: evalResult.matched,
+      partialMatch: evalResult.partialMatch,
+      score: evalResult.score,
+      faq: evalResult.best ? evalResult.best.faq : null,
+      suggestions: evalResult.suggestions,
+      escalateHint:
+        'Se a resposta não resolver, envie uma mensagem à plataforma (prazo de até 24h).'
+    };
+  }
+
+  const PUBLIC_CONFIDENTIAL_REFUSAL =
+    'Por política de privacidade e confidencialidade do canal, não posso informar, confirmar nem comentar dados pessoais, identidade de denunciantes, conteúdo de relatos ou qualquer informação confidencial de usuários. Use apenas as orientações gerais deste assistente ou a consulta com o seu próprio protocolo e código.';
+
+  function isPublicConfidentialQuery(qn) {
+    const patterns = [
+      /\b(cpf|rg|nome completo|dados pessoais|identidade)\b.{0,40}\b(de|do|da|dos|das)\b/,
+      /\b(quem|qual)\b.{0,30}\b(denunciou|denunciante|relatou|fez o relato|fez a denuncia)\b/,
+      /\b(me diga|informe|mostrar|revelar|listar|buscar)\b.{0,40}\b(nome|cpf|email|telefone|identidade|denunciante)\b/,
+      /\b(dados|informacoes|info)\b.{0,30}\b(do usuario|da pessoa|do colaborador|do denunciante|de fulano)\b/,
+      /\b(protocolo|codigo)\b.{0,40}\b(de outra pessoa|de um colega|de fulano|de alguem)\b/,
+      /\b(existe relato|tem denuncia|houve denuncia)\b.{0,40}\b(sobre|contra|de)\b/,
+      /\b(vazamento|vazar|compartilhar)\b.{0,30}\b(dados|relato|protocolo|identidade)\b/
+    ];
+    return patterns.some((re) => re.test(qn));
+  }
+
+  async function askPublicSupportFaq(query) {
+    if (useHttp()) return CSHttpApi.askPublicSupportFaq(query);
+    await delay();
+    const q = String(query || '').trim();
+    if (!q) throw new Error('Digite sua pergunta.');
+    const qn = localFaqNorm(q);
+    if (isPublicConfidentialQuery(qn)) {
+      return {
+        matched: false,
+        confidential: true,
+        score: 0,
+        faq: null,
+        answer: PUBLIC_CONFIDENTIAL_REFUSAL,
+        suggestions: [],
+        escalateHint:
+          'Para dúvidas gerais sobre o uso do canal (sem dados confidenciais), use Fale conosco na página inicial.'
+      };
+    }
+    const data = store();
+    const faqs = ensureLocalSupportFaqs(data).filter((f) => {
+      if (f.enabled === false) return false;
+      return (f.audience || []).includes('public');
+    });
+    const tokens = localFaqTokenize(q);
+    const ranked = rankLocalFaqs(faqs, qn, tokens);
+    const publicThreshold = Math.max(LOCAL_FAQ_MATCH_THRESHOLD, 6);
+    const evalResult = evaluateLocalFaqQuery(ranked, publicThreshold, {
+      queryTokens: tokens
+    });
+    return {
+      matched: evalResult.matched,
+      partialMatch: evalResult.partialMatch,
+      confidential: false,
+      score: evalResult.score,
+      faq: evalResult.best ? evalResult.best.faq : null,
+      answer: evalResult.best ? evalResult.best.faq.answer : null,
+      suggestions: evalResult.suggestions,
+      escalateHint:
+        'Se precisar de orientação geral, use Fale conosco. Para denúncias, use Fazer uma denúncia. Não solicitamos nem revelamos dados confidenciais por este assistente.'
+    };
+  }
+
+  async function createSupportFaq(payload = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.createSupportFaq(payload);
+    await delay();
+    const a = assertSuperadmin(resolveActor(actor));
+    const question = String(payload.question || '').trim();
+    const answer = String(payload.answer || '').trim();
+    if (!question || !answer) throw new Error('Informe pergunta e resposta.');
+    const data = store();
+    ensureLocalSupportFaqs(data);
+    const now = new Date().toISOString();
+    const faq = {
+      id: uid('faq'),
+      question,
+      answer,
+      keywords: String(payload.keywords || '')
+        .split(/[,;\n]/)
+        .map((s) => s.trim())
+        .filter(Boolean),
+      audience: Array.isArray(payload.audience) ? payload.audience : ['all'],
+      enabled: payload.enabled !== false,
+      sortOrder: Number(payload.sortOrder) || 100,
+      createdAt: now,
+      updatedAt: now,
+      updatedByName: a.nome || a.email
+    };
+    data.supportFaqs.push(faq);
+    persist(data);
+    return faq;
+  }
+
+  async function updateSupportFaq(faqId, payload = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.updateSupportFaq(faqId, payload);
+    await delay();
+    assertSuperadmin(resolveActor(actor));
+    const data = store();
+    const idx = ensureLocalSupportFaqs(data).findIndex((f) => f.id === faqId);
+    if (idx < 0) throw new Error('FAQ não encontrada.');
+    const prev = data.supportFaqs[idx];
+    data.supportFaqs[idx] = {
+      ...prev,
+      ...payload,
+      id: prev.id,
+      question: payload.question != null ? String(payload.question).trim() : prev.question,
+      answer: payload.answer != null ? String(payload.answer).trim() : prev.answer,
+      keywords:
+        payload.keywords != null
+          ? Array.isArray(payload.keywords)
+            ? payload.keywords
+            : String(payload.keywords)
+                .split(/[,;\n]/)
+                .map((s) => s.trim())
+                .filter(Boolean)
+          : prev.keywords,
+      updatedAt: new Date().toISOString()
+    };
+    persist(data);
+    return data.supportFaqs[idx];
+  }
+
+  async function deleteSupportFaq(faqId, actor = null) {
+    if (useHttp()) return CSHttpApi.deleteSupportFaq(faqId);
+    await delay();
+    assertSuperadmin(resolveActor(actor));
+    const data = store();
+    const idx = ensureLocalSupportFaqs(data).findIndex((f) => f.id === faqId);
+    if (idx < 0) throw new Error('FAQ não encontrada.');
+    data.supportFaqs.splice(idx, 1);
+    persist(data);
+    return { id: faqId };
+  }
+
   function fileToBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -2810,6 +4389,7 @@ const CSApi = (() => {
   }
 
   async function getUsers(filters = {}, actor = null) {
+    if (useHttp()) return CSHttpApi.getUsers(scopeFilters(filters, actor));
     await delay();
     const scoped = scopeFilters(filters, actor);
     let list = store().users.map(({ senha, ...u }) => u);
@@ -2821,6 +4401,7 @@ const CSApi = (() => {
   }
 
   async function getUser(id, actor = null) {
+    if (useHttp()) return CSHttpApi.getUser(id);
     await delay();
     const u = store().users.find((x) => x.id === id);
     if (!u) return null;
@@ -2873,8 +4454,8 @@ const CSApi = (() => {
     }
     if (!a.companyId) throw new Error('Sem empresa vinculada.');
     if (creating) {
-      if (nextRole && nextRole !== 'apurador') {
-        throw new Error('Adm_Empresa só pode cadastrar usuários com perfil Apurador.');
+      if (nextRole && nextRole !== 'apurador' && nextRole !== 'admin_empresa') {
+        throw new Error('Adm_Empresa só pode cadastrar Adm_Empresa ou Apurador da própria empresa.');
       }
       return a;
     }
@@ -2886,8 +4467,8 @@ const CSApi = (() => {
       throw new Error('Acesso não autorizado a usuários de outra empresa.');
     }
     const isSelf = target.id === a.id;
-    if (!isSelf && target.role !== 'apurador') {
-      throw new Error('Adm_Empresa só pode alterar a própria conta e usuários Apurador da empresa.');
+    if (!isSelf && target.role !== 'apurador' && target.role !== 'admin_empresa') {
+      throw new Error('Adm_Empresa só pode alterar a própria conta e usuários Adm_Empresa/Apurador da empresa.');
     }
     if (nextRole === 'superadmin') {
       throw new Error('Não é permitido atribuir perfil Adm_Plataforma.');
@@ -2895,8 +4476,8 @@ const CSApi = (() => {
     if (isSelf && nextRole && nextRole !== 'admin_empresa') {
       throw new Error('Você não pode alterar o próprio perfil.');
     }
-    if (!isSelf && nextRole && nextRole !== 'apurador') {
-      throw new Error('Adm_Empresa só pode manter o perfil Apurador nestes usuários.');
+    if (!isSelf && nextRole && nextRole !== 'apurador' && nextRole !== 'admin_empresa') {
+      throw new Error('Adm_Empresa só pode atribuir perfil Adm_Empresa ou Apurador.');
     }
     if (nextCompanyId && nextCompanyId !== a.companyId) {
       throw new Error('Não é permitido transferir usuário para outra empresa.');
@@ -2905,6 +4486,13 @@ const CSApi = (() => {
   }
 
   async function createUser(payload, actor = null) {
+    if (useHttp()) {
+      const { _actorId, _actorName, senha, ...rest } = payload || {};
+      const body = { ...rest };
+      if (senha) body.password = senha;
+      if (!body.status) body.status = 'ativo';
+      return CSHttpApi.createUser(body);
+    }
     await delay();
     const actorResolved = resolveActor(actor !== null ? actor : {});
     const requestedRole = payload.role || 'admin_empresa';
@@ -2924,8 +4512,11 @@ const CSApi = (() => {
       throw new Error('Usuário (login) já cadastrado.');
     }
     if (a.role === 'admin_empresa') {
-      rest.role = 'apurador';
+      rest.role = requestedRole === 'admin_empresa' ? 'admin_empresa' : 'apurador';
       rest.companyId = a.companyId;
+    }
+    if (rest.role === 'superadmin') {
+      throw new Error('Não é permitido atribuir perfil Adm_Plataforma por esta operação.');
     }
     const user = {
       id: uid('usr'),
@@ -2967,6 +4558,12 @@ const CSApi = (() => {
   }
 
   async function updateUser(id, payload, actor = null) {
+    if (useHttp()) {
+      const { _actorId, _actorName, senha, ...rest } = payload || {};
+      const body = { ...rest };
+      if (senha) body.password = senha;
+      return CSHttpApi.updateUser(id, body);
+    }
     await delay();
     const actorResolved = resolveActor(actor !== null ? actor : {});
     const data = store();
@@ -3010,8 +4607,11 @@ const CSApi = (() => {
     }
     if (a.role === 'admin_empresa') {
       rest.companyId = a.companyId;
-      if (previous.id === a.id) rest.role = 'admin_empresa';
-      else if (rest.role !== undefined) rest.role = 'apurador';
+      if (previous.id === a.id) {
+        rest.role = 'admin_empresa';
+      } else if (rest.role !== undefined) {
+        rest.role = rest.role === 'admin_empresa' ? 'admin_empresa' : 'apurador';
+      }
     }
     const contact =
       payload.cpf !== undefined || payload.telefone !== undefined
@@ -3192,6 +4792,7 @@ const CSApi = (() => {
 
   /* ---------- Contents ---------- */
   async function getContents(filters = {}) {
+    if (useHttp()) return CSHttpApi.getContents(filters);
     await delay();
     let list = [...store().contents];
     if (filters.companyId) {
@@ -3210,6 +4811,10 @@ const CSApi = (() => {
   }
 
   async function createContent(payload) {
+    if (useHttp()) {
+      const { _actorId, _actorName, ...body } = payload || {};
+      return CSHttpApi.createContent(body);
+    }
     await delay();
     const a = resolveActor(payload);
     if (payload.companyId) assertCompanyScope(payload.companyId, a);
@@ -3238,6 +4843,10 @@ const CSApi = (() => {
   }
 
   async function updateContent(id, payload) {
+    if (useHttp()) {
+      const { _actorId, _actorName, ...body } = payload || {};
+      return CSHttpApi.updateContent(id, body);
+    }
     await delay();
     const data = store();
     const idx = data.contents.findIndex((c) => c.id === id);
@@ -3274,6 +4883,7 @@ const CSApi = (() => {
   }
 
   async function deleteContent(id, actorPayload = {}) {
+    if (useHttp()) return CSHttpApi.deleteContent(id);
     await delay();
     const data = store();
     const idx = data.contents.findIndex((c) => c.id === id);
@@ -3298,9 +4908,41 @@ const CSApi = (() => {
   /* ---------- Notifications / Audit / Reports gen ---------- */
   async function getNotifications(filters = {}) {
     await delay();
-    let list = [...store().notifications];
-    if (filters.companyId) list = list.filter((n) => n.companyId === filters.companyId || !n.companyId);
+    let list = [...(store().notifications || [])];
+    if (filters.companyId) {
+      list = list.filter((n) => {
+        if (n.role === 'superadmin') return false;
+        return n.companyId === filters.companyId;
+      });
+    }
     return list.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+  }
+
+  async function markNotificationRead(notificationId) {
+    await delay();
+    const data = store();
+    const item = (data.notifications || []).find((n) => n.id === notificationId);
+    if (!item) return { ok: false };
+    item.read = true;
+    item.readAt = new Date().toISOString();
+    persist(data);
+    return { ok: true };
+  }
+
+  async function markNotificationsRead(ids = []) {
+    await delay();
+    const data = store();
+    const now = new Date().toISOString();
+    const idSet = new Set((ids || []).filter(Boolean));
+    let count = 0;
+    (data.notifications || []).forEach((n) => {
+      if (!idSet.has(n.id) || n.read) return;
+      n.read = true;
+      n.readAt = now;
+      count += 1;
+    });
+    if (count) persist(data);
+    return { ok: true, count };
   }
 
   async function getAuditLogs(filters = {}, actor = null) {
@@ -3429,7 +5071,10 @@ const CSApi = (() => {
         ctaLabel: hidePrice ? 'Falar com especialista' : p.ctaLabel || 'Contratar'
       };
     });
-    return { plans };
+    return {
+      plans,
+      hideLandingPlans: Boolean(platformSettingsSync(data).hideLandingPlans)
+    };
   }
 
   async function getSettings() {
@@ -3525,6 +5170,8 @@ const CSApi = (() => {
     getPublicCompany,
     createCompany,
     updateCompany,
+    getCompanyEmailNotifications,
+    updateCompanyEmailNotifications,
     deactivateCompany,
     deleteCompany,
     getEmployees,
@@ -3572,6 +5219,26 @@ const CSApi = (() => {
     updatePlatformStorage,
     getStorageUpgradeRequests,
     resolveStorageUpgradeRequest,
+    listPlatformSupport,
+    createPlatformSupport,
+    getPlatformSupportThread,
+    replyPlatformSupport,
+    closePlatformSupport,
+    markPlatformSupportRead,
+    listInternalSupport,
+    createInternalSupport,
+    getInternalSupportThread,
+    replyInternalSupport,
+    markInternalSupportRead,
+    getInternalSupportMaster,
+    submitAssistantFeedback,
+    listAssistantFeedback,
+    listSupportFaqs,
+    askSupportFaq,
+    askPublicSupportFaq,
+    createSupportFaq,
+    updateSupportFaq,
+    deleteSupportFaq,
     uploadReportAttachment,
     removeReportAttachment,
     getUsers,
@@ -3585,6 +5252,8 @@ const CSApi = (() => {
     updateContent,
     deleteContent,
     getNotifications,
+    markNotificationRead,
+    markNotificationsRead,
     getAuditLogs,
     deleteAccessLog,
     getTechLogs,
@@ -3596,7 +5265,14 @@ const CSApi = (() => {
     getPlatformSettings,
     getPublicCommercialContact,
     updateCommercialContact,
+    getDatabaseConfig,
+    updateDatabaseConfig,
+    testDatabaseConnection,
     buildCommercialInterestMessage,
+    getUiDefaults,
+    updatePlatformUiDefaults,
+    updateCompanyUiDefaults,
+    updateMyUiDefaults,
     getCompanySettings,
     getSettings,
     getDashboardMetrics,

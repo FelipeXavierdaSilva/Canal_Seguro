@@ -121,6 +121,12 @@ describe('Pacotes de armazenamento', () => {
     const list = await request('GET', '/settings/storage-plans', { cookie: apuradorCookie });
     assert.equal(list.status, 200);
     assert.ok(Array.isArray(list.json.plans));
+    assert.ok(list.json.plans.length > 0);
+    for (const p of list.json.plans) {
+      assert.equal(p.priceLabel, 'Sob consulta');
+      assert.equal(p.priceAmount, null);
+      assert.equal(p.priceHiddenForApurador, true);
+    }
 
     const contract = await request('POST', '/settings/storage-plans/contract', {
       cookie: apuradorCookie,
@@ -128,6 +134,45 @@ describe('Pacotes de armazenamento', () => {
     });
     assert.equal(contract.status, 403);
     assert.match(String(contract.json?.error || ''), /Adm_Empresa.*contratar/i);
+  });
+
+  it('Adm_Plataforma oculta/libera preços por plano da empresa para Apurador', async () => {
+    const show = await request('PUT', `/settings/storage-pricing/${encodeURIComponent(companyId)}`, {
+      cookie: superCookie,
+      body: {
+        baseAmount: 200,
+        upgradePercent: 25,
+        planDetails: {
+          plus: { hidePriceForApurador: false, priceAmount: 250 },
+          essencial: { hidePriceForApurador: true }
+        }
+      }
+    });
+    assert.equal(show.status, 200);
+
+    const listShown = await request('GET', '/settings/storage-plans', { cookie: apuradorCookie });
+    assert.equal(listShown.status, 200);
+    const plusShown = (listShown.json.plans || []).find((p) => p.id === 'plus');
+    const essShown = (listShown.json.plans || []).find((p) => p.id === 'essencial');
+    assert.ok(plusShown);
+    assert.notEqual(plusShown.priceHiddenForApurador, true);
+    assert.equal(essShown?.priceHiddenForApurador, true);
+    assert.equal(essShown?.priceLabel, 'Sob consulta');
+
+    const hide = await request('PUT', `/settings/storage-pricing/${encodeURIComponent(companyId)}`, {
+      cookie: superCookie,
+      body: {
+        planDetails: {
+          plus: { hidePriceForApurador: true }
+        }
+      }
+    });
+    assert.equal(hide.status, 200);
+
+    const listHidden = await request('GET', '/settings/storage-plans', { cookie: apuradorCookie });
+    const plusHidden = (listHidden.json.plans || []).find((p) => p.id === 'plus');
+    assert.equal(plusHidden?.priceHiddenForApurador, true);
+    assert.equal(plusHidden?.priceLabel, 'Sob consulta');
   });
 
   it('superadmin define valor base e % de upgrade personalizados', async () => {

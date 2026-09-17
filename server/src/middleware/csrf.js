@@ -12,6 +12,7 @@ const EXEMPT_PREFIXES = [
   '/api/v1/auth/reset-password/validate',
   '/api/v1/auth/employee/validate',
   '/api/v1/public/consult',
+  '/api/v1/public/support-faq/ask',
   '/api/v1/email/webhooks/'
 ];
 

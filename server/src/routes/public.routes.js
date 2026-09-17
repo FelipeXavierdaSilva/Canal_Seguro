@@ -87,4 +87,11 @@ router.get('/meta/commercial-contact', (_req, res) => {
   return res.json(result.data);
 });
 
+router.post('/support-faq/ask', (req, res) => {
+  const supportFaq = require('../services/support-faq.service');
+  const result = supportFaq.askPublicBot(req.body || {});
+  if (!result.ok) return res.status(result.status || 400).json({ error: result.error || 'Não foi possível responder.' });
+  return res.json(result.data);
+});
+
 module.exports = router;

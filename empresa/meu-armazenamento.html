@@ -4,42 +4,52 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Meu armazenamento – Canal Seguro</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/style.css?v=2" />
   <link rel="stylesheet" href="../css/forms.css" />
-  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=44" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
   <link rel="stylesheet" href="../css/pricing-plans.css" />
   <link rel="stylesheet" href="../css/responsive.css" />
-  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png" type="image/png" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
 </head>
 <body>
-  <div class="demo-banner"><strong>Meu armazenamento</strong> — consumo e contratação de pacotes (contratação anual).</div>
   <div class="sidebar-overlay" data-close-sidebar></div>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="sidebar__brand">
-        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png" />
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png?v=shield3" />
         <div class="sidebar__brand-text">
           <strong>Canal Seguro</strong>
-          <span data-user-company>Empresa</span>
+          <span data-panel-tagline>Sua voz, nosso compromisso</span>
         </div>
       </div>
-      <nav class="sidebar__nav">
-        <div class="nav-section">Empresa</div>
+      <nav class="sidebar__nav" data-empresa-nav>
+        <div class="nav-section">Principal</div>
         <a href="dashboard.html"><span class="nav-icon">▣</span> Dashboard</a>
         <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
-        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <div class="nav-section">Gestão</div>
+        <a href="colaboradores.html" data-roles="admin_empresa superadmin"><span class="nav-icon">👤</span> Colaboradores</a>
         <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">☺</span> Usuários</a>
-        <a href="relatorio.html"><span class="nav-icon">▦</span> Relatórios</a>
-        <a href="configuracoes.html"><span class="nav-icon">◎</span> Identidade</a>
-        <a href="../index.html" target="_blank"><span class="nav-icon">↗</span> Ver canal público</a>
-        <a class="active" href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">&#9635;</span> Meu armazenamento</a>
+        <a href="relatorio.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▦</span> Relatórios</a>
         <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◉</span> Acessos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="empresa.html" data-roles="admin_empresa superadmin"><span class="nav-icon">⬡</span> Empresa</a>
+        <a href="configuracoes.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◎</span> Aparência / Identidade</a>
+        <a class="active" href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▤</span> Armazenamento</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="suporte-tecnico.html"><span class="nav-icon">🛠</span> Suporte Técnico</a>
+        <a href="sugestoes.html"><span class="nav-icon">✎</span> Sugestões</a>
+        <a href="../index.html" target="_blank" rel="noopener" data-tenant-link><span class="nav-icon">⌂</span> Canal Seguro</a>
         <div class="nav-section">Conta</div>
-        <a href="manual.html"><span class="nav-icon">📘</span> Manual de operação</a>
-        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha Conta</a>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
       </nav>
       <div class="sidebar__footer">
-        <a class="btn btn-outline btn-block btn-sm" href="#" data-logout>Sair</a>
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
       </div>
     </aside>
 
@@ -47,7 +57,7 @@
       <header class="topbar">
         <div class="topbar__left">
           <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar aria-label="Menu">☰</button>
-          <strong>Meu armazenamento</strong>
+          <strong>Armazenamento</strong>
         </div>
         <div class="topbar__right">
           <button type="button" class="btn-icon" data-toggle-theme aria-label="Tema">◐</button>
@@ -79,11 +89,11 @@
             <header class="pricing-plans__header">
               <p class="pricing-plans__eyebrow">
                 <span class="pricing-plans__eyebrow-line" aria-hidden="true"></span>
-                Planos e preços
+                <span id="plansEyebrowLabel">Planos e preços</span>
                 <span class="pricing-plans__eyebrow-line" aria-hidden="true"></span>
               </p>
               <h2 id="panel-pricing-title">Soluções que se adaptam ao tamanho do seu negócio</h2>
-              <p class="pricing-plans__lead">
+              <p class="pricing-plans__lead" id="plansLead">
                 Valores personalizados da sua empresa. O upgrade entre planos usa a
                 <strong>porcentagem definida pelo Adm_Plataforma</strong>.
                 Contratação disponível para <strong>Adm_Empresa</strong> e <strong>Adm_Plataforma</strong>
@@ -104,20 +114,31 @@
   <script src="../js/http-api.js"></script>
   <script src="../js/seed.js"></script>
   <script src="../js/audit.js"></script>
-  <script src="../js/api.js"></script>
+  <script src="../js/api.js?v=45"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/users.js"></script>
   <script src="../js/companies.js"></script>
   <script src="../js/attachments.js"></script>
   <script src="../js/errors.js"></script>
-  <script src="../js/app.js"></script>
+  <script src="../js/app.js?v=46"></script>
   <script>
     CSApp.onReady(async () => {
       const session = await CSApp.initAdminShell(['admin_empresa', 'apurador', 'superadmin']);
       if (!session) return;
 
       const canContract = session.role === 'admin_empresa' || session.role === 'superadmin';
+      const isApurador = session.role === 'apurador';
       const CONTRACT_DENIED_MSG = 'Apenas o Adm_Empresa pode contratar este serviço.';
+
+      if (isApurador) {
+        const eyebrow = document.getElementById('plansEyebrowLabel');
+        const lead = document.getElementById('plansLead');
+        if (eyebrow) eyebrow.textContent = 'Pacotes de armazenamento';
+        if (lead) {
+          lead.innerHTML =
+            'Consulte os pacotes e a capacidade disponível. Valores comerciais ficam ocultos para o perfil Apurador. A contratação é feita pelo <strong>Adm_Empresa</strong>.';
+        }
+      }
 
       const companyId =
         session.role === 'superadmin'
@@ -229,7 +250,7 @@
         const upgradePct = list.find((p) => p.upgradePercent != null)?.upgradePercent;
         if (meta) {
           meta.textContent =
-            upgradePct != null
+            !isApurador && upgradePct != null
               ? `Upgrade comercial: +${upgradePct}% sobre o valor base a cada nível de plano.`
               : '';
         }

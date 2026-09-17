@@ -15,6 +15,7 @@ const {
   defaultInvestigationWorkflow
 } = require('./workflow-policy.service');
 const { hasPermission } = require('../utils/tokens');
+const { assertReportVisibility } = require('./report-access.service');
 
 function ensureWorkflowHistory(data) {
   data.reportWorkflowHistory = data.reportWorkflowHistory || [];
@@ -22,9 +23,9 @@ function ensureWorkflowHistory(data) {
 }
 
 function assertReportTenant(user, report) {
-  if (!report) return { ok: false, status: 404, error: 'Relato não encontrado.' };
-  if (user.role !== 'superadmin' && user.companyId !== report.companyId) {
-    return { ok: false, status: 404, error: 'Relato não encontrado.' };
+  const access = assertReportVisibility(user, report);
+  if (!access.ok) {
+    return { ok: false, status: access.status || 404, error: 'Relato não encontrado.' };
   }
   return { ok: true, report };
 }

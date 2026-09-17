@@ -240,7 +240,7 @@
 /* ── Notebook (960–1199): densidade um pouco menor ── */
 @media (min-width: 960px) and (max-width: 1199px) {
   :root {
-    --sidebar-w: 230px;
+    --sidebar-w: 252px;
   }
 
   .app-content {

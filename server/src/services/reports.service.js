@@ -5,6 +5,11 @@ const notification = require('./notification.service');
 const reportMessages = require('./report-messages.service');
 const riskClassification = require('./risk-classification.service');
 const workflowService = require('./workflow.service');
+const {
+  assertTenantAccess,
+  assertReportVisibility,
+  filterVisibleReports
+} = require('./report-access.service');
 const { stageOrder, LEGACY_STATUS_TO_STAGE, getCompanyWorkflowPolicy } = require('./workflow-policy.service');
 const { riskLevelSortWeight } = require('./risk-policy.service');
 const { hashTrackingCode } = require('../utils/tracking-crypto');
@@ -18,15 +23,6 @@ function tenantIdForUser(user, requestedCompanyId = null) {
     return requestedCompanyId || null;
   }
   return user.companyId;
-}
-
-function assertTenantAccess(user, resourceCompanyId) {
-  if (!user) return { ok: false, status: 401 };
-  if (user.role === 'superadmin') return { ok: true };
-  if (!resourceCompanyId || user.companyId !== resourceCompanyId) {
-    return { ok: false, status: 404 };
-  }
-  return { ok: true };
 }
 
 function stripAttachmentForClient(att) {
@@ -85,6 +81,9 @@ function listReports(user, filters = {}) {
   } else if (tenant) {
     list = list.filter((r) => r.companyId === tenant);
   }
+
+  // Need-to-know: Apurador só vê relatos direcionados a ele
+  list = filterVisibleReports(user, list);
 
   if (filters.status) list = list.filter((r) => r.status === filters.status);
   if (filters.category) list = list.filter((r) => r.category === filters.category);
@@ -168,7 +167,7 @@ function getReport(user, idOrProtocol) {
 
   if (!report) return { ok: false, status: 404 };
 
-  const access = assertTenantAccess(user, report.companyId);
+  const access = assertReportVisibility(user, report);
   if (!access.ok) return access;
 
   return { ok: true, data: stripReportForRole(report, user) };
@@ -213,7 +212,7 @@ function updateStatus(user, reportId, status, note = '') {
   const report = (data.reports || []).find((r) => r.id === reportId);
   if (!report) return { ok: false, status: 404 };
 
-  const access = assertTenantAccess(user, report.companyId);
+  const access = assertReportVisibility(user, report);
   if (!access.ok) return access;
 
   if (status === 'concluido') {
@@ -253,6 +252,19 @@ function updateStatus(user, reportId, status, note = '') {
     newValue: { status }
   });
 
+  data.notifications = data.notifications || [];
+  data.notifications.unshift({
+    id: store.uid('ntf'),
+    type: status === 'concluido' ? 'report_completed' : 'report_status',
+    title: status === 'concluido' ? 'Relato concluído' : 'Relato atualizado',
+    message: `Protocolo ${report.protocol} — status: ${label}.`,
+    companyId: report.companyId,
+    reportId: report.id,
+    protocol: report.protocol,
+    read: false,
+    createdAt: report.updatedAt
+  });
+
   store.save(data);
   try {
     notification.emitReportStatusChanged(report, previousStatus);
@@ -280,10 +292,10 @@ function assignReport(user, reportId, assigneeId) {
   }
 
   const previousAssigneeId = report.assigneeId;
-  report.assigneeId = assigneeId;
-  if (assigneeId && !(report.teamIds || []).includes(assigneeId)) {
-    report.teamIds = [assigneeId, ...(report.teamIds || [])].slice(0, 10);
-  }
+  const previousTeamIds = Array.isArray(report.teamIds) ? [...report.teamIds] : [];
+  report.assigneeId = assigneeId || null;
+  // Encaminhar define ciência exclusiva do responsável (need-to-know entre Apuradores)
+  report.teamIds = assigneeId ? [assigneeId] : [];
   report.updatedAt = new Date().toISOString();
   workflowService.initReportWorkflowFields(report, data);
 
@@ -308,11 +320,51 @@ function assignReport(user, reportId, assigneeId) {
     resourceId: report.id,
     companyId: report.companyId,
     protocol: report.protocol,
-    previousValue: { assigneeId: previousAssigneeId },
-    newValue: { assigneeId, assigneeName: assignee ? assignee.nome : assigneeId }
+    previousValue: { assigneeId: previousAssigneeId, teamIds: previousTeamIds },
+    newValue: {
+      assigneeId: report.assigneeId,
+      assigneeName: assignee ? assignee.nome : assigneeId,
+      teamIds: report.teamIds
+    }
   });
 
+  if (assigneeId && assigneeId !== previousAssigneeId) {
+    data.notifications = data.notifications || [];
+    const assigneeName = assignee ? assignee.nome : 'apurador';
+    data.notifications.unshift({
+      id: store.uid('ntf'),
+      type: 'report_assigned',
+      title: 'Relato encaminhado',
+      message: `Protocolo ${report.protocol} encaminhado para ${assigneeName}.`,
+      companyId: report.companyId,
+      reportId: report.id,
+      protocol: report.protocol,
+      read: false,
+      createdAt: report.updatedAt
+    });
+    data.notifications.unshift({
+      id: store.uid('ntf'),
+      type: 'report_assigned',
+      title: 'Relato encaminhado a você',
+      message: `Protocolo ${report.protocol} foi encaminhado para sua apuração.`,
+      companyId: report.companyId,
+      reportId: report.id,
+      protocol: report.protocol,
+      userId: assigneeId,
+      assigneeId,
+      read: false,
+      createdAt: report.updatedAt
+    });
+  }
+
   store.save(data);
+  if (assigneeId && assigneeId !== previousAssigneeId) {
+    try {
+      notification.emitReportAssigned(report);
+    } catch {
+      /* não bloqueia operação */
+    }
+  }
   return { ok: true, data: stripReportForRole(report, user) };
 }
 
@@ -328,7 +380,7 @@ function addObservation(user, reportId, text, options = {}) {
   const report = (data.reports || []).find((r) => r.id === reportId);
   if (!report) return { ok: false, status: 404 };
 
-  const access = assertTenantAccess(user, report.companyId);
+  const access = assertReportVisibility(user, report);
   if (!access.ok) return access;
 
   const now = new Date().toISOString();
@@ -412,7 +464,7 @@ function addMeasureAction(user, reportId, payload = {}) {
   const report = (data.reports || []).find((r) => r.id === reportId);
   if (!report) return { ok: false, status: 404 };
 
-  const access = assertTenantAccess(user, report.companyId);
+  const access = assertReportVisibility(user, report);
   if (!access.ok) return access;
 
   const now = new Date().toISOString();
@@ -611,6 +663,19 @@ function createReport(employeeCtx, body) {
     newValue: { status: 'recebido', isAnonymous, attachmentCount: report.attachments.length }
   });
 
+  data.notifications = data.notifications || [];
+  data.notifications.unshift({
+    id: store.uid('ntf'),
+    type: 'report_new',
+    title: 'Novo relato recebido',
+    message: `Protocolo ${protocol} aguarda triagem.`,
+    companyId,
+    reportId,
+    protocol,
+    read: false,
+    createdAt: now
+  });
+
   store.save(data);
   try {
     notification.emitReportNew(report);
@@ -660,8 +725,10 @@ function getDashboardMetrics(user, filters = {}) {
   const byRisk = riskClassification.riskMetrics(reports);
   const companyId = filters.companyId || (user.role !== 'superadmin' ? user.companyId : null);
   const rawData = store.load();
+  const visibleIds = new Set(reports.map((r) => r.id));
+  const rawVisible = (rawData.reports || []).filter((r) => visibleIds.has(r.id));
   const workflowAlerts = workflowService.workflowAlertsForReports(
-    rawData.reports || [],
+    rawVisible,
     rawData,
     companyId || null
   );
@@ -703,5 +770,6 @@ module.exports = {
   getDashboardMetrics,
   tenantIdForUser,
   assertTenantAccess,
+  assertReportVisibility,
   MEASURE_TYPES
 };

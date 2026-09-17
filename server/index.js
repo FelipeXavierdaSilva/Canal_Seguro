@@ -3,15 +3,39 @@
 const { assertProductionConfig } = require('./src/validate-config');
 const { createApp } = require('./src/app');
 const config = require('./src/config');
+const store = require('./src/store');
 const { startEmailWorker } = require('./src/email/worker');
 
 assertProductionConfig();
 
-const app = createApp();
+async function main() {
+  const mode = await store.init();
+  const app = createApp();
 
-app.listen(config.PORT, () => {
-  console.log(`Canal Seguro API – http://localhost:${config.PORT}`);
-  console.log(`Frontend estático servido na mesma origem (Etapa 03 Fase 1)`);
-  startEmailWorker();
-  console.log(`Worker de e-mail transacional ativo (Etapa 06)`);
+  const server = app.listen(config.PORT, () => {
+    console.log(`Canal Seguro API – http://localhost:${config.PORT}`);
+    console.log(`Frontend estático servido na mesma origem (Etapa 03 Fase 1)`);
+    console.log(`Persistência: ${mode}`);
+    startEmailWorker();
+    console.log(`Worker de e-mail transacional ativo (Etapa 06)`);
+  });
+
+  const shutdown = async (signal) => {
+    console.log(`[shutdown] ${signal} — aguardando flush do store…`);
+    try {
+      await store.flush();
+    } catch (err) {
+      console.error('[shutdown] flush falhou:', err);
+    }
+    server.close(() => process.exit(0));
+    setTimeout(() => process.exit(0), 5000).unref();
+  };
+
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
+}
+
+main().catch((err) => {
+  console.error('Falha ao iniciar:', err);
+  process.exit(1);
 });

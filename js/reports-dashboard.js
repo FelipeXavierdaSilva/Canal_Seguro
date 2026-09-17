@@ -117,111 +117,155 @@ const CSReportsUI = (() => {
 
 
   async function renderReportsTable(tbody, filters, options = {}) {
-
     if (!tbody) return [];
-
-    const colspan = options.colspan || (options.showCompany ? 14 : 13);
-
-
+    const colspan = options.colspan || (options.showCompany ? 7 : 6);
+    const actor = options.actor || (typeof CSAuth !== 'undefined' ? CSAuth.getSession() : null);
+    const canManage =
+      options.canManage === true ||
+      (options.canManage !== false &&
+        actor &&
+        (actor.role === 'admin_empresa' || actor.role === 'superadmin'));
 
     try {
-
       const reports = await CSApi.getReports(filters);
-
-      const users = await CSApi.getUsers({});
-
-      const userMap = Object.fromEntries(users.map((u) => [u.id, u.nome]));
-
       let companies = {};
-
       if (options.showCompany) {
-
         const list = await CSApi.getCompanies();
-
         companies = Object.fromEntries(list.map((c) => [c.id, c.nomeFantasia]));
-
       }
-
       const esc = CSApp.escapeHtml;
 
-
-
       if (!reports.length) {
-
         tbody.innerHTML = `<tr><td colspan="${colspan}" class="empty-state">Nenhum relato encontrado com os filtros atuais.</td></tr>`;
-
         return reports;
-
       }
 
-
-
       tbody.innerHTML = reports
-
         .map((r) => {
-
           const href = options.detailBase
-
             ? `${options.detailBase}?id=${encodeURIComponent(r.id)}`
-
             : `?id=${encodeURIComponent(r.id)}`;
-
+          const closed = r.status === 'concluido';
+          const actionsHtml =
+            typeof CSApp !== 'undefined' && CSApp.rowReportActionsHtml
+              ? CSApp.rowReportActionsHtml(href, {
+                  reportId: r.id,
+                  canManage,
+                  closed
+                })
+              : typeof CSApp !== 'undefined' && CSApp.rowViewActionHtml
+                ? CSApp.rowViewActionHtml(href)
+                : `<a class="btn btn-sm btn-outline" href="${href}">Visualizar</a>`;
           return `
-
-        <tr>
-
+        <tr data-report-id="${esc(r.id)}">
           <td><strong>${esc(r.protocol)}</strong>${r.threadUnreadCount ? ' <span class="badge badge--accent" title="Nova mensagem do denunciante">Msg</span>' : ''}</td>
-
           ${options.showCompany ? `<td>${esc(companies[r.companyId] || '—')}</td>` : ''}
-
-          <td title="Data e hora em que o relato foi registrado no canal">${CSReports.formatDateTime(r.createdAt)}</td>
-
-          <td title="Data aproximada da ocorrência informada no relato">${esc(CSReports.formatOccurrence(r.dateApprox, r.timeApprox))}</td>
-
           <td>${esc(CSApi.categoryLabel(r.category))}</td>
-
-          <td>${esc(r.sector || '—')}</td>
-
           <td>${CSReports.riskPillHtml(r.riskLevel, esc)}</td>
-
-          <td>${CSReports.priorityPillHtml(r.priority, esc)}</td>
-
-          <td>${esc(CSReports.workflowStageLabel(r.workflowStage))}</td>
-
-          <td>${r.isAnonymous ? '<span class="badge">Anônimo</span>' : '<span class="badge badge--primary">Identificado</span>'}</td>
-
           <td><span class="status-pill ${CSReports.statusClass(r.status)}">${esc(CSApi.statusLabel(r.status))}</span></td>
-
-          <td>${r.assigneeId ? esc(userMap[r.assigneeId] || '—') : '—'}</td>
-
-          <td title="Última atualização do relato">${CSReports.formatDate(r.updatedAt)}</td>
-
-          <td class="actions">
-
-            ${typeof CSApp !== 'undefined' && CSApp.rowViewActionHtml ? CSApp.rowViewActionHtml(href) : `<a class="btn btn-sm btn-outline" href="${href}">Visualizar</a>`}
-
-          </td>
-
+          <td title="Data e hora em que o relato foi registrado no canal">${CSReports.formatDateTime(r.createdAt)}</td>
+          <td class="actions">${actionsHtml}</td>
         </tr>`;
-
         })
-
         .join('');
 
+      bindReportRowActions(tbody, {
+        actor,
+        canManage,
+        companyId: filters.companyId || actor?.companyId,
+        onChanged: options.onChanged || (() => renderReportsTable(tbody, filters, options)),
+        detailBase: options.detailBase || 'relatos.html'
+      });
+
       return reports;
-
     } catch (err) {
-
       CSErrors.logError(err, 'renderReportsTable');
-
       CSErrors.renderTableRetry(tbody, colspan, () => renderReportsTable(tbody, filters, options));
-
       CSApp.toast(CSErrors.userMessage(err), 'error');
-
       return [];
+    }
+  }
 
+  function bindReportRowActions(tbody, opts = {}) {
+    if (!tbody || !opts.canManage || !opts.actor) return;
+
+    tbody.querySelectorAll('[data-report-assign]').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const reportId = btn.getAttribute('data-report-assign');
+        if (!reportId) return;
+        await forwardReportToApurador(reportId, opts);
+      });
+    });
+
+    tbody.querySelectorAll('[data-report-investigate]').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const reportId = btn.getAttribute('data-report-investigate');
+        if (!reportId) return;
+        await takeReportInvestigation(reportId, opts);
+      });
+    });
+  }
+
+  async function forwardReportToApurador(reportId, opts = {}) {
+    const actor = opts.actor;
+    let users = [];
+    try {
+      users = (await CSApi.getUsers({ companyId: opts.companyId || actor.companyId }, actor)) || [];
+    } catch (err) {
+      CSApp.toast(CSErrors.userMessage(err), 'error');
+      return;
+    }
+    const apuradores = users.filter((u) => u.role === 'apurador' && u.status !== 'inativo');
+    const assigneeId = await CSApp.selectDialog({
+      title: 'Encaminhar ao Apurador',
+      message: 'Selecione o apurador responsável. Somente ele terá ciência deste relato entre os apuradores.',
+      options: apuradores.map((u) => ({
+        value: u.id,
+        label: u.nome || u.email || u.id
+      })),
+      confirmText: 'Encaminhar',
+      emptyText: 'Nenhum apurador cadastrado.'
+    });
+    if (!assigneeId) return;
+
+    const updated = await CSApp.runAsync(() => CSApi.assignReport(reportId, assigneeId, actor), {
+      context: 'assignReport'
+    });
+    if (updated) {
+      CSApp.toast('Relato encaminhado ao apurador.', 'success');
+      if (typeof opts.onChanged === 'function') await opts.onChanged();
+    }
+  }
+
+  async function takeReportInvestigation(reportId, opts = {}) {
+    const actor = opts.actor;
+    const ok = await CSApp.confirmDialog({
+      title: 'Apurar relato',
+      message:
+        'Você assume a apuração deste relato como Adm_Empresa. O status passará para Em apuração.',
+      confirmText: 'Apurar'
+    });
+    if (!ok) return;
+
+    const assigned = await CSApp.runAsync(() => CSApi.assignReport(reportId, actor.id, actor), {
+      context: 'assignReportSelf'
+    });
+    if (!assigned) return;
+
+    const statusId = 'apuracao';
+    if (assigned.status !== statusId && assigned.status !== 'concluido') {
+      await CSApp.runAsync(() => CSApi.updateReportStatus(reportId, statusId, actor, 'Adm_Empresa iniciou a apuração.'), {
+        context: 'updateReportStatus'
+      });
     }
 
+    CSApp.toast('Você iniciou a apuração deste relato.', 'success');
+    const detailBase = opts.detailBase || 'relatos.html';
+    location.href = `${detailBase}?id=${encodeURIComponent(reportId)}`;
   }
 
 
@@ -273,6 +317,7 @@ const CSReportsUI = (() => {
       let riskHistory = [];
 
       const canCritical = actor.role === 'admin_empresa' || actor.role === 'superadmin';
+      const canAssign = actor.role === 'admin_empresa' || actor.role === 'superadmin';
 
       try {
 
@@ -336,530 +381,28 @@ const CSReportsUI = (() => {
 
 
 
-      container.innerHTML = `
-
-      <div class="page-header">
-
-        <div>
-
-          <p class="text-muted" style="margin:0 0 .25rem">Protocolo</p>
-
-          <h1>${esc(report.protocol)}</h1>
-
-          <p>${company ? esc(company.nomeFantasia) : ''} · Registrado em ${CSReports.formatDateTime(report.createdAt)}</p>
-
-        </div>
-
-            <div class="flex gap-1 flex-wrap">
-
-          <span class="status-pill ${CSReports.statusClass(report.status)}">${esc(CSApi.statusLabel(report.status))}</span>
-
-          ${CSReports.riskPillHtml(report.riskLevel, esc)}
-
-          ${CSReports.priorityPillHtml(report.priority, esc)}
-
-          <span class="badge badge--primary">${esc(CSReports.workflowStageLabel(report.workflowStage))}</span>
-
-          ${
-            typeof CSExportUI !== 'undefined' && CSExportUI.canExportReport(actor)
-              ? `<button type="button" class="btn btn-outline btn-sm" id="btnExportIndividual">PDF individual</button>
-          <button type="button" class="btn btn-outline btn-sm" id="btnExportInvestigation">PDF apuração</button>`
-              : ''
-          }
-
-          <a class="btn btn-outline btn-sm" href="${location.pathname}">← Voltar</a>
-
-        </div>
-
-      </div>
-
-
-
-      <div class="detail-grid">
-
-        <div>
-
-          <div class="panel mb-2">
-
-            <div class="panel__header"><h3>Dados do relato</h3></div>
-
-            <div class="panel__body">
-
-              <div class="detail-field"><div class="detail-field__label">Categoria</div><div class="detail-field__value">${esc(CSApi.categoryLabel(report.category))}</div></div>
-
-              <div class="detail-field"><div class="detail-field__label">Registrado em</div><div class="detail-field__value">${CSReports.formatDateTime(report.createdAt)}</div></div>
-
-              <div class="detail-field"><div class="detail-field__label">Data da ocorrência</div><div class="detail-field__value">${esc(CSReports.formatOccurrence(report.dateApprox, report.timeApprox))}</div></div>
-
-              <div class="detail-field"><div class="detail-field__label">Local</div><div class="detail-field__value">${esc(report.location || '—')}</div></div>
-
-              <div class="detail-field"><div class="detail-field__label">Setor</div><div class="detail-field__value">${esc(report.sector || '—')}</div></div>
-
-              <div class="detail-field"><div class="detail-field__label">Envolvidos</div><div class="detail-field__value">${esc(report.involved || '—')}</div></div>
-
-              <div class="detail-field"><div class="detail-field__label">Descrição</div><div class="detail-field__value">${esc(report.description || '')}</div></div>
-
-              <div class="detail-field"><div class="detail-field__label">Testemunhas</div><div class="detail-field__value">${esc(report.witnesses || 'Não informado')}</div></div>
-
-            </div>
-
-          </div>
-
-
-
-          <div class="panel mb-2">
-
-            <div class="panel__header"><h3>Anexos</h3></div>
-
-            <div class="panel__body" id="attachmentsPanel">${attachmentsHtml}</div>
-
-          </div>
-
-
-
-          <div class="panel">
-
-            <div class="panel__header"><h3>Comunicante</h3></div>
-
-            <div class="panel__body">
-
-              ${
-
-                report.isAnonymous
-
-                  ? '<p class="text-muted">Relato anônimo. O colaborador foi validado por CPF no acesso, porém optou por não exibir identificação neste relato.</p>'
-
-                  : `<div class="detail-field"><div class="detail-field__label">Nome</div><div class="detail-field__value">${esc(report.reporter?.nome || '—')}</div></div>
-
-                     <div class="detail-field"><div class="detail-field__label">E-mail</div><div class="detail-field__value">${esc(report.reporter?.email || '—')}</div></div>
-
-                     <div class="detail-field"><div class="detail-field__label">Telefone</div><div class="detail-field__value">${esc(report.reporter?.telefone || '—')}</div></div>
-
-                     <div class="detail-field"><div class="detail-field__label">Cargo / Setor</div><div class="detail-field__value">${esc(report.reporter?.cargo || '—')} / ${esc(report.reporter?.setor || '—')}</div></div>`
-
-              }
-
-              ${
-
-                report.wantUpdates
-
-                  ? `<div class="callout mt-2"><p>Deseja retorno: Sim · ${esc(report.contactEmail || report.contactPhone || '')}</p></div>`
-
-                  : '<p class="text-muted mt-2">Não solicitou retorno sobre o andamento.</p>'
-
-              }
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-
-        <div>
-
-          <div class="panel mb-2">
-
-            <div class="panel__header">
-
-              <h3>Classificação de risco</h3>
-
-              ${report.riskLevel === 'critical' ? '<span class="badge badge--accent">Crítico</span>' : ''}
-
-            </div>
-
-            <div class="panel__body">
-
-              <p class="text-muted" style="font-size:.85rem;margin-top:0">
-
-                Decisão do responsável autorizado. A sugestão do sistema é apenas auxiliar.
-
-              </p>
-
-              <div class="detail-field mb-2">
-
-                <div class="detail-field__label">Nível atual</div>
-
-                <div class="detail-field__value">${CSReports.riskPillHtml(report.riskLevel, esc)}</div>
-
-              </div>
-
-              ${
-                report.riskClassifiedAt
-                  ? `<p class="text-muted" style="font-size:.85rem">Classificado em ${CSReports.formatDateTime(report.riskClassifiedAt)}</p>`
-                  : ''
-              }
-
-              <div class="form-group">
-
-                <label for="riskLevel">Nível</label>
-
-                <select id="riskLevel" class="form-control">
-
-                  <option value="">Selecionar</option>
-
-                  <option value="low" ${report.riskLevel === 'low' ? 'selected' : ''}>🟢 Baixo</option>
-
-                  <option value="moderate" ${report.riskLevel === 'moderate' ? 'selected' : ''}>🟡 Moderado</option>
-
-                  <option value="high" ${report.riskLevel === 'high' ? 'selected' : ''}>🟠 Alto</option>
-
-                  ${canCritical ? `<option value="critical" ${report.riskLevel === 'critical' ? 'selected' : ''}>🔴 Crítico</option>` : ''}
-
-                </select>
-
-              </div>
-
-              <div class="form-group">
-
-                <label>Fatores identificados</label>
-
-                <div class="risk-factors-grid" id="riskFactors">
-
-                  ${(riskPolicy.factors || [])
-
-                    .map(
-
-                      (f) => `<label class="risk-factor-check"><input type="checkbox" name="riskFactor" value="${esc(f.id)}" /> ${esc(f.label)}</label>`
-
-                    )
-
-                    .join('')}
-
-                </div>
-
-              </div>
-
-              <div class="form-group">
-
-                <label for="riskJustification">Justificativa</label>
-
-                <textarea id="riskJustification" class="form-control" rows="3" placeholder="Obrigatória para registrar a classificação"></textarea>
-
-              </div>
-
-              <div id="riskSuggestionBox" class="callout hidden" style="font-size:.85rem"></div>
-
-              <div class="flex gap-1 flex-wrap mb-2">
-
-                <button type="button" class="btn btn-outline btn-sm" id="btnRiskSuggest">Ver sugestão auxiliar</button>
-
-                <button type="button" class="btn btn-primary btn-sm" id="btnRiskClassify">${report.riskLevel ? 'Reclassificar' : 'Classificar'}</button>
-
-              </div>
-
-              <h4 style="font-size:.9rem;margin:1rem 0 .5rem">Histórico de classificação</h4>
-
-              <div class="history-list">
-
-                ${
-
-                  riskHistory.length
-
-                    ? riskHistory
-
-                        .map(
-
-                          (h) => `<div class="history-item">
-
-                    <div class="history-item__meta">${CSReports.formatDateTime(h.createdAt)} · ${esc(h.classifiedByUserName)}</div>
-
-                    <div>${esc(h.previousLevelLabel ? `${h.previousLevelLabel} → ${h.levelLabel}` : h.levelLabel)}</div>
-
-                  </div>`
-
-                        )
-
-                        .join('')
-
-                    : '<p class="text-muted">Sem classificação registrada.</p>'
-
-                }
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-
-          <div id="workflowPanelMount"></div>
-
-
-
-          <div class="panel mb-2">
-
-            <div class="panel__header">
-
-              <h3>Comunicação com denunciante</h3>
-
-              ${threadData.unreadCount ? '<span class="badge badge--accent">Nova resposta</span>' : ''}
-
-            </div>
-
-            <div class="panel__body">
-
-              <p class="text-muted" style="font-size:.85rem;margin-top:0">Mensagens visíveis ao denunciante na consulta pública. Observações internas ficam no histórico de tratamento.</p>
-
-              <div id="threadPanel" class="message-thread mb-2">
-
-                ${
-
-                  threadData.messages.length
-
-                    ? threadData.messages
-
-                        .map(
-
-                          (m) => `<div class="message-thread__item ${m.direction === 'company' ? 'message-thread__item--self' : 'message-thread__item--other'}">
-
-                    <div class="message-thread__meta">${esc(m.authorLabel)} · ${CSReports.formatDateTime(m.createdAt)}${m.messageType === 'info_request' ? ' · Solicitação' : ''}</div>
-
-                    <div class="message-thread__body">${esc(m.body)}</div>
-
-                  </div>`
-
-                        )
-
-                        .join('')
-
-                    : '<p class="text-muted">Nenhuma mensagem na thread pública.</p>'
-
-                }
-
-              </div>
-
-              <div class="form-group">
-
-                <label for="threadMsg">Enviar mensagem ao denunciante</label>
-
-                <textarea id="threadMsg" class="form-control" rows="3" placeholder="Texto visível na consulta pública (protocolo + código)"></textarea>
-
-              </div>
-
-              <div class="flex gap-1 flex-wrap">
-
-                <button type="button" class="btn btn-primary" id="btnThreadMsg">Enviar mensagem</button>
-
-                <button type="button" class="btn btn-outline" id="btnThreadInfo">Solicitar informações</button>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-
-          </div>
-
-
-
-          <div class="panel mb-2">
-
-            <div class="panel__header"><h3>Medidas e ações executadas</h3></div>
-
-            <div class="panel__body">
-
-              <p class="text-muted" style="margin:0 0 1rem;font-size:.88rem">
-
-                Registre o que foi feito no tratamento desta denúncia (ações executadas e medidas adotadas).
-
-                Os registros ficam no histórico interno e entram no PDF de apuração.
-
-              </p>
-
-              ${
-
-                (Array.isArray(report.measuresLog) && report.measuresLog.length
-
-                  ? `<div class="history-list mb-2">${[...report.measuresLog]
-
-                      .slice()
-
-                      .reverse()
-
-                      .map((m) => {
-
-                        const typeLabel =
-
-                          m.type === 'medida_adotada' ? 'Medida adotada' : 'Ação executada';
-
-                        const when = m.executedAt
-
-                          ? CSReports.formatDateTime(m.executedAt)
-
-                          : CSReports.formatDateTime(m.createdAt);
-
-                        return `<div class="history-item">
-
-                    <div class="history-item__meta">${CSApp.escapeHtml(when)} · ${CSApp.escapeHtml(m.userName || '—')} · <strong>${CSApp.escapeHtml(typeLabel)}</strong></div>
-
-                    <div>${CSApp.escapeHtml(m.text || '')}</div>
-
-                  </div>`;
-
-                      })
-
-                      .join('')}</div>`
-
-                  : report.measuresAdopted
-
-                    ? `<div class="callout mb-2"><p style="margin:0;white-space:pre-wrap">${CSApp.escapeHtml(report.measuresAdopted)}</p></div>`
-
-                    : '<p class="text-muted mb-2">Nenhuma medida ou ação registrada ainda.</p>')
-
-              }
-
-              <div class="form-grid" style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));align-items:end">
-
-                <div class="form-group" style="margin:0">
-
-                  <label for="measureType">Tipo</label>
-
-                  <select id="measureType" class="form-control">
-
-                    <option value="acao_executada">Ação executada</option>
-
-                    <option value="medida_adotada">Medida adotada</option>
-
-                  </select>
-
-                </div>
-
-                <div class="form-group" style="margin:0">
-
-                  <label for="measureDate">Data da execução</label>
-
-                  <input type="date" id="measureDate" class="form-control" />
-
-                </div>
-
-              </div>
-
-              <div class="form-group mt-2">
-
-                <label for="measureText">Descrição</label>
-
-                <textarea id="measureText" class="form-control" rows="3" placeholder="Ex.: Foi realizada reunião com o setor; afastamento cautelar aplicado; treinamento agendado…"></textarea>
-
-              </div>
-
-              <button type="button" class="btn btn-primary btn-block" id="btnMeasure">Registrar medida / ação</button>
-
-            </div>
-
-          </div>
-
-
-
-          <div class="panel mb-2">
-
-            <div class="panel__header"><h3>Ações</h3></div>
-
-            <div class="panel__body">
-
-              <div class="form-group">
-
-                <label for="newStatus">Alterar status</label>
-
-                <select id="newStatus" class="form-control">
-
-                  ${statuses.map((s) => `<option value="${esc(s.id)}" ${s.id === report.status ? 'selected' : ''}>${esc(s.label)}</option>`).join('')}
-
-                </select>
-
-              </div>
-
-              <button type="button" class="btn btn-primary btn-block mb-2" id="btnStatus">Salvar status</button>
-
-
-
-              <div class="form-group">
-
-                <label for="assignTo">Encaminhar</label>
-
-                <select id="assignTo" class="form-control">
-
-                  <option value="">Selecionar responsável</option>
-
-                  ${users.map((u) => `<option value="${esc(u.id)}" ${u.id === report.assigneeId ? 'selected' : ''}>${esc(u.nome)} (${esc(CSUsers.roleLabel(u.role))})</option>`).join('')}
-
-                </select>
-
-              </div>
-
-              <button type="button" class="btn btn-outline btn-block mb-2" id="btnAssign">Encaminhar</button>
-
-
-
-              <div class="form-group">
-
-                <label for="obs">Adicionar observação interna</label>
-
-                <textarea id="obs" class="form-control" rows="3" placeholder="Registro interno de tratamento (não visível ao denunciante)"></textarea>
-
-              </div>
-
-              <button type="button" class="btn btn-outline btn-block mb-2" id="btnObs">Registrar observação</button>
-
-              <button type="button" class="btn btn-accent btn-block" id="btnConclude">Concluir relato</button>
-
-            </div>
-
-          </div>
-
-
-
-          <div class="panel">
-
-            <div class="panel__header"><h3>Histórico de tratamento</h3></div>
-
-            <div class="panel__body">
-
-              <div class="history-list">
-
-                ${
-
-                  history.length
-
-                    ? history
-
-                        .map(
-
-                          (h) => `
-
-                  <div class="history-item">
-
-                    <div class="history-item__meta">${CSReports.formatDateTime(h.date)} · ${CSApp.escapeHtml(h.userName)}</div>
-
-                    <div>${CSApp.escapeHtml(h.action)}</div>
-
-                  </div>`
-
-                        )
-
-                        .join('')
-
-                    : '<p class="text-muted">Sem histórico.</p>'
-
-                }
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    `;
-
-
+      if (typeof CSReportCaseWorkspace === 'undefined') {
+        container.innerHTML = '<div class="empty-state">Módulo de apuração indisponível. Recarregue a página.</div>';
+        return null;
+      }
+
+      container.innerHTML = CSReportCaseWorkspace.buildHtml({
+        report,
+        company,
+        actor,
+        history,
+        threadData,
+        riskPolicy,
+        riskHistory,
+        statuses,
+        users,
+        attachmentsHtml,
+        canCritical,
+        canAssign,
+        esc
+      });
+
+      CSReportCaseWorkspace.bindTabs(container.querySelector('[data-case-workspace]'));
 
       CSAttachments.bindAdminPanel(document.getElementById('attachmentsPanel'), report.attachments, actor, () =>
 
@@ -1145,6 +688,13 @@ const CSReportsUI = (() => {
 
 
       document.getElementById('btnConclude')?.addEventListener('click', async () => {
+
+        if (!report.riskLevel || !report.assigneeId) {
+          CSApp.toast('Conclua a Triagem (risco e responsável) antes de encerrar.', 'warning');
+          const tab = container.querySelector('[data-case-step="triagem"]');
+          tab?.click();
+          return;
+        }
 
         const ok = await CSApp.confirmDialog({
 

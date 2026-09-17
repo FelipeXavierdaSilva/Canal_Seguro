@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Empresa – Canal Seguro</title>
+  <link rel="stylesheet" href="../css/style.css?v=2" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=44" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png?v=shield3" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span data-panel-tagline>Sua voz, nosso compromisso</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav" data-empresa-nav>
+        <div class="nav-section">Principal</div>
+        <a href="dashboard.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <div class="nav-section">Gestão</div>
+        <a href="colaboradores.html" data-roles="admin_empresa superadmin"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorio.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◉</span> Acessos</a>
+        <div class="nav-section">Configurações</div>
+        <a class="active" href="empresa.html" data-roles="admin_empresa superadmin"><span class="nav-icon">⬡</span> Empresa</a>
+        <a href="configuracoes.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◎</span> Aparência / Identidade</a>
+        <a href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▤</span> Armazenamento</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="suporte-tecnico.html"><span class="nav-icon">🛠</span> Suporte Técnico</a>
+        <a href="sugestoes.html"><span class="nav-icon">✎</span> Sugestões</a>
+        <a href="../index.html" target="_blank" rel="noopener" data-tenant-link><span class="nav-icon">⌂</span> Canal Seguro</a>
+        <div class="nav-section">Conta</div>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
+      </nav>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar aria-label="Menu">☰</button>
+          <strong>Empresa</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme aria-label="Tema">◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta">
+              <strong data-user-name>—</strong>
+              <span data-user-role>—</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Dados da empresa</h1>
+            <p>Resumo do tenant e atalhos para o canal público e a identidade visual.</p>
+          </div>
+          <a class="btn btn-outline" href="../index.html" target="_blank" rel="noopener">Ver canal público</a>
+        </div>
+
+        <div class="panel" style="padding:1.25rem;max-width:720px">
+          <div class="form-row cols-2">
+            <div class="form-group">
+              <label>Nome fantasia</label>
+              <input class="form-control" id="empresaNome" readonly />
+            </div>
+            <div class="form-group">
+              <label>Razão social</label>
+              <input class="form-control" id="empresaRazao" readonly />
+            </div>
+          </div>
+          <div class="form-row cols-2">
+            <div class="form-group">
+              <label>CNPJ</label>
+              <input class="form-control" id="empresaCnpj" readonly />
+            </div>
+            <div class="form-group">
+              <label>Nome do canal</label>
+              <input class="form-control" id="empresaCanal" readonly />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Domínio</label>
+            <input class="form-control" id="empresaDominio" readonly />
+          </div>
+          <p class="text-muted" style="margin:0;font-size:.9rem">
+            Para alterar logo, cores e mensagem do canal, use
+            <a href="configuracoes.html">Aparência / Identidade</a>.
+          </p>
+        </div>
+
+        <form class="panel" id="notifyForm" style="padding:1.25rem;max-width:720px;margin-top:1rem">
+          <h2 style="margin:0 0 .35rem;font-size:1.05rem">Notificação de novos relatos</h2>
+          <p class="text-muted" style="margin:0 0 1rem;font-size:.9rem">
+            Quando um colaborador registrar uma denúncia, o sistema pode enviar um e-mail genérico
+            (sem o conteúdo do relato) para o endereço cadastral da empresa.
+          </p>
+          <div class="form-group">
+            <label for="empresaEmail">E-mail cadastral da empresa</label>
+            <input class="form-control" type="email" id="empresaEmail" name="email" required placeholder="compliance@empresa.com.br" />
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label" style="display:flex;align-items:flex-start;gap:.6rem;cursor:pointer">
+              <input type="checkbox" id="notifyCompanyEmail" checked style="margin-top:.2rem" />
+              <span>Notificar este e-mail ao receber um novo relato</span>
+            </label>
+          </div>
+          <p class="text-muted" style="margin:0 0 1rem;font-size:.85rem">
+            Usuários <strong>Adm. Empresa</strong> e <strong>Apurador</strong> ativos também podem receber
+            o aviso nos e-mails das próprias contas, conforme a política de notificações.
+          </p>
+          <div class="form-actions">
+            <div class="right">
+              <button type="submit" class="btn btn-primary">Salvar notificações</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js?v=45"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js?v=46"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['admin_empresa', 'superadmin']);
+      if (!session) return;
+
+      const companyId = session.role === 'superadmin'
+        ? (CSApp.qs('empresa') || session.companyId)
+        : session.companyId;
+
+      const company = await CSApp.runAsync(
+        () => CSApi.getCompany(companyId, session),
+        { context: 'empresa.getCompany' }
+      );
+      if (!company) return;
+
+      document.getElementById('empresaNome').value = company.nomeFantasia || '—';
+      document.getElementById('empresaRazao').value = company.razaoSocial || '—';
+      document.getElementById('empresaCnpj').value = company.cnpj || '—';
+      document.getElementById('empresaCanal').value = company.nomeCanal || '—';
+      document.getElementById('empresaDominio').value = company.dominio || company.id || '—';
+      document.getElementById('empresaEmail').value = company.email || '';
+
+      const notifyRes = await CSApp.runAsync(
+        () => CSApi.getCompanyEmailNotifications(company.id, session),
+        { context: 'empresa.getEmailNotifications' }
+      );
+      const reportNew = notifyRes?.policy?.events?.report_new || {};
+      document.getElementById('notifyCompanyEmail').checked = reportNew.notifyCompanyEmail !== false;
+
+      document.getElementById('notifyForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('empresaEmail').value.trim();
+        if (!email) {
+          CSApp.toast('Informe o e-mail cadastral da empresa.', 'warning');
+          return;
+        }
+        const notifyCompanyEmail = document.getElementById('notifyCompanyEmail').checked;
+
+        const updated = await CSApp.runAsync(
+          () => CSApi.updateCompany(company.id, {
+            email,
+            _actorId: session.id,
+            _actorName: session.nome
+          }),
+          { context: 'empresa.updateEmail' }
+        );
+        if (!updated) return;
+
+        const policyOk = await CSApp.runAsync(
+          () => CSApi.updateCompanyEmailNotifications(
+            company.id,
+            { events: { report_new: { notifyCompanyEmail } } },
+            session
+          ),
+          { context: 'empresa.updateEmailNotifications' }
+        );
+        if (!policyOk) return;
+
+        CSApp.toast('Notificações salvas.', 'success');
+      });
+    });
+  </script>
+</body>
+</html>

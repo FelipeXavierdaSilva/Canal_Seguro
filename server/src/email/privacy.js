@@ -44,10 +44,12 @@ function templateForEvent(eventType) {
   if (
     [
       'report_new',
+      'report_assigned',
       'report_status',
       'report_message',
       'report_info_request',
-      'report_completed'
+      'report_completed',
+      'platform_support'
     ].includes(eventType)
   ) {
     return 'report_update';

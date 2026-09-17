@@ -8,8 +8,12 @@
     "start": "node index.js",
     "dev": "node --watch index.js",
     "seed": "node scripts/build-store.js",
+    "db:migrate": "node scripts/db-migrate.js",
+    "db:import-json": "node scripts/db-import-json.js",
+    "backup": "node scripts/backup-create.js",
+    "backup:restore": "node scripts/backup-restore.js",
     "recalc-storage": "node scripts/recalculate-storage.js",
-    "test": "npm run seed && node --test --test-concurrency=1 tests/password-strength.test.js tests/idor.test.js tests/password-reset.test.js tests/mfa.test.js tests/email.test.js tests/report-messages.test.js tests/risk-classification.test.js tests/workflow.test.js tests/export.test.js tests/security-p0.test.js tests/security-p1.test.js tests/security-p2.test.js tests/security-p3.test.js tests/attachments-quota.test.js tests/attachments-limits.test.js tests/attachments-security.test.js tests/attachments-storage-b2.test.js tests/attachments-storage-b3.test.js tests/storage-service-c1.test.js tests/attachments-hash-c2.test.js tests/storage-plans.test.js tests/platform-storage.test.js tests/storage-plan-catalog.test.js"
+    "test": "npm run seed && node --test --test-concurrency=1 tests/password-strength.test.js tests/idor.test.js tests/password-reset.test.js tests/mfa.test.js tests/email.test.js tests/crud-http.test.js tests/apurador-visibility.test.js tests/platform-support.test.js tests/support-faq.test.js tests/backup.test.js tests/report-messages.test.js tests/risk-classification.test.js tests/workflow.test.js tests/export.test.js tests/security-p0.test.js tests/security-p1.test.js tests/security-p2.test.js tests/security-p3.test.js tests/attachments-quota.test.js tests/attachments-limits.test.js tests/attachments-security.test.js tests/attachments-storage-b2.test.js tests/attachments-storage-b3.test.js tests/storage-service-c1.test.js tests/attachments-hash-c2.test.js tests/storage-plans.test.js tests/platform-storage.test.js tests/storage-plan-catalog.test.js tests/db-config.test.js tests/db-migrate.test.js tests/store-mysql-adapter.test.js tests/db-import-json.test.js tests/health.test.js"
   },
   "engines": {
     "node": ">=18"
@@ -20,6 +24,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "helmet": "^8.3.0",
+    "mysql2": "^3.24.4",
     "otplib": "^12.0.1",
     "pdfkit": "^0.15.2",
     "redis": "^4.7.1",
