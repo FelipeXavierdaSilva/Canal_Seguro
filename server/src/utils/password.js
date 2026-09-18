@@ -1,8 +1,9 @@
 'use strict';
 
 const bcrypt = require('bcryptjs');
-const path = require('path');
-const strength = require(path.join(__dirname, '../../../js/password-strength.js'));
+/* Colocado em server/src/utils para funcionar com app root = server (Hostinger).
+ * O front continua usando /js/password-strength.js na raiz do repositório. */
+const strength = require('./password-strength.js');
 
 function validateStrongPassword(password, label = 'Senha') {
   return strength.validate(password, label);
