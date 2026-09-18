@@ -19,7 +19,8 @@ const { hashCpf, normalizeCpf } = require('../src/utils/cpf-crypto');
 
 const root = path.join(__dirname, '..', '..');
 const seedPath = path.join(root, 'js', 'seed.js');
-const outPath = path.join(__dirname, '..', 'data', 'store.json');
+const { resolveStorePath, resolveStoreSeedPath, resolveDataDir } = require('../src/store-path');
+const outPath = resolveStorePath();
 
 const seedSrc = fs.readFileSync(seedPath, 'utf8');
 
@@ -256,7 +257,16 @@ data._meta = {
   source: 'js/seed.js via build-store.js'
 };
 
-fs.mkdirSync(path.dirname(outPath), { recursive: true });
+fs.mkdirSync(resolveDataDir(), { recursive: true });
+const force = process.argv.includes('--force');
+if (fs.existsSync(outPath) && !force) {
+  console.log('store.json já existe — não sobrescrito:', outPath);
+  console.log('Para regenerar o demo: npm run seed -- --force');
+  process.exit(0);
+}
 fs.writeFileSync(outPath, JSON.stringify(data, null, 2));
+const seedOut = resolveStoreSeedPath();
+fs.writeFileSync(seedOut, JSON.stringify(data, null, 2));
 console.log('Store gerado:', outPath);
+console.log('Seed template:', seedOut);
 console.log('Empresas:', data.companies.length, '| Relatos:', data.reports.length, '| Usuários:', data.users.length);

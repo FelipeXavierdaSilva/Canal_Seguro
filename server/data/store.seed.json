@@ -1,0 +1,3902 @@
+{
+  "companies": [
+    {
+      "id": "cmp_aurora",
+      "razaoSocial": "Aurora Indústria e Comércio Ltda",
+      "nomeFantasia": "Aurora Indústria",
+      "cnpj": "12.345.678/0001-90",
+      "endereco": "Av. das Indústrias, 1200 – São Paulo/SP",
+      "responsavel": "Carla Mendes (fictício)",
+      "email": "compliance@aurora-demo.com.br",
+      "telefone": "(11) 3456-7890",
+      "logo": null,
+      "corPrincipal": "#6b9e9e",
+      "corSecundaria": "#1a5c38",
+      "dominio": "aurora.canalseguro.com.br",
+      "nomeCanal": "Canal Seguro Aurora",
+      "mensagemInicial": "Este é um canal seguro destinado à orientação, prevenção e comunicação de situações que possam comprometer o respeito, a segurança e o bem-estar no ambiente de trabalho da Aurora Indústria.",
+      "status": "ativo",
+      "storageLimitBytes": 5368709120,
+      "storageUsedBytes": 0,
+      "createdAt": "2025-11-10T10:00:00.000Z"
+    },
+    {
+      "id": "cmp_horizon",
+      "razaoSocial": "Horizon Serviços Digitais S.A.",
+      "nomeFantasia": "Horizon Digital",
+      "cnpj": "98.765.432/0001-10",
+      "endereco": "Rua Tecnológica, 450 – Curitiba/PR",
+      "responsavel": "Roberto Lima (fictício)",
+      "email": "gente@horizon-demo.com.br",
+      "telefone": "(41) 3333-2211",
+      "logo": null,
+      "corPrincipal": "#2a5a8c",
+      "corSecundaria": "#1a6b6b",
+      "dominio": "horizon.canalseguro.com.br",
+      "nomeCanal": "Canal de Escuta Horizon",
+      "mensagemInicial": "Espaço confidencial para orientação e comunicação de situações que afetem o respeito e a convivência no trabalho.",
+      "status": "ativo",
+      "storageLimitBytes": 5368709120,
+      "storageUsedBytes": 0,
+      "createdAt": "2026-01-15T14:00:00.000Z"
+    },
+    {
+      "id": "cmp_verde",
+      "razaoSocial": "Verde Campo Alimentos Ltda",
+      "nomeFantasia": "Verde Campo",
+      "cnpj": "45.678.901/0001-55",
+      "endereco": "Rod. BR-101, km 42 – Recife/PE",
+      "responsavel": "Ana Paula Souza (fictício)",
+      "email": "rh@verdecampo-demo.com.br",
+      "telefone": "(81) 3222-1100",
+      "logo": null,
+      "corPrincipal": "#2d6a4f",
+      "corSecundaria": "#40916c",
+      "dominio": "verdecampo.canalseguro.com.br",
+      "nomeCanal": "Canal Seguro Verde Campo",
+      "mensagemInicial": "Canal acolhedor para prevenção, orientação e comunicação responsável sobre o ambiente de trabalho.",
+      "status": "ativo",
+      "storageLimitBytes": 5368709120,
+      "storageUsedBytes": 0,
+      "createdAt": "2026-03-01T09:00:00.000Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "usr_fx_admin",
+      "nome": "Administrador FX",
+      "username": "FX_Admin",
+      "email": "admin@fxfelipexavier.com.br",
+      "cpf": null,
+      "telefone": null,
+      "role": "superadmin",
+      "companyId": null,
+      "status": "ativo",
+      "isPlatformMaster": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "passwordHash": "$2a$10$B.rwueZ7iuay0D6.hbPsfOInsuwg26TIjApNvbpi5hMkFn8.lzZRK",
+      "sessionVersion": 1,
+      "mfa": {
+        "enabled": false,
+        "secretEnc": null,
+        "recoveryCodes": [],
+        "enrolledAt": null
+      }
+    },
+    {
+      "id": "usr_aurora_admin",
+      "nome": "Carla Mendes",
+      "username": "Aurora_Admin",
+      "email": "admin@aurora-demo.com.br",
+      "cpf": null,
+      "telefone": null,
+      "role": "admin_empresa",
+      "companyId": "cmp_aurora",
+      "status": "ativo",
+      "passwordHash": "$2a$10$RHBEcyVCDJ4nbsSsgF0uE.PGycaxJoe0m6ezGSJMnhkN89M7e7hWi",
+      "sessionVersion": 1,
+      "mfa": {
+        "enabled": false,
+        "secretEnc": null,
+        "recoveryCodes": [],
+        "enrolledAt": null
+      }
+    },
+    {
+      "id": "usr_aurora_ap",
+      "nome": "Paulo Ferreira",
+      "username": "Aurora_Apurador",
+      "email": "apuracao@aurora-demo.com.br",
+      "cpf": null,
+      "telefone": null,
+      "role": "apurador",
+      "companyId": "cmp_aurora",
+      "status": "ativo",
+      "passwordHash": "$2a$10$2poc4P/Zhv0HnVu0SBvBZ.WzveROxe.Y9iZ5LfkpXSG6fA.Rb/y.S",
+      "sessionVersion": 1,
+      "mfa": {
+        "enabled": false,
+        "secretEnc": null,
+        "recoveryCodes": [],
+        "enrolledAt": null
+      }
+    },
+    {
+      "id": "usr_aurora_ap2",
+      "nome": "Marina Rocha",
+      "username": "Aurora_Apurador2",
+      "email": "apuracao2@aurora-demo.com.br",
+      "cpf": null,
+      "telefone": null,
+      "role": "apurador",
+      "companyId": "cmp_aurora",
+      "status": "ativo",
+      "passwordHash": "$2a$10$tGS6H1nNAk8vhg5anGvJkeqdh7kzZVozOB3NvtfcBpgBRLHTndgKC",
+      "sessionVersion": 1,
+      "mfa": {
+        "enabled": false,
+        "secretEnc": null,
+        "recoveryCodes": [],
+        "enrolledAt": null
+      }
+    },
+    {
+      "id": "usr_horizon_admin",
+      "nome": "Roberto Lima",
+      "username": "Horizon_Admin",
+      "email": "admin@horizon-demo.com.br",
+      "cpf": null,
+      "telefone": null,
+      "role": "admin_empresa",
+      "companyId": "cmp_horizon",
+      "status": "ativo",
+      "passwordHash": "$2a$10$6G6blL.EYZVfg/hF.lQBeO1AUWuWWD9VAWee8bqEVrMFY3fW7E4YK",
+      "sessionVersion": 1,
+      "mfa": {
+        "enabled": false,
+        "secretEnc": null,
+        "recoveryCodes": [],
+        "enrolledAt": null
+      }
+    },
+    {
+      "id": "usr_verde_admin",
+      "nome": "Ana Paula Souza",
+      "username": "Verde_Admin",
+      "email": "admin@verdecampo-demo.com.br",
+      "cpf": null,
+      "telefone": null,
+      "role": "admin_empresa",
+      "companyId": "cmp_verde",
+      "status": "ativo",
+      "passwordHash": "$2a$10$N.qS0eNFLj9A8PPAxTVwJOuCLhEXn0uPM1GrR9ZtEgSI82bil.iU6",
+      "sessionVersion": 1,
+      "mfa": {
+        "enabled": false,
+        "secretEnc": null,
+        "recoveryCodes": [],
+        "enrolledAt": null
+      }
+    }
+  ],
+  "employees": [
+    {
+      "id": "emp_aurora_1",
+      "companyId": "cmp_aurora",
+      "nome": "Juliana Costa (fictício)",
+      "email": "colaborador.demo@email.com",
+      "telefone": "(11) 98888-0001",
+      "matricula": "AUR-1024",
+      "setor": "Administrativo",
+      "cargo": "Assistente",
+      "status": "ativo",
+      "createdAt": "2025-12-01T10:00:00.000Z",
+      "cpfHash": "c6cf122e60daebf9017bddf6402d722671ed3ba9f585d9964d9b4bfe90a1e31e"
+    },
+    {
+      "id": "emp_aurora_2",
+      "companyId": "cmp_aurora",
+      "nome": "Fernanda Oliveira (fictício)",
+      "email": "fernanda.oliveira.demo@email.com",
+      "telefone": "(11) 92222-7777",
+      "matricula": "AUR-2048",
+      "setor": "Engenharia",
+      "cargo": "Engenheira",
+      "status": "ativo",
+      "createdAt": "2025-12-01T10:00:00.000Z",
+      "cpfHash": "518c3c885eb7b32ab4d29339fc65ad1a0901f30539c16a9f1323c06933b15ba6"
+    },
+    {
+      "id": "emp_aurora_3",
+      "companyId": "cmp_aurora",
+      "nome": "Lucas Pereira (fictício)",
+      "email": "lucas.pereira.demo@email.com",
+      "telefone": "(11) 91111-8888",
+      "matricula": "AUR-3050",
+      "setor": "Produção",
+      "cargo": "Operador",
+      "status": "ativo",
+      "createdAt": "2026-01-10T10:00:00.000Z",
+      "cpfHash": "27668d65c7824ea8de8fdf76329c37ae76cec7cc1f36806ed9e3f0b2dda38ec3"
+    },
+    {
+      "id": "emp_horizon_1",
+      "companyId": "cmp_horizon",
+      "nome": "Maria Silva (fictício)",
+      "email": "maria.silva.demo@email.com",
+      "telefone": "(41) 97777-2222",
+      "matricula": "HOR-501",
+      "setor": "Comercial",
+      "cargo": "Analista",
+      "status": "ativo",
+      "createdAt": "2026-01-15T10:00:00.000Z",
+      "cpfHash": "a7e0068e5c17d9fb052080e52f7ad5bb523b2a9d7f56f8f70eb486fb43bf174b"
+    },
+    {
+      "id": "emp_horizon_2",
+      "companyId": "cmp_horizon",
+      "nome": "Pedro Alves (fictício)",
+      "email": "pedro.alves.demo@email.com",
+      "telefone": "(41) 94444-5555",
+      "matricula": "HOR-612",
+      "setor": "Produto",
+      "cargo": "Designer",
+      "status": "ativo",
+      "createdAt": "2026-01-15T10:00:00.000Z",
+      "cpfHash": "30e8c7a7850be6b72599f45c92b502b25946a68fe39b1267a4467117c17a1dcf"
+    },
+    {
+      "id": "emp_verde_1",
+      "companyId": "cmp_verde",
+      "nome": "João Santos (fictício)",
+      "email": "joao.santos.demo@email.com",
+      "telefone": "(81) 96666-3333",
+      "matricula": "VC-880",
+      "setor": "Logística",
+      "cargo": "Auxiliar",
+      "status": "ativo",
+      "createdAt": "2026-03-01T10:00:00.000Z",
+      "cpfHash": "b589bebc5ca8d6882edbd5f9c726ad4f92ee53dd8817cc2e16b9181a78502473"
+    },
+    {
+      "id": "emp_verde_2",
+      "companyId": "cmp_verde",
+      "nome": "Beatriz Lima (fictício)",
+      "email": "beatriz.lima.demo@email.com",
+      "telefone": "(81) 95555-4444",
+      "matricula": "VC-881",
+      "setor": "Operações",
+      "cargo": "Coordenadora",
+      "status": "ativo",
+      "createdAt": "2026-03-01T10:00:00.000Z",
+      "cpfHash": "82f6e33a82024c8385e6ada1dfdff929dc25dca0abd8130816064bcd0d4bf13a"
+    },
+    {
+      "id": "emp_aurora_inativo",
+      "companyId": "cmp_aurora",
+      "nome": "Ex-colaborador Demo (fictício)",
+      "email": "desligado.demo@email.com",
+      "telefone": "",
+      "matricula": "AUR-0099",
+      "setor": "RH",
+      "cargo": "Analista",
+      "status": "desligado",
+      "createdAt": "2024-06-01T10:00:00.000Z",
+      "cpfHash": "e70f248ea78c995c979b345db9e5a22001cd0641fec00c0cd95e753e319a7c81"
+    }
+  ],
+  "reports": [
+    {
+      "id": "rpt_001",
+      "protocol": "CS-2026-000101",
+      "companyId": "cmp_aurora",
+      "category": "assedio_moral",
+      "status": "apuracao",
+      "isAnonymous": true,
+      "dateApprox": "2026-07-12",
+      "timeApprox": "14:30",
+      "location": "Setor de produção – linha 2",
+      "involved": "Supervisor da linha (nome não informado com certeza)",
+      "description": "Relato de cobranças públicas reiteradas e comentários depreciativos diante da equipe, causando constrangimento.",
+      "witnesses": "Dois colegas da mesma linha (preferem não ser identificados neste momento)",
+      "attachments": [],
+      "wantUpdates": false,
+      "contactEmail": null,
+      "contactPhone": null,
+      "reporter": null,
+      "sector": "Produção",
+      "assigneeId": "usr_aurora_ap",
+      "createdAt": "2026-07-15T10:22:00.000Z",
+      "updatedAt": "2026-08-10T16:00:00.000Z",
+      "riskLevel": "critical",
+      "riskClassifiedAt": "2026-07-16T09:00:00.000Z",
+      "riskClassifiedByUserId": "usr_aurora_admin",
+      "workflowStage": "em_apuracao",
+      "workflowStageAt": "2026-08-10T16:00:00.000Z",
+      "priority": "urgente",
+      "teamIds": [
+        "usr_aurora_ap"
+      ],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$2zGOe1/MsoCJZqISVbMhMOLa3ViDOiQ.yX0lzWdVAs/4DJqWrEbLa"
+    },
+    {
+      "id": "rpt_002",
+      "protocol": "CS-2026-000102",
+      "companyId": "cmp_aurora",
+      "category": "comportamento_ofensivo",
+      "status": "analise",
+      "isAnonymous": false,
+      "dateApprox": "2026-08-01",
+      "timeApprox": "09:00",
+      "location": "Refeitório",
+      "involved": "Colega do setor administrativo",
+      "description": "Comentários ofensivos e piadas repetidas sobre aparência, mesmo após pedido para cessar.",
+      "witnesses": "",
+      "attachments": [
+        {
+          "id": "att_demo_rpt002_1",
+          "reportId": "rpt_002",
+          "name": "anotacao.txt",
+          "size": 1200,
+          "mimeType": "text/plain",
+          "ext": "txt",
+          "status": "simulated",
+          "createdAt": "2026-08-02T11:05:00.000Z"
+        }
+      ],
+      "wantUpdates": true,
+      "contactEmail": "colaborador.demo@email.com",
+      "contactPhone": "(11) 98888-0001",
+      "reporter": {
+        "nome": "Juliana Costa (fictício)",
+        "email": "colaborador.demo@email.com",
+        "telefone": "(11) 98888-0001",
+        "empresa": "Aurora Indústria",
+        "setor": "Administrativo",
+        "cargo": "Assistente"
+      },
+      "sector": "Administrativo",
+      "assigneeId": "usr_aurora_ap",
+      "createdAt": "2026-08-02T11:05:00.000Z",
+      "updatedAt": "2026-08-02T11:05:00.000Z",
+      "riskLevel": "high",
+      "riskClassifiedAt": "2026-07-20T11:00:00.000Z",
+      "riskClassifiedByUserId": "usr_aurora_ap",
+      "workflowStage": "classificacao_risco",
+      "workflowStageAt": "2026-08-02T11:05:00.000Z",
+      "priority": "alta",
+      "teamIds": [
+        "usr_aurora_ap"
+      ],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$Wjh.nCY/aEFwumAa.mCepebZH0vNYygLFtQu0jT2BH4jPPACMhxJW"
+    },
+    {
+      "id": "rpt_003",
+      "protocol": "CS-2026-000103",
+      "companyId": "cmp_horizon",
+      "category": "discriminacao",
+      "status": "apuracao",
+      "isAnonymous": true,
+      "dateApprox": "2026-06-20",
+      "timeApprox": "",
+      "location": "Reuniões remotas e canal de mensagens",
+      "involved": "Gestor de projeto",
+      "description": "Tratamento diferenciado e exclusão de oportunidades aparentemente relacionados a características pessoais.",
+      "witnesses": "Membros da squad",
+      "attachments": [],
+      "wantUpdates": true,
+      "contactEmail": "anonimo.retorno@email.com",
+      "contactPhone": null,
+      "reporter": null,
+      "sector": "Tecnologia",
+      "assigneeId": "usr_horizon_admin",
+      "createdAt": "2026-06-25T08:40:00.000Z",
+      "updatedAt": "2026-08-18T09:30:00.000Z",
+      "workflowStage": "em_apuracao",
+      "workflowStageAt": "2026-08-18T09:30:00.000Z",
+      "priority": "normal",
+      "teamIds": [
+        "usr_horizon_admin"
+      ],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$KgZ3a/07IKJod3If3gQum.RbO2buvTJd1tYOgz4nP.U66cvZhMxm."
+    },
+    {
+      "id": "rpt_004",
+      "protocol": "CS-2026-000104",
+      "companyId": "cmp_horizon",
+      "category": "assedio_sexual",
+      "status": "acompanhamento",
+      "isAnonymous": false,
+      "dateApprox": "2026-05-10",
+      "timeApprox": "18:20",
+      "location": "Happy hour da empresa",
+      "involved": "Parceiro comercial presente no evento",
+      "description": "Abordagem indesejada e comentários de natureza sexual após o expediente, em evento da empresa.",
+      "witnesses": "Uma colega presente",
+      "attachments": [],
+      "wantUpdates": true,
+      "contactEmail": "maria.silva.demo@email.com",
+      "contactPhone": "(41) 97777-2222",
+      "reporter": {
+        "nome": "Maria Silva (fictício)",
+        "email": "maria.silva.demo@email.com",
+        "telefone": "(41) 97777-2222",
+        "empresa": "Horizon Digital",
+        "setor": "Comercial",
+        "cargo": "Analista"
+      },
+      "sector": "Comercial",
+      "assigneeId": "usr_horizon_admin",
+      "createdAt": "2026-05-12T19:00:00.000Z",
+      "updatedAt": "2026-08-01T14:00:00.000Z",
+      "workflowStage": "analise_parecer",
+      "workflowStageAt": "2026-08-01T14:00:00.000Z",
+      "priority": "normal",
+      "teamIds": [
+        "usr_horizon_admin"
+      ],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$mWqzLun2lHSpInPhBN6IXO62wO.a6BFy7rJEyHHSNuySGCBQL3Dtq"
+    },
+    {
+      "id": "rpt_005",
+      "protocol": "CS-2026-000105",
+      "companyId": "cmp_verde",
+      "category": "violencia",
+      "status": "concluido",
+      "isAnonymous": false,
+      "dateApprox": "2026-04-03",
+      "timeApprox": "07:45",
+      "location": "Pátio de carga",
+      "involved": "Motorista terceiro",
+      "description": "Discussão que evoluiu para empurrão e ameaça verbal durante descarga.",
+      "witnesses": "Porteiro e auxiliar de logística",
+      "attachments": [],
+      "wantUpdates": true,
+      "contactEmail": "joao.santos.demo@email.com",
+      "contactPhone": null,
+      "reporter": {
+        "nome": "João Santos (fictício)",
+        "email": "joao.santos.demo@email.com",
+        "telefone": "(81) 96666-3333",
+        "empresa": "Verde Campo",
+        "setor": "Logística",
+        "cargo": "Auxiliar"
+      },
+      "sector": "Logística",
+      "assigneeId": "usr_verde_admin",
+      "createdAt": "2026-04-03T12:00:00.000Z",
+      "updatedAt": "2026-05-20T10:00:00.000Z",
+      "riskLevel": "high",
+      "riskClassifiedAt": "2026-07-20T11:00:00.000Z",
+      "riskClassifiedByUserId": "usr_verde_admin",
+      "workflowStage": "concluido",
+      "workflowStageAt": "2026-05-20T10:00:00.000Z",
+      "priority": "normal",
+      "teamIds": [
+        "usr_verde_admin"
+      ],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$5fghdyIHss4Y6YxtWpky6ucGPqMnb/Pwg5n7XlZtzXjw30UpOrhaC"
+    },
+    {
+      "id": "rpt_006",
+      "protocol": "CS-2026-000106",
+      "companyId": "cmp_aurora",
+      "category": "retaliacao",
+      "status": "apuracao",
+      "isAnonymous": true,
+      "dateApprox": "2026-08-05",
+      "timeApprox": "",
+      "location": "Escritório",
+      "involved": "Liderança imediata",
+      "description": "Após comunicação anterior interna, houve mudança abrupta de escala e isolamento de tarefas.",
+      "witnesses": "",
+      "attachments": [],
+      "wantUpdates": false,
+      "contactEmail": null,
+      "contactPhone": null,
+      "reporter": null,
+      "sector": "Qualidade",
+      "assigneeId": "usr_aurora_admin",
+      "createdAt": "2026-08-08T15:30:00.000Z",
+      "updatedAt": "2026-08-20T11:00:00.000Z",
+      "workflowStage": "em_apuracao",
+      "workflowStageAt": "2026-08-20T11:00:00.000Z",
+      "priority": "normal",
+      "teamIds": [
+        "usr_aurora_admin"
+      ],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$9BKUjefOuy0C.pAs7fEj6ufHarqxA941g4xF/T7YGSEaPn.sjffWW"
+    },
+    {
+      "id": "rpt_007",
+      "protocol": "CS-2026-000107",
+      "companyId": "cmp_verde",
+      "category": "constrangimento",
+      "status": "analise",
+      "isAnonymous": true,
+      "dateApprox": "2026-07-28",
+      "timeApprox": "11:00",
+      "location": "Reunião de equipe",
+      "involved": "Coordenador",
+      "description": "Exposição vexatória de erro operacional diante de toda a equipe.",
+      "witnesses": "Equipe presente na reunião",
+      "attachments": [],
+      "wantUpdates": true,
+      "contactEmail": null,
+      "contactPhone": "(81) 95555-4444",
+      "reporter": null,
+      "sector": "Operações",
+      "assigneeId": null,
+      "createdAt": "2026-07-29T09:10:00.000Z",
+      "updatedAt": "2026-08-12T08:00:00.000Z",
+      "workflowStage": "triagem",
+      "workflowStageAt": "2026-08-12T08:00:00.000Z",
+      "priority": "normal",
+      "teamIds": [],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$5quxYPzgXD6Z2oKZModfM.pgeV/J3E/lOXF8NR0dW7jlUkKUmoKOm"
+    },
+    {
+      "id": "rpt_008",
+      "protocol": "CS-2026-000108",
+      "companyId": "cmp_horizon",
+      "category": "ameaca",
+      "status": "recebido",
+      "isAnonymous": false,
+      "dateApprox": "2026-08-18",
+      "timeApprox": "16:40",
+      "location": "Chat interno",
+      "involved": "Colega de outro time",
+      "description": "Mensagens com tom intimidador após divergência técnica em projeto.",
+      "witnesses": "",
+      "attachments": [
+        {
+          "id": "att_demo_rpt008_1",
+          "reportId": "rpt_008",
+          "name": "prints-chat.png",
+          "size": 245000,
+          "mimeType": "image/png",
+          "ext": "png",
+          "status": "simulated",
+          "createdAt": "2026-08-18T16:40:00.000Z"
+        }
+      ],
+      "wantUpdates": true,
+      "contactEmail": "pedro.alves.demo@email.com",
+      "contactPhone": "(41) 94444-5555",
+      "reporter": {
+        "nome": "Pedro Alves (fictício)",
+        "email": "pedro.alves.demo@email.com",
+        "telefone": "(41) 94444-5555",
+        "empresa": "Horizon Digital",
+        "setor": "Produto",
+        "cargo": "Designer"
+      },
+      "sector": "Produto",
+      "assigneeId": null,
+      "createdAt": "2026-08-19T08:00:00.000Z",
+      "updatedAt": "2026-08-19T08:00:00.000Z",
+      "workflowStage": "recebido",
+      "workflowStageAt": "2026-08-19T08:00:00.000Z",
+      "priority": "normal",
+      "teamIds": [],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$rlldDcfGDXHOWmdkGrduS.y.VfQxf.lJruQWjDW6kdYTGgRvIOmfm"
+    },
+    {
+      "id": "rpt_009",
+      "protocol": "CS-2026-000109",
+      "companyId": "cmp_aurora",
+      "category": "outro",
+      "status": "concluido",
+      "isAnonymous": false,
+      "dateApprox": "2026-03-15",
+      "timeApprox": "",
+      "location": "Home office / reuniões",
+      "involved": "Não especificado claramente",
+      "description": "Situação de clima hostil recorrente; solicitação de orientação sobre como proceder.",
+      "witnesses": "",
+      "attachments": [],
+      "wantUpdates": false,
+      "contactEmail": "lucia.ramos.demo@email.com",
+      "contactPhone": null,
+      "reporter": {
+        "nome": "Lúcia Ramos (fictício)",
+        "email": "lucia.ramos.demo@email.com",
+        "telefone": "(11) 93333-6666",
+        "empresa": "Aurora Indústria",
+        "setor": "RH",
+        "cargo": "Analista"
+      },
+      "sector": "RH",
+      "assigneeId": "usr_aurora_admin",
+      "createdAt": "2026-03-16T13:00:00.000Z",
+      "updatedAt": "2026-04-30T17:00:00.000Z",
+      "workflowStage": "concluido",
+      "workflowStageAt": "2026-04-30T17:00:00.000Z",
+      "priority": "normal",
+      "teamIds": [
+        "usr_aurora_admin"
+      ],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$YQlgNZJb7qkx80oCF0wwQOdRAA/NMNXgwI3Zdn7Q5sDiEWUwI0Ooy"
+    },
+    {
+      "id": "rpt_010",
+      "protocol": "CS-2026-000110",
+      "companyId": "cmp_verde",
+      "category": "assedio_moral",
+      "status": "acompanhamento",
+      "isAnonymous": true,
+      "dateApprox": "2026-06-01",
+      "timeApprox": "08:00",
+      "location": "Linha de embalagem",
+      "involved": "Encarregado de turno",
+      "description": "Metas acompanhadas de humilhações verbais frequentes e isolamento social no turno.",
+      "witnesses": "Operadores do mesmo turno",
+      "attachments": [],
+      "wantUpdates": false,
+      "contactEmail": null,
+      "contactPhone": null,
+      "reporter": null,
+      "sector": "Embalagem",
+      "assigneeId": "usr_verde_admin",
+      "createdAt": "2026-06-05T07:50:00.000Z",
+      "updatedAt": "2026-08-15T10:20:00.000Z",
+      "workflowStage": "analise_parecer",
+      "workflowStageAt": "2026-08-15T10:20:00.000Z",
+      "priority": "normal",
+      "teamIds": [
+        "usr_verde_admin"
+      ],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$u/zW15e/W3CsHNgvj4/sjOmKlfQkMsHdciMo4fFfq8ZHRI7WC6Zyu"
+    },
+    {
+      "id": "rpt_011",
+      "protocol": "CS-2026-000111",
+      "companyId": "cmp_horizon",
+      "category": "comportamento_ofensivo",
+      "status": "analise",
+      "isAnonymous": true,
+      "dateApprox": "2026-08-10",
+      "timeApprox": "10:15",
+      "location": "Sala de reunião",
+      "involved": "Participante externo de cliente",
+      "description": "Insultos e interrupções agressivas durante apresentação, criando ambiente hostil.",
+      "witnesses": "Equipe comercial",
+      "attachments": [],
+      "wantUpdates": true,
+      "contactEmail": "retorno.demo@email.com",
+      "contactPhone": null,
+      "reporter": null,
+      "sector": "Comercial",
+      "assigneeId": "usr_horizon_admin",
+      "createdAt": "2026-08-11T18:00:00.000Z",
+      "updatedAt": "2026-08-22T09:00:00.000Z",
+      "workflowStage": "triagem",
+      "workflowStageAt": "2026-08-22T09:00:00.000Z",
+      "priority": "normal",
+      "teamIds": [
+        "usr_horizon_admin"
+      ],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$T8NCpUcxcozbIqFBCpqosOe8Y5q3nFarkTBGEMbe3GVjp3CJOMiQG"
+    },
+    {
+      "id": "rpt_012",
+      "protocol": "CS-2026-000112",
+      "companyId": "cmp_aurora",
+      "category": "discriminacao",
+      "status": "recebido",
+      "isAnonymous": false,
+      "dateApprox": "2026-08-20",
+      "timeApprox": "13:00",
+      "location": "Processo seletivo interno",
+      "involved": "Membros da banca",
+      "description": "Perguntas e comentários inadequados relacionados a idade e situação familiar durante entrevista interna.",
+      "witnesses": "",
+      "attachments": [],
+      "wantUpdates": true,
+      "contactEmail": "fernanda.oliveira.demo@email.com",
+      "contactPhone": "(11) 92222-7777",
+      "reporter": {
+        "nome": "Fernanda Oliveira (fictício)",
+        "email": "fernanda.oliveira.demo@email.com",
+        "telefone": "(11) 92222-7777",
+        "empresa": "Aurora Indústria",
+        "setor": "Engenharia",
+        "cargo": "Engenheira"
+      },
+      "sector": "Engenharia",
+      "assigneeId": null,
+      "createdAt": "2026-08-21T10:45:00.000Z",
+      "updatedAt": "2026-08-21T10:45:00.000Z",
+      "workflowStage": "recebido",
+      "workflowStageAt": "2026-08-21T10:45:00.000Z",
+      "priority": "normal",
+      "teamIds": [],
+      "dueAt": null,
+      "trackingCodeHash": "$2a$10$p2FwgFEZOqoy6pnFkyA6YOGrz0IlDunGOvjk3piZbVmh9vId.0eFy"
+    }
+  ],
+  "reportHistory": [
+    {
+      "id": "hist_1",
+      "reportId": "rpt_001",
+      "date": "2026-07-15T10:22:00.000Z",
+      "userId": "system",
+      "userName": "Sistema",
+      "action": "Relato recebido e registrado."
+    },
+    {
+      "id": "hist_2",
+      "reportId": "rpt_001",
+      "date": "2026-08-10T16:00:00.000Z",
+      "userId": "usr_aurora_admin",
+      "userName": "Carla Mendes",
+      "action": "Alterou status para \"Em análise\"."
+    },
+    {
+      "id": "hist_3",
+      "reportId": "rpt_003",
+      "date": "2026-06-25T08:40:00.000Z",
+      "userId": "system",
+      "userName": "Sistema",
+      "action": "Relato recebido e registrado."
+    },
+    {
+      "id": "hist_4",
+      "reportId": "rpt_003",
+      "date": "2026-07-10T11:00:00.000Z",
+      "userId": "usr_horizon_admin",
+      "userName": "Roberto Lima",
+      "action": "Alterou status para \"Em análise\"."
+    },
+    {
+      "id": "hist_5",
+      "reportId": "rpt_003",
+      "date": "2026-08-18T09:30:00.000Z",
+      "userId": "usr_horizon_admin",
+      "userName": "Roberto Lima",
+      "action": "Alterou status para \"Em apuração\"."
+    },
+    {
+      "id": "hist_6",
+      "reportId": "rpt_005",
+      "date": "2026-04-03T12:00:00.000Z",
+      "userId": "system",
+      "userName": "Sistema",
+      "action": "Relato recebido e registrado."
+    },
+    {
+      "id": "hist_7",
+      "reportId": "rpt_005",
+      "date": "2026-05-20T10:00:00.000Z",
+      "userId": "usr_verde_admin",
+      "userName": "Ana Paula Souza",
+      "action": "Concluiu o relato. Providências registradas."
+    },
+    {
+      "id": "hist_8",
+      "reportId": "rpt_004",
+      "date": "2026-08-01T14:00:00.000Z",
+      "userId": "usr_horizon_admin",
+      "userName": "Roberto Lima",
+      "action": "Alterou status para \"Em acompanhamento\"."
+    }
+  ],
+  "reportMessages": [
+    {
+      "id": "msg_demo_1",
+      "reportId": "rpt_001",
+      "direction": "company",
+      "messageType": "info_request",
+      "body": "Precisamos de mais detalhes sobre o horário aproximado do ocorrido. Responda por esta caixa de mensagens.",
+      "attachments": [],
+      "status": "sent",
+      "authorLabel": "Equipe responsável",
+      "actorUserId": "usr_aurora_admin",
+      "createdAt": "2026-01-15T14:30:00.000Z",
+      "deliveredAt": null,
+      "readAt": null
+    }
+  ],
+  "reportRiskHistory": [
+    {
+      "id": "rrh_demo_1",
+      "reportId": "rpt_001",
+      "companyId": "cmp_aurora",
+      "protocol": "CS-2026-000101",
+      "level": "critical",
+      "previousLevel": null,
+      "factors": [
+        "physical_integrity",
+        "leadership_involvement",
+        "recurrence"
+      ],
+      "justification": "Relato descreve cobranças públicas reiteradas com possível retaliação e envolvimento de supervisor. Priorizar apuração.",
+      "classifiedByUserId": "usr_aurora_admin",
+      "classifiedByUserName": "Carla Admin",
+      "source": "manual",
+      "suggestionSnapshot": null,
+      "createdAt": "2026-07-16T09:00:00.000Z"
+    },
+    {
+      "id": "rrh_demo_2",
+      "reportId": "rpt_002",
+      "companyId": "cmp_aurora",
+      "protocol": "CS-2026-000102",
+      "level": "high",
+      "previousLevel": null,
+      "factors": [
+        "discrimination",
+        "evidence_exists"
+      ],
+      "justification": "Comportamento ofensivo reiterado com anexo. Prioridade elevada na triagem.",
+      "classifiedByUserId": "usr_aurora_ap",
+      "classifiedByUserName": "Paulo Apurador",
+      "source": "manual",
+      "suggestionSnapshot": null,
+      "createdAt": "2026-07-20T11:00:00.000Z"
+    }
+  ],
+  "contents": [
+    {
+      "id": "cnt_edu_assedio",
+      "type": "educacao",
+      "title": "O que é assédio?",
+      "slug": "assedio",
+      "sortOrder": 10,
+      "body": "<p>De forma simples, assédio no ambiente de trabalho costuma envolver condutas abusivas — muitas vezes reiteradas, ou em alguns casos graves mesmo isoladas — que atentam contra a dignidade, a integridade psíquica ou o bem-estar da pessoa.</p><p>Nem toda situação desconfortável, discordância ou cobrança profissional equivale automaticamente a assédio. O objetivo deste canal é acolher comunicações e orientar, sem estimular acusações precipitadas.</p>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:00:00.000Z"
+    },
+    {
+      "id": "cnt_edu_moral",
+      "type": "educacao",
+      "title": "Assédio moral",
+      "slug": "moral",
+      "sortOrder": 20,
+      "body": "<h3>Conceito</h3><p>Geralmente associado a exposição prolongada a situações humilhantes, constrangedoras ou hostis no trabalho, que podem degradar o ambiente e afetar a saúde e a dignidade.</p><h3>Exemplos que podem caracterizar (conforme contexto)</h3><ul><li>Humilhações públicas reiteradas;</li><li>Isolamento social deliberado no trabalho;</li><li>Atribuição sistemática de tarefas degradantes sem justificativa;</li><li>Critérios abusivos e desproporcionais de cobrança com caráter vexatório.</li></ul><h3>Situações que isoladamente podem não caracterizar assédio</h3><ul><li>Feedback profissional objetivo e respeitoso;</li><li>Cobrança legítima de prazos e metas;</li><li>Discordâncias pontuais de opinião;</li><li>Reorganização de funções por necessidade da empresa, feita com respeito.</li></ul><div class=\"callout\"><p>A análise depende do contexto, frequência, intensidade e impactos. Em caso de dúvida, busque orientação e, se desejar, registre uma comunicação objetiva.</p></div>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:05:00.000Z"
+    },
+    {
+      "id": "cnt_edu_sexual",
+      "type": "educacao",
+      "title": "Assédio sexual",
+      "slug": "sexual",
+      "sortOrder": 30,
+      "body": "<h3>Conceito</h3><p>Envolve condutas de conotação sexual indesejadas, que possam constranger, intimidar ou criar ambiente hostil. Pode ocorrer entre pessoas de hierarquias diferentes ou entre pares.</p><h3>Exemplos e comportamentos inadequados</h3><ul><li>Comentários sexuais indesejados;</li><li>Cantadas insistentes após recusa;</li><li>Contato físico não consentido;</li><li>Exposição a conteúdo de natureza sexual sem consentimento;</li><li>Condicionamento de benefícios a favores sexuais.</li></ul><h3>Prevenção</h3><ul><li>Respeito a limites pessoais;</li><li>Comunicação clara e profissional;</li><li>Políticas internas de convivência;</li><li>Canais seguros de escuta, como este.</li></ul>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:10:00.000Z"
+    },
+    {
+      "id": "cnt_edu_discriminacao",
+      "type": "educacao",
+      "title": "Discriminação",
+      "slug": "discriminacao",
+      "sortOrder": 40,
+      "body": "<p>Comportamentos discriminatórios podem incluir tratamento desigual ou pejorativo com base em características pessoais protegidas, tais como:</p><ul><li>Raça, cor, origem ou etnia;</li><li>Gênero, identidade de gênero ou orientação sexual;</li><li>Idade, deficiência, religião;</li><li>Estado civil, gravidez ou condição familiar;</li><li>Outras características pessoais usadas de forma injusta.</li></ul><p>Exemplos: exclusão de oportunidades, piadas reiteradas, comentários pejorativos ou critérios de seleção enviesados.</p>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:15:00.000Z"
+    },
+    {
+      "id": "cnt_edu_violencia",
+      "type": "educacao",
+      "title": "Violência no trabalho",
+      "slug": "violencia",
+      "sortOrder": 50,
+      "body": "<p><strong>Física:</strong> agressões ou contato físico ofensivo.</p><p><strong>Verbal:</strong> gritos, insultos, ameaças explícitas.</p><p><strong>Psicológica:</strong> intimidação, humilhação sistemática, medo constante.</p><div class=\"callout callout--warn\"><p>Em situações de risco imediato à integridade física, priorize sua segurança e acione os canais de emergência adequados.</p></div>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:20:00.000Z"
+    },
+    {
+      "id": "cnt_edu_ofensivos",
+      "type": "educacao",
+      "title": "Comportamentos ofensivos",
+      "slug": "ofensivos",
+      "sortOrder": 60,
+      "body": "<p>Podem incluir, conforme gravidade e contexto:</p><ul><li>Humilhações;</li><li>Ameaças;</li><li>Constrangimentos;</li><li>Insultos;</li><li>Exposição vexatória;</li><li>Comentários ofensivos reiterados.</li></ul>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:25:00.000Z"
+    },
+    {
+      "id": "cnt_edu_conflitos",
+      "type": "educacao",
+      "title": "Conflitos x assédio",
+      "slug": "conflitos",
+      "sortOrder": 70,
+      "body": "<p>É importante distinguir:</p><ul><li><strong>Conflito:</strong> divergência de ideias ou interesses, possível de mediação.</li><li><strong>Cobrança profissional:</strong> exigência legítima de desempenho, com respeito.</li><li><strong>Gestão:</strong> decisões organizacionais e direcionamento de equipe.</li><li><strong>Feedback:</strong> retorno sobre desempenho, preferencialmente construtivo.</li><li><strong>Assédio:</strong> conduta abusiva que fere dignidade e bem-estar, além do exercício regular da gestão.</li></ul><p>Esta plataforma não afirma automaticamente que determinada situação constitui crime ou assédio; cada caso deve ser apreciado com cuidado.</p>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:30:00.000Z"
+    },
+    {
+      "id": "cnt_edu_direitos",
+      "type": "educacao",
+      "title": "Conheça seus direitos",
+      "slug": "direitos",
+      "sortOrder": 80,
+      "body": "<p>Todo colaborador tem direito a um ambiente de trabalho com respeito à dignidade, à integridade e à não discriminação. Políticas internas, normas trabalhistas e princípios de convivência reforçam esses direitos.</p><p>Este canal é uma ferramenta de prevenção e escuta da empresa, complementar a outros meios institucionais eventualmente disponíveis.</p>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:35:00.000Z"
+    },
+    {
+      "id": "cnt_edu_como_funciona",
+      "type": "educacao",
+      "title": "Como funciona",
+      "slug": "como-funciona",
+      "sortOrder": 90,
+      "body": "<ol><li>Você acessa “Fazer um Relato” e escolhe identificado ou anônimo.</li><li>Preenche as etapas com informações objetivas.</li><li>Recebe um número de protocolo.</li><li>A equipe responsável analisa e atualiza o status.</li><li>Você pode consultar o andamento pelo protocolo (sem dados confidenciais na tela pública).</li></ol>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:40:00.000Z"
+    },
+    {
+      "id": "cnt_edu_orientacoes",
+      "type": "educacao",
+      "title": "Orientações",
+      "slug": "orientacoes",
+      "sortOrder": 100,
+      "body": "<ul><li>Descreva fatos de forma objetiva (o quê, quando, onde, quem, como).</li><li>Evite informações não relacionadas ao ocorrido.</li><li>Não é necessário ter certeza jurídica para comunicar uma situação.</li><li>Guarde o protocolo em local seguro.</li><li>Se solicitar retorno, informe um contato confiável.</li></ul><p><a class=\"btn btn-primary mt-2\" href=\"relato.html\" data-tenant-link>Fazer um Relato</a></p>",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-10T10:45:00.000Z"
+    },
+    {
+      "id": "cnt_faq_anonimo",
+      "type": "faq",
+      "title": "Posso fazer um relato anônimo?",
+      "sortOrder": 10,
+      "body": "Sim. Você pode escolher a opção anônima. Neste protótipo, dados pessoais não são obrigatórios nessa modalidade. Em produção, o anonimato real depende de arquitetura segura no back-end.",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-12T11:00:00.000Z"
+    },
+    {
+      "id": "cnt_faq_certeza",
+      "type": "faq",
+      "title": "Preciso ter certeza de que ocorreu assédio?",
+      "sortOrder": 20,
+      "body": "Não. O canal recebe comunicações sobre situações que possam comprometer o respeito e o bem-estar. Descreva os fatos com objetividade; a apuração caberá à equipe responsável.",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-12T11:05:00.000Z"
+    },
+    {
+      "id": "cnt_faq_depois",
+      "type": "faq",
+      "title": "O que acontece depois do envio?",
+      "sortOrder": 30,
+      "body": "Você recebe um protocolo. A equipe da empresa analisa a comunicação e atualiza o status. Você pode acompanhar o andamento pela página Consultar Relato.",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-12T11:10:00.000Z"
+    },
+    {
+      "id": "cnt_faq_protegidas",
+      "type": "faq",
+      "title": "Minhas informações ficam protegidas?",
+      "sortOrder": 40,
+      "body": "A plataforma é desenhada para confidencialidade e conformidade com boas práticas de privacidade (incluindo preparação para LGPD). Este protótipo usa armazenamento local apenas para demonstração — não é solução definitiva de segurança.",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-12T11:15:00.000Z"
+    },
+    {
+      "id": "cnt_faq_anexos",
+      "type": "faq",
+      "title": "Posso anexar arquivos?",
+      "sortOrder": 50,
+      "body": "A interface de anexos está disponível no formulário. O upload seguro (armazenamento criptografado, antivírus, controle de acesso) será implementado no back-end.",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-12T11:20:00.000Z"
+    },
+    {
+      "id": "cnt_faq_retaliacao",
+      "type": "faq",
+      "title": "Haverá retaliação?",
+      "sortOrder": 60,
+      "body": "A empresa se compromete a tratar comunicações com seriedade e a coibir retaliações. Se perceber retaliação, registre também por este canal.",
+      "companyId": null,
+      "status": "publicado",
+      "createdAt": "2026-01-12T11:25:00.000Z"
+    },
+    {
+      "id": "cnt_5",
+      "type": "artigo",
+      "title": "Política de convivência – Aurora",
+      "body": "Conteúdo específico da Aurora Indústria sobre respeito e convivência no chão de fábrica e escritórios.",
+      "companyId": "cmp_aurora",
+      "status": "publicado",
+      "createdAt": "2026-02-01T10:00:00.000Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "ntf_1",
+      "type": "report_new",
+      "title": "Novo relato recebido",
+      "message": "Protocolo CS-2026-000112 aguarda triagem.",
+      "companyId": "cmp_aurora",
+      "reportId": "rpt_012",
+      "protocol": "CS-2026-000112",
+      "read": false,
+      "createdAt": "2026-08-21T10:45:00.000Z"
+    },
+    {
+      "id": "ntf_2",
+      "type": "report_assigned",
+      "title": "Relato encaminhado",
+      "message": "Protocolo CS-2026-000102 encaminhado para Paulo Ferreira.",
+      "companyId": "cmp_aurora",
+      "reportId": "rpt_002",
+      "protocol": "CS-2026-000102",
+      "read": false,
+      "createdAt": "2026-08-02T11:05:00.000Z"
+    },
+    {
+      "id": "ntf_2b",
+      "type": "report_assigned",
+      "title": "Relato encaminhado a você",
+      "message": "Protocolo CS-2026-000102 foi encaminhado para sua apuração.",
+      "companyId": "cmp_aurora",
+      "reportId": "rpt_002",
+      "protocol": "CS-2026-000102",
+      "userId": "usr_aurora_ap",
+      "assigneeId": "usr_aurora_ap",
+      "read": false,
+      "createdAt": "2026-08-02T11:05:00.000Z"
+    },
+    {
+      "id": "ntf_3",
+      "type": "report_status",
+      "title": "Relato atualizado",
+      "message": "Protocolo CS-2026-000103 — status: Em apuração.",
+      "companyId": "cmp_horizon",
+      "reportId": "rpt_003",
+      "protocol": "CS-2026-000103",
+      "read": false,
+      "createdAt": "2026-08-18T09:30:00.000Z"
+    },
+    {
+      "id": "ntf_4",
+      "type": "report_assigned",
+      "title": "Relato encaminhado",
+      "message": "Protocolo CS-2026-000112 encaminhado para Paulo Ferreira.",
+      "companyId": "cmp_aurora",
+      "reportId": "rpt_012",
+      "protocol": "CS-2026-000112",
+      "read": false,
+      "createdAt": "2026-08-21T11:00:00.000Z"
+    },
+    {
+      "id": "ntf_4b",
+      "type": "report_assigned",
+      "title": "Relato encaminhado a você",
+      "message": "Protocolo CS-2026-000112 foi encaminhado para sua apuração.",
+      "companyId": "cmp_aurora",
+      "reportId": "rpt_012",
+      "protocol": "CS-2026-000112",
+      "userId": "usr_aurora_ap",
+      "assigneeId": "usr_aurora_ap",
+      "read": false,
+      "createdAt": "2026-08-21T11:00:00.000Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "aud_1",
+      "date": "2026-08-26T09:00:00.000Z",
+      "userId": "usr_fx_admin",
+      "userName": "Administrador FX",
+      "action": "login",
+      "resourceType": "session",
+      "companyId": null,
+      "targetId": null
+    },
+    {
+      "id": "aud_login_ap",
+      "date": "2026-08-26T08:15:00.000Z",
+      "userId": "usr_aurora_ap",
+      "userName": "Paulo Ferreira",
+      "action": "login",
+      "resourceType": "session",
+      "companyId": "cmp_aurora",
+      "targetId": null
+    },
+    {
+      "id": "aud_logout_ap",
+      "date": "2026-08-26T12:40:00.000Z",
+      "userId": "usr_aurora_ap",
+      "userName": "Paulo Ferreira",
+      "action": "logout",
+      "resourceType": "session",
+      "companyId": "cmp_aurora",
+      "targetId": null
+    },
+    {
+      "id": "aud_login_aurora",
+      "date": "2026-08-26T08:05:00.000Z",
+      "userId": "usr_aurora_admin",
+      "userName": "Carla Mendes",
+      "action": "login",
+      "resourceType": "session",
+      "companyId": "cmp_aurora",
+      "targetId": null
+    },
+    {
+      "id": "aud_2",
+      "date": "2026-08-25T14:20:00.000Z",
+      "userId": "usr_aurora_admin",
+      "userName": "Carla Mendes",
+      "action": "alteracao_status",
+      "resourceType": "report",
+      "companyId": "cmp_aurora",
+      "resourceId": "rpt_001",
+      "targetId": "rpt_001",
+      "protocol": "CS-2026-000101",
+      "previousValue": {
+        "status": "recebido"
+      },
+      "newValue": {
+        "status": "analise"
+      }
+    },
+    {
+      "id": "aud_3",
+      "date": "2026-08-21T10:45:00.000Z",
+      "userId": "system",
+      "userName": "Sistema",
+      "action": "criacao_relato",
+      "resourceType": "report",
+      "companyId": "cmp_aurora",
+      "resourceId": "rpt_012",
+      "targetId": "rpt_012",
+      "protocol": "CS-2026-000112",
+      "newValue": {
+        "status": "recebido",
+        "isAnonymous": false
+      }
+    },
+    {
+      "id": "aud_4",
+      "date": "2026-08-18T09:30:00.000Z",
+      "userId": "usr_horizon_admin",
+      "userName": "Roberto Lima",
+      "action": "alteracao_status",
+      "resourceType": "report",
+      "companyId": "cmp_horizon",
+      "resourceId": "rpt_003",
+      "targetId": "rpt_003",
+      "protocol": "CS-2026-000103",
+      "previousValue": {
+        "status": "analise"
+      },
+      "newValue": {
+        "status": "apuracao"
+      }
+    },
+    {
+      "id": "aud_5",
+      "date": "2026-08-15T11:00:00.000Z",
+      "userId": "usr_fx_admin",
+      "userName": "Administrador FX",
+      "action": "edicao_empresa",
+      "resourceType": "company",
+      "companyId": "cmp_verde",
+      "resourceId": "cmp_verde",
+      "targetId": "cmp_verde"
+    }
+  ],
+  "techLogs": [],
+  "storageUpgradeRequests": [],
+  "platformSupportThreads": [],
+  "platformSettings": {
+    "defaultTheme": "light",
+    "fxBrandName": "FX Felipe Xavier",
+    "fxProductName": "Canal Seguro",
+    "supportEmail": "contato@fxfelipexavier.com.br",
+    "commercialWhatsApp": "047984570646",
+    "defaultProtocolPrefix": "CS",
+    "storagePricing": {
+      "defaultBaseAmount": 149,
+      "defaultUpgradePercent": 20,
+      "defaultCorporativoConsult": true
+    },
+    "platformStorage": {
+      "poolBytes": 536870912000,
+      "alertThresholds": {
+        "attention": 70,
+        "warning": 85,
+        "critical": 95
+      },
+      "alertOnAllocatedOvercommit": true,
+      "lastAlert": {
+        "usedBand": "normal",
+        "allocatedBand": "normal",
+        "overcommit": false,
+        "at": null
+      }
+    },
+    "mfaPolicy": {
+      "enabled": true,
+      "requiredRoles": [
+        "superadmin",
+        "admin_empresa"
+      ],
+      "requiredPermissions": [
+        "reports:view_identity"
+      ],
+      "optionalForOthers": true,
+      "gracePeriodDays": 7,
+      "allowRecoveryCodes": true,
+      "enforcedAt": null
+    }
+  },
+  "companySettings": {
+    "cmp_aurora": {
+      "protocolPrefix": "CS",
+      "protocolCounter": 112,
+      "investigationWorkflow": {
+        "enabled": true,
+        "stages": [
+          {
+            "id": "recebido",
+            "label": "Recebido",
+            "order": 1,
+            "slaHours": 24,
+            "requiresJustification": false
+          },
+          {
+            "id": "triagem",
+            "label": "Triagem",
+            "order": 2,
+            "slaHours": 48,
+            "requiresJustification": false
+          },
+          {
+            "id": "classificacao_risco",
+            "label": "Classificação de risco",
+            "order": 3,
+            "slaHours": 48,
+            "requiresJustification": false
+          },
+          {
+            "id": "responsavel_definido",
+            "label": "Responsável definido",
+            "order": 4,
+            "slaHours": 24,
+            "requiresJustification": false
+          },
+          {
+            "id": "em_apuracao",
+            "label": "Em apuração",
+            "order": 5,
+            "slaHours": 120,
+            "requiresJustification": false
+          },
+          {
+            "id": "aguardando_informacoes",
+            "label": "Aguardando informações",
+            "order": 6,
+            "slaHours": 72,
+            "requiresJustification": false
+          },
+          {
+            "id": "analise_parecer",
+            "label": "Análise / parecer",
+            "order": 7,
+            "slaHours": 72,
+            "requiresJustification": false
+          },
+          {
+            "id": "medidas_adotadas",
+            "label": "Medidas adotadas",
+            "order": 8,
+            "slaHours": 48,
+            "requiresJustification": false
+          },
+          {
+            "id": "concluido",
+            "label": "Concluído",
+            "order": 9,
+            "slaHours": null,
+            "requiresJustification": true
+          }
+        ],
+        "transitions": {
+          "recebido": [
+            "triagem"
+          ],
+          "triagem": [
+            "classificacao_risco",
+            "em_apuracao"
+          ],
+          "classificacao_risco": [
+            "responsavel_definido",
+            "triagem"
+          ],
+          "responsavel_definido": [
+            "em_apuracao",
+            "classificacao_risco"
+          ],
+          "em_apuracao": [
+            "aguardando_informacoes",
+            "analise_parecer"
+          ],
+          "aguardando_informacoes": [
+            "em_apuracao",
+            "analise_parecer"
+          ],
+          "analise_parecer": [
+            "medidas_adotadas",
+            "em_apuracao"
+          ],
+          "medidas_adotadas": [
+            "concluido",
+            "analise_parecer"
+          ],
+          "concluido": []
+        },
+        "statusMapping": {
+          "recebido": "recebido",
+          "triagem": "analise",
+          "classificacao_risco": "analise",
+          "responsavel_definido": "analise",
+          "em_apuracao": "apuracao",
+          "aguardando_informacoes": "apuracao",
+          "analise_parecer": "acompanhamento",
+          "medidas_adotadas": "acompanhamento",
+          "concluido": "concluido"
+        },
+        "visualMilestones": [
+          {
+            "id": "recebido",
+            "label": "Recebido",
+            "stages": [
+              "recebido"
+            ]
+          },
+          {
+            "id": "triagem",
+            "label": "Triagem",
+            "stages": [
+              "triagem",
+              "classificacao_risco",
+              "responsavel_definido"
+            ]
+          },
+          {
+            "id": "apuracao",
+            "label": "Apuração",
+            "stages": [
+              "em_apuracao",
+              "aguardando_informacoes"
+            ]
+          },
+          {
+            "id": "parecer",
+            "label": "Parecer",
+            "stages": [
+              "analise_parecer",
+              "medidas_adotadas"
+            ]
+          },
+          {
+            "id": "conclusao",
+            "label": "Conclusão",
+            "stages": [
+              "concluido"
+            ]
+          }
+        ],
+        "rules": {
+          "requireAssigneeBefore": [
+            "em_apuracao",
+            "analise_parecer",
+            "medidas_adotadas",
+            "concluido"
+          ],
+          "requireRiskBefore": [
+            "responsavel_definido",
+            "em_apuracao"
+          ],
+          "requireJustificationOnBackward": true,
+          "requireJustificationOnSkip": true,
+          "backwardAllowedRoles": [
+            "admin_empresa",
+            "superadmin"
+          ],
+          "stalledHours": 120
+        }
+      },
+      "emailNotifications": {
+        "enabled": true,
+        "fromName": "Canal Seguro Aurora",
+        "replyTo": "compliance@aurora-demo.com.br",
+        "events": {
+          "password_reset": {
+            "enabled": true
+          },
+          "user_created": {
+            "enabled": true
+          },
+          "account_activation": {
+            "enabled": true
+          },
+          "report_new": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyCompanyEmail": true
+          },
+          "report_assigned": {
+            "enabled": true,
+            "roles": [],
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "report_status": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "report_message": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyReporter": true,
+            "notifyInternal": true,
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "report_info_request": {
+            "enabled": true,
+            "notifyReporter": true
+          },
+          "report_completed": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyReporter": true,
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "sla_alert": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyAssignee": true,
+            "notifyTeam": true,
+            "daysInStatus": 5
+          },
+          "critical_alert": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifySuperadmin": true,
+            "daysStalled": 10
+          },
+          "risk_critical": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyAssignee": true,
+            "notifyTeam": true,
+            "notifySuperadmin": true
+          },
+          "platform_support": {
+            "enabled": true
+          }
+        }
+      },
+      "riskClassification": {
+        "enabled": true,
+        "levels": {
+          "low": {
+            "label": "Baixo",
+            "color": "#2d8a5e",
+            "sortOrder": 1,
+            "icon": "🟢"
+          },
+          "moderate": {
+            "label": "Moderado",
+            "color": "#c9894a",
+            "sortOrder": 2,
+            "icon": "🟡"
+          },
+          "high": {
+            "label": "Alto",
+            "color": "#d97706",
+            "sortOrder": 3,
+            "icon": "🟠"
+          },
+          "critical": {
+            "label": "Crítico",
+            "color": "#c53030",
+            "sortOrder": 4,
+            "icon": "🔴"
+          }
+        },
+        "factors": [
+          {
+            "id": "physical_integrity",
+            "label": "Ameaça à integridade física",
+            "weight": 40
+          },
+          {
+            "id": "violence",
+            "label": "Violência",
+            "weight": 35
+          },
+          {
+            "id": "sexual_harassment",
+            "label": "Assédio sexual",
+            "weight": 35
+          },
+          {
+            "id": "immediate_risk",
+            "label": "Risco imediato",
+            "weight": 45
+          },
+          {
+            "id": "leadership_involvement",
+            "label": "Envolvimento de liderança",
+            "weight": 25
+          },
+          {
+            "id": "discrimination",
+            "label": "Discriminação",
+            "weight": 20
+          },
+          {
+            "id": "reputational_risk",
+            "label": "Risco reputacional",
+            "weight": 15
+          },
+          {
+            "id": "legal_risk",
+            "label": "Risco jurídico",
+            "weight": 20
+          },
+          {
+            "id": "security_risk",
+            "label": "Risco de segurança",
+            "weight": 30
+          },
+          {
+            "id": "recurrence",
+            "label": "Reincidência",
+            "weight": 25
+          },
+          {
+            "id": "evidence_exists",
+            "label": "Existência de evidências",
+            "weight": 15
+          },
+          {
+            "id": "multiple_people",
+            "label": "Envolvimento de múltiplas pessoas",
+            "weight": 20
+          }
+        ],
+        "priorityRules": {
+          "critical": {
+            "alertImmediate": true,
+            "requireAssignee": true,
+            "blockConcludeWithoutAssignee": true,
+            "reducedSlaHours": 4,
+            "pinToTop": true,
+            "notifyRoles": [
+              "admin_empresa",
+              "apurador"
+            ]
+          },
+          "high": {
+            "alertImmediate": false,
+            "requireAssignee": false,
+            "blockConcludeWithoutAssignee": false,
+            "reducedSlaHours": 24,
+            "pinToTop": true,
+            "notifyRoles": [
+              "admin_empresa",
+              "apurador"
+            ]
+          },
+          "moderate": {
+            "alertImmediate": false,
+            "requireAssignee": false,
+            "blockConcludeWithoutAssignee": false,
+            "reducedSlaHours": 72,
+            "pinToTop": false,
+            "notifyRoles": []
+          },
+          "low": {
+            "alertImmediate": false,
+            "requireAssignee": false,
+            "blockConcludeWithoutAssignee": false,
+            "reducedSlaHours": null,
+            "pinToTop": false,
+            "notifyRoles": []
+          }
+        },
+        "suggestion": {
+          "enabled": true,
+          "thresholds": {
+            "low": 15,
+            "moderate": 35,
+            "high": 60,
+            "critical": 85
+          },
+          "categoryBoost": {
+            "violencia": 35,
+            "assedio_sexual": 40,
+            "ameaca": 38,
+            "assedio_moral": 18,
+            "discriminacao": 22,
+            "retaliacao": 25
+          },
+          "keywordBoost": {
+            "arma": 25,
+            "ameaçou": 20,
+            "ameacou": 20,
+            "hoje": 12,
+            "agora": 10,
+            "supervisor": 8,
+            "gerente": 8,
+            "diretor": 10
+          },
+          "recurrenceWindowDays": 180,
+          "recurrenceMinReports": 2
+        },
+        "permissions": {
+          "criticalOnlyRoles": [
+            "admin_empresa",
+            "superadmin"
+          ]
+        }
+      }
+    },
+    "cmp_horizon": {
+      "protocolPrefix": "CS",
+      "protocolCounter": 111,
+      "investigationWorkflow": {
+        "enabled": true,
+        "stages": [
+          {
+            "id": "recebido",
+            "label": "Recebido",
+            "order": 1,
+            "slaHours": 24,
+            "requiresJustification": false
+          },
+          {
+            "id": "triagem",
+            "label": "Triagem",
+            "order": 2,
+            "slaHours": 48,
+            "requiresJustification": false
+          },
+          {
+            "id": "classificacao_risco",
+            "label": "Classificação de risco",
+            "order": 3,
+            "slaHours": 48,
+            "requiresJustification": false
+          },
+          {
+            "id": "responsavel_definido",
+            "label": "Responsável definido",
+            "order": 4,
+            "slaHours": 24,
+            "requiresJustification": false
+          },
+          {
+            "id": "em_apuracao",
+            "label": "Em apuração",
+            "order": 5,
+            "slaHours": 120,
+            "requiresJustification": false
+          },
+          {
+            "id": "aguardando_informacoes",
+            "label": "Aguardando informações",
+            "order": 6,
+            "slaHours": 72,
+            "requiresJustification": false
+          },
+          {
+            "id": "analise_parecer",
+            "label": "Análise / parecer",
+            "order": 7,
+            "slaHours": 72,
+            "requiresJustification": false
+          },
+          {
+            "id": "medidas_adotadas",
+            "label": "Medidas adotadas",
+            "order": 8,
+            "slaHours": 48,
+            "requiresJustification": false
+          },
+          {
+            "id": "concluido",
+            "label": "Concluído",
+            "order": 9,
+            "slaHours": null,
+            "requiresJustification": true
+          }
+        ],
+        "transitions": {
+          "recebido": [
+            "triagem"
+          ],
+          "triagem": [
+            "classificacao_risco",
+            "em_apuracao"
+          ],
+          "classificacao_risco": [
+            "responsavel_definido",
+            "triagem"
+          ],
+          "responsavel_definido": [
+            "em_apuracao",
+            "classificacao_risco"
+          ],
+          "em_apuracao": [
+            "aguardando_informacoes",
+            "analise_parecer"
+          ],
+          "aguardando_informacoes": [
+            "em_apuracao",
+            "analise_parecer"
+          ],
+          "analise_parecer": [
+            "medidas_adotadas",
+            "em_apuracao"
+          ],
+          "medidas_adotadas": [
+            "concluido",
+            "analise_parecer"
+          ],
+          "concluido": []
+        },
+        "statusMapping": {
+          "recebido": "recebido",
+          "triagem": "analise",
+          "classificacao_risco": "analise",
+          "responsavel_definido": "analise",
+          "em_apuracao": "apuracao",
+          "aguardando_informacoes": "apuracao",
+          "analise_parecer": "acompanhamento",
+          "medidas_adotadas": "acompanhamento",
+          "concluido": "concluido"
+        },
+        "visualMilestones": [
+          {
+            "id": "recebido",
+            "label": "Recebido",
+            "stages": [
+              "recebido"
+            ]
+          },
+          {
+            "id": "triagem",
+            "label": "Triagem",
+            "stages": [
+              "triagem",
+              "classificacao_risco",
+              "responsavel_definido"
+            ]
+          },
+          {
+            "id": "apuracao",
+            "label": "Apuração",
+            "stages": [
+              "em_apuracao",
+              "aguardando_informacoes"
+            ]
+          },
+          {
+            "id": "parecer",
+            "label": "Parecer",
+            "stages": [
+              "analise_parecer",
+              "medidas_adotadas"
+            ]
+          },
+          {
+            "id": "conclusao",
+            "label": "Conclusão",
+            "stages": [
+              "concluido"
+            ]
+          }
+        ],
+        "rules": {
+          "requireAssigneeBefore": [
+            "em_apuracao",
+            "analise_parecer",
+            "medidas_adotadas",
+            "concluido"
+          ],
+          "requireRiskBefore": [
+            "responsavel_definido",
+            "em_apuracao"
+          ],
+          "requireJustificationOnBackward": true,
+          "requireJustificationOnSkip": true,
+          "backwardAllowedRoles": [
+            "admin_empresa",
+            "superadmin"
+          ],
+          "stalledHours": 120
+        }
+      },
+      "emailNotifications": {
+        "enabled": true,
+        "fromName": "Canal de Escuta Horizon",
+        "replyTo": "gente@horizon-demo.com.br",
+        "events": {
+          "password_reset": {
+            "enabled": true
+          },
+          "user_created": {
+            "enabled": true
+          },
+          "account_activation": {
+            "enabled": true
+          },
+          "report_new": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyCompanyEmail": true
+          },
+          "report_assigned": {
+            "enabled": true,
+            "roles": [],
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "report_status": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "report_message": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyReporter": true,
+            "notifyInternal": true,
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "report_info_request": {
+            "enabled": true,
+            "notifyReporter": true
+          },
+          "report_completed": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyReporter": true,
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "sla_alert": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyAssignee": true,
+            "notifyTeam": true,
+            "daysInStatus": 5
+          },
+          "critical_alert": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifySuperadmin": true,
+            "daysStalled": 10
+          },
+          "risk_critical": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyAssignee": true,
+            "notifyTeam": true,
+            "notifySuperadmin": true
+          },
+          "platform_support": {
+            "enabled": true
+          }
+        }
+      },
+      "riskClassification": {
+        "enabled": true,
+        "levels": {
+          "low": {
+            "label": "Baixo",
+            "color": "#2d8a5e",
+            "sortOrder": 1,
+            "icon": "🟢"
+          },
+          "moderate": {
+            "label": "Moderado",
+            "color": "#c9894a",
+            "sortOrder": 2,
+            "icon": "🟡"
+          },
+          "high": {
+            "label": "Alto",
+            "color": "#d97706",
+            "sortOrder": 3,
+            "icon": "🟠"
+          },
+          "critical": {
+            "label": "Crítico",
+            "color": "#c53030",
+            "sortOrder": 4,
+            "icon": "🔴"
+          }
+        },
+        "factors": [
+          {
+            "id": "physical_integrity",
+            "label": "Ameaça à integridade física",
+            "weight": 40
+          },
+          {
+            "id": "violence",
+            "label": "Violência",
+            "weight": 35
+          },
+          {
+            "id": "sexual_harassment",
+            "label": "Assédio sexual",
+            "weight": 35
+          },
+          {
+            "id": "immediate_risk",
+            "label": "Risco imediato",
+            "weight": 45
+          },
+          {
+            "id": "leadership_involvement",
+            "label": "Envolvimento de liderança",
+            "weight": 25
+          },
+          {
+            "id": "discrimination",
+            "label": "Discriminação",
+            "weight": 20
+          },
+          {
+            "id": "reputational_risk",
+            "label": "Risco reputacional",
+            "weight": 15
+          },
+          {
+            "id": "legal_risk",
+            "label": "Risco jurídico",
+            "weight": 20
+          },
+          {
+            "id": "security_risk",
+            "label": "Risco de segurança",
+            "weight": 30
+          },
+          {
+            "id": "recurrence",
+            "label": "Reincidência",
+            "weight": 25
+          },
+          {
+            "id": "evidence_exists",
+            "label": "Existência de evidências",
+            "weight": 15
+          },
+          {
+            "id": "multiple_people",
+            "label": "Envolvimento de múltiplas pessoas",
+            "weight": 20
+          }
+        ],
+        "priorityRules": {
+          "critical": {
+            "alertImmediate": true,
+            "requireAssignee": true,
+            "blockConcludeWithoutAssignee": true,
+            "reducedSlaHours": 4,
+            "pinToTop": true,
+            "notifyRoles": [
+              "admin_empresa",
+              "apurador"
+            ]
+          },
+          "high": {
+            "alertImmediate": false,
+            "requireAssignee": false,
+            "blockConcludeWithoutAssignee": false,
+            "reducedSlaHours": 24,
+            "pinToTop": true,
+            "notifyRoles": [
+              "admin_empresa",
+              "apurador"
+            ]
+          },
+          "moderate": {
+            "alertImmediate": false,
+            "requireAssignee": false,
+            "blockConcludeWithoutAssignee": false,
+            "reducedSlaHours": 72,
+            "pinToTop": false,
+            "notifyRoles": []
+          },
+          "low": {
+            "alertImmediate": false,
+            "requireAssignee": false,
+            "blockConcludeWithoutAssignee": false,
+            "reducedSlaHours": null,
+            "pinToTop": false,
+            "notifyRoles": []
+          }
+        },
+        "suggestion": {
+          "enabled": true,
+          "thresholds": {
+            "low": 15,
+            "moderate": 35,
+            "high": 60,
+            "critical": 85
+          },
+          "categoryBoost": {
+            "violencia": 35,
+            "assedio_sexual": 40,
+            "ameaca": 38,
+            "assedio_moral": 18,
+            "discriminacao": 22,
+            "retaliacao": 25
+          },
+          "keywordBoost": {
+            "arma": 25,
+            "ameaçou": 20,
+            "ameacou": 20,
+            "hoje": 12,
+            "agora": 10,
+            "supervisor": 8,
+            "gerente": 8,
+            "diretor": 10
+          },
+          "recurrenceWindowDays": 180,
+          "recurrenceMinReports": 2
+        },
+        "permissions": {
+          "criticalOnlyRoles": [
+            "admin_empresa",
+            "superadmin"
+          ]
+        }
+      }
+    },
+    "cmp_verde": {
+      "protocolPrefix": "CS",
+      "protocolCounter": 110,
+      "investigationWorkflow": {
+        "enabled": true,
+        "stages": [
+          {
+            "id": "recebido",
+            "label": "Recebido",
+            "order": 1,
+            "slaHours": 24,
+            "requiresJustification": false
+          },
+          {
+            "id": "triagem",
+            "label": "Triagem",
+            "order": 2,
+            "slaHours": 48,
+            "requiresJustification": false
+          },
+          {
+            "id": "classificacao_risco",
+            "label": "Classificação de risco",
+            "order": 3,
+            "slaHours": 48,
+            "requiresJustification": false
+          },
+          {
+            "id": "responsavel_definido",
+            "label": "Responsável definido",
+            "order": 4,
+            "slaHours": 24,
+            "requiresJustification": false
+          },
+          {
+            "id": "em_apuracao",
+            "label": "Em apuração",
+            "order": 5,
+            "slaHours": 120,
+            "requiresJustification": false
+          },
+          {
+            "id": "aguardando_informacoes",
+            "label": "Aguardando informações",
+            "order": 6,
+            "slaHours": 72,
+            "requiresJustification": false
+          },
+          {
+            "id": "analise_parecer",
+            "label": "Análise / parecer",
+            "order": 7,
+            "slaHours": 72,
+            "requiresJustification": false
+          },
+          {
+            "id": "medidas_adotadas",
+            "label": "Medidas adotadas",
+            "order": 8,
+            "slaHours": 48,
+            "requiresJustification": false
+          },
+          {
+            "id": "concluido",
+            "label": "Concluído",
+            "order": 9,
+            "slaHours": null,
+            "requiresJustification": true
+          }
+        ],
+        "transitions": {
+          "recebido": [
+            "triagem"
+          ],
+          "triagem": [
+            "classificacao_risco",
+            "em_apuracao"
+          ],
+          "classificacao_risco": [
+            "responsavel_definido",
+            "triagem"
+          ],
+          "responsavel_definido": [
+            "em_apuracao",
+            "classificacao_risco"
+          ],
+          "em_apuracao": [
+            "aguardando_informacoes",
+            "analise_parecer"
+          ],
+          "aguardando_informacoes": [
+            "em_apuracao",
+            "analise_parecer"
+          ],
+          "analise_parecer": [
+            "medidas_adotadas",
+            "em_apuracao"
+          ],
+          "medidas_adotadas": [
+            "concluido",
+            "analise_parecer"
+          ],
+          "concluido": []
+        },
+        "statusMapping": {
+          "recebido": "recebido",
+          "triagem": "analise",
+          "classificacao_risco": "analise",
+          "responsavel_definido": "analise",
+          "em_apuracao": "apuracao",
+          "aguardando_informacoes": "apuracao",
+          "analise_parecer": "acompanhamento",
+          "medidas_adotadas": "acompanhamento",
+          "concluido": "concluido"
+        },
+        "visualMilestones": [
+          {
+            "id": "recebido",
+            "label": "Recebido",
+            "stages": [
+              "recebido"
+            ]
+          },
+          {
+            "id": "triagem",
+            "label": "Triagem",
+            "stages": [
+              "triagem",
+              "classificacao_risco",
+              "responsavel_definido"
+            ]
+          },
+          {
+            "id": "apuracao",
+            "label": "Apuração",
+            "stages": [
+              "em_apuracao",
+              "aguardando_informacoes"
+            ]
+          },
+          {
+            "id": "parecer",
+            "label": "Parecer",
+            "stages": [
+              "analise_parecer",
+              "medidas_adotadas"
+            ]
+          },
+          {
+            "id": "conclusao",
+            "label": "Conclusão",
+            "stages": [
+              "concluido"
+            ]
+          }
+        ],
+        "rules": {
+          "requireAssigneeBefore": [
+            "em_apuracao",
+            "analise_parecer",
+            "medidas_adotadas",
+            "concluido"
+          ],
+          "requireRiskBefore": [
+            "responsavel_definido",
+            "em_apuracao"
+          ],
+          "requireJustificationOnBackward": true,
+          "requireJustificationOnSkip": true,
+          "backwardAllowedRoles": [
+            "admin_empresa",
+            "superadmin"
+          ],
+          "stalledHours": 120
+        }
+      },
+      "emailNotifications": {
+        "enabled": true,
+        "fromName": "Canal Seguro Verde Campo",
+        "replyTo": "rh@verdecampo-demo.com.br",
+        "events": {
+          "password_reset": {
+            "enabled": true
+          },
+          "user_created": {
+            "enabled": true
+          },
+          "account_activation": {
+            "enabled": true
+          },
+          "report_new": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyCompanyEmail": true
+          },
+          "report_assigned": {
+            "enabled": true,
+            "roles": [],
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "report_status": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "report_message": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyReporter": true,
+            "notifyInternal": true,
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "report_info_request": {
+            "enabled": true,
+            "notifyReporter": true
+          },
+          "report_completed": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyReporter": true,
+            "notifyAssignee": true,
+            "notifyTeam": true
+          },
+          "sla_alert": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyAssignee": true,
+            "notifyTeam": true,
+            "daysInStatus": 5
+          },
+          "critical_alert": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifySuperadmin": true,
+            "daysStalled": 10
+          },
+          "risk_critical": {
+            "enabled": true,
+            "roles": [
+              "admin_empresa"
+            ],
+            "notifyAssignee": true,
+            "notifyTeam": true,
+            "notifySuperadmin": true
+          },
+          "platform_support": {
+            "enabled": true
+          }
+        }
+      },
+      "riskClassification": {
+        "enabled": true,
+        "levels": {
+          "low": {
+            "label": "Baixo",
+            "color": "#2d8a5e",
+            "sortOrder": 1,
+            "icon": "🟢"
+          },
+          "moderate": {
+            "label": "Moderado",
+            "color": "#c9894a",
+            "sortOrder": 2,
+            "icon": "🟡"
+          },
+          "high": {
+            "label": "Alto",
+            "color": "#d97706",
+            "sortOrder": 3,
+            "icon": "🟠"
+          },
+          "critical": {
+            "label": "Crítico",
+            "color": "#c53030",
+            "sortOrder": 4,
+            "icon": "🔴"
+          }
+        },
+        "factors": [
+          {
+            "id": "physical_integrity",
+            "label": "Ameaça à integridade física",
+            "weight": 40
+          },
+          {
+            "id": "violence",
+            "label": "Violência",
+            "weight": 35
+          },
+          {
+            "id": "sexual_harassment",
+            "label": "Assédio sexual",
+            "weight": 35
+          },
+          {
+            "id": "immediate_risk",
+            "label": "Risco imediato",
+            "weight": 45
+          },
+          {
+            "id": "leadership_involvement",
+            "label": "Envolvimento de liderança",
+            "weight": 25
+          },
+          {
+            "id": "discrimination",
+            "label": "Discriminação",
+            "weight": 20
+          },
+          {
+            "id": "reputational_risk",
+            "label": "Risco reputacional",
+            "weight": 15
+          },
+          {
+            "id": "legal_risk",
+            "label": "Risco jurídico",
+            "weight": 20
+          },
+          {
+            "id": "security_risk",
+            "label": "Risco de segurança",
+            "weight": 30
+          },
+          {
+            "id": "recurrence",
+            "label": "Reincidência",
+            "weight": 25
+          },
+          {
+            "id": "evidence_exists",
+            "label": "Existência de evidências",
+            "weight": 15
+          },
+          {
+            "id": "multiple_people",
+            "label": "Envolvimento de múltiplas pessoas",
+            "weight": 20
+          }
+        ],
+        "priorityRules": {
+          "critical": {
+            "alertImmediate": true,
+            "requireAssignee": true,
+            "blockConcludeWithoutAssignee": true,
+            "reducedSlaHours": 4,
+            "pinToTop": true,
+            "notifyRoles": [
+              "admin_empresa",
+              "apurador"
+            ]
+          },
+          "high": {
+            "alertImmediate": false,
+            "requireAssignee": false,
+            "blockConcludeWithoutAssignee": false,
+            "reducedSlaHours": 24,
+            "pinToTop": true,
+            "notifyRoles": [
+              "admin_empresa",
+              "apurador"
+            ]
+          },
+          "moderate": {
+            "alertImmediate": false,
+            "requireAssignee": false,
+            "blockConcludeWithoutAssignee": false,
+            "reducedSlaHours": 72,
+            "pinToTop": false,
+            "notifyRoles": []
+          },
+          "low": {
+            "alertImmediate": false,
+            "requireAssignee": false,
+            "blockConcludeWithoutAssignee": false,
+            "reducedSlaHours": null,
+            "pinToTop": false,
+            "notifyRoles": []
+          }
+        },
+        "suggestion": {
+          "enabled": true,
+          "thresholds": {
+            "low": 15,
+            "moderate": 35,
+            "high": 60,
+            "critical": 85
+          },
+          "categoryBoost": {
+            "violencia": 35,
+            "assedio_sexual": 40,
+            "ameaca": 38,
+            "assedio_moral": 18,
+            "discriminacao": 22,
+            "retaliacao": 25
+          },
+          "keywordBoost": {
+            "arma": 25,
+            "ameaçou": 20,
+            "ameacou": 20,
+            "hoje": 12,
+            "agora": 10,
+            "supervisor": 8,
+            "gerente": 8,
+            "diretor": 10
+          },
+          "recurrenceWindowDays": 180,
+          "recurrenceMinReports": 2
+        },
+        "permissions": {
+          "criticalOnlyRoles": [
+            "admin_empresa",
+            "superadmin"
+          ]
+        }
+      }
+    }
+  },
+  "categories": [
+    {
+      "id": "assedio_moral",
+      "label": "Assédio moral"
+    },
+    {
+      "id": "assedio_sexual",
+      "label": "Assédio sexual"
+    },
+    {
+      "id": "discriminacao",
+      "label": "Discriminação"
+    },
+    {
+      "id": "violencia",
+      "label": "Violência"
+    },
+    {
+      "id": "ameaca",
+      "label": "Ameaça"
+    },
+    {
+      "id": "comportamento_ofensivo",
+      "label": "Comportamento ofensivo"
+    },
+    {
+      "id": "constrangimento",
+      "label": "Constrangimento"
+    },
+    {
+      "id": "retaliacao",
+      "label": "Retaliação"
+    },
+    {
+      "id": "outro",
+      "label": "Outro"
+    }
+  ],
+  "statuses": [
+    {
+      "id": "recebido",
+      "label": "Relato recebido",
+      "order": 1
+    },
+    {
+      "id": "analise",
+      "label": "Em análise",
+      "order": 2
+    },
+    {
+      "id": "apuracao",
+      "label": "Em apuração",
+      "order": 3
+    },
+    {
+      "id": "acompanhamento",
+      "label": "Em acompanhamento",
+      "order": 4
+    },
+    {
+      "id": "concluido",
+      "label": "Concluído",
+      "order": 5
+    }
+  ],
+  "_meta": {
+    "version": 14,
+    "seededAt": "2026-09-18T01:07:13.481Z",
+    "disclaimer": "Dados fictícios para demonstração. localStorage não é armazenamento seguro.",
+    "serverSeededAt": "2026-09-18T01:07:14.685Z",
+    "source": "js/seed.js via build-store.js"
+  },
+  "reportWorkflowHistory": [
+    {
+      "id": "wfh_seed_rpt_001",
+      "reportId": "rpt_001",
+      "companyId": "cmp_aurora",
+      "protocol": "CS-2026-000101",
+      "previousStage": null,
+      "newStage": "triagem",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": "usr_aurora_ap",
+      "teamIdsAtTransition": [
+        "usr_aurora_ap"
+      ],
+      "durationMs": 0,
+      "createdAt": "2026-08-10T16:00:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_002",
+      "reportId": "rpt_002",
+      "companyId": "cmp_aurora",
+      "protocol": "CS-2026-000102",
+      "previousStage": null,
+      "newStage": "recebido",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": "usr_aurora_ap",
+      "teamIdsAtTransition": [
+        "usr_aurora_ap"
+      ],
+      "durationMs": 0,
+      "createdAt": "2026-08-02T11:05:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_003",
+      "reportId": "rpt_003",
+      "companyId": "cmp_horizon",
+      "protocol": "CS-2026-000103",
+      "previousStage": null,
+      "newStage": "em_apuracao",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": "usr_horizon_admin",
+      "teamIdsAtTransition": [
+        "usr_horizon_admin"
+      ],
+      "durationMs": 0,
+      "createdAt": "2026-08-18T09:30:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_004",
+      "reportId": "rpt_004",
+      "companyId": "cmp_horizon",
+      "protocol": "CS-2026-000104",
+      "previousStage": null,
+      "newStage": "analise_parecer",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": "usr_horizon_admin",
+      "teamIdsAtTransition": [
+        "usr_horizon_admin"
+      ],
+      "durationMs": 0,
+      "createdAt": "2026-08-01T14:00:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_005",
+      "reportId": "rpt_005",
+      "companyId": "cmp_verde",
+      "protocol": "CS-2026-000105",
+      "previousStage": null,
+      "newStage": "concluido",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": "usr_verde_admin",
+      "teamIdsAtTransition": [
+        "usr_verde_admin"
+      ],
+      "durationMs": 0,
+      "createdAt": "2026-05-20T10:00:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_006",
+      "reportId": "rpt_006",
+      "companyId": "cmp_aurora",
+      "protocol": "CS-2026-000106",
+      "previousStage": null,
+      "newStage": "em_apuracao",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": "usr_aurora_admin",
+      "teamIdsAtTransition": [
+        "usr_aurora_admin"
+      ],
+      "durationMs": 0,
+      "createdAt": "2026-08-20T11:00:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_007",
+      "reportId": "rpt_007",
+      "companyId": "cmp_verde",
+      "protocol": "CS-2026-000107",
+      "previousStage": null,
+      "newStage": "triagem",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": null,
+      "teamIdsAtTransition": [],
+      "durationMs": 0,
+      "createdAt": "2026-08-12T08:00:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_008",
+      "reportId": "rpt_008",
+      "companyId": "cmp_horizon",
+      "protocol": "CS-2026-000108",
+      "previousStage": null,
+      "newStage": "recebido",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": null,
+      "teamIdsAtTransition": [],
+      "durationMs": 0,
+      "createdAt": "2026-08-19T08:00:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_009",
+      "reportId": "rpt_009",
+      "companyId": "cmp_aurora",
+      "protocol": "CS-2026-000109",
+      "previousStage": null,
+      "newStage": "concluido",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": "usr_aurora_admin",
+      "teamIdsAtTransition": [
+        "usr_aurora_admin"
+      ],
+      "durationMs": 0,
+      "createdAt": "2026-04-30T17:00:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_010",
+      "reportId": "rpt_010",
+      "companyId": "cmp_verde",
+      "protocol": "CS-2026-000110",
+      "previousStage": null,
+      "newStage": "analise_parecer",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": "usr_verde_admin",
+      "teamIdsAtTransition": [
+        "usr_verde_admin"
+      ],
+      "durationMs": 0,
+      "createdAt": "2026-08-15T10:20:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_011",
+      "reportId": "rpt_011",
+      "companyId": "cmp_horizon",
+      "protocol": "CS-2026-000111",
+      "previousStage": null,
+      "newStage": "triagem",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": "usr_horizon_admin",
+      "teamIdsAtTransition": [
+        "usr_horizon_admin"
+      ],
+      "durationMs": 0,
+      "createdAt": "2026-08-22T09:00:00.000Z"
+    },
+    {
+      "id": "wfh_seed_rpt_012",
+      "reportId": "rpt_012",
+      "companyId": "cmp_aurora",
+      "protocol": "CS-2026-000112",
+      "previousStage": null,
+      "newStage": "recebido",
+      "changedByUserId": "system",
+      "changedByUserName": "Sistema",
+      "justification": "Migração inicial do workflow.",
+      "assigneeIdAtTransition": null,
+      "teamIdsAtTransition": [],
+      "durationMs": 0,
+      "createdAt": "2026-08-21T10:45:00.000Z"
+    }
+  ],
+  "supportFaqs": [
+    {
+      "id": "faq_seed_fluxo_completo_adm",
+      "question": "Recebi um relato novo. O que fazer até concluir a denúncia? (passo a passo da apuração)",
+      "answer": "Partindo do Dashboard, siga esta ordem:\n1) Relatos — abra o protocolo novo (status Relato recebido / etapa Recebido). Só o Adm_Empresa vê relatos ainda sem encaminhamento.\n2) Classificação de risco — escolha Baixo, Moderado, Alto ou Crítico (Crítico só Adm_Empresa), marque fatores, escreva justificativa e Classificar. Obrigatório antes de avançar para Responsável definido / Em apuração.\n3) Encaminhar — em Ações, Encaminhar para o Apurador responsável (need-to-know: só ele verá o caso). Obrigatório antes de Em apuração e das etapas seguintes.\n4) Fluxo de apuração — avance na ordem: Recebido → Triagem → Classificação de risco → Responsável definido → Em apuração → (opcional: Aguardando informações) → Análise / parecer → Medidas adotadas → Concluído. Use Avançar etapa e Aplicar etapa; informe justificativa quando pedida.\n5) Comunicação com denunciante — quando precisar de dados, Enviar mensagem ou Solicitar informações (visível na consulta pública). Enquanto espera, a etapa pode ser Aguardando informações.\n6) Medidas e ações executadas — registre ações e medidas com data (alimenta histórico e PDF).\n7) Observações internas (opcional) — só para a equipe; não vão ao denunciante.\n8) Concluir — no Fluxo, vá para Concluído (justificativa obrigatória) ou use Concluir relato em Ações. Exige responsável encaminhado; em risco Crítico o responsável é obrigatório. Resultado: etapa e status Concluído.\nDica: prioridade (Normal/Alta/Urgente) é aparte do risco — ajuste em Fluxo de apuração se necessário.",
+      "keywords": [
+        "recebi",
+        "novo",
+        "relato",
+        "denuncia",
+        "seguimento",
+        "fluxo",
+        "completo",
+        "passo",
+        "passo a passo",
+        "concluir",
+        "resolucao",
+        "apuracao",
+        "tratar",
+        "inicio",
+        "comecar",
+        "dar seguimento",
+        "chega",
+        "quando chega",
+        "o que fazer"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 5,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_fluxo_completo_apu",
+      "question": "Recebi um relato encaminhado. Como dar seguimento até concluir?",
+      "answer": "Partindo do Dashboard (você só vê o que foi Encaminhado a você):\n1) Relatos — abra o protocolo sob sua responsabilidade.\n2) Classificação de risco — Baixo, Moderado ou Alto + fatores + justificativa → Classificar (Crítico só o Adm_Empresa).\n3) Fluxo de apuração — avance: Triagem / Classificação de risco / Responsável definido → Em apuração → (opcional Aguardando informações) → Análise / parecer → Medidas adotadas → Concluído. Justificativa quando o sistema pedir. Você não Encaminha nem retrocede etapa (peça ao Adm_Empresa).\n4) Comunicação com denunciante — Enviar mensagem ou Solicitar informações se faltar dado.\n5) Medidas e ações executadas — registre o que foi feito, com data.\n6) Concluir — etapa Concluído no fluxo (justificativa obrigatória) ou Concluir relato. Sem responsável ou sem risco quando a etapa exige, o sistema bloqueia — alinhe com o Adm_Empresa.\nSe o relato não aparece: peça Encaminhar ao Adm_Empresa.",
+      "keywords": [
+        "encaminhado",
+        "recebi",
+        "seguimento",
+        "fluxo",
+        "concluir",
+        "apuracao",
+        "passo",
+        "resolucao",
+        "denuncia",
+        "tratar",
+        "rotina"
+      ],
+      "audience": [
+        "apurador"
+      ],
+      "enabled": true,
+      "sortOrder": 5,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_etapas_fluxo",
+      "question": "Quais são as etapas do fluxo de apuração até a conclusão?",
+      "answer": "Partindo do Dashboard → Relatos → detalhe → Fluxo de apuração, a ordem padrão é:\nRecebido → Triagem → Classificação de risco → Responsável definido → Em apuração → Aguardando informações (opcional) → Análise / parecer → Medidas adotadas → Concluído.\nMarcos da timeline: Recebido · Triagem · Apuração · Parecer · Conclusão.\nStatus legado sincronizado (consulta/relatórios): Relato recebido · Em análise · Em apuração · Em acompanhamento · Concluído.\nRegras: risco classificado antes de Responsável definido/Em apuração; Encaminhar (responsável) antes de Em apuração e conclusão; justificativa na conclusão e em saltos/retrocessos.",
+      "keywords": [
+        "etapas",
+        "fluxo",
+        "apuracao",
+        "ordem",
+        "triagem",
+        "parecer",
+        "medidas",
+        "concluido",
+        "timeline",
+        "marcos"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 52,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_suporte",
+      "question": "Como falar com o suporte da plataforma?",
+      "answer": "Use o botão flutuante (Assistente Virtual) no canto da tela. Abra a aba Ajuda para perguntas rápidas. Se não resolver, use “Não resolveu — enviar mensagem” ou a aba Mensagem. A mensagem vai ao Adm_Plataforma, com resposta em até 24 horas.",
+      "keywords": [
+        "suporte",
+        "ajuda",
+        "contato",
+        "humano",
+        "24h",
+        "faq",
+        "botao",
+        "flutuante"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 10,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_badge",
+      "question": "O que significa o número laranja no ícone de ajuda?",
+      "answer": "É a quantidade de respostas novas da plataforma ainda não visualizadas. Ao abrir a aba Mensagem e ver as conversas, o contador zera.",
+      "keywords": [
+        "badge",
+        "laranja",
+        "numero",
+        "nao lida",
+        "mensagem",
+        "icone",
+        "contador"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 20,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_minimizar",
+      "question": "Qual a diferença entre minimizar e fechar o chat de ajuda?",
+      "answer": "Minimizar esconde o painel e mantém a conversa. Fechar limpa o histórico do assistente na sessão. Use minimizar se quiser continuar depois.",
+      "keywords": [
+        "minimizar",
+        "fechar",
+        "chat",
+        "conversa",
+        "historico"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 30,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_need_to_know",
+      "question": "Por que o Apurador não vê todos os relatos?",
+      "answer": "Por confidencialidade (need-to-know). O Apurador só acessa relatos encaminhados a ele pelo Adm_Empresa. Assim se evita que alguém com possível relação com o caso tenha ciência indevida.",
+      "keywords": [
+        "need-to-know",
+        "ciencia",
+        "visivel",
+        "acesso",
+        "apurador",
+        "relato",
+        "todos"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 40,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_tratar_relato",
+      "question": "Como tratar um relato passo a passo?",
+      "answer": "Partindo do Dashboard: 1) No menu lateral, clique em Relatos (ou em “Ver todos” / um relato recente na lista). 2) Abra o relato desejado. 3) Avance o fluxo de apuração. 4) Em Comunicação com denunciante, troque mensagens se precisar. 5) Em Medidas e ações executadas, registre o que foi feito. 6) Use observações internas só para a equipe. 7) Conclua quando apropriado.",
+      "keywords": [
+        "tratar",
+        "relato",
+        "fluxo",
+        "apuracao",
+        "passo",
+        "status",
+        "medida",
+        "dashboard"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 50,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_classificar_risco",
+      "question": "Como classificar o risco de uma denúncia?",
+      "answer": "Na ficha do relato, abra a etapa Triagem (Classificação de risco):\n1) Escolha o nível: Baixo, Moderado, Alto ou Crítico (Crítico só Adm_Empresa).\n2) Marque os fatores que se aplicam.\n3) Escreva a justificativa (obrigatória).\n4) Clique em Classificar (ou Reclassificar).\n\nO que é “Ver sugestão auxiliar”?\nÉ só uma dica automática do sistema (ex.: “Moderado — score 50”). Ela analisa categoria, texto, anexos e padrões parecidos e sugere um nível. Não decide sozinha e não substitui a classificação oficial. Você pode aceitar, ajustar ou ignorar — a decisão final é sempre do profissional autorizado, com justificativa.\n\nO nível de risco não aparece na consulta pública do denunciante.",
+      "keywords": [
+        "classificar",
+        "risco",
+        "nivel",
+        "denuncia",
+        "sugestao",
+        "auxiliar",
+        "score",
+        "moderado",
+        "critico",
+        "alto",
+        "baixo",
+        "justificativa",
+        "triagem"
+      ],
+      "audience": [
+        "admin_empresa",
+        "apurador"
+      ],
+      "enabled": true,
+      "sortOrder": 55,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_conversar_denunciante",
+      "question": "Como conversar com o denunciante?",
+      "answer": "Partindo do Dashboard: 1) Vá em Relatos no menu lateral. 2) Abra o relato. 3) Na seção “Comunicação com denunciante”, leia a thread. 4) Digite em “Enviar mensagem ao denunciante”. 5) Clique em Enviar mensagem (ou use solicitar informações, se disponível). A mensagem fica visível na consulta pública com protocolo + código. Não peça dados desnecessários. Observações internas não vão ao denunciante.",
+      "keywords": [
+        "conversar",
+        "falar",
+        "denunciante",
+        "mensagem",
+        "thread",
+        "comunicacao",
+        "responder",
+        "protocolo"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 56,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_medidas",
+      "question": "Para que serve Medidas e ações executadas?",
+      "answer": "Partindo do Dashboard: 1) Abra Relatos → detalhe do caso. 2) Localize “Medidas e ações executadas”. 3) Registre a ação feita e a providência (medida), com data. Isso alimenta o histórico e o PDF de apuração. Faça isso antes de concluir casos sensíveis.",
+      "keywords": [
+        "medidas",
+        "acoes",
+        "executadas",
+        "pdf",
+        "historico",
+        "providencia",
+        "dashboard"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 60,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_comunicacao",
+      "question": "Como falar com o denunciante pelo painel?",
+      "answer": "Partindo do Dashboard: menu Relatos → abra o relato → seção “Comunicação com denunciante” → escreva e envie. O conteúdo aparece na consulta pública. Para dúvidas internas da equipe, use observações internas (não visíveis ao denunciante).",
+      "keywords": [
+        "denunciante",
+        "mensagem",
+        "thread",
+        "comunicacao",
+        "protocolo",
+        "responder",
+        "painel"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 70,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_sigilo",
+      "question": "Quais regras de sigilo e LGPD devo seguir?",
+      "answer": "Trate todos os relatos como confidenciais. Não compartilhe prints fora do painel. Não peça dados demais ao denunciante. Respeite o que o sistema mascara. Nunca compartilhe protocolo + código de acompanhamento com terceiros.",
+      "keywords": [
+        "sigilo",
+        "lgpd",
+        "confidencial",
+        "print",
+        "protocolo",
+        "codigo",
+        "privacidade"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 80,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_anonimo",
+      "question": "Como funciona relato anônimo e identidade?",
+      "answer": "Relatos anônimos não exibem identidade. Em relatos identificados, o Adm_Empresa pode ver dados do denunciante; o Apurador normalmente vê campos mascarados conforme a política. Use a identidade só quando for necessário à apuração.",
+      "keywords": [
+        "anonimo",
+        "identidade",
+        "denunciante",
+        "mascarado",
+        "confidencial",
+        "cpf"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 90,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_relatorios",
+      "question": "Onde gero relatórios e exportações?",
+      "answer": "No menu Relatórios do painel da empresa. O que você pode exportar depende do perfil (PDF individual, apuração, gerencial etc.). Evite compartilhar exportações com dados sensíveis fora do painel.",
+      "keywords": [
+        "relatorio",
+        "exportar",
+        "pdf",
+        "excel",
+        "csv",
+        "gerencial"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 100,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_minha_conta",
+      "question": "Como alterar senha ou dados da minha conta?",
+      "answer": "Em Minha conta você atualiza nome, contato e senha. Se esqueceu a senha, use “Esqueci minha senha” na tela de login. Mantenha MFA ativo quando a política exigir.",
+      "keywords": [
+        "senha",
+        "conta",
+        "login",
+        "mfa",
+        "perfil",
+        "minha conta"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 110,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_dashboard",
+      "question": "Para que serve o Dashboard da empresa?",
+      "answer": "É o ponto de partida do painel: resumo, alertas e relatos recentes. Dali você vai ao menu Relatos, Relatórios, Armazenamento etc. Nos guias do assistente, partimos sempre do Dashboard para indicar o caminho passo a passo.",
+      "keywords": [
+        "dashboard",
+        "resumo",
+        "alerta",
+        "prioridade",
+        "inicio",
+        "menu"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 120,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_abrir_relato",
+      "question": "Como abrir um relato a partir do Dashboard?",
+      "answer": "No Dashboard: clique em um item de “Relatos recentes”, ou use “Ver todos”, ou o menu Relatos. Na lista, clique no protocolo desejado para abrir o detalhe (fluxo, risco, comunicação e medidas).",
+      "keywords": [
+        "abrir",
+        "relato",
+        "dashboard",
+        "recentes",
+        "lista",
+        "protocolo",
+        "detalhe"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 125,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_solicitar_info",
+      "question": "Como solicitar informações ao denunciante?",
+      "answer": "Partindo do Dashboard → Relatos → abra o relato → Comunicação com denunciante. Use a opção de solicitar informações (quando disponível) ou envie uma mensagem clara pedindo o que falta. A pessoa responde na consulta pública com protocolo + código.",
+      "keywords": [
+        "solicitar",
+        "informacoes",
+        "pedido",
+        "denunciante",
+        "duvida",
+        "complementar"
+      ],
+      "audience": [
+        "all"
+      ],
+      "enabled": true,
+      "sortOrder": 57,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_platform_inbox",
+      "question": "Como atender o suporte das empresas?",
+      "answer": "No painel Adm_Plataforma, abra Suporte empresas. Lá você vê as conversas abertas pelas empresas, responde e acompanha o SLA de 24h. Priorize itens atrasados.",
+      "keywords": [
+        "suporte",
+        "empresas",
+        "inbox",
+        "atender",
+        "sla",
+        "mensagem"
+      ],
+      "audience": [
+        "superadmin"
+      ],
+      "enabled": true,
+      "sortOrder": 300,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_platform_master",
+      "question": "Como falar com o Adm_Plataforma Master?",
+      "answer": "No Assistente Virtual do painel, use “Falar com um Atendente”. A mensagem vai ao Adm_Plataforma Master (primeiro administrador da plataforma). O histórico fica disponível para os Adm_Plataforma.",
+      "keywords": [
+        "master",
+        "atendente",
+        "interno",
+        "assistente",
+        "falar",
+        "adm plataforma"
+      ],
+      "audience": [
+        "superadmin"
+      ],
+      "enabled": true,
+      "sortOrder": 310,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_platform_faq_bot",
+      "question": "Como gerenciar as respostas do Assistente Virtual?",
+      "answer": "No menu Sistema → FAQ do bot. Crie, edite ou desative perguntas e defina o público (empresa, apurador, plataforma ou todos).",
+      "keywords": [
+        "faq",
+        "bot",
+        "assistente",
+        "perguntas",
+        "respostas",
+        "gerenciar"
+      ],
+      "audience": [
+        "superadmin"
+      ],
+      "enabled": true,
+      "sortOrder": 320,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_encaminhar",
+      "question": "Como encaminhar um relato para um Apurador?",
+      "answer": "Partindo do Dashboard: 1) Menu Relatos (ou um relato recente). 2) Abra o detalhe. 3) Use Encaminhar e escolha o Apurador. Só ele verá aquele caso (need-to-know). Apuradores não encaminham — função do Adm_Empresa.",
+      "keywords": [
+        "encaminhar",
+        "atribuir",
+        "responsavel",
+        "apurador",
+        "direcionar",
+        "assign",
+        "dashboard"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 200,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_adm_limites",
+      "question": "O que o Adm_Empresa pode fazer no painel?",
+      "answer": "Do Dashboard você acessa todo o menu da empresa: Relatos (tratar e encaminhar), Usuários, Colaboradores, Empresa, Aparência/Identidade, Armazenamento, Acessos e Relatórios. Não acessa o painel Adm_Plataforma de outros clientes.",
+      "keywords": [
+        "adm",
+        "admin",
+        "empresa",
+        "limites",
+        "permissao",
+        "pode",
+        "dashboard"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 210,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_usuarios",
+      "question": "Como cadastrar usuários da empresa?",
+      "answer": "Partindo do Dashboard: 1) Menu Gestão → Usuários. 2) Novo usuário. 3) Escolha perfil Adm_Empresa ou Apurador. 4) Preencha e-mail/senha e salve. A conta fica só na sua empresa.",
+      "keywords": [
+        "usuarios",
+        "cadastrar",
+        "apurador",
+        "adm",
+        "equipe",
+        "criar",
+        "dashboard"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 220,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_colaboradores",
+      "question": "Para que serve a lista de Colaboradores?",
+      "answer": "Partindo do Dashboard: menu Gestão → Colaboradores. É a lista de CPFs autorizados a registrar relato identificado. Mantenha atualizada.",
+      "keywords": [
+        "colaboradores",
+        "cpf",
+        "allowlist",
+        "identificado",
+        "lista",
+        "dashboard"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 230,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_empresa_vs_aparencia",
+      "question": "Qual a diferença entre Empresa e Aparência / Identidade?",
+      "answer": "Partindo do Dashboard, em Configurações: Empresa = dados cadastrais e notificações. Aparência / Identidade = nome, logo e visual do canal. Depois valide no link Canal Seguro (menu Ajuda).",
+      "keywords": [
+        "empresa",
+        "aparencia",
+        "identidade",
+        "logo",
+        "cadastro",
+        "notificacao",
+        "dashboard"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 240,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_acessos",
+      "question": "O que vejo em Acessos?",
+      "answer": "Partindo do Dashboard: Configurações → Acessos. Mostra tentativas e acessos relevantes da empresa para acompanhar segurança do tenant.",
+      "keywords": [
+        "acessos",
+        "login",
+        "historico",
+        "seguranca",
+        "tentativa",
+        "dashboard"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 250,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_armazenamento_adm",
+      "question": "Como solicitar mais armazenamento?",
+      "answer": "Partindo do Dashboard: 1) Configurações → Armazenamento. 2) Veja uso × limite e os pacotes. 3) Solicite upgrade. O Adm_Plataforma trata o comercial. Com limite estourado, novos anexos podem ser bloqueados.",
+      "keywords": [
+        "armazenamento",
+        "pacote",
+        "upgrade",
+        "quota",
+        "anexo",
+        "espaco",
+        "limite",
+        "dashboard"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 260,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_risco_critico",
+      "question": "Quem pode classificar um relato como risco crítico?",
+      "answer": "Partindo do Dashboard → Relatos → detalhe → Classificação de risco: o nível Crítico só aparece para Adm_Empresa (e Adm_Plataforma). O Apurador classifica Baixo, Moderado ou Alto. Sempre informe a justificativa.",
+      "keywords": [
+        "critico",
+        "risco",
+        "classificar",
+        "adm",
+        "apurador",
+        "nivel"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 265,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_notificacao_novo",
+      "question": "Quem é avisado quando chega um relato novo?",
+      "answer": "Do Dashboard você vê os recentes. Relatos novos notificam o Adm_Empresa. O Apurador só é avisado depois do Encaminhar. Por isso encaminhe cedo os casos dele.",
+      "keywords": [
+        "notificacao",
+        "email",
+        "aviso",
+        "novo",
+        "relato",
+        "encaminhar",
+        "dashboard"
+      ],
+      "audience": [
+        "admin_empresa"
+      ],
+      "enabled": true,
+      "sortOrder": 270,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_apurador_limites",
+      "question": "O que o Apurador pode e não pode fazer?",
+      "answer": "Do Dashboard: abra Relatos (só os encaminhados a você). Pode atualizar fluxo, classificar risco (exceto Crítico), conversar com o denunciante e registrar medidas. Não pode Encaminhar, nem gerenciar Usuários, Colaboradores, Empresa, Aparência ou Acessos.",
+      "keywords": [
+        "limites",
+        "permissao",
+        "pode",
+        "nao pode",
+        "apurador",
+        "dashboard"
+      ],
+      "audience": [
+        "apurador"
+      ],
+      "enabled": true,
+      "sortOrder": 300,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_apurador_visibilidade",
+      "question": "Quais relatos aparecem para mim como Apurador?",
+      "answer": "Partindo do Dashboard → Relatos: só os encaminhados a você. Se a lista estiver vazia, peça ao Adm_Empresa para Encaminhar o caso.",
+      "keywords": [
+        "visibilidade",
+        "lista",
+        "encaminhado",
+        "meu",
+        "relatos",
+        "aparecem",
+        "dashboard"
+      ],
+      "audience": [
+        "apurador"
+      ],
+      "enabled": true,
+      "sortOrder": 310,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_apurador_rotina",
+      "question": "Qual a rotina recomendada do Apurador?",
+      "answer": "No Dashboard, veja alertas e recentes. Depois: Relatos → priorize urgentes/risco alto → avance o fluxo → converse com o denunciante se preciso → registre Medidas e ações. Sem acesso a um caso, peça Encaminhar ao Adm_Empresa.",
+      "keywords": [
+        "rotina",
+        "prioridade",
+        "urgencia",
+        "fluxo",
+        "dia",
+        "trabalho",
+        "dashboard"
+      ],
+      "audience": [
+        "apurador"
+      ],
+      "enabled": true,
+      "sortOrder": 320,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_apurador_armazenamento",
+      "question": "Posso contratar mais armazenamento como Apurador?",
+      "answer": "Partindo do Dashboard → Armazenamento: você só consulta o consumo. Preços podem estar “Sob consulta”. Contratação é do Adm_Empresa — avise-o se o limite estiver crítico.",
+      "keywords": [
+        "armazenamento",
+        "contratar",
+        "upgrade",
+        "preco",
+        "consulta",
+        "apurador",
+        "dashboard"
+      ],
+      "audience": [
+        "apurador"
+      ],
+      "enabled": true,
+      "sortOrder": 330,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_apurador_ajuda_adm",
+      "question": "Quando devo pedir ajuda ao Adm_Empresa?",
+      "answer": "Quando precisar Encaminhar/reatribuir, ver dados mascarados além do necessário, cadastrar usuários/colaboradores, mudar identidade ou contratar armazenamento. Para dúvidas do sistema: botão flutuante Assistente Virtual no Dashboard.",
+      "keywords": [
+        "ajuda",
+        "adm",
+        "pedir",
+        "encaminhar",
+        "dados",
+        "suporte interno",
+        "dashboard"
+      ],
+      "audience": [
+        "apurador"
+      ],
+      "enabled": true,
+      "sortOrder": 340,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_apurador_risco",
+      "question": "Como o Apurador classifica o risco de um relato?",
+      "answer": "Abra o relato encaminhado a você → etapa Triagem → Classificação de risco → escolha Baixo, Moderado ou Alto → marque fatores → escreva a justificativa → Classificar.\nNível Crítico só o Adm_Empresa define.\nO botão “Ver sugestão auxiliar” mostra uma dica automática (ex.: Moderado com score). É só apoio: não substitui sua classificação oficial com justificativa.",
+      "keywords": [
+        "risco",
+        "classificar",
+        "apurador",
+        "nivel",
+        "justificativa",
+        "sugestao",
+        "auxiliar",
+        "dashboard",
+        "triagem"
+      ],
+      "audience": [
+        "apurador"
+      ],
+      "enabled": true,
+      "sortOrder": 350,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_public_fazer_denuncia",
+      "question": "Como faço uma denúncia neste canal?",
+      "answer": "Como fazer uma denúncia\n1. Acesse o formulário oficial pelo botão “Fazer uma denúncia”.\n2. Informe o CPF para validar o vínculo com a empresa cadastrada.\n3. Escolha se o relato será identificado ou anônimo, quando a opção estiver disponível.\n4. Descreva os fatos com clareza e anexe documentos, se necessário.\n5. Envie o relato e guarde o protocolo e o código de acompanhamento em local seguro.",
+      "keywords": [
+        "denuncia",
+        "relato",
+        "fazer",
+        "registrar",
+        "como",
+        "comecar",
+        "enviar",
+        "cpf",
+        "acesso",
+        "formulario"
+      ],
+      "audience": [
+        "public"
+      ],
+      "enabled": true,
+      "sortOrder": 10,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_public_assedio_moral",
+      "question": "O que é assédio moral?",
+      "answer": "Assédio moral, de forma geral, envolve condutas abusivas e reiteradas que humilham, isolam ou pressionam alguém no ambiente de trabalho.\n\nEste assistente oferece orientação geral. Para exemplos e conteúdos educativos, consulte a área Sobre / Orientações. Se você vivenciou uma situação inadequada, utilize o formulário oficial de denúncia.",
+      "keywords": [
+        "assedio",
+        "moral",
+        "humilhacao",
+        "pressao",
+        "isolamento",
+        "o que e"
+      ],
+      "audience": [
+        "public"
+      ],
+      "enabled": true,
+      "sortOrder": 15,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_public_anonimo",
+      "question": "Posso fazer uma denúncia anônima?",
+      "answer": "Quando a opção estiver disponível no canal da sua organização, você pode escolher o modo anônimo. Nesse caso, dados pessoais não são obrigatórios. Em qualquer modo, trate protocolo e código como informações confidenciais.",
+      "keywords": [
+        "anonimo",
+        "anonimato",
+        "identificado",
+        "nome",
+        "sigilo"
+      ],
+      "audience": [
+        "public"
+      ],
+      "enabled": true,
+      "sortOrder": 20,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_public_protocolo",
+      "question": "Como consulto o andamento da minha denúncia?",
+      "answer": "Como acompanhar uma denúncia\n1. Acesse “Consultar protocolo” na página inicial.\n2. Informe o número do protocolo e o código de acompanhamento recebidos no registro.\n3. Consulte as informações disponíveis sobre o andamento.\n\nSem protocolo e código, o canal não exibe o andamento — isso protege a confidencialidade.",
+      "keywords": [
+        "protocolo",
+        "consultar",
+        "andamento",
+        "codigo",
+        "acompanhamento",
+        "status",
+        "acompanhar"
+      ],
+      "audience": [
+        "public"
+      ],
+      "enabled": true,
+      "sortOrder": 30,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_public_depois",
+      "question": "O que acontece depois que eu envio o relato?",
+      "answer": "O relato é registrado no canal e encaminhado conforme o procedimento da organização. Você acompanha informações disponíveis pela consulta com protocolo e código. Prazos e etapas internas podem variar conforme a política da empresa.",
+      "keywords": [
+        "depois",
+        "envio",
+        "proximo",
+        "analise",
+        "apuracao",
+        "prazo"
+      ],
+      "audience": [
+        "public"
+      ],
+      "enabled": true,
+      "sortOrder": 40,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_public_provas",
+      "question": "Preciso ter provas para denunciar?",
+      "answer": "Não é obrigatório ter provas completas para iniciar. Descreva o que aconteceu com o máximo de clareza possível. Se tiver anexos (mensagens, documentos), você poderá enviá-los nas etapas do formulário, conforme as opções do canal.",
+      "keywords": [
+        "provas",
+        "evidencias",
+        "anexo",
+        "documento",
+        "foto",
+        "obrigatorio"
+      ],
+      "audience": [
+        "public"
+      ],
+      "enabled": true,
+      "sortOrder": 50,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_public_confidencial",
+      "question": "O canal é confidencial?",
+      "answer": "Sim. O Canal Seguro foi pensado para comunicação confidencial.\n\nO acesso interno aos relatos é restrito a perfis autorizados. Não compartilhe protocolo, código ou detalhes do caso com terceiros. Para mais detalhes, consulte a Política de Privacidade.",
+      "keywords": [
+        "confidencial",
+        "sigilo",
+        "privacidade",
+        "seguro",
+        "lgpd",
+        "minha denuncia"
+      ],
+      "audience": [
+        "public"
+      ],
+      "enabled": true,
+      "sortOrder": 60,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_public_fale_conosco",
+      "question": "Qual a diferença entre Fale conosco e fazer uma denúncia?",
+      "answer": "“Fazer uma denúncia” é para relatar situações de assédio ou condutas inadequadas. “Fale conosco” é para dúvidas gerais sobre o uso do canal (acesso, orientações, sugestões) — não substitui o registro de um relato.",
+      "keywords": [
+        "fale",
+        "conosco",
+        "contato",
+        "duvida",
+        "diferenca",
+        "suporte"
+      ],
+      "audience": [
+        "public"
+      ],
+      "enabled": true,
+      "sortOrder": 70,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    },
+    {
+      "id": "faq_seed_public_esqueci_protocolo",
+      "question": "Esqueci o protocolo ou o código de acompanhamento. E agora?",
+      "answer": "Por política de privacidade e segurança, o canal não reenvia nem revela protocolo ou código por este assistente. Guarde esses dados no momento do registro. Se precisar de orientação geral sobre o uso do canal, use “Fale conosco”.",
+      "keywords": [
+        "esqueci",
+        "perdi",
+        "protocolo",
+        "codigo",
+        "recuperar",
+        "reenviar"
+      ],
+      "audience": [
+        "public"
+      ],
+      "enabled": true,
+      "sortOrder": 80,
+      "createdAt": "2026-09-18T01:07:13.486Z",
+      "updatedAt": "2026-09-18T01:07:13.486Z",
+      "updatedByUserId": "system",
+      "updatedByName": "Sistema"
+    }
+  ],
+  "__supportFaqsChanged": true,
+  "passwordResetTokens": [],
+  "emailQueue": [],
+  "emailDeliveryLogs": [],
+  "emailDedupeKeys": [],
+  "emailSuppressions": []
+}

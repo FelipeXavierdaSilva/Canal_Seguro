@@ -9,13 +9,16 @@ const { startEmailWorker } = require('./src/email/worker');
 assertProductionConfig();
 
 async function main() {
-  const mode = await store.init();
+  // Garante store.json (mesmo caminho do seed) antes do listen e do email-worker
+  await store.init();
+  const mode = store.getPersistenceMode();
   const app = createApp();
 
   const server = app.listen(config.PORT, () => {
     console.log(`Canal Seguro API – http://localhost:${config.PORT}`);
     console.log(`Frontend estático servido na mesma origem (Etapa 03 Fase 1)`);
     console.log(`Persistência: ${mode}`);
+    console.log(`Store: ${store.STORE_PATH}`);
     startEmailWorker();
     console.log(`Worker de e-mail transacional ativo (Etapa 06)`);
   });

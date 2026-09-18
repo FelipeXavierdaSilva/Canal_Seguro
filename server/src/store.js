@@ -10,14 +10,15 @@
  */
 
 const fs = require('fs');
-const path = require('path');
 const { assertAuditIntegrity } = require('./services/audit.service');
-const config = require('./config');
+const {
+  resolveDataDir,
+  resolveStorePath,
+  ensureStoreInitialized
+} = require('./store-path');
 
-const DATA_DIR = config.DATA_DIR
-  ? path.resolve(config.DATA_DIR)
-  : path.join(__dirname, '..', 'data');
-const STORE_PATH = path.join(DATA_DIR, 'store.json');
+const DATA_DIR = resolveDataDir();
+const STORE_PATH = resolveStorePath();
 
 let cache = null;
 /** @type {'json'|'mysql'} */
@@ -25,12 +26,12 @@ let persistenceMode = 'json';
 let writeChain = Promise.resolve();
 let initPromise = null;
 
+/**
+ * Garante store.json no DATA_DIR usado pelo app e pelo email-worker.
+ * Nunca sobrescreve um store.json já existente.
+ */
 function ensureStoreFile() {
-  if (!fs.existsSync(STORE_PATH)) {
-    throw new Error(
-      'Arquivo data/store.json não encontrado. Execute: cd server && npm install && npm run seed'
-    );
-  }
+  ensureStoreInitialized();
 }
 
 function readJsonFile() {
@@ -57,6 +58,7 @@ function getPersistenceMode() {
 async function init() {
   if (initPromise) return initPromise;
   initPromise = (async () => {
+    ensureStoreFile();
     const poolMod = require('./db/pool');
     if (!poolMod.wantsMysql()) {
       persistenceMode = 'json';
