@@ -38,26 +38,23 @@ O `package.json` da API está em `server/`. O Express serve o front de `../..` r
 
 | Campo hPanel | Valor |
 |--------------|--------|
-| **Root directory** (app root) | `server` (recomendado) **ou** `.` (raiz do repo, com `package.json` na raiz) |
-| **Entry file** | `index.js` (se root=`server`) **ou** use Start command `npm start` na raiz |
-| **Build command** | `npm ci && npm run build` (copia o front para `server/public`) |
+| **Root directory** (app root) | `server` |
+| **Entry file** | `index.js` |
+| **Build command** | `npm ci` (ou deixe o padrão de install da Hostinger) |
 | **Start** | A Hostinger inicia o **entry file**; equivalente a `node index.js` / `npm start` dentro de `server/` |
 | **PORT** | Use a variável `PORT` injetada pela Hostinger (o app já lê `process.env.PORT`) |
 
-O frontend **não** usa Vite/Webpack (`dist`/`build`). São HTML/JS/CSS estáticos. O script `npm run build` em `server/` publica esses arquivos em `server/public/` para o Express servir com Application root = `server`.
-
 ### Atenção ao monorepo / root `server`
 
-Se a Hostinger **só** publicar o conteúdo de `server/` e omitir `admin/`, `js/`, `index.html`, etc., o site quebrará (404 no front) **a menos que** o Build command rode `npm run build` com o repositório completo (gera `server/public`).
+Se a Hostinger **só** publicar o conteúdo de `server/` e omitir `admin/`, `js/`, `index.html`, etc., o site quebrará (404 no front).
 
 **Como verificar após o deploy:**
 
 - `GET https://seudominio/api/v1/health` → `{ "ok": true, ... }`
 - `GET https://seudominio/` → landing (HTML)
 - `GET https://seudominio/login.html` → página de login
-- Log de start deve mostrar `Frontend root: .../server/public` (ou a raiz do repo)
 
-Se a API sobe mas o HTML não: confira o Build command (`npm ci && npm run build`) e se o deploy inclui a **raiz do repositório**. Alternativa: Application root = `.` e `npm start` via `package.json` na raiz.
+Se a API sobe mas o HTML não: o deploy precisa incluir a **raiz do repositório**. Nesse caso, a correção típica é um `package.json` na raiz apontando o entry para `server/index.js` (ajuste pequeno de estrutura — fora do escopo desta etapa de docs).
 
 ### Comando de start (referência)
 

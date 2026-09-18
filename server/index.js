@@ -17,12 +17,6 @@ async function main() {
   const server = app.listen(config.PORT, () => {
     console.log(`Canal Seguro API – http://localhost:${config.PORT}`);
     console.log(`Frontend estático servido na mesma origem (Etapa 03 Fase 1)`);
-    try {
-      const { resolveFrontendRoot } = require('./src/frontend-path');
-      console.log(`Frontend root: ${resolveFrontendRoot()}`);
-    } catch (err) {
-      console.error(err && err.message ? err.message : err);
-    }
     console.log(`Persistência: ${mode}`);
     console.log(`Store: ${store.STORE_PATH}`);
     startEmailWorker();
