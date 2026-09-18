@@ -1,5 +1,7 @@
 'use strict';
 
+const { resolveDataDir } = require('./store-path');
+
 module.exports = {
   PORT: Number(process.env.PORT) || 3000,
   SESSION_COOKIE: 'cs_session',
@@ -67,8 +69,8 @@ module.exports = {
     DEDUPE_WINDOW_MS: Number(process.env.CS_EMAIL_DEDUPE_WINDOW_MS) || 15 * 60 * 1000,
     SLA_CHECK_INTERVAL_MS: Number(process.env.CS_EMAIL_SLA_CHECK_INTERVAL_MS) || 60 * 60 * 1000
   },
-  /** Diretório de dados (store.json + attachments). Em produção Hostinger Node: fora do docroot. */
-  DATA_DIR: process.env.CS_DATA_DIR || '',
+  /** Diretório de dados (store.json + attachments). Mesmo resolvedor do seed (STORE_DATA_DIR ou homedir/private/...). */
+  DATA_DIR: resolveDataDir(),
   ATTACHMENTS: {
     /** @deprecated use MAX_ATTACHMENTS_PER_REPORT — mantido para compat */
     MAX_COUNT: Number(process.env.CS_ATTACHMENTS_MAX_COUNT) || 5,

@@ -12,7 +12,7 @@ Relacionado: [ROADMAP-HOSTINGER-MYSQL.md](./ROADMAP-HOSTINGER-MYSQL.md) · [`.en
 |--------|-----------|
 | API Express + front estático | Processo Node (`server/index.js`) |
 | Front (`index.html`, `admin/`, `empresa/`, `js/`, `css/`) | Servido pelo Express a partir da **raiz do repositório** (um nível acima de `server/`) |
-| Dados | `CS_DATA_DIR` → `store.json`, anexos, `db-config.json`, backups |
+| Dados | `STORE_DATA_DIR` ou `{home}/private/canal-seguro-data` → `store.json`, anexos, backups |
 | MySQL | Criado no hPanel; **não** usado como store até as Etapas 3–5 (`CS_DB_ENABLED=0`) |
 
 O front detecta a API em `mesmo-domínio/api/v1/health` (`js/runtime.js`). Em produção, **same-origin** é o caminho suportado (sem abrir o HTML como arquivo local).
@@ -62,7 +62,7 @@ Dentro de `server/`:
 
 ```bash
 npm ci
-npm run seed    # só na 1ª vez / se não houver store.json em CS_DATA_DIR
+npm run seed    # só na 1ª vez / se não houver store.json no diretório de dados
 npm start       # node index.js
 ```
 
@@ -70,19 +70,24 @@ Em produção Hostinger o processo fica sob o entry file; rode o **seed** uma ve
 
 ---
 
-## 4. `CS_DATA_DIR` fora do docroot / fora do deploy
+## 4. Pasta de dados fora do docroot / fora do deploy
 
-**Obrigatório em produção:** apontar dados para um diretório **fora** da pasta que a Hostinger sobrescreve a cada deploy.
+O app resolve o diretório assim (mesmo caminho no seed e no runtime):
+
+1. `STORE_DATA_DIR` se definido
+2. caso contrário: `{os.homedir()}/private/canal-seguro-data`
+
+**Nunca** use placeholder literal como `/home/USUARIO/...` — isso causa `EACCES` no build.
 
 | Evitar | Preferir |
 |--------|----------|
-| `server/data` dentro do Git deploy | Pasta privada no home, ex.: `/home/USUARIO/private/canal-seguro-data` |
-| Qualquer path sob `public_html` | Path sem URL pública |
+| `server/data` dentro do Git deploy | Default automático via `os.homedir()` |
+| Path com `USUARIO` copiado de exemplo | `STORE_DATA_DIR` com path real da conta, se precisar |
 
-Exemplo:
+Exemplo opcional (path real da conta Hostinger, sem placeholder):
 
 ```bash
-CS_DATA_DIR=/home/USUARIO/private/canal-seguro-data
+STORE_DATA_DIR=/home/u123456789/private/canal-seguro-data
 ```
 
 Conteúdo esperado nessa pasta:
@@ -92,7 +97,7 @@ Conteúdo esperado nessa pasta:
 - `db-config.json` — credenciais MySQL da UI (Etapa 1), se não usar só env
 - `backups/` — backups operacionais
 
-Crie a pasta antes do primeiro start (permissões só do usuário do app). Na primeira subida, copie um `store.json` gerado por `npm run seed` **ou** rode o seed com `CS_DATA_DIR` já definido.
+Na primeira subida, `npm run seed` (ou `store.init()`) cria a pasta e o `store.json` a partir de `store.seed.json` se ainda não existir. O seed **não** sobrescreve `store.json` existente.
 
 O middleware bloqueia HTTP em `/server`, `/data`, etc.; mesmo assim **não** use o docroot como pasta de dados.
 
@@ -115,7 +120,7 @@ Fortemente recomendadas:
 
 | Variável | Uso |
 |----------|-----|
-| `CS_DATA_DIR` | Pasta privada de dados (acima) |
+| `STORE_DATA_DIR` | Opcional — pasta privada; default `{home}/private/canal-seguro-data` |
 | `CS_PUBLIC_APP_URL` | `https://seudominio.com.br` (links de e-mail / reset) |
 | `CS_MFA_ENCRYPTION_KEY` | Criptografia MFA (se já usada no ambiente) |
 | `PORT` | Normalmente a Hostinger injeta; não force porta errada |
@@ -198,7 +203,7 @@ Use a lista completa em [GO-LIVE-HOSTINGER.md](./GO-LIVE-HOSTINGER.md). Mínimo:
 
 ## 10. Ordem sugerida (ops)
 
-1. Criar pasta `CS_DATA_DIR` privada  
+1. Garantir pasta de dados gravável (default `{home}/private/canal-seguro-data` ou `STORE_DATA_DIR`)  
 2. Configurar env (secrets + CORS + DATA_DIR) com `CS_DB_ENABLED=0`  
 3. Deploy do repositório completo + entry `server/index.js`  
 4. Seed **uma vez** no DATA_DIR (ou copiar store inicial)  
@@ -213,6 +218,6 @@ Use a lista completa em [GO-LIVE-HOSTINGER.md](./GO-LIVE-HOSTINGER.md). Mínimo:
 ## 11. Limitações conscientes (Etapa 2)
 
 - Persistência ainda é **arquivo JSON**, não MySQL.
-- Redeploy **apaga** dados se eles estiverem dentro da pasta publicada — por isso `CS_DATA_DIR` externo.
+- Redeploy **apaga** dados se eles estiverem dentro da pasta publicada — por isso o default usa `{home}/private/...` (fora do deploy).
 - Anexos permanecem em disco local do Node (não object storage).
 - Dual-mode localStorage no navegador só entra se a API `health` falhar; em produção a API deve estar sempre no ar no mesmo host.

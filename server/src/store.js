@@ -6,7 +6,7 @@
  * - CS_DB_ENABLED=1 (+ conexão ok): MySQL via adapter (Etapa 4).
  *   load/save continuam síncronos na API; MySQL grava em fila async.
  *   Em falha de save MySQL, faz fallback para JSON.
- * Anexos: sempre filesystem (CS_DATA_DIR/attachments) — fora deste módulo.
+ * Anexos: sempre filesystem ({DATA_DIR}/attachments) — fora deste módulo.
  */
 
 const fs = require('fs');

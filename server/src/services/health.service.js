@@ -61,7 +61,7 @@ async function getHealth(options = {}) {
     persistence: {
       mode: persistenceMode,
       storeFileExists,
-      dataDirConfigured: Boolean(process.env.CS_DATA_DIR)
+      dataDirConfigured: Boolean(process.env.STORE_DATA_DIR || process.env.CS_DATA_DIR)
     },
     mysql: {
       enabledFlag: dbConfig.resolveConnectionConfig().enabled,
