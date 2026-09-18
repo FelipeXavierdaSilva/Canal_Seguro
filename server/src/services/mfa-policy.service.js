@@ -3,7 +3,8 @@
 const { permissionsForRole } = require('../utils/tokens');
 
 const DEFAULT_POLICY = {
-  enabled: true,
+  // Política no store; o login MFA só é exigido se CS_MFA_LOGIN=1 (ver isLoginMfaEnforced).
+  enabled: false,
   requiredRoles: ['superadmin', 'admin_empresa'],
   requiredPermissions: ['reports:view_identity'],
   optionalForOthers: true,
@@ -11,6 +12,20 @@ const DEFAULT_POLICY = {
   allowRecoveryCodes: true,
   enforcedAt: null
 };
+
+/**
+ * Kill switch temporário: por padrão o login é só e-mail/senha.
+ * Para voltar a exigir MFA no login: CS_MFA_LOGIN=1 e mfaPolicy.enabled=true.
+ */
+function isLoginMfaEnforced(data) {
+  const flag = String(process.env.CS_MFA_LOGIN || '').trim().toLowerCase();
+  if (flag === '0' || flag === 'false' || flag === 'off') return false;
+  if (flag !== '1' && flag !== 'true' && flag !== 'on') {
+    // Ausência da flag = desligado (pedido atual: sem 2FA no login)
+    return false;
+  }
+  return getPolicy(data).enabled;
+}
 
 function getPolicy(data) {
   const p = data.platformSettings?.mfaPolicy || {};
@@ -34,6 +49,8 @@ function isWithinGracePeriod(policy) {
 }
 
 function mfaRequiredForUser(user, data) {
+  if (!isLoginMfaEnforced(data)) return false;
+
   const policy = getPolicy(data);
   if (!policy.enabled) return false;
   if (isMfaEnabled(user)) return true;
@@ -52,12 +69,16 @@ function mustEnroll(user, data) {
 }
 
 function sanitizePolicyForClient(policy) {
-  return { ...policy };
+  return {
+    ...policy,
+    loginEnforced: String(process.env.CS_MFA_LOGIN || '').trim() === '1' && Boolean(policy.enabled)
+  };
 }
 
 module.exports = {
   DEFAULT_POLICY,
   getPolicy,
+  isLoginMfaEnforced,
   isMfaEnabled,
   mfaRequiredForUser,
   mustEnroll,

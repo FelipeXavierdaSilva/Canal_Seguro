@@ -53,6 +53,7 @@ let server;
 
 before(async () => {
   process.env.CS_JWT_SECRET = 'test-secret-mfa';
+  process.env.CS_MFA_LOGIN = '1';
   process.env.CS_TEST_PORT = process.env.CS_TEST_PORT || '3110';
   const store = require('../src/store');
   const data = store.load();

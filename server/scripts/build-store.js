@@ -240,7 +240,7 @@ Object.keys(data.companySettings || {}).forEach((companyId) => {
 data.platformSettings = {
   ...(data.platformSettings || {}),
   mfaPolicy: {
-    enabled: true,
+    enabled: false,
     requiredRoles: ['superadmin', 'admin_empresa'],
     requiredPermissions: ['reports:view_identity'],
     optionalForOthers: true,

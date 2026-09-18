@@ -149,10 +149,9 @@ function storeRecoveryCodes(mfa, plainCodes) {
 
 function afterLoginDecision(user, data) {
   const required = mfaPolicy.mfaRequiredForUser(user, data);
-  const enrolled = mfaPolicy.isMfaEnabled(user);
-  const enroll = mfaPolicy.mustEnroll(user, data);
 
-  if (!required && !enrolled) {
+  // Sem MFA no login (política/kill switch): sessão completa só com senha
+  if (!required) {
     return {
       ok: true,
       complete: true,
@@ -160,6 +159,9 @@ function afterLoginDecision(user, data) {
       user: sanitizeUserPublic(user)
     };
   }
+
+  const enrolled = mfaPolicy.isMfaEnabled(user);
+  const enroll = mfaPolicy.mustEnroll(user, data);
 
   if (enrolled) {
     return {
@@ -172,7 +174,7 @@ function afterLoginDecision(user, data) {
     };
   }
 
-  if (enroll || required) {
+  if (enroll) {
     return {
       ok: true,
       complete: false,
