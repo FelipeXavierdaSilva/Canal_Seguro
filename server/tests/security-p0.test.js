@@ -85,6 +85,13 @@ describe('P0 – static root bloqueia server/', () => {
     assert.equal(res.status, 200);
     assert.match(String(res.raw), /html/i);
   });
+
+  it('GET / serve index.html (landing)', async () => {
+    const res = await request('GET', '/', { host: BASE });
+    assert.equal(res.status, 200);
+    assert.match(String(res.headers['content-type'] || ''), /html/i);
+    assert.match(String(res.raw), /<!DOCTYPE html>/i);
+  });
 });
 
 describe('P0 – JWT guard em produção', () => {

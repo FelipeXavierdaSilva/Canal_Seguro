@@ -1,0 +1,14 @@
+{
+  "name": "canal-seguro",
+  "private": true,
+  "description": "Canal Seguro — entry opcional na raiz do repositório (Hostinger)",
+  "scripts": {
+    "start": "npm start --prefix server",
+    "build": "npm run build --prefix server",
+    "seed": "npm run seed --prefix server",
+    "test": "npm test --prefix server"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

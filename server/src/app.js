@@ -21,9 +21,12 @@ const { serveHtmlWithNonce } = require('./middleware/html-csp');
 const { requireCsrf } = require('./middleware/csrf');
 const config = require('./config');
 const companyStorage = require('./services/company-storage.service');
+const { resolveFrontendRoot } = require('./frontend-path');
+const fs = require('fs');
 
 function createApp() {
   const app = express();
+  const staticRoot = resolveFrontendRoot();
 
   app.set('trust proxy', 1);
   app.use(securityHeaders());
@@ -147,15 +150,36 @@ function createApp() {
     return res.json(companyStorage.enrichCompanyForResponse(data.companies[idx], data));
   });
 
-  const staticRoot = path.join(__dirname, '..', '..');
   app.use(blockSensitiveStatic);
   app.use(serveHtmlWithNonce(staticRoot));
   app.use(
     express.static(staticRoot, {
       dotfiles: 'deny',
-      index: 'index.html'
+      index: 'index.html',
+      fallthrough: true
     })
   );
+
+  // Fallback explícito para GET / (após API e static)
+  app.get('/', (req, res) => {
+    const indexPath = path.resolve(staticRoot, 'index.html');
+    if (!fs.existsSync(indexPath)) {
+      return res
+        .status(500)
+        .type('text/plain')
+        .send(
+          `Frontend não encontrado (index.html ausente em ${staticRoot}). ` +
+            'No deploy, use o repositório completo e execute: cd server && npm run build'
+        );
+    }
+    const nonce = res.locals.cspNonce;
+    let html = fs.readFileSync(indexPath, 'utf8');
+    if (nonce) {
+      html = html.replace(/<script(?![^>]*\ssrc=)([^>]*)>/gi, `<script nonce="${nonce}"$1>`);
+    }
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.send(html);
+  });
 
   app.use((err, _req, res, _next) => {
     console.error(err);
@@ -165,4 +189,4 @@ function createApp() {
   return app;
 }
 
-module.exports = { createApp };
+module.exports = { createApp, resolveFrontendRoot };

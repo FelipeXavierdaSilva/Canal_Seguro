@@ -14,8 +14,11 @@ function serveHtmlWithNonce(staticRoot) {
     if (rel.endsWith('/')) rel += 'index.html';
     if (!rel.toLowerCase().endsWith('.html')) return next();
 
-    const filePath = path.normalize(path.join(root, rel.replace(/^\//, '')));
-    if (!filePath.startsWith(root) || !fs.existsSync(filePath)) return next();
+    const filePath = path.resolve(root, `.${rel.startsWith('/') ? rel : `/${rel}`}`);
+    const rootWithSep = root.endsWith(path.sep) ? root : `${root}${path.sep}`;
+    if ((filePath !== root && !filePath.startsWith(rootWithSep)) || !fs.existsSync(filePath)) {
+      return next();
+    }
 
     const nonce = res.locals.cspNonce;
     if (!nonce) return next();

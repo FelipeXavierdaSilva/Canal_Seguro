@@ -12,6 +12,7 @@ server/data/store.json
 server/data/db-config.json
 server/data/attachments/
 server/data/backups/
+server/public/
 **/db-config.json
 
 # Logs e SO
