@@ -38,11 +38,13 @@ O `package.json` da API está em `server/`. O Express serve o front de `../..` r
 
 | Campo hPanel | Valor |
 |--------------|--------|
-| **Root directory** (app root) | `server` |
-| **Entry file** | `index.js` |
-| **Build command** | `npm ci` (ou deixe o padrão de install da Hostinger) |
-| **Start** | A Hostinger inicia o **entry file**; equivalente a `node index.js` / `npm start` dentro de `server/` |
-| **PORT** | Use a variável `PORT` injetada pela Hostinger (o app já lê `process.env.PORT`) |
+| **Root directory** (app root) | `.` (raiz do repo) **ou** `server` |
+| **Entry file** | `server/index.js` (se root=`.`) **ou** `index.js` (se root=`server`) |
+| **Build command** | Na raiz: `npm run build` · ou: `cd server && npm ci && npm run build` |
+| **Start** | **vazio** (usa o Entry file). Não use `npm run seed` no Start |
+| **PORT** | Variável `PORT` injetada pela Hostinger |
+
+O build gera `server/public/index.html` (versionado). No runtime Hostinger a pasta `server/` vira `nodejs/` → `nodejs/public/index.html`.
 
 ### Atenção ao monorepo / root `server`
 

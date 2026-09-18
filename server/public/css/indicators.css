@@ -1,0 +1,186 @@
+/* ============================================================
+   Indicadores (Adm_Plataforma) — layout organizado
+   ============================================================ */
+
+.indicators-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.indicators-layout .page-header {
+  margin-bottom: 0;
+  align-items: flex-end;
+}
+
+.indicators-layout__filter {
+  margin: 0;
+  min-width: min(240px, 100%);
+}
+
+.indicators-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.indicators-kpis .kpi-card {
+  min-height: 7.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.indicators-kpis .kpi-card__label {
+  font-size: 0.78rem;
+  line-height: 1.25;
+}
+
+.indicators-kpis .kpi-card__value {
+  font-size: 1.85rem;
+  letter-spacing: -0.03em;
+}
+
+.indicators-kpis .kpi-card__hint {
+  margin-top: auto;
+  font-size: 0.72rem;
+  color: var(--cs-text-muted);
+}
+
+.indicators-board {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.15fr 1fr;
+  grid-template-areas:
+    "categories months"
+    "sectors status"
+    "insight insight";
+  align-items: stretch;
+}
+
+.indicators-board__categories { grid-area: categories; }
+.indicators-board__months { grid-area: months; }
+.indicators-board__sectors { grid-area: sectors; }
+.indicators-board__status { grid-area: status; }
+.indicators-board__insight { grid-area: insight; }
+
+.indicators-board > .panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.indicators-board > .panel > .panel__body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.indicators-board .chart-wrap {
+  height: 260px;
+}
+
+.indicators-board .chart-wrap--compact {
+  height: 240px;
+}
+
+.indicators-sectors {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-height: 260px;
+  overflow: auto;
+}
+
+.indicators-sectors li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 0.15rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--cs-primary) 8%, transparent);
+  font-size: 0.92rem;
+}
+
+.indicators-sectors li:last-child {
+  border-bottom: 0;
+}
+
+.indicators-sectors span {
+  color: var(--cs-text-secondary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.indicators-sectors strong {
+  color: var(--cs-primary);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.indicators-insight {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.35rem 0.15rem;
+}
+
+.indicators-insight__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--cs-accent) 14%, transparent);
+  color: var(--cs-accent-hover, #14958a);
+  flex-shrink: 0;
+  font-size: 1.15rem;
+}
+
+.indicators-insight strong {
+  display: block;
+  color: var(--cs-primary);
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.indicators-insight p {
+  margin: 0;
+  color: var(--cs-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+@media (min-width: 1280px) {
+  .indicators-kpis {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 959px) {
+  .indicators-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .indicators-board {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "categories"
+      "months"
+      "sectors"
+      "status"
+      "insight";
+  }
+}
+
+@media (max-width: 520px) {
+  .indicators-kpis {
+    grid-template-columns: 1fr;
+  }
+}

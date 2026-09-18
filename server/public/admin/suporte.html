@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suporte empresas – Admin</title>
+  <link rel="stylesheet" href="../css/style.css?v=2" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=38" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="Canal Seguro" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span>Painel da Plataforma</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <div class="nav-section">Principal</div>
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <div class="nav-section">Gestão</div>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="armazenamento.html"><span class="nav-icon">▤</span> Armazenamento</a>
+        <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <div class="nav-section">Sistema</div>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Ajuda</div>
+        <a class="active" href="suporte.html"><span class="nav-icon">💬</span> Suporte empresas</a>
+        <a href="faq-bot.html"><span class="nav-icon">❔</span> FAQ do bot</a>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="../index.html" target="_blank" rel="noopener"><span class="nav-icon">⌂</span> Canal Seguro</a>
+        <div class="nav-section">Conta</div>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
+      </nav>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Suporte empresas</strong>
+        </div>
+        <div class="topbar__right">
+          <div style="position:relative">
+            <button type="button" class="btn-icon notif-btn" data-notif-btn>🔔</button>
+            <div class="notif-dropdown" data-notif-dropdown>
+              <div class="notif-dropdown__header">Notificações</div>
+              <div data-notif-list></div>
+            </div>
+          </div>
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-company>Central</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Inbox de suporte</h1>
+            <p>Conversas técnicas das empresas, além de sugestões e reclamações.</p>
+          </div>
+          <div class="page-header__actions" id="inboxActions">
+            <select id="statusFilter" class="form-control" style="min-width:10rem">
+              <option value="">Todos os status</option>
+              <option value="aberto">Aguardando</option>
+              <option value="respondido">Respondido</option>
+              <option value="fechado">Fechado</option>
+            </select>
+            <button type="button" class="btn btn-outline" id="btnRefresh">Atualizar</button>
+          </div>
+          <div class="page-header__actions" id="suggestionsActions" hidden>
+            <select id="categoryFilter" class="form-control" style="min-width:10rem">
+              <option value="">Todos os tipos</option>
+              <option value="sugestao">Sugestões</option>
+              <option value="reclamacao">Reclamações</option>
+              <option value="avaliacao">Avaliações do assistente</option>
+            </select>
+            <select id="ratingFilter" class="form-control" style="min-width:10rem">
+              <option value="">Todas as notas</option>
+              <option value="5">Nota 5</option>
+              <option value="4">Nota 4</option>
+              <option value="3">Nota 3</option>
+              <option value="2">Nota 2</option>
+              <option value="1">Nota 1</option>
+            </select>
+            <label class="support-check">
+              <input type="checkbox" id="improveOnly" />
+              Só com texto
+            </label>
+            <button type="button" class="btn btn-outline" id="btnRefreshSuggestions">Atualizar</button>
+          </div>
+        </div>
+
+        <div class="cs-support-mode-tabs support-admin-tabs" role="tablist" aria-label="Áreas de suporte">
+          <button type="button" class="cs-support-mode-tab is-active" data-admin-tab="inbox" role="tab" aria-selected="true">Conversas</button>
+          <button type="button" class="cs-support-mode-tab" data-admin-tab="suggestions" role="tab" aria-selected="false">Sugestões</button>
+        </div>
+
+        <div data-admin-panel="inbox">
+          <div class="grid-2" style="align-items:start;gap:1rem">
+            <div class="panel">
+              <div class="panel__header"><h3>Conversas</h3></div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Empresa</th>
+                      <th>Assunto</th>
+                      <th>Status / SLA</th>
+                      <th>Atualizado</th>
+                    </tr>
+                  </thead>
+                  <tbody id="threadsTbody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel" id="threadDetail">
+              <div class="panel__header"><h3>Detalhe</h3></div>
+              <div class="panel__body" id="threadDetailBody">
+                <p class="text-muted">Selecione uma conversa na lista.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div data-admin-panel="suggestions" hidden>
+          <div class="support-suggestions-kpis" id="suggestionsSummary"></div>
+          <div class="panel">
+            <div class="panel__header">
+              <h3>Sugestões, reclamações e avaliações</h3>
+            </div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Empresa</th>
+                    <th>Usuário</th>
+                    <th>Tipo</th>
+                    <th>Nota</th>
+                    <th>Mensagem</th>
+                  </tr>
+                </thead>
+                <tbody id="suggestionsTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/identifiers.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/api.js?v=45"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/app.js?v=45"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+
+      let activeId = null;
+      let currentTab = 'inbox';
+
+      function esc(s) {
+        return CSApp.escapeHtml(s);
+      }
+
+      function statusBadge(t) {
+        if (t.status === 'fechado') return '<span class="badge">Fechado</span>';
+        if (t.status === 'respondido') return '<span class="badge badge--success">Respondido</span>';
+        if (t.overdue) return '<span class="badge badge--danger">Atrasado (+24h)</span>';
+        return '<span class="badge badge--warning">Aguardando</span>';
+      }
+
+      function ratingBadge(n) {
+        const rating = Number(n) || 0;
+        const cls = rating >= 5 ? 'badge--success' : rating >= 4 ? 'badge--warning' : 'badge--danger';
+        return `<span class="badge ${cls}">${esc(String(rating))}/5</span>`;
+      }
+
+      function setTab(tab) {
+        currentTab = tab === 'suggestions' ? 'suggestions' : 'inbox';
+        document.querySelectorAll('[data-admin-tab]').forEach((btn) => {
+          const on = btn.getAttribute('data-admin-tab') === currentTab;
+          btn.classList.toggle('is-active', on);
+          btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        document.querySelectorAll('[data-admin-panel]').forEach((panel) => {
+          panel.hidden = panel.getAttribute('data-admin-panel') !== currentTab;
+        });
+        document.getElementById('inboxActions').hidden = currentTab !== 'inbox';
+        document.getElementById('suggestionsActions').hidden = currentTab !== 'suggestions';
+        if (currentTab === 'suggestions') loadSuggestions();
+        else loadThreads();
+      }
+
+      function renderChat(thread) {
+        const body = document.getElementById('threadDetailBody');
+        const closed = thread.status === 'fechado';
+        const messages = (thread.messages || [])
+          .map((m) => {
+            const side = m.direction === 'platform' ? 'platform' : 'company';
+            const who =
+              m.direction === 'platform'
+                ? m.actorName
+                  ? `Atendente · ${m.actorName}`
+                  : session.id && m.actorUserId === session.id
+                    ? 'Você (atendente)'
+                    : 'Atendente'
+                : m.actorName || 'Empresa';
+            return `<div class="cs-support-bubble cs-support-bubble--${side}" style="max-width:100%">${esc(m.body)}<small>${esc(who)} · ${esc(CSReports.formatDateTime(m.createdAt))}</small></div>`;
+          })
+          .join('');
+
+        body.innerHTML = `
+          <div style="margin-bottom:.75rem">
+            <strong>${esc(thread.companyName || thread.companyId)}</strong>
+            <div class="text-muted" style="font-size:.82rem">${esc(thread.subject || 'Suporte')} · ${statusBadge(thread)}</div>
+            <div class="text-muted" style="font-size:.78rem;margin-top:.25rem">
+              Aberto por ${esc(thread.createdByName || '—')} · responder até ${esc(thread.respondBy ? CSReports.formatDateTime(thread.respondBy) : '—')}
+              ${thread.lastResponderName ? ` · última resposta: ${esc(thread.lastResponderName)}` : ''}
+            </div>
+          </div>
+          <div class="cs-support-chat" style="max-height:18rem;margin-bottom:.75rem">${messages || '<p class="text-muted">Sem mensagens.</p>'}</div>
+          ${
+            closed
+              ? '<p class="text-muted">Conversa fechada.</p>'
+              : `<form id="replyForm">
+                  <div class="form-group">
+                    <label for="replyBody">Resposta</label>
+                    <textarea id="replyBody" class="form-control" required maxlength="4000" rows="4" placeholder="Escreva a resposta à empresa…"></textarea>
+                  </div>
+                  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                    <button type="submit" class="btn btn-primary">Enviar resposta</button>
+                    <button type="button" class="btn btn-outline" id="btnCloseThread">Fechar conversa</button>
+                  </div>
+                </form>`
+          }
+        `;
+
+        document.getElementById('replyForm')?.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const text = document.getElementById('replyBody').value;
+          const updated = await CSApp.runAsync(() => CSApi.replyPlatformSupport(thread.id, text, session), {
+            context: 'replyPlatformSupport'
+          });
+          if (!updated) return;
+          CSApp.toast('Resposta enviada à empresa.', 'success');
+          activeId = updated.id;
+          await loadThreads();
+          await openThread(updated.id);
+        });
+
+        document.getElementById('btnCloseThread')?.addEventListener('click', async () => {
+          const updated = await CSApp.runAsync(() => CSApi.closePlatformSupport(thread.id, session), {
+            context: 'closePlatformSupport'
+          });
+          if (!updated) return;
+          CSApp.toast('Conversa fechada.', 'success');
+          await loadThreads();
+          await openThread(thread.id);
+        });
+      }
+
+      async function openThread(id) {
+        activeId = id;
+        const thread = await CSApp.runAsync(() => CSApi.getPlatformSupportThread(id, session), {
+          context: 'getPlatformSupportThread'
+        });
+        if (!thread) return;
+        renderChat(thread);
+        document.querySelectorAll('[data-open-thread]').forEach((tr) => {
+          tr.classList.toggle('is-selected', tr.getAttribute('data-open-thread') === id);
+        });
+      }
+
+      async function loadThreads() {
+        const status = document.getElementById('statusFilter').value || null;
+        const data = await CSApp.runAsync(() => CSApi.listPlatformSupport({ status }, session), {
+          context: 'listPlatformSupport'
+        });
+        const tbody = document.getElementById('threadsTbody');
+        const list = data?.threads || [];
+        if (!list.length) {
+          tbody.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhuma conversa de suporte.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = list
+          .map(
+            (t) => `<tr data-open-thread="${esc(t.id)}" style="cursor:pointer" class="${t.id === activeId ? 'is-selected' : ''}">
+              <td class="cell-wrap"><strong>${esc(t.companyName || t.companyId)}</strong><br><span class="text-muted" style="font-size:.75rem">${esc(t.createdByName || '')}</span></td>
+              <td class="cell-wrap">${esc(t.subject || '—')}</td>
+              <td>${statusBadge(t)}</td>
+              <td>${esc(t.updatedAt ? CSReports.formatDateTime(t.updatedAt) : '—')}</td>
+            </tr>`
+          )
+          .join('');
+        tbody.querySelectorAll('[data-open-thread]').forEach((tr) => {
+          tr.addEventListener('click', () => openThread(tr.getAttribute('data-open-thread')));
+        });
+      }
+
+      async function loadSuggestions() {
+        const rating = document.getElementById('ratingFilter').value || null;
+        const category = document.getElementById('categoryFilter').value || null;
+        const withImprovement = document.getElementById('improveOnly').checked;
+        const data = await CSApp.runAsync(
+          () => CSApi.listAssistantFeedback({ rating, withImprovement, category }, session),
+          { context: 'listAssistantFeedback' }
+        );
+        const items = data?.items || [];
+        const summary = data?.summary || {};
+        const summaryEl = document.getElementById('suggestionsSummary');
+        summaryEl.innerHTML = `
+          <article class="panel support-suggestions-kpi">
+            <div class="kpi-card__label">Total</div>
+            <div class="kpi-card__value">${esc(String(summary.total || 0))}</div>
+          </article>
+          <article class="panel support-suggestions-kpi">
+            <div class="kpi-card__label">Sugestões</div>
+            <div class="kpi-card__value">${esc(String(summary.sugestoes || 0))}</div>
+          </article>
+          <article class="panel support-suggestions-kpi">
+            <div class="kpi-card__label">Reclamações</div>
+            <div class="kpi-card__value">${esc(String(summary.reclamacoes || 0))}</div>
+          </article>
+          <article class="panel support-suggestions-kpi">
+            <div class="kpi-card__label">Média (avaliações)</div>
+            <div class="kpi-card__value">${summary.avgRating != null ? esc(String(summary.avgRating)) : '—'}</div>
+          </article>
+        `;
+
+        const tbody = document.getElementById('suggestionsTbody');
+        if (!items.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Nenhum registro ainda.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = items
+          .map((item) => {
+            const improve = String(item.improvement || '').trim();
+            const subject = String(item.subject || '').trim();
+            const msg = subject ? `${subject} — ${improve}` : improve;
+            const roleLabel = item.role === 'apurador' ? 'Apurador' : item.role === 'admin_empresa' ? 'Adm_Empresa' : item.role || '—';
+            const cat = String(item.category || 'avaliacao');
+            const catLabel =
+              cat === 'sugestao' ? 'Sugestão' : cat === 'reclamacao' ? 'Reclamação' : 'Avaliação';
+            return `<tr>
+              <td>${esc(item.createdAt ? CSReports.formatDateTime(item.createdAt) : '—')}</td>
+              <td class="cell-wrap"><strong>${esc(item.companyName || item.companyId || '—')}</strong></td>
+              <td class="cell-wrap">${esc(item.userName || '—')}<br><span class="text-muted" style="font-size:.75rem">${esc(roleLabel)}</span></td>
+              <td>${esc(catLabel)}</td>
+              <td>${item.rating != null ? ratingBadge(item.rating) : '<span class="text-muted">—</span>'}</td>
+              <td class="cell-wrap">${msg ? esc(msg) : '<span class="text-muted">—</span>'}</td>
+            </tr>`;
+          })
+          .join('');
+      }
+
+      document.querySelectorAll('[data-admin-tab]').forEach((btn) => {
+        btn.addEventListener('click', () => setTab(btn.getAttribute('data-admin-tab')));
+      });
+      document.getElementById('btnRefresh').addEventListener('click', loadThreads);
+      document.getElementById('statusFilter').addEventListener('change', loadThreads);
+      document.getElementById('btnRefreshSuggestions').addEventListener('click', loadSuggestions);
+      document.getElementById('ratingFilter').addEventListener('change', loadSuggestions);
+      document.getElementById('categoryFilter').addEventListener('change', loadSuggestions);
+      document.getElementById('improveOnly').addEventListener('change', loadSuggestions);
+
+      const params = new URLSearchParams(location.search);
+      const threadFromQuery = params.get('thread');
+      const hash = String(location.hash || '').replace('#', '');
+      if (hash === 'sugestoes' || hash === 'suggestions') {
+        setTab('suggestions');
+      } else {
+        await loadThreads();
+        if (threadFromQuery) {
+          setTab('inbox');
+          await openThread(threadFromQuery);
+        }
+      }
+    });
+  </script>
+  <style>
+    tr.is-selected td { background: color-mix(in srgb, var(--cs-primary, #0b2c4a) 10%, transparent); }
+    .badge--danger { background: color-mix(in srgb, #b45309 18%, transparent); color: #9a3412; }
+    .support-admin-tabs {
+      margin: 0 0 1rem;
+      max-width: 28rem;
+    }
+    .support-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--cs-text-secondary, #4a6075);
+      white-space: nowrap;
+    }
+    .support-suggestions-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .support-suggestions-kpi {
+      padding: 1rem 1.1rem;
+      margin: 0;
+    }
+    .support-suggestions-kpi .kpi-card__value {
+      font-size: 1.6rem;
+      margin-top: 0.25rem;
+    }
+    .support-suggestions-kpi__bars {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem 0.85rem;
+      margin-top: 0.45rem;
+      font-size: 0.82rem;
+      color: var(--cs-text-secondary, #4a6075);
+    }
+    @media (max-width: 900px) {
+      .support-suggestions-kpis {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</body>
+</html>

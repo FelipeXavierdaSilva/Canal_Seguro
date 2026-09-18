@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acesso administrativo – Canal Seguro</title>
+  <link rel="stylesheet" href="css/style.css?v=3" />
+  <link rel="stylesheet" href="css/forms.css?v=3" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-card__brand">
+        <img
+          class="logo-platform logo-platform--auth brand__logo--mark"
+          src="assets/images/logo-canal-seguro-mark.png?v=shield3"
+          alt=""
+          width="72"
+          height="82"
+          decoding="async"
+        />
+        <div class="login-card__identity">
+          <p class="login-card__name" aria-label="Canal Seguro">
+            <span class="login-card__name-canal">Canal</span>
+            <span class="login-card__name-seguro">Seguro</span>
+          </p>
+          <p class="login-card__tagline">Denúncias com sigilo e segurança</p>
+        </div>
+        <p class="login-card__subtitle">Acesso administrativo</p>
+      </div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Usuário ou E-mail</label>
+          <input class="form-control" type="text" id="email" name="email" required autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input class="form-control" type="password" id="password" name="password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+      </form>
+      <p class="text-center mt-1">
+        <a href="recuperar-senha.html">Esqueci minha senha</a>
+      </p>
+      <p class="text-center mt-2">
+        <a href="index.html">← Voltar ao canal público</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- cs-bundle: login -->
+  <script src="js/runtime.js"></script>
+  <script src="js/http-api.js"></script>
+  <script src="js/seed.js"></script>
+  <script src="js/audit.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/errors.js"></script>
+  <script src="js/app.js?v=45"></script>
+  <script>
+    CSApp.onReady(() => {
+      CSApp.initTheme();
+      CSStore.loadStore();
+
+      if (CSAuth.isLoggedIn()) {
+        CSAuth.redirectAfterLogin(CSAuth.getSession());
+        return;
+      }
+
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        try {
+          const result = await CSAuth.login(email, password);
+          if (result && result.mfaFlow) {
+            const target = result.enrollmentRequired ? 'configurar-mfa.html' : 'verificar-mfa.html';
+            window.location.href = target;
+            return;
+          }
+          CSApp.toast('Login realizado com sucesso.', 'success');
+          setTimeout(() => CSAuth.redirectAfterLogin(result), 400);
+        } catch (err) {
+          CSApp.toast(CSErrors.userMessage(err, 'Falha no login.'), 'error');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

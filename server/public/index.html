@@ -1,0 +1,766 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Canal Seguro – orientação, prevenção e comunicação responsável no ambiente de trabalho." />
+  <title>Canal Seguro</title>
+  <link rel="stylesheet" href="css/style.css?v=2" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650;9..144,700&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/landing-home.css" />
+  <link rel="stylesheet" href="css/channel-home.css?v=11" />
+  <link rel="stylesheet" href="css/support-assistant.css?v=6" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body class="public-page landing-home">
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand brand--platform brand--channel" href="index.html" data-tenant-link>
+        <img
+          class="brand__logo brand__logo--mark"
+          src="assets/images/logo-canal-seguro-mark.png?v=shield3"
+          alt=""
+          width="40"
+          height="46"
+          decoding="async"
+        />
+        <span class="brand__meta">
+          <span class="brand__meta-name" data-canal-name>
+            <span class="brand__meta-name-canal">Canal</span>
+            <span class="brand__meta-name-seguro">Seguro</span>
+          </span>
+          <span class="brand__meta-sub">Denúncias com sigilo e segurança</span>
+        </span>
+        <span class="brand__text brand__text--sr">
+          <span class="brand__name" data-canal-name>Canal Seguro</span>
+        </span>
+      </a>
+      <nav class="nav-public" aria-label="Principal" data-home-nav>
+        <a href="index.html" data-tenant-link data-nav-section="inicio" class="active">Início</a>
+        <a href="educacao.html" data-tenant-link>Sobre</a>
+        <a href="index.html#orientacoes" data-tenant-link data-nav-section="orientacoes">Orientações</a>
+        <a href="index.html#faq" data-tenant-link data-nav-section="faq">FAQ</a>
+        <a href="index.html#fale-conosco" data-tenant-link data-nav-section="fale-conosco">Fale conosco</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn-ch btn-ch--secondary" href="protocolo.html" data-tenant-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          Consultar protocolo
+        </a>
+        <a class="btn-ch btn-ch--primary" href="relato.html" data-tenant-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+          Fazer uma denúncia
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="ch-hero" aria-labelledby="ch-hero-title">
+      <figure class="ch-hero__media">
+        <img
+          class="ch-hero__img"
+          src="assets/images/channel-hero-person.jpg?v=20260916-2017"
+          alt="Pessoa em ambiente profissional, transmitindo acolhimento e confiança"
+          width="1024"
+          height="512"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </figure>
+      <div class="ch-hero__overlay">
+        <div class="ch-hero__content fade-in">
+          <p class="ch-eyebrow">Canal de denúncia</p>
+          <h1 id="ch-hero-title" class="ch-hero__title">
+            Um espaço seguro para <span class="ch-accent">comunicar o que aconteceu.</span>
+          </h1>
+          <p class="ch-hero__text" data-canal-message>
+            O Canal Seguro é um canal confidencial para relatar situações de assédio, desrespeito ou outras condutas inadequadas no ambiente de trabalho.
+          </p>
+          <div class="ch-hero__ctas">
+            <a class="btn-ch btn-ch--primary btn-ch--lg" href="relato.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+              Fazer uma denúncia
+            </a>
+            <a class="btn-ch btn-ch--secondary btn-ch--lg" href="protocolo.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              Consultar protocolo
+            </a>
+          </div>
+          <div class="ch-hero__trust">
+            <span class="ch-hero__trust-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            </span>
+            <p>Você pode registrar seu relato de forma identificada ou, quando disponível, anônima.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-section--alt ch-actions" id="acesso-canal" aria-labelledby="ch-actions-title">
+      <div class="ch-container">
+        <div class="ch-actions__header">
+          <h2 id="ch-actions-title" class="ch-title">O que você precisa fazer?</h2>
+          <p class="ch-lead">Escolha o que melhor se encaixa no seu momento.</p>
+        </div>
+        <div class="ch-actions__grid">
+          <a class="ch-card" href="relato.html" data-tenant-link>
+            <span class="ch-card__icon ch-card__icon--teal" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+            </span>
+            <h3>Quero fazer uma denúncia</h3>
+            <p>Relate uma situação que aconteceu com você, que presenciou ou que considera inadequada.</p>
+            <span class="ch-card__link">Começar denúncia →</span>
+          </a>
+          <a class="ch-card" href="protocolo.html" data-tenant-link>
+            <span class="ch-card__icon ch-card__icon--blue" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </span>
+            <h3>Já fiz uma denúncia</h3>
+            <p>Acompanhe seu relato utilizando o número do protocolo.</p>
+            <span class="ch-card__link">Consultar protocolo →</span>
+          </a>
+          <a class="ch-card" href="educacao.html#assedio" data-tenant-link>
+            <span class="ch-card__icon ch-card__icon--purple" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85"><circle cx="12" cy="12" r="9"/><path d="M12 10v6M12 7h.01"/></svg>
+            </span>
+            <h3>Não sei se o que aconteceu é assédio</h3>
+            <p>Veja informações e exemplos antes de registrar seu relato.</p>
+            <span class="ch-card__link">Entender melhor →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-story" id="pilares" aria-labelledby="ch-story-title">
+      <div class="ch-container">
+        <div class="ch-story__header">
+          <p class="ch-eyebrow">O que nos guia</p>
+          <h2 id="ch-story-title" class="ch-title">Confiança, respeito e acompanhamento</h2>
+          <p class="ch-lead">Um canal feito para acolher com seriedade — do primeiro relato ao andamento do protocolo.</p>
+        </div>
+
+        <div class="ch-carousel" data-carousel>
+          <div class="ch-carousel__viewport" aria-live="polite">
+            <article class="ch-carousel__slide is-active" data-slide>
+              <figure class="ch-carousel__media">
+                <img src="assets/images/carousel-sigilo.jpg" alt="Ambiente corporativo calmo e discreto" width="1600" height="900" decoding="async" />
+              </figure>
+              <div class="ch-carousel__panel">
+                <p class="ch-carousel__kicker">01 — Sigilo</p>
+                <h3>Um espaço discreto para falar</h3>
+                <p>Relatos tratados com confidencialidade, em um ambiente projetado para proteger informações e identidade conforme as regras do canal.</p>
+                <a class="ch-carousel__link" href="politica-privacidade.html" data-tenant-link>Política de privacidade →</a>
+              </div>
+            </article>
+            <article class="ch-carousel__slide" data-slide hidden>
+              <figure class="ch-carousel__media">
+                <img src="assets/images/carousel-respeito.jpg" alt="Equipe colaborando com respeito no ambiente de trabalho" width="1600" height="900" loading="lazy" decoding="async" />
+              </figure>
+              <div class="ch-carousel__panel">
+                <p class="ch-carousel__kicker">02 — Respeito</p>
+                <h3>Cultura de respeito no trabalho</h3>
+                <p>Orientação clara para identificar situações inadequadas e fortalecer um ambiente ético, seguro e responsável.</p>
+                <a class="ch-carousel__link" href="educacao.html" data-tenant-link>Conhecer orientações →</a>
+              </div>
+            </article>
+            <article class="ch-carousel__slide" data-slide hidden>
+              <figure class="ch-carousel__media">
+                <img src="assets/images/carousel-acompanhar.jpg" alt="Documentos e protocolo em mesa de trabalho" width="1600" height="900" loading="lazy" decoding="async" />
+              </figure>
+              <div class="ch-carousel__panel">
+                <p class="ch-carousel__kicker">03 — Acompanhamento</p>
+                <h3>Do registro ao protocolo</h3>
+                <p>Após registrar, você recebe um protocolo para consultar o andamento com segurança e sem expor dados sensíveis.</p>
+                <a class="ch-carousel__link" href="protocolo.html" data-tenant-link>Consultar protocolo →</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="ch-carousel__controls">
+            <button type="button" class="ch-carousel__btn" data-carousel-prev aria-label="Slide anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="ch-carousel__dots" role="tablist" aria-label="Slides do carrossel">
+              <button type="button" class="is-active" data-carousel-dot="0" aria-label="Ir para slide 1" aria-selected="true"></button>
+              <button type="button" data-carousel-dot="1" aria-label="Ir para slide 2" aria-selected="false"></button>
+              <button type="button" data-carousel-dot="2" aria-label="Ir para slide 3" aria-selected="false"></button>
+            </div>
+            <button type="button" class="ch-carousel__btn" data-carousel-next aria-label="Próximo slide">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-guide" id="orientacoes" aria-labelledby="ch-guide-title">
+      <div class="ch-container">
+        <div class="ch-guide__intro">
+          <h2 id="ch-guide-title" class="ch-title">Você não precisa saber exatamente como classificar o que aconteceu.</h2>
+          <p class="ch-lead">Nem toda situação inadequada é fácil de identificar. Conheça alguns exemplos antes de registrar seu relato.</p>
+          <a class="btn-ch btn-ch--secondary" href="educacao.html#orientacoes" data-tenant-link>Ver orientações completas →</a>
+        </div>
+        <div class="ch-guide__cats" role="list">
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3"/><path d="M5 19c1.2-3.2 3.5-4.8 7-4.8s5.8 1.6 7 4.8"/></svg></div>
+            <h3>Assédio moral</h3>
+            <p>Humilhações, isolamento ou pressão reiterada.</p>
+          </article>
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 11V8a4 4 0 0 1 8 0v3"/><rect x="5" y="11" width="14" height="10" rx="2"/></svg></div>
+            <h3>Assédio sexual</h3>
+            <p>Condutas de natureza sexual indesejadas.</p>
+          </article>
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="9" r="2.5"/><circle cx="16" cy="9" r="2.5"/><path d="M3.5 18c.8-2.4 2.6-3.6 4.5-3.6 1.2 0 2.3.5 3.2 1.3"/><path d="M12.8 15.7c1.1-.5 2.3-.7 3.7-.7 1.9 0 3.7 1.2 4.5 3.6"/></svg></div>
+            <h3>Discriminação</h3>
+            <p>Tratamento desigual por características pessoais.</p>
+          </article>
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 3 19h18L12 3z"/><path d="M12 10v4M12 17h.01"/></svg></div>
+            <h3>Conflitos no trabalho</h3>
+            <p>Situações tensas que merecem atenção responsável.</p>
+          </article>
+          <article class="ch-cat" role="listitem">
+            <div class="ch-cat__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8.5 8.5 0 0 1-12.4 7.5L3 21l1.7-4.8A8.5 8.5 0 1 1 21 12z"/></svg></div>
+            <h3>Outras condutas</h3>
+            <p>Outras práticas inadequadas no ambiente de trabalho.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-section--alt ch-process" id="como-funciona" aria-labelledby="ch-process-title">
+      <div class="ch-container">
+        <div class="ch-process__header">
+          <p class="ch-eyebrow">Como funciona</p>
+          <h2 id="ch-process-title" class="ch-title">Do registro ao acompanhamento</h2>
+          <p class="ch-lead">Um caminho simples, discreto e responsável.</p>
+        </div>
+        <div class="ch-process__steps">
+          <article class="ch-step">
+            <div class="ch-step__top">
+              <span class="ch-step__num">01</span>
+              <span class="ch-step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></span>
+            </div>
+            <h3>Registrar</h3>
+            <p>Conte o que aconteceu da forma que conseguir.</p>
+          </article>
+          <article class="ch-step">
+            <div class="ch-step__top">
+              <span class="ch-step__num">02</span>
+              <span class="ch-step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 4h7l3 3v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v4h4"/><path d="m9 13 2 2 4-4"/></svg></span>
+            </div>
+            <h3>Receber</h3>
+            <p>As informações são registradas no canal.</p>
+          </article>
+          <article class="ch-step">
+            <div class="ch-step__top">
+              <span class="ch-step__num">03</span>
+              <span class="ch-step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+            </div>
+            <h3>Analisar</h3>
+            <p>O relato é encaminhado para análise conforme o procedimento da organização.</p>
+          </article>
+          <article class="ch-step">
+            <div class="ch-step__top">
+              <span class="ch-step__num">04</span>
+              <span class="ch-step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            </div>
+            <h3>Acompanhar</h3>
+            <p>Utilize seu protocolo para consultar informações sobre o andamento, quando disponível.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-privacy" id="privacidade" aria-labelledby="ch-privacy-title">
+      <div class="ch-container">
+        <p class="ch-eyebrow" style="color:#7ee0d4">Privacidade e segurança</p>
+        <h2 id="ch-privacy-title" class="ch-title">Sua privacidade importa.</h2>
+        <p class="ch-lead">Tratamos as informações do relato com confidencialidade e respeito.</p>
+        <a class="btn-ch btn-ch--ghost" href="politica-privacidade.html" data-tenant-link>Saiba mais sobre nossa política →</a>
+        <div class="ch-privacy__grid">
+          <article class="ch-privacy__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3 4 7v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7l-8-4z"/></svg>
+            <h3>Confidencialidade</h3>
+            <p>As informações são tratadas de acordo com as regras de privacidade aplicáveis.</p>
+          </article>
+          <article class="ch-privacy__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 19c1.2-3.2 3.5-4.8 7-4.8s5.8 1.6 7 4.8"/></svg>
+            <h3>Identificação</h3>
+            <p>Quando necessária, a identificação é utilizada apenas conforme as regras e finalidade do canal.</p>
+          </article>
+          <article class="ch-privacy__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            <h3>Proteção</h3>
+            <p>Informações e dados devem ser protegidos por medidas de segurança apropriadas.</p>
+          </article>
+          <article class="ch-privacy__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 4h7l3 3v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v4h4M9 12h5M9 15h5"/></svg>
+            <h3>Acompanhamento</h3>
+            <p>O protocolo permite consultar o andamento conforme as regras do canal.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-final" aria-labelledby="ch-final-title">
+      <div class="ch-final__banner">
+        <figure class="ch-final__media">
+          <img
+            class="ch-final__img"
+            src="assets/images/channel-cta-office.jpg?v=20260916-2045"
+            alt="Ambiente de trabalho organizado e acolhedor"
+            width="1024"
+            height="512"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <div class="ch-final__overlay">
+          <div class="ch-container ch-final__inner">
+            <div class="ch-final__content fade-in">
+              <p class="ch-eyebrow">Está pronto para registrar seu relato?</p>
+              <h2 id="ch-final-title" class="ch-final__title">
+                Se você decidiu falar, estamos aqui para te orientar.
+              </h2>
+              <p class="ch-final__text">
+                O Canal Seguro é um espaço seguro, ético e responsável para que sua voz seja ouvida.
+              </p>
+              <div class="ch-final__ctas">
+                <a class="btn-ch btn-ch--primary btn-ch--lg" href="relato.html" data-tenant-link>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+                  Fazer uma denúncia
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </a>
+                <a class="btn-ch btn-ch--secondary btn-ch--lg" href="protocolo.html" data-tenant-link>
+                  Consultar protocolo
+                </a>
+              </div>
+            </div>
+            <p class="ch-final__caption ch-script">
+              Juntos por um ambiente de trabalho mais respeitoso.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-section--alt ch-faq" id="faq" aria-labelledby="ch-faq-title">
+      <div class="ch-container">
+        <div class="ch-faq__header">
+          <p class="ch-eyebrow">Dúvidas</p>
+          <h2 id="ch-faq-title" class="ch-title">Perguntas frequentes</h2>
+          <p class="ch-lead">Respostas objetivas para ajudar você a utilizar o canal com segurança e responsabilidade.</p>
+        </div>
+        <div class="ch-faq__list" id="homeFaqList">
+          <p class="ch-faq__loading">Carregando perguntas…</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ch-section ch-contact" id="fale-conosco" aria-labelledby="ch-contact-title">
+      <div class="ch-container ch-contact__grid">
+        <div class="ch-contact__intro">
+          <p class="ch-eyebrow">Contato</p>
+          <h2 id="ch-contact-title" class="ch-title">Fale conosco</h2>
+          <p class="ch-lead">
+            Envie uma mensagem para dúvidas gerais sobre o canal. Para denúncias e relatos, use
+            <a href="relato.html" data-tenant-link>Fazer uma denúncia</a>.
+          </p>
+          <ul class="ch-contact__notes">
+            <li>Dúvidas sobre o uso do canal</li>
+            <li>Orientações gerais e sugestões</li>
+            <li>Outras questões não relacionadas a denúncias</li>
+          </ul>
+        </div>
+        <div class="ch-contact__card">
+          <form id="homeContactForm" class="ch-contact__form">
+            <div class="ch-field">
+              <label for="homeContactName">Nome</label>
+              <input id="homeContactName" name="contactName" autocomplete="name" placeholder="Seu nome" required />
+            </div>
+            <div class="ch-field">
+              <label for="homeContactEmail">E-mail</label>
+              <input id="homeContactEmail" name="contactEmail" type="email" autocomplete="email" placeholder="seu@email.com" required />
+            </div>
+            <div class="ch-field">
+              <label for="homeContactSubject">Assunto</label>
+              <select id="homeContactSubject" name="contactSubject" required>
+                <option value="">Selecione</option>
+                <option value="duvida">Dúvida sobre o canal</option>
+                <option value="acesso">Problema de acesso</option>
+                <option value="sugestao">Sugestão</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+            <div class="ch-field">
+              <label for="homeContactMessage">Mensagem</label>
+              <textarea id="homeContactMessage" name="contactMessage" rows="4" placeholder="Descreva sua mensagem com clareza." required></textarea>
+            </div>
+            <button type="submit" class="btn-ch btn-ch--primary btn-ch--lg ch-contact__submit">Enviar mensagem</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer footer-canal">
+    <div class="container footer-canal__main">
+      <div class="footer-canal__brand">
+        <img class="logo-platform logo-platform--footer" src="assets/images/logo-canal-seguro-footer.png" alt="Canal Seguro — Canal de Denúncias" />
+        <p class="footer-canal__tagline">Comunicação confidencial no ambiente de trabalho.<br />Plataforma multiempresa.</p>
+        <div class="footer-canal__safe">
+          <strong>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/><path d="M9.5 12.2l1.8 1.8 3.7-3.8"/></svg>
+            Ambiente seguro e sigiloso
+          </strong>
+          <p>Seus dados e sua identidade são protegidos com confidencialidade durante todo o processo.</p>
+        </div>
+      </div>
+
+      <nav class="footer-canal__col" aria-label="Navegação">
+        <h2 class="footer-canal__title">Navegação</h2>
+        <ul class="footer-canal__list">
+          <li>
+            <a href="index.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z"/></svg>
+              Início
+            </a>
+          </li>
+          <li>
+            <a href="educacao.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c1.2-3.2 3.5-4.8 6.5-4.8s5.3 1.6 6.5 4.8"/></svg>
+              Sobre
+            </a>
+          </li>
+          <li>
+            <a href="index.html#orientacoes" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 5h9a1 1 0 0 1 1 1v13l-2.2-1.4L13.5 19 11.2 17.6 9 19V6a1 1 0 0 1 1-1z"/><path d="M10.5 9h5M10.5 12h5M10.5 15h3.2"/></svg>
+              Orientações
+            </a>
+          </li>
+          <li>
+            <a href="protocolo.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 4h7l3 3v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v4h4M9.5 12h5M9.5 15.5h5"/></svg>
+              Consultar denúncia
+            </a>
+          </li>
+          <li>
+            <a href="index.html#faq" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9.5 9.2a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.7V14"/><circle cx="12" cy="16.5" r=".7" fill="currentColor" stroke="none"/></svg>
+              FAQ
+            </a>
+          </li>
+          <li>
+            <a href="index.html#fale-conosco" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7.2 4.8h2.3l1.1 3.2-1.5 1.1a11 11 0 0 0 5.3 5.3l1.1-1.5 3.2 1.1v2.3c0 .7-.6 1.3-1.3 1.3A13.7 13.7 0 0 1 4.5 6.1c0-.7.6-1.3 1.3-1.3z"/></svg>
+              Fale conosco
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <nav class="footer-canal__col" aria-label="Informações">
+        <h2 class="footer-canal__title">Informações</h2>
+        <ul class="footer-canal__list">
+          <li>
+            <a href="politica-privacidade.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/></svg>
+              Políticas de privacidade
+            </a>
+          </li>
+          <li>
+            <a href="lgpd.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6" y="10" width="12" height="10" rx="1.5"/><path d="M8.5 10V8a3.5 3.5 0 0 1 7 0v2"/><circle cx="12" cy="15" r="1.2"/></svg>
+              LGPD
+            </a>
+          </li>
+          <li>
+            <a href="termos-de-uso.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 4h7l3 3v13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v4h4M9 12h6M9 15h6M9 18h4"/></svg>
+              Termos de uso
+            </a>
+          </li>
+          <li>
+            <a href="politica-cookies.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="9" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="9.5" r=".8" fill="currentColor" stroke="none"/><circle cx="11.5" cy="14.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="14" r=".7" fill="currentColor" stroke="none"/></svg>
+              Política de cookies
+            </a>
+          </li>
+          <li>
+            <a href="suporte.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/><path d="M12 4v2.5M12 17.5V20M4 12h2.5M17.5 12H20"/></svg>
+              Suporte
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="footer-canal__col footer-canal__importante">
+        <h2 class="footer-canal__title">Importante</h2>
+        <p class="footer-canal__lead"><strong>Canal de Denúncia</strong></p>
+        <p class="footer-canal__text">Utilize este canal para relatar situações de assédio ou condutas inadequadas de forma segura.</p>
+        <a class="footer-canal__cta" href="relato.html" data-tenant-link>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/><path d="M10 12.5h4M12 10.5v4"/></svg>
+          Fazer uma denúncia
+        </a>
+        <p class="footer-canal__confidencial">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6" y="10" width="12" height="10" rx="1.5"/><path d="M8.5 10V8a3.5 3.5 0 0 1 7 0v2"/></svg>
+          Tratamento confidencial conforme as regras do canal
+        </p>
+      </div>
+
+      <nav class="footer-canal__col" aria-label="Acesso rápido">
+        <h2 class="footer-canal__title">Acesso rápido</h2>
+        <ul class="footer-canal__list">
+          <li>
+            <a href="login.html">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M10 7V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1v-2"/><path d="M4 12h10M10 8.5 13.5 12 10 15.5"/></svg>
+              Login
+            </a>
+          </li>
+          <li>
+            <a href="index.html#acesso-canal" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-6h6v6M9 10h.01M12 10h.01M15 10h.01M9 13h.01M12 13h.01M15 13h.01"/></svg>
+              Atalhos do canal
+            </a>
+          </li>
+          <li>
+            <a href="protocolo.html" data-tenant-link>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 5h9a1 1 0 0 1 1 1v13l-2.2-1.4L13.5 19 11.2 17.6 9 19V6a1 1 0 0 1 1-1z"/><path d="M10.5 9h5M10.5 12h5M10.5 15h3.2"/></svg>
+              Consultar protocolos
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-canal__bottom">
+      <div class="container footer-canal__bottom-inner">
+        <p class="footer-canal__copy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6" y="10" width="12" height="10" rx="1.5"/><path d="M8.5 10V8a3.5 3.5 0 0 1 7 0v2"/></svg>
+          © 2026 Canal Seguro. Todos os direitos reservados.
+        </p>
+        <div class="footer-canal__legal">
+          <a href="politica-privacidade.html" data-tenant-link>Política de Privacidade</a>
+          <span aria-hidden="true">|</span>
+          <a href="termos-de-uso.html" data-tenant-link>Termos de Uso</a>
+          <span aria-hidden="true">|</span>
+          <a href="politica-cookies.html" data-tenant-link>Política de Cookies</a>
+          <span aria-hidden="true">|</span>
+          <a href="lgpd.html" data-tenant-link>LGPD</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- cs-bundle: public-light -->
+  <script src="js/runtime.js"></script>
+  <script src="js/http-api.js"></script>
+  <script src="js/seed.js"></script>
+  <script src="js/api.js?v=45"></script>
+  <script src="js/companies.js"></script>
+  <script src="js/errors.js"></script>
+  <script src="js/app.js?v=46"></script>
+  <script>
+    CSApp.onReady(async () => {
+      await CSApp.initPublic({ platformHome: true });
+
+      // FAQ na home
+      const homeFaqList = document.getElementById('homeFaqList');
+      if (homeFaqList) {
+        try {
+          const tenantId = CSCompanies.getTenantId();
+          const contents = await CSApi.getContents({
+            type: 'faq',
+            companyId: tenantId || undefined,
+            globalOnly: !tenantId,
+            status: 'publicado'
+          });
+          if (!contents.length) {
+            homeFaqList.innerHTML = '<p class="ch-faq__loading">Nenhuma pergunta frequente publicada no momento.</p>';
+          } else {
+            homeFaqList.innerHTML = '';
+            contents.forEach((c, idx) => {
+              const d = document.createElement('details');
+              d.className = 'ch-faq__item';
+              if (idx === 0) d.open = true;
+              d.innerHTML =
+                `<summary>${CSApp.escapeHtml(c.title)}</summary>` +
+                `<div class="ch-faq__body">${CSApp.escapeHtml(c.body)}</div>`;
+              homeFaqList.appendChild(d);
+            });
+          }
+        } catch (err) {
+          CSErrors.logError(err, 'homeFaq');
+          homeFaqList.innerHTML = '<p class="ch-faq__loading">Não foi possível carregar as perguntas frequentes.</p>';
+        }
+      }
+
+      // Fale conosco na home
+      const homeContactForm = document.getElementById('homeContactForm');
+      if (homeContactForm) {
+        homeContactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          CSApp.toast(
+            'Mensagem recebida. Em breve a equipe comercial entrará em contato.',
+            'success'
+          );
+          homeContactForm.reset();
+        });
+      }
+
+      // Carrossel temático
+      const carousel = document.querySelector('[data-carousel]');
+      if (carousel) {
+        const slides = Array.from(carousel.querySelectorAll('[data-slide]'));
+        const dots = Array.from(carousel.querySelectorAll('[data-carousel-dot]'));
+        const prevBtn = carousel.querySelector('[data-carousel-prev]');
+        const nextBtn = carousel.querySelector('[data-carousel-next]');
+        let index = 0;
+        let timer = null;
+
+        const show = (next) => {
+          index = (next + slides.length) % slides.length;
+          slides.forEach((slide, i) => {
+            const active = i === index;
+            slide.classList.toggle('is-active', active);
+            slide.hidden = !active;
+          });
+          dots.forEach((dot, i) => {
+            const active = i === index;
+            dot.classList.toggle('is-active', active);
+            dot.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+        };
+
+        const start = () => {
+          stop();
+          timer = window.setInterval(() => show(index + 1), 6500);
+        };
+        const stop = () => {
+          if (timer) window.clearInterval(timer);
+          timer = null;
+        };
+
+        prevBtn?.addEventListener('click', () => { show(index - 1); start(); });
+        nextBtn?.addEventListener('click', () => { show(index + 1); start(); });
+        dots.forEach((dot) => {
+          dot.addEventListener('click', () => {
+            show(Number(dot.getAttribute('data-carousel-dot')) || 0);
+            start();
+          });
+        });
+        carousel.addEventListener('mouseenter', stop);
+        carousel.addEventListener('mouseleave', start);
+        carousel.addEventListener('focusin', stop);
+        carousel.addEventListener('focusout', start);
+        show(0);
+        start();
+      }
+
+      const processSection = document.querySelector('.ch-process, .section--process');
+      if (processSection) {
+        const revealProcess = () => processSection.classList.add('is-visible');
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                revealProcess();
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+          observer.observe(processSection);
+        } else {
+          revealProcess();
+        }
+      }
+
+      // Slot de imagem do hero: se o arquivo ainda não existir, mostra o fundo preparado
+      document.querySelectorAll('.ch-hero__img, .ch-final__img').forEach((img) => {
+        img.addEventListener('error', () => {
+          img.style.display = 'none';
+          const fallback = img.parentElement?.querySelector('.ch-hero__media-fallback');
+          if (fallback) fallback.hidden = false;
+        });
+      });
+
+      // Sublinhado do menu acompanha a seção visível na rolagem
+      const homeNav = document.querySelector('[data-home-nav]');
+      if (homeNav) {
+        const sectionLinks = Array.from(homeNav.querySelectorAll('[data-nav-section]'));
+        const sectionMap = [
+          { id: 'inicio', el: document.querySelector('.ch-hero') || document.body },
+          { id: 'orientacoes', el: document.getElementById('orientacoes') },
+          { id: 'faq', el: document.getElementById('faq') },
+          { id: 'fale-conosco', el: document.getElementById('fale-conosco') }
+        ].filter((s) => s.el);
+
+        const setActiveNav = (sectionId) => {
+          sectionLinks.forEach((link) => {
+            const on = link.getAttribute('data-nav-section') === sectionId;
+            link.classList.toggle('active', on);
+            if (on) link.setAttribute('aria-current', 'true');
+            else link.removeAttribute('aria-current');
+          });
+        };
+
+        const updateActiveFromScroll = () => {
+          const headerOffset = (document.querySelector('.site-header')?.offsetHeight || 72) + 24;
+          const y = window.scrollY + headerOffset;
+          let current = 'inicio';
+          for (const section of sectionMap) {
+            const top = section.el.getBoundingClientRect().top + window.scrollY;
+            if (y >= top - 8) current = section.id;
+          }
+          // No final da página, prioriza a última seção (Fale conosco)
+          const nearBottom =
+            window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 48;
+          if (nearBottom && sectionMap.length) {
+            current = sectionMap[sectionMap.length - 1].id;
+          }
+          setActiveNav(current);
+        };
+
+        let ticking = false;
+        window.addEventListener(
+          'scroll',
+          () => {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(() => {
+              updateActiveFromScroll();
+              ticking = false;
+            });
+          },
+          { passive: true }
+        );
+        window.addEventListener('resize', updateActiveFromScroll, { passive: true });
+
+        sectionLinks.forEach((link) => {
+          link.addEventListener('click', () => {
+            const id = link.getAttribute('data-nav-section');
+            if (id) setActiveNav(id);
+          });
+        });
+
+        // Hash inicial (ex.: index.html#faq)
+        const hash = (location.hash || '').replace(/^#/, '');
+        if (hash && sectionMap.some((s) => s.id === hash)) setActiveNav(hash);
+        else updateActiveFromScroll();
+      }
+
+    });
+  </script>
+</body>
+</html>

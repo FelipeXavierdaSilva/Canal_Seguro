@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Armazenamento – Admin</title>
+  <link rel="stylesheet" href="../css/style.css?v=2" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=38" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="Canal Seguro" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span>Painel da Plataforma</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <div class="nav-section">Principal</div>
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <div class="nav-section">Gestão</div>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <div class="nav-section">Configurações</div>
+        <a class="active" href="armazenamento.html"><span class="nav-icon">▤</span> Armazenamento</a>
+        <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <div class="nav-section">Sistema</div>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="suporte.html"><span class="nav-icon">💬</span> Suporte empresas</a>
+        <a href="faq-bot.html"><span class="nav-icon">❔</span> FAQ do bot</a>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="../index.html" target="_blank" rel="noopener"><span class="nav-icon">⌂</span> Canal Seguro</a>
+        <div class="nav-section">Conta</div>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
+      </nav>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Armazenamento</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Armazenamento de anexos</h1>
+            <p>
+              Controle o <strong>pool contratado</strong> da plataforma, as cotas alocadas e o uso real.
+              Overcommit de cotas é permitido; o termômetro alerta quando você define.
+            </p>
+          </div>
+          <button type="button" class="btn btn-outline" id="btnRefresh">Atualizar</button>
+        </div>
+
+        <div id="platformCapacityAlert" class="panel mb-2" hidden style="border-left:4px solid #c45c26">
+          <div class="panel__body" style="padding:1rem" id="platformCapacityAlertBody"></div>
+        </div>
+
+        <div class="panel mb-2" id="platformCapacityPanel">
+          <div class="panel__header" style="padding:1rem 1rem 0">
+            <h2 style="margin:0;font-size:1.05rem">Capacidade da plataforma</h2>
+            <p class="text-muted" style="margin:.35rem 0 0;font-size:.85rem;max-width:52rem">
+              Informe quanto armazenamento <strong>você contratou</strong>. O sistema soma o uso e as cotas
+              dos clientes (sem travar novos cadastros) e acende o termômetro nas faixas que você configurar.
+            </p>
+          </div>
+          <div class="panel__body" style="padding:1rem">
+            <div id="capacityCards" style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-bottom:1.25rem">
+              <div class="text-muted" style="font-size:.85rem">Carregando capacidade…</div>
+            </div>
+
+            <div style="display:grid;gap:1rem;margin-bottom:1.25rem">
+              <div>
+                <div style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.35rem">
+                  <strong style="font-size:.9rem">Termômetro — uso real</strong>
+                  <span class="text-muted" id="usedThermoLabel" style="font-size:.85rem">—</span>
+                </div>
+                <div class="storage-bar" style="height:14px" role="img" aria-label="Uso real do pool">
+                  <div class="storage-bar__fill" id="usedThermoFill" style="width:0%"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.35rem">
+                  <strong style="font-size:.9rem">Termômetro — cotas alocadas</strong>
+                  <span class="text-muted" id="allocThermoLabel" style="font-size:.85rem">—</span>
+                </div>
+                <div class="storage-bar" style="height:14px" role="img" aria-label="Cotas alocadas do pool">
+                  <div class="storage-bar__fill" id="allocThermoFill" style="width:0%"></div>
+                </div>
+              </div>
+            </div>
+
+            <form id="platformCapacityForm" style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));align-items:end">
+              <div class="form-group" style="margin:0">
+                <label for="poolGiB">Pool contratado (GiB)</label>
+                <input class="form-control" id="poolGiB" type="number" min="0.01" step="0.01" required />
+              </div>
+              <div class="form-group" style="margin:0">
+                <label for="thrAttention">Atenção (%)</label>
+                <input class="form-control" id="thrAttention" type="number" min="1" max="99" step="1" required />
+              </div>
+              <div class="form-group" style="margin:0">
+                <label for="thrWarning">Alerta (%)</label>
+                <input class="form-control" id="thrWarning" type="number" min="1" max="99" step="1" required />
+              </div>
+              <div class="form-group" style="margin:0">
+                <label for="thrCritical">Crítico (%)</label>
+                <input class="form-control" id="thrCritical" type="number" min="1" max="100" step="1" required />
+              </div>
+              <div class="form-group" style="margin:0;display:flex;align-items:center;gap:.5rem;padding-bottom:.35rem">
+                <input type="checkbox" id="alertOvercommit" checked />
+                <label for="alertOvercommit" style="margin:0">Alertar overcommit (cotas &gt; pool)</label>
+              </div>
+              <div class="form-group" style="margin:0">
+                <button type="submit" class="btn btn-primary">Salvar capacidade</button>
+              </div>
+            </form>
+            <p class="text-muted" style="margin:.75rem 0 0;font-size:.8rem">
+              Novos clientes e upgrades <strong>não são bloqueados</strong> se as cotas somadas ultrapassarem o pool.
+              O alerta existe para você reagir a tempo (aumentar pool no provedor, etc.).
+            </p>
+          </div>
+        </div>
+
+        <div class="panel mb-2">
+          <div class="panel__body" style="padding:1rem">
+            <p class="text-muted" style="margin:0;font-size:.85rem">
+              Faixas por empresa: <strong>Normal</strong> · <strong>Atenção</strong> · <strong>Alerta</strong> ·
+              <strong>Crítico</strong> · <strong>Bloqueio</strong>.
+              Quota mínima/máxima por empresa: 10&nbsp;MiB – 2&nbsp;TiB (conforme plano).
+            </p>
+          </div>
+        </div>
+
+        <div class="panel mb-2" id="planCatalogPanel">
+          <div class="panel__header" style="padding:1rem 1rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+            <div>
+              <h2 style="margin:0;font-size:1.05rem">Catálogo de planos</h2>
+              <p class="text-muted" style="margin:.35rem 0 0;font-size:.85rem;max-width:52rem">
+                Estrutura dos planos (nome, GB, destaque). Textos, vantagens e preço da
+                <em>página inicial</em> são editados abaixo em
+                <strong>Preços e informações ? Página inicial</strong>.
+                Valores por empresa ficam na mesma lista, ao selecionar a empresa.
+              </p>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" id="btnNewPlan">Novo plano</button>
+          </div>
+          <div class="table-wrap" style="padding:1rem">
+            <table class="data-table" id="planCatalogTable">
+              <thead>
+                <tr>
+                  <th>Plano</th>
+                  <th>Armazenamento</th>
+                  <th>Usuários</th>
+                  <th>Preço ref.</th>
+                  <th>Destaque</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="planCatalogTbody">
+                <tr><td colspan="6" class="empty-state">Carregando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <form id="planCatalogForm" class="panel__body" hidden style="padding:0 1rem 1.25rem;border-top:1px solid var(--cs-border);padding-top:1rem">
+            <input type="hidden" id="planEditId" value="" />
+            <h3 id="planFormTitle" style="margin:0 0 1rem;font-size:1rem">Novo plano</h3>
+            <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+              <div class="form-group" style="margin:0">
+                <label for="planName">Nome</label>
+                <input class="form-control" id="planName" required maxlength="80" />
+              </div>
+              <div class="form-group" style="margin:0">
+                <label for="planStorageGiB">Armazenamento (GB)</label>
+                <input class="form-control" id="planStorageGiB" type="number" min="0.01" step="0.01" required />
+              </div>
+              <div class="form-group" style="margin:0">
+                <label for="planUsers">Usuários (rótulo padrão)</label>
+                <input class="form-control" id="planUsers" placeholder="Ex.: 4 usuários" />
+              </div>
+              <div class="form-group" style="margin:0">
+                <label for="planRetention">Retenção (rótulo padrão)</label>
+                <input class="form-control" id="planRetention" value="Retenção de evidências por 1 ano" />
+              </div>
+              <div class="form-group" style="margin:0;display:flex;align-items:center;gap:.5rem;padding-bottom:.35rem">
+                <input type="checkbox" id="planFeatured" />
+                <label for="planFeatured" style="margin:0">Mais escolhido (landing)</label>
+              </div>
+            </div>
+            <p class="text-muted" style="margin:1rem 0 0;font-size:.85rem">
+              Após criar o plano, selecione <strong>Página inicial</strong> na seção abaixo para definir preço, descrição e vantagens exibidos no site.
+            </p>
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem">
+              <button type="submit" class="btn btn-primary" id="planFormSave">Salvar plano</button>
+              <button type="button" class="btn btn-outline" id="planFormCancel">Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel mb-2" id="pricingConfigPanel">
+          <div class="panel__header" style="padding:1rem 1rem 0">
+            <h2 style="margin:0;font-size:1.05rem">Preços e informações dos planos</h2>
+            <p class="text-muted" style="margin:.35rem 0 0;font-size:.85rem;max-width:52rem">
+              Selecione <strong>Página inicial</strong> para editar o que aparece na landing, ou uma
+              <strong>empresa</strong> para preços/vantagens de <em>Meu armazenamento</em>.
+            </p>
+          </div>
+          <div class="panel__body" style="padding:1rem">
+            <form id="pricingForm" class="form-grid" style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end">
+              <div class="form-group" style="margin:0">
+                <label for="pricingCompany">Escopo</label>
+                <select class="form-control" id="pricingCompany" required>
+                  <option value="">Selecione…</option>
+                </select>
+              </div>
+              <div class="form-group" id="pricingBaseGroup" style="margin:0">
+                <label for="pricingBase">Valor base Essencial (R$)</label>
+                <input class="form-control" id="pricingBase" type="number" min="0" step="0.01" placeholder="149" />
+              </div>
+              <div class="form-group" id="pricingPercentGroup" style="margin:0">
+                <label for="pricingPercent">Upgrade (%)</label>
+                <input class="form-control" id="pricingPercent" type="number" min="0" max="500" step="0.01" placeholder="20" />
+              </div>
+              <div class="form-group" id="pricingCorpGroup" style="margin:0;display:flex;align-items:center;gap:.5rem;padding-bottom:.35rem">
+                <input type="checkbox" id="pricingCorpConsult" checked />
+                <label for="pricingCorpConsult" style="margin:0">Corporativo sob consulta</label>
+              </div>
+              <div class="form-group" style="margin:0">
+                <button type="submit" class="btn btn-primary" id="pricingSave">Salvar preços e vantagens</button>
+              </div>
+            </form>
+            <div id="landingVisibilityPanel" hidden style="margin-top:1rem;padding:1rem;border:1px solid var(--cs-border);border-radius:8px;background:var(--cs-surface-2, transparent)">
+              <label style="display:flex;align-items:flex-start;gap:.6rem;cursor:pointer;font-weight:500;margin:0">
+                <input type="checkbox" id="hideLandingPlans" style="margin-top:.2rem" />
+                <span>Ocultar seção de Planos na Página Inicial</span>
+              </label>
+              <p class="hint" style="margin:.5rem 0 0">
+                Remove a seção “Planos e preços” e os links “Planos” do menu/rodapé do site público.
+              </p>
+            </div>
+            <div id="pricingPreview" class="text-muted" style="margin-top:1rem;font-size:.85rem">
+              Selecione a página inicial ou uma empresa para pré-visualizar.
+            </div>
+
+            <div id="planDetailsEditor" hidden style="margin-top:1.5rem;border-top:1px solid var(--cs-border);padding-top:1.25rem">
+              <h3 id="planDetailsTitle" style="margin:0 0 .35rem;font-size:1rem">Informações e vantagens por plano</h3>
+              <p id="planDetailsHint" class="text-muted" style="margin:0 0 1rem;font-size:.85rem;max-width:52rem">
+                Personalize a descrição e as <strong>vantagens</strong> de cada plano.
+                Em vantagens, use <strong>uma linha por item</strong>.
+              </p>
+              <div id="planDetailsGrid" style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel mb-2" id="upgradeRequestsPanel">
+          <div class="panel__header" style="padding:1rem 1rem 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+            <div>
+              <h2 style="margin:0;font-size:1.05rem">Solicitações de pacote</h2>
+              <p class="text-muted" style="margin:.25rem 0 0;font-size:.85rem">
+                Contratações feitas pelas empresas. A cota já foi aplicada; trate o reajuste comercial e marque como tratado.
+              </p>
+            </div>
+          </div>
+          <div class="table-wrap" style="padding:1rem">
+            <table class="data-table" id="upgradeRequestsTable">
+              <thead>
+                <tr>
+                  <th>Empresa</th>
+                  <th>Pacote</th>
+                  <th>De ? Para</th>
+                  <th>Valor</th>
+                  <th>Solicitante</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="upgradeRequestsTbody">
+                <tr><td colspan="8" class="empty-state">Carregando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="table-wrap">
+            <table class="data-table data-table--storage" id="storageTable">
+              <thead>
+                <tr>
+                  <th class="col-storage-empresa">Empresa</th>
+                  <th class="col-storage-limite">Limite</th>
+                  <th class="col-storage-usado">Utilizado</th>
+                  <th class="col-storage-disponivel">Disponível</th>
+                  <th class="col-storage-pct">% usado</th>
+                  <th class="col-storage-consumo">Consumo</th>
+                  <th class="col-storage-faixa">Faixa</th>
+                  <th class="col-storage-quota">Quota (MiB)</th>
+                </tr>
+              </thead>
+              <tbody id="storageTbody">
+                <tr><td colspan="8" class="empty-state">Carregando…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js?v=45"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/attachments.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js?v=45"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+
+      const minQ = CSAttachments.LIMITS.MIN_COMPANY_QUOTA_BYTES;
+      const maxQ = CSAttachments.LIMITS.MAX_COMPANY_QUOTA_BYTES;
+      const MiB = 1048576;
+      const GiB = 1024 * 1024 * 1024;
+      const minMiB = Math.ceil(minQ / MiB);
+      const maxMiB = Math.floor(maxQ / MiB);
+
+      function bandFillClass(bandId) {
+        const id = bandId || 'normal';
+        if (id === 'critico' || id === 'bloqueio') return 'storage-bar__fill--critico';
+        if (id === 'alerta') return 'storage-bar__fill--alerta';
+        if (id === 'atencao') return 'storage-bar__fill--atencao';
+        return 'storage-bar__fill--normal';
+      }
+
+      function renderCapacity(data) {
+        const cap = data?.capacity || {};
+        const cfg = data?.config || {};
+        const cards = document.getElementById('capacityCards');
+        const pool = Number(cap.poolBytes) || Number(cfg.poolBytes) || 0;
+        cards.innerHTML = `
+          <div style="padding:.85rem;border:1px solid var(--cs-border);border-radius:8px">
+            <div class="text-muted" style="font-size:.75rem">Pool contratado</div>
+            <strong>${CSApp.escapeHtml(CSAttachments.formatSize(pool))}</strong>
+          </div>
+          <div style="padding:.85rem;border:1px solid var(--cs-border);border-radius:8px">
+            <div class="text-muted" style="font-size:.75rem">Usado pelos clientes</div>
+            <strong>${CSApp.escapeHtml(CSAttachments.formatSize(cap.usedTotalBytes || 0))}</strong>
+            <div class="text-muted" style="font-size:.75rem;margin-top:.25rem">${CSApp.escapeHtml(String(cap.usedPercent ?? 0))}% do pool</div>
+          </div>
+          <div style="padding:.85rem;border:1px solid var(--cs-border);border-radius:8px">
+            <div class="text-muted" style="font-size:.75rem">Cotas alocadas</div>
+            <strong>${CSApp.escapeHtml(CSAttachments.formatSize(cap.allocatedTotalBytes || 0))}</strong>
+            <div class="text-muted" style="font-size:.75rem;margin-top:.25rem">${CSApp.escapeHtml(String(cap.allocatedPercent ?? 0))}% do pool${
+              cap.overcommit ? ' · <span class="storage-band storage-band--alerta">Overcommit</span>' : ''
+            }</div>
+          </div>
+          <div style="padding:.85rem;border:1px solid var(--cs-border);border-radius:8px">
+            <div class="text-muted" style="font-size:.75rem">Crédito livre (não alocado)</div>
+            <strong>${CSApp.escapeHtml(CSAttachments.formatSize(cap.freeAllocatedBytes || 0))}</strong>
+            <div class="text-muted" style="font-size:.75rem;margin-top:.25rem">${CSApp.escapeHtml(String(cap.companyCount || 0))} empresa(s)</div>
+          </div>`;
+
+        const usedPct = Math.min(100, Math.max(0, Number(cap.usedPercent) || 0));
+        const allocPctDisplay = Number(cap.allocatedPercent) || 0;
+        const allocBar = Math.min(100, Math.max(0, allocPctDisplay));
+        const usedFill = document.getElementById('usedThermoFill');
+        const allocFill = document.getElementById('allocThermoFill');
+        usedFill.style.width = `${usedPct}%`;
+        usedFill.className = `storage-bar__fill ${bandFillClass(cap.usedBand?.id)}`;
+        allocFill.style.width = `${allocBar}%`;
+        allocFill.className = `storage-bar__fill ${bandFillClass(cap.allocatedBand?.id)}`;
+        document.getElementById('usedThermoLabel').innerHTML =
+          `${CSApp.escapeHtml(String(cap.usedPercent ?? 0))}% · <span class="storage-band storage-band--${CSApp.escapeHtml(cap.usedBand?.id || 'normal')}">${CSApp.escapeHtml(cap.usedBand?.label || 'Normal')}</span>`;
+        document.getElementById('allocThermoLabel').innerHTML =
+          `${CSApp.escapeHtml(String(cap.allocatedPercent ?? 0))}% · <span class="storage-band storage-band--${CSApp.escapeHtml(cap.allocatedBand?.id || 'normal')}">${CSApp.escapeHtml(cap.allocatedBand?.label || 'Normal')}</span>`;
+
+        document.getElementById('poolGiB').value = pool ? Math.round((pool / GiB) * 100) / 100 : '';
+        const thr = cap.alertThresholds || cfg.alertThresholds || {};
+        document.getElementById('thrAttention').value = thr.attention ?? 70;
+        document.getElementById('thrWarning').value = thr.warning ?? 85;
+        document.getElementById('thrCritical').value = thr.critical ?? 95;
+        document.getElementById('alertOvercommit').checked =
+          (cap.alertOnAllocatedOvercommit ?? cfg.alertOnAllocatedOvercommit) !== false;
+
+        const alertBox = document.getElementById('platformCapacityAlert');
+        const alertBody = document.getElementById('platformCapacityAlertBody');
+        const alerts = Array.isArray(cap.alerts) ? cap.alerts : [];
+        if (alerts.length) {
+          alertBox.hidden = false;
+          alertBody.innerHTML =
+            `<strong style="display:block;margin-bottom:.5rem">Zona de risco — ação recomendada</strong>` +
+            alerts
+              .map(
+                (a) =>
+                  `<p style="margin:.35rem 0;font-size:.9rem"><span class="storage-band storage-band--${CSApp.escapeHtml(a.severity || 'alerta')}">${CSApp.escapeHtml(a.severity || 'alerta')}</span> ${CSApp.escapeHtml(a.message || '')}</p>`
+              )
+              .join('');
+        } else {
+          alertBox.hidden = true;
+          alertBody.innerHTML = '';
+        }
+
+        if (Array.isArray(data?.newAlerts) && data.newAlerts.length) {
+          CSApp.toast(data.newAlerts[0].message || 'Alerta de capacidade da plataforma.', 'warning');
+        }
+      }
+
+      async function loadPlatformCapacity() {
+        try {
+          const data = await CSApi.getPlatformStorage(session);
+          renderCapacity(data);
+        } catch (ex) {
+          document.getElementById('capacityCards').innerHTML =
+            `<p class="text-muted" style="margin:0">${CSApp.escapeHtml(CSErrors.userMessage(ex, 'Não foi possível carregar a capacidade.'))}</p>`;
+          CSErrors.logError(ex, 'getPlatformStorage');
+        }
+      }
+
+      document.getElementById('platformCapacityForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const poolGiB = Number(document.getElementById('poolGiB').value);
+        const payload = {
+          poolBytes: Math.floor(poolGiB * GiB),
+          alertThresholds: {
+            attention: Number(document.getElementById('thrAttention').value),
+            warning: Number(document.getElementById('thrWarning').value),
+            critical: Number(document.getElementById('thrCritical').value)
+          },
+          alertOnAllocatedOvercommit: document.getElementById('alertOvercommit').checked
+        };
+        const result = await CSApp.runAsync(
+          () => CSApi.updatePlatformStorage(payload, session),
+          { context: 'updatePlatformStorage' }
+        );
+        if (!result) return;
+        CSApp.toast('Capacidade e limiares do termômetro salvos.', 'success');
+        renderCapacity(result);
+      });
+
+      async function loadUsage() {
+        const tbody = document.getElementById('storageTbody');
+        try {
+          const data = await CSApi.getStorageUsage();
+          const list = Array.isArray(data?.companies)
+            ? data.companies
+            : data?.companyId
+              ? [data]
+              : [];
+
+          if (!list.length) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Nenhuma empresa encontrada.</td></tr>';
+            return;
+          }
+
+          tbody.innerHTML = list
+            .map((row) => {
+              const used = Number(row.storageUsedBytes) || 0;
+              const limit = Number(row.storageLimitBytes) || 0;
+              const available = Math.max(0, limit - used);
+              const overLimit = Boolean(row.overLimit) || used > limit;
+              const pctLabel =
+                row.storagePercent != null
+                  ? row.storagePercent
+                  : limit > 0
+                    ? Math.round((used / limit) * 1000) / 10
+                    : 0;
+              const band = CSAttachments.storageBand(pctLabel, { overLimit });
+              const barWidth = Math.min(100, Math.max(0, Number(pctLabel) || 0));
+              const name = CSApp.escapeHtml(row.nomeFantasia || row.companyId || '—');
+              const cid = CSApp.escapeHtml(row.companyId || '');
+              const limitMiB = Math.round(limit / MiB);
+              return `<tr data-company-id="${cid}" class="${overLimit ? 'storage-row--over' : ''}">
+                <td class="cell-company-name col-storage-empresa">
+                  <div class="cell-company-name__text">
+                    <strong class="cell-company-name__fantasy">${name}</strong>
+                    <span class="cell-company-name__legal text-muted" title="${cid}">${cid}</span>
+                  </div>
+                </td>
+                <td class="col-storage-limite">${CSApp.escapeHtml(CSAttachments.formatSize(limit))}</td>
+                <td class="col-storage-usado">${CSApp.escapeHtml(CSAttachments.formatSize(used))}</td>
+                <td class="col-storage-disponivel">${CSApp.escapeHtml(CSAttachments.formatSize(available))}</td>
+                <td class="col-storage-pct">${CSApp.escapeHtml(String(pctLabel))}%</td>
+                <td class="col-storage-consumo">
+                  <div class="storage-bar" role="img" aria-label="${CSApp.escapeHtml(String(pctLabel))}% usado">
+                    <div class="storage-bar__fill storage-bar__fill--${CSApp.escapeHtml(band.id)}" style="width:${barWidth}%"></div>
+                  </div>
+                </td>
+                <td class="cell-wrap col-storage-faixa"><span class="storage-band storage-band--${CSApp.escapeHtml(band.id)}">${CSApp.escapeHtml(band.label)}</span>${
+                  overLimit
+                    ? '<br><span class="text-muted" style="font-size:.72rem">Uploads bloqueados</span>'
+                    : ''
+                }</td>
+                <td class="cell-wrap col-storage-quota">
+                  <div class="storage-quota-edit">
+                    <input class="form-control" type="number" data-quota-input
+                      value="${limitMiB}" min="${minMiB}" max="${maxMiB}" step="1"
+                      aria-label="Nova quota em MiB" />
+                    <span class="storage-quota-unit" aria-hidden="true">MiB</span>
+                    <button type="button" class="btn btn-sm btn-primary" data-quota-save>Salvar</button>
+                  </div>
+                </td>
+              </tr>`;
+            })
+            .join('');
+
+          tbody.querySelectorAll('[data-quota-save]').forEach((btn) => {
+            btn.addEventListener('click', async () => {
+              const tr = btn.closest('tr');
+              const companyId = tr?.dataset.companyId;
+              const input = tr?.querySelector('[data-quota-input]');
+              if (!companyId || !input) return;
+              const mib = Number(input.value);
+              const bytes = Math.floor(mib * MiB);
+              if (!Number.isFinite(mib) || bytes < minQ || bytes > maxQ) {
+                CSApp.toast(`Quota deve estar entre ${CSAttachments.formatSize(minQ)} e ${CSAttachments.formatSize(maxQ)}.`, 'warning');
+                return;
+              }
+              const ok = await CSApp.runAsync(
+                () => CSApi.updateStorageLimit(companyId, bytes, session),
+                { context: 'updateStorageLimit' }
+              );
+              if (!ok) return;
+              CSApp.toast('Quota atualizada.', 'success');
+              await loadUsage();
+            });
+          });
+        } catch (ex) {
+          tbody.innerHTML = `<tr><td colspan="8" class="empty-state">${CSApp.escapeHtml(CSErrors.userMessage(ex, 'Não foi possível carregar o consumo.'))}</td></tr>`;
+        }
+      }
+
+      function formatMoney(amount) {
+        if (amount == null || !Number.isFinite(Number(amount))) return 'Sob consulta';
+        return `R$ ${Number(amount).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+      }
+
+      const PLAN_IDS = [];
+      let catalogPlansCache = [];
+
+      const LANDING_SCOPE_ID = 'pagina_inicial';
+      let pricingScope = 'company';
+
+      function resetPlanForm() {
+        document.getElementById('planEditId').value = '';
+        document.getElementById('planFormTitle').textContent = 'Novo plano';
+        document.getElementById('planName').value = '';
+        document.getElementById('planStorageGiB').value = '';
+        document.getElementById('planUsers').value = '';
+        document.getElementById('planRetention').value = 'Retenção de evidências por 1 ano';
+        document.getElementById('planFeatured').checked = false;
+      }
+
+      function openPlanForm(plan = null) {
+        const form = document.getElementById('planCatalogForm');
+        form.hidden = false;
+        if (!plan) {
+          resetPlanForm();
+          return;
+        }
+        document.getElementById('planEditId').value = plan.id || '';
+        document.getElementById('planFormTitle').textContent = `Editar: ${plan.name || plan.id}`;
+        document.getElementById('planName').value = plan.name || '';
+        document.getElementById('planStorageGiB').value =
+          plan.storageLimitBytes != null
+            ? Math.round((Number(plan.storageLimitBytes) / GiB) * 100) / 100
+            : '';
+        document.getElementById('planUsers').value = plan.usersLabel || '';
+        document.getElementById('planRetention').value =
+          plan.retentionLabel || 'Retenção de evidências por 1 ano';
+        document.getElementById('planFeatured').checked = Boolean(plan.featured);
+        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function renderPlanCatalog(plans) {
+        catalogPlansCache = Array.isArray(plans) ? plans : [];
+        const tbody = document.getElementById('planCatalogTbody');
+        if (!catalogPlansCache.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Nenhum plano no catálogo.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = catalogPlansCache
+          .map((p) => {
+            const price =
+              p.consultPricing || p.priceAmount == null
+                ? 'Sob consulta'
+                : `R$ ${Number(p.priceAmount).toLocaleString('pt-BR')}`;
+            const hideHint = p.hidePriceOnPublic
+              ? ' <span class="text-muted" style="font-size:.75rem">(oculto na landing)</span>'
+              : '';
+            return `<tr data-plan-id="${CSApp.escapeHtml(p.id)}">
+              <td><strong>${CSApp.escapeHtml(p.name || p.id)}</strong><br><span class="text-muted" style="font-size:.75rem">${CSApp.escapeHtml(p.id)}</span></td>
+              <td>${CSApp.escapeHtml(p.storageLabel || CSAttachments.formatSize(p.storageLimitBytes || 0))}</td>
+              <td>${CSApp.escapeHtml(p.usersLabel || '—')}</td>
+              <td>${CSApp.escapeHtml(price)}${hideHint}</td>
+              <td>${p.featured ? '<span class="badge badge--success">Sim</span>' : '—'}</td>
+              <td class="table-actions">
+                <button type="button" class="btn btn-sm btn-outline" data-edit-plan="${CSApp.escapeHtml(p.id)}">Editar</button>
+                <button type="button" class="btn btn-sm btn-outline" data-del-plan="${CSApp.escapeHtml(p.id)}">Excluir</button>
+              </td>
+            </tr>`;
+          })
+          .join('');
+
+        tbody.querySelectorAll('[data-edit-plan]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const plan = catalogPlansCache.find((x) => x.id === btn.dataset.editPlan);
+            if (plan) openPlanForm(plan);
+          });
+        });
+        tbody.querySelectorAll('[data-del-plan]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const plan = catalogPlansCache.find((x) => x.id === btn.dataset.delPlan);
+            const ok = await CSApp.confirmDialog({
+              title: 'Excluir plano',
+              message: `Remover o plano "${plan?.name || btn.dataset.delPlan}" do catálogo? Empresas que já usam este plano impedem a exclusão.`,
+              confirmText: 'Excluir',
+              cancelText: 'Cancelar'
+            });
+            if (!ok) return;
+            const result = await CSApp.runAsync(
+              () => CSApi.deleteStoragePlan(btn.dataset.delPlan, session),
+              { context: 'deleteStoragePlan' }
+            );
+            if (!result) return;
+            CSApp.toast('Plano excluído.', 'success');
+            renderPlanCatalog(result.plans);
+          });
+        });
+      }
+
+      async function loadPlanCatalog() {
+        try {
+          const data = await CSApi.getStoragePlanCatalog(session);
+          renderPlanCatalog(data?.plans || []);
+        } catch (ex) {
+          document.getElementById('planCatalogTbody').innerHTML =
+            `<tr><td colspan="6" class="empty-state">${CSApp.escapeHtml(CSErrors.userMessage(ex, 'Não foi possível carregar o catálogo.'))}</td></tr>`;
+          CSErrors.logError(ex, 'getStoragePlanCatalog');
+        }
+      }
+
+      document.getElementById('btnNewPlan').addEventListener('click', () => openPlanForm(null));
+      document.getElementById('planFormCancel').addEventListener('click', () => {
+        document.getElementById('planCatalogForm').hidden = true;
+        resetPlanForm();
+      });
+      document.getElementById('planCatalogForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const editId = document.getElementById('planEditId').value;
+        const payload = {
+          name: document.getElementById('planName').value.trim(),
+          storageGiB: Number(document.getElementById('planStorageGiB').value),
+          usersLabel: document.getElementById('planUsers').value.trim(),
+          retentionLabel: document.getElementById('planRetention').value.trim(),
+          featured: document.getElementById('planFeatured').checked
+        };
+        const result = await CSApp.runAsync(
+          () =>
+            editId
+              ? CSApi.updateStoragePlan(editId, payload, session)
+              : CSApi.createStoragePlan(payload, session),
+          { context: editId ? 'updateStoragePlan' : 'createStoragePlan' }
+        );
+        if (!result) return;
+        CSApp.toast(editId ? 'Plano atualizado.' : 'Plano criado. Defina preço/textos em Página inicial.', 'success');
+        renderPlanCatalog(result.plans);
+        document.getElementById('planCatalogForm').hidden = true;
+        resetPlanForm();
+      });
+
+      function setPricingCompanyMode(isLanding) {
+        pricingScope = isLanding ? 'landing' : 'company';
+        const baseGroup = document.getElementById('pricingBaseGroup');
+        const percentGroup = document.getElementById('pricingPercentGroup');
+        const corpGroup = document.getElementById('pricingCorpGroup');
+        const base = document.getElementById('pricingBase');
+        const percent = document.getElementById('pricingPercent');
+        const landingVisibility = document.getElementById('landingVisibilityPanel');
+        [baseGroup, percentGroup, corpGroup].forEach((el) => {
+          if (el) el.style.display = isLanding ? 'none' : '';
+        });
+        if (landingVisibility) landingVisibility.hidden = !isLanding;
+        if (base) base.required = !isLanding;
+        if (percent) percent.required = !isLanding;
+        document.getElementById('planDetailsTitle').textContent = isLanding
+          ? 'Textos e preços da página inicial'
+          : 'Planos e opções por pacote (empresa)';
+        document.getElementById('planDetailsHint').innerHTML = isLanding
+          ? 'Edite descrição, vantagens, preço e visibilidade de cada plano na <strong>landing</strong>. Uma vantagem por linha.'
+          : 'Configure cada pacote desta empresa: preço, sob consulta, ocultar valor para <strong>Apurador</strong> e destaque. Uma vantagem por linha.';
+        document.getElementById('pricingSave').textContent = isLanding
+          ? 'Salvar página inicial'
+          : 'Salvar preços e vantagens';
+      }
+
+      function renderPricingPreview(plans, pricing, isLanding = false) {
+        const el = document.getElementById('pricingPreview');
+        if (!plans?.length) {
+          el.textContent = 'Sem planos para pré-visualizar.';
+          return;
+        }
+        const rows = plans
+          .map((p) => {
+            const hide = p.hidePriceOnPublic || p.consultPricing || p.priceAmount == null;
+            const label = hide
+              ? 'Sob consulta'
+              : `${p.priceLabel || ''}${p.priceSuffix || ''}`;
+            return `<strong>${CSApp.escapeHtml(p.name)}</strong>: ${CSApp.escapeHtml(label)}`;
+          })
+          .join(' · ');
+        el.innerHTML = isLanding
+          ? `Prévia da landing: ${rows}`
+          : `Prévia (upgrade ${CSApp.escapeHtml(String(pricing?.upgradePercent ?? '—'))}%): ${rows}`;
+      }
+
+      function renderPlanDetailsEditor(plans, isLanding = false) {
+        const wrap = document.getElementById('planDetailsEditor');
+        const grid = document.getElementById('planDetailsGrid');
+        if (!plans?.length) {
+          wrap.hidden = true;
+          grid.innerHTML = '';
+          return;
+        }
+        wrap.hidden = false;
+        grid.innerHTML = plans
+          .map((p) => {
+            const advantages = Array.isArray(p.advantages) ? p.advantages.join('\n') : '';
+            const consult = Boolean(p.consultPricing || p.priceAmount == null);
+            const priceVal =
+              p.priceAmount != null && Number.isFinite(Number(p.priceAmount)) ? p.priceAmount : '';
+            const hideApurador = p.hidePriceForApurador !== false;
+            const planOptions = isLanding
+              ? `
+              <div class="form-group">
+                <label>Nota de cobrança</label>
+                <input class="form-control" data-plan-field="billingNote" value="${CSApp.escapeHtml(p.billingNote || 'Contratação anual')}" />
+              </div>
+              <div class="form-group">
+                <label>Preço (R$/mês)</label>
+                <input class="form-control" data-plan-field="priceAmount" type="number" min="0" step="0.01" value="${CSApp.escapeHtml(String(priceVal))}" ${consult ? 'disabled' : ''} />
+              </div>
+              <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+                <input type="checkbox" data-plan-field="consultPricing" id="consult_${CSApp.escapeHtml(p.id)}" ${consult ? 'checked' : ''} />
+                <label for="consult_${CSApp.escapeHtml(p.id)}" style="margin:0">Sob consulta</label>
+              </div>
+              <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+                <input type="checkbox" data-plan-field="hidePriceOnPublic" id="hide_${CSApp.escapeHtml(p.id)}" ${p.hidePriceOnPublic ? 'checked' : ''} />
+                <label for="hide_${CSApp.escapeHtml(p.id)}" style="margin:0">Ocultar preço na landing</label>
+              </div>
+              <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+                <input type="checkbox" data-plan-field="featured" name="landingFeatured" id="feat_${CSApp.escapeHtml(p.id)}" ${p.featured ? 'checked' : ''} />
+                <label for="feat_${CSApp.escapeHtml(p.id)}" style="margin:0">Mais escolhido</label>
+              </div>`
+              : `
+              <div class="form-group">
+                <label>Nota de cobrança</label>
+                <input class="form-control" data-plan-field="billingNote" value="${CSApp.escapeHtml(p.billingNote || 'Contratação anual')}" />
+              </div>
+              <div class="form-group">
+                <label>Preço (R$/mês)</label>
+                <input class="form-control" data-plan-field="priceAmount" type="number" min="0" step="0.01" value="${CSApp.escapeHtml(String(priceVal))}" ${consult ? 'disabled' : ''} />
+              </div>
+              <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+                <input type="checkbox" data-plan-field="consultPricing" id="consult_${CSApp.escapeHtml(p.id)}" ${consult ? 'checked' : ''} />
+                <label for="consult_${CSApp.escapeHtml(p.id)}" style="margin:0">Sob consulta</label>
+              </div>
+              <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+                <input type="checkbox" data-plan-field="hidePriceForApurador" id="hide_apu_${CSApp.escapeHtml(p.id)}" ${hideApurador ? 'checked' : ''} />
+                <label for="hide_apu_${CSApp.escapeHtml(p.id)}" style="margin:0">Ocultar preço para Apurador</label>
+              </div>
+              <div class="form-group" style="display:flex;align-items:center;gap:.5rem">
+                <input type="checkbox" data-plan-field="featured" name="companyFeatured" id="feat_${CSApp.escapeHtml(p.id)}" ${p.featured ? 'checked' : ''} />
+                <label for="feat_${CSApp.escapeHtml(p.id)}" style="margin:0">Mais escolhido</label>
+              </div>`;
+            return `<div class="panel" style="margin:0;padding:1rem;border:1px solid var(--cs-border);border-radius:8px" data-plan-id="${CSApp.escapeHtml(p.id)}">
+              <strong style="display:block;margin-bottom:.75rem">${CSApp.escapeHtml(p.name)}</strong>
+              <div class="form-group">
+                <label>Descrição</label>
+                <textarea class="form-control" data-plan-field="description" rows="2">${CSApp.escapeHtml(p.description || '')}</textarea>
+              </div>
+              <div class="form-group">
+                <label>Usuários (rótulo)</label>
+                <input class="form-control" data-plan-field="usersLabel" value="${CSApp.escapeHtml(p.usersLabel || '')}" />
+              </div>
+              <div class="form-group">
+                <label>Retenção (rótulo)</label>
+                <input class="form-control" data-plan-field="retentionLabel" value="${CSApp.escapeHtml(p.retentionLabel || '')}" />
+              </div>
+              <div class="form-group">
+                <label>Vantagens (uma por linha)</label>
+                <textarea class="form-control" data-plan-field="advantages" rows="5" placeholder="Ex.: 5 GB de armazenamento">${CSApp.escapeHtml(advantages)}</textarea>
+              </div>
+              ${planOptions}
+            </div>`;
+          })
+          .join('');
+
+        grid.querySelectorAll('[data-plan-field="consultPricing"]').forEach((cb) => {
+          cb.addEventListener('change', () => {
+            const card = cb.closest('[data-plan-id]');
+            const priceInput = card?.querySelector('[data-plan-field="priceAmount"]');
+            if (priceInput) priceInput.disabled = cb.checked;
+          });
+        });
+        const featuredName = isLanding ? 'landingFeatured' : 'companyFeatured';
+        grid.querySelectorAll(`[data-plan-field="featured"][name="${featuredName}"]`).forEach((cb) => {
+          cb.addEventListener('change', () => {
+            if (!cb.checked) return;
+            grid.querySelectorAll(`[data-plan-field="featured"][name="${featuredName}"]`).forEach((other) => {
+              if (other !== cb) other.checked = false;
+            });
+          });
+        });
+      }
+
+      function collectPlanDetailsFromForm(isLanding = false) {
+        const planDetails = {};
+        document.querySelectorAll('#planDetailsGrid [data-plan-id]').forEach((card) => {
+          const id = card.dataset.planId;
+          if (!id) return;
+          const description = card.querySelector('[data-plan-field="description"]')?.value?.trim() || '';
+          const usersLabel = card.querySelector('[data-plan-field="usersLabel"]')?.value?.trim() || '';
+          const retentionLabel = card.querySelector('[data-plan-field="retentionLabel"]')?.value?.trim() || '';
+          const advantagesRaw = card.querySelector('[data-plan-field="advantages"]')?.value || '';
+          const advantages = advantagesRaw
+            .split(/\r?\n/)
+            .map((l) => l.trim())
+            .filter(Boolean);
+          const detail = { description, usersLabel, retentionLabel, advantages };
+          detail.billingNote =
+            card.querySelector('[data-plan-field="billingNote"]')?.value?.trim() || '';
+          detail.consultPricing = Boolean(
+            card.querySelector('[data-plan-field="consultPricing"]')?.checked
+          );
+          detail.featured = Boolean(card.querySelector('[data-plan-field="featured"]')?.checked);
+          detail.priceAmount = detail.consultPricing
+            ? null
+            : card.querySelector('[data-plan-field="priceAmount"]')?.value;
+          if (isLanding) {
+            detail.hidePriceOnPublic = Boolean(
+              card.querySelector('[data-plan-field="hidePriceOnPublic"]')?.checked
+            );
+          } else {
+            detail.hidePriceForApurador = Boolean(
+              card.querySelector('[data-plan-field="hidePriceForApurador"]')?.checked
+            );
+          }
+          planDetails[id] = detail;
+        });
+        return planDetails;
+      }
+
+      async function loadPricingCompanies() {
+        const select = document.getElementById('pricingCompany');
+        try {
+          const data = await CSApi.getStoragePricing(null, session);
+          const list = Array.isArray(data?.companies) ? data.companies : [];
+          const current = select.value;
+          select.innerHTML =
+            '<option value="">Selecione…</option>' +
+            list
+              .map((c) => {
+                const label =
+                  c.companyId === LANDING_SCOPE_ID
+                    ? `?? ${c.companyName || 'Página inicial'}`
+                    : c.companyName || c.companyId;
+                return `<option value="${CSApp.escapeHtml(c.companyId)}" data-scope="${CSApp.escapeHtml(c.scope || 'company')}">${CSApp.escapeHtml(label)}</option>`;
+              })
+              .join('');
+          if (current) select.value = current;
+        } catch (ex) {
+          CSErrors.logError(ex, 'getStoragePricing');
+        }
+      }
+
+      async function loadPricingForm(companyId) {
+        if (!companyId) {
+          setPricingCompanyMode(false);
+          document.getElementById('pricingBase').value = '';
+          document.getElementById('pricingPercent').value = '';
+          document.getElementById('pricingCorpConsult').checked = true;
+          const hideLanding = document.getElementById('hideLandingPlans');
+          if (hideLanding) hideLanding.checked = false;
+          document.getElementById('pricingPreview').textContent =
+            'Selecione a página inicial ou uma empresa para pré-visualizar.';
+          renderPlanDetailsEditor([]);
+          return;
+        }
+        const isLanding = companyId === LANDING_SCOPE_ID;
+        setPricingCompanyMode(isLanding);
+        const data = await CSApp.runAsync(() => CSApi.getStoragePricing(companyId, session), {
+          context: 'getStoragePricing'
+        });
+        if (!data) return;
+        if (!isLanding) {
+          document.getElementById('pricingBase').value = data.pricing?.baseAmount ?? '';
+          document.getElementById('pricingPercent').value = data.pricing?.upgradePercent ?? '';
+          document.getElementById('pricingCorpConsult').checked =
+            data.pricing?.corporativoConsult !== false;
+        } else {
+          const hideLanding = document.getElementById('hideLandingPlans');
+          if (hideLanding) hideLanding.checked = Boolean(data.hideLandingPlans);
+        }
+        renderPricingPreview(data.plans, data.pricing, isLanding);
+        renderPlanDetailsEditor(data.plans, isLanding);
+      }
+
+      document.getElementById('pricingCompany').addEventListener('change', async (e) => {
+        await loadPricingForm(e.target.value || null);
+      });
+
+      document.getElementById('pricingForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const companyId = document.getElementById('pricingCompany').value;
+        if (!companyId) {
+          CSApp.toast('Selecione a página inicial ou uma empresa.', 'warning');
+          return;
+        }
+        const isLanding = companyId === LANDING_SCOPE_ID;
+        const payload = isLanding
+          ? {
+              planDetails: collectPlanDetailsFromForm(true),
+              hideLandingPlans: Boolean(document.getElementById('hideLandingPlans')?.checked)
+            }
+          : {
+              baseAmount: Number(document.getElementById('pricingBase').value),
+              upgradePercent: Number(document.getElementById('pricingPercent').value),
+              corporativoConsult: document.getElementById('pricingCorpConsult').checked,
+              planDetails: collectPlanDetailsFromForm(false)
+            };
+        const result = await CSApp.runAsync(
+          () => CSApi.updateStoragePricing(companyId, payload, session),
+          { context: 'updateStoragePricing' }
+        );
+        if (!result) return;
+        CSApp.toast(
+          isLanding
+            ? result.hideLandingPlans
+              ? 'Página inicial atualizada. Planos ocultos no site.'
+              : 'Página inicial atualizada.'
+            : 'Preços e vantagens da empresa atualizados.',
+          'success'
+        );
+        if (isLanding) {
+          const hideLanding = document.getElementById('hideLandingPlans');
+          if (hideLanding) hideLanding.checked = Boolean(result.hideLandingPlans);
+        }
+        renderPricingPreview(result.plans, result.pricing, isLanding);
+        renderPlanDetailsEditor(result.plans, isLanding);
+        await loadPricingCompanies();
+        document.getElementById('pricingCompany').value = companyId;
+        if (isLanding) await loadPlanCatalog();
+      });
+
+      async function loadUpgradeRequests() {
+        const tbody = document.getElementById('upgradeRequestsTbody');
+        try {
+          const data = await CSApi.getStorageUpgradeRequests(null, session);
+          const list = Array.isArray(data?.requests) ? data.requests : [];
+          if (!list.length) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Nenhuma solicitação de pacote.</td></tr>';
+            return;
+          }
+          tbody.innerHTML = list
+            .map((r) => {
+              const status =
+                r.status === 'pendente_comercial'
+                  ? '<span class="badge badge--warning">Pendente comercial</span>'
+                  : '<span class="badge badge--success">Tratado</span>';
+              const action =
+                r.status === 'pendente_comercial'
+                  ? `<button type="button" class="btn btn-sm btn-outline" data-resolve="${CSApp.escapeHtml(r.id)}">Marcar tratado</button>`
+                  : '—';
+              const valueCell =
+                r.newAmount != null || r.priceLabel
+                  ? `${CSApp.escapeHtml(r.priceLabel || formatMoney(r.newAmount))}${
+                      r.upgradePercent != null
+                        ? `<br><span class="text-muted" style="font-size:.72rem">+${CSApp.escapeHtml(String(r.upgradePercent))}%</span>`
+                        : ''
+                    }`
+                  : '—';
+              return `<tr>
+                <td class="cell-wrap"><strong>${CSApp.escapeHtml(r.companyName || r.companyId || '—')}</strong><br><span class="text-muted" style="font-size:.75rem">${CSApp.escapeHtml(r.companyId || '')}</span></td>
+                <td>${CSApp.escapeHtml(r.planName || r.planId || '—')}</td>
+                <td class="cell-wrap">${CSApp.escapeHtml(CSAttachments.formatSize(r.previousLimitBytes || 0))} ? ${CSApp.escapeHtml(CSAttachments.formatSize(r.newLimitBytes || 0))}</td>
+                <td class="cell-wrap">${valueCell}</td>
+                <td class="cell-wrap">${CSApp.escapeHtml(r.requestedByName || '—')}</td>
+                <td>${CSApp.escapeHtml(r.createdAt ? new Date(r.createdAt).toLocaleString('pt-BR') : '—')}</td>
+                <td>${status}</td>
+                <td class="table-actions">${action}</td>
+              </tr>`;
+            })
+            .join('');
+
+          tbody.querySelectorAll('[data-resolve]').forEach((btn) => {
+            btn.addEventListener('click', async () => {
+              const ok = await CSApp.runAsync(
+                () => CSApi.resolveStorageUpgradeRequest(btn.dataset.resolve, session),
+                { context: 'resolveStorageUpgradeRequest' }
+              );
+              if (!ok) return;
+              CSApp.toast('Solicitação marcada como tratada.', 'success');
+              await loadUpgradeRequests();
+            });
+          });
+        } catch (ex) {
+          tbody.innerHTML = `<tr><td colspan="8" class="empty-state">${CSApp.escapeHtml(CSErrors.userMessage(ex, 'Não foi possível carregar as solicitações.'))}</td></tr>`;
+        }
+      }
+
+      async function refreshAll() {
+        await Promise.all([
+          loadPlatformCapacity(),
+          loadPlanCatalog(),
+          loadUsage(),
+          loadUpgradeRequests(),
+          loadPricingCompanies()
+        ]);
+      }
+
+      document.getElementById('btnRefresh').addEventListener('click', refreshAll);
+      await refreshAll();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ do bot – Admin</title>
+  <link rel="stylesheet" href="../css/style.css?v=2" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=38" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="Canal Seguro" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span>Painel da Plataforma</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <div class="nav-section">Principal</div>
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <div class="nav-section">Gestão</div>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="armazenamento.html"><span class="nav-icon">▤</span> Armazenamento</a>
+        <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <div class="nav-section">Sistema</div>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="suporte.html"><span class="nav-icon">💬</span> Suporte empresas</a>
+        <a class="active" href="faq-bot.html"><span class="nav-icon">❔</span> FAQ do bot</a>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="../index.html" target="_blank" rel="noopener"><span class="nav-icon">⌂</span> Canal Seguro</a>
+        <div class="nav-section">Conta</div>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
+      </nav>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>FAQ do bot</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-company>Central</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Perguntas frequentes do assistente</h1>
+            <p>Cadastre pergunta, resposta e palavras-chave. O Assistente Virtual do painel da empresa usa isso antes de encaminhar uma mensagem à plataforma.</p>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-primary" id="btnNewFaq">Nova FAQ</button>
+          </div>
+        </div>
+
+        <div class="grid-2" style="align-items:start;gap:1rem">
+          <div class="panel">
+            <div class="panel__header"><h3>Lista</h3></div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Pergunta</th>
+                    <th>Público</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="faqTbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__header"><h3 id="formTitle">Nova FAQ</h3></div>
+            <div class="panel__body">
+              <form id="faqForm">
+                <input type="hidden" id="faqId" value="" />
+                <div class="form-group">
+                  <label for="faqQuestion">Pergunta (como o cliente pergunta)</label>
+                  <input id="faqQuestion" class="form-control" maxlength="240" required placeholder="Ex.: Como encaminhar um relato?" />
+                </div>
+                <div class="form-group">
+                  <label for="faqAnswer">Resposta do bot</label>
+                  <textarea id="faqAnswer" class="form-control" rows="6" maxlength="4000" required placeholder="Explique o passo a passo de forma clara…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="faqKeywords">Palavras-chave (separadas por vírgula)</label>
+                  <input id="faqKeywords" class="form-control" maxlength="400" placeholder="encaminhar, apurador, atribuir" />
+                  <p class="text-muted" style="font-size:.78rem;margin:.35rem 0 0">Ajudam o bot a encontrar a FAQ mesmo com redação diferente.</p>
+                </div>
+                <div class="form-group">
+                  <label>Público</label>
+                  <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.35rem">
+                    <label><input type="checkbox" name="audience" value="all" checked /> Todos (empresa)</label>
+                    <label><input type="checkbox" name="audience" value="admin_empresa" /> Adm_Empresa</label>
+                    <label><input type="checkbox" name="audience" value="apurador" /> Apurador</label>
+                    <label><input type="checkbox" name="audience" value="superadmin" /> Adm_Plataforma</label>
+                    <label><input type="checkbox" name="audience" value="public" /> Público / denunciante</label>
+                  </div>
+                </div>
+                <div class="form-row" style="display:flex;gap:1rem;flex-wrap:wrap">
+                  <div class="form-group" style="flex:1;min-width:8rem">
+                    <label for="faqSort">Ordem</label>
+                    <input id="faqSort" type="number" class="form-control" value="100" />
+                  </div>
+                  <div class="form-group" style="flex:1;min-width:8rem;align-self:end">
+                    <label><input type="checkbox" id="faqEnabled" checked /> Ativa no bot</label>
+                  </div>
+                </div>
+                <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                  <button type="submit" class="btn btn-primary" id="btnSaveFaq">Salvar</button>
+                  <button type="button" class="btn btn-outline" id="btnCancelFaq">Limpar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/identifiers.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/api.js?v=45"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/app.js?v=46"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+
+      const form = document.getElementById('faqForm');
+      const tbody = document.getElementById('faqTbody');
+
+      function esc(s) {
+        return CSApp.escapeHtml(s);
+      }
+
+      function getAudience() {
+        const checked = [...form.querySelectorAll('input[name="audience"]:checked')].map((el) => el.value);
+        if (!checked.length || checked.includes('all')) return ['all'];
+        return checked.filter((v) => v !== 'all');
+      }
+
+      function setAudience(list) {
+        const values = Array.isArray(list) && list.length ? list : ['all'];
+        form.querySelectorAll('input[name="audience"]').forEach((el) => {
+          el.checked = values.includes('all') ? el.value === 'all' : values.includes(el.value);
+        });
+      }
+
+      form.querySelectorAll('input[name="audience"]').forEach((el) => {
+        el.addEventListener('change', () => {
+          if (el.value === 'all' && el.checked) {
+            form.querySelectorAll('input[name="audience"]').forEach((o) => {
+              if (o.value !== 'all') o.checked = false;
+            });
+          } else if (el.value !== 'all' && el.checked) {
+            const all = form.querySelector('input[name="audience"][value="all"]');
+            if (all) all.checked = false;
+          }
+        });
+      });
+
+      function resetForm() {
+        document.getElementById('faqId').value = '';
+        document.getElementById('formTitle').textContent = 'Nova FAQ';
+        document.getElementById('faqQuestion').value = '';
+        document.getElementById('faqAnswer').value = '';
+        document.getElementById('faqKeywords').value = '';
+        document.getElementById('faqSort').value = '100';
+        document.getElementById('faqEnabled').checked = true;
+        setAudience(['all']);
+      }
+
+      function fillForm(faq) {
+        document.getElementById('faqId').value = faq.id;
+        document.getElementById('formTitle').textContent = 'Editar FAQ';
+        document.getElementById('faqQuestion').value = faq.question || '';
+        document.getElementById('faqAnswer').value = faq.answer || '';
+        document.getElementById('faqKeywords').value = (faq.keywords || []).join(', ');
+        document.getElementById('faqSort').value = String(faq.sortOrder ?? 100);
+        document.getElementById('faqEnabled').checked = faq.enabled !== false;
+        setAudience(faq.audience || ['all']);
+      }
+
+      async function loadFaqs() {
+        const data = await CSApp.runAsync(() => CSApi.listSupportFaqs({ all: true }, session), {
+          context: 'listSupportFaqs'
+        });
+        const list = data?.faqs || [];
+        if (!list.length) {
+          tbody.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhuma FAQ cadastrada.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = list
+          .map((f) => {
+            const aud = (f.audience || ['all']).join(', ');
+            const st = f.enabled === false ? '<span class="badge">Inativa</span>' : '<span class="badge badge--success">Ativa</span>';
+            return `<tr>
+              <td class="cell-wrap"><strong>${esc(f.question)}</strong><br><span class="text-muted" style="font-size:.75rem">${esc((f.answer || '').slice(0, 90))}${(f.answer || '').length > 90 ? '…' : ''}</span></td>
+              <td>${esc(aud)}</td>
+              <td>${st}</td>
+              <td class="table-actions">
+                <button type="button" class="btn btn-sm btn-outline" data-edit="${esc(f.id)}">Editar</button>
+                <button type="button" class="btn btn-sm btn-outline" data-del="${esc(f.id)}">Excluir</button>
+              </td>
+            </tr>`;
+          })
+          .join('');
+
+        tbody.querySelectorAll('[data-edit]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const faq = list.find((x) => x.id === btn.dataset.edit);
+            if (faq) fillForm(faq);
+          });
+        });
+        tbody.querySelectorAll('[data-del]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            if (!confirm('Excluir esta FAQ?')) return;
+            const ok = await CSApp.runAsync(() => CSApi.deleteSupportFaq(btn.dataset.del, session), {
+              context: 'deleteSupportFaq'
+            });
+            if (!ok) return;
+            CSApp.toast('FAQ excluída.', 'success');
+            if (document.getElementById('faqId').value === btn.dataset.del) resetForm();
+            await loadFaqs();
+          });
+        });
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('faqId').value;
+        const payload = {
+          question: document.getElementById('faqQuestion').value,
+          answer: document.getElementById('faqAnswer').value,
+          keywords: document.getElementById('faqKeywords').value,
+          audience: getAudience(),
+          sortOrder: Number(document.getElementById('faqSort').value) || 100,
+          enabled: document.getElementById('faqEnabled').checked
+        };
+        const saved = await CSApp.runAsync(
+          () => (id ? CSApi.updateSupportFaq(id, payload, session) : CSApi.createSupportFaq(payload, session)),
+          { context: id ? 'updateSupportFaq' : 'createSupportFaq' }
+        );
+        if (!saved) return;
+        CSApp.toast(id ? 'FAQ atualizada.' : 'FAQ criada.', 'success');
+        resetForm();
+        await loadFaqs();
+      });
+
+      document.getElementById('btnNewFaq').addEventListener('click', resetForm);
+      document.getElementById('btnCancelFaq').addEventListener('click', resetForm);
+      await loadFaqs();
+    });
+  </script>
+</body>
+</html>

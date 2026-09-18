@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Verificar MFA – Canal Seguro</title>
+  <link rel="stylesheet" href="css/style.css?v=2" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="icon" href="assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-card__brand">
+        <img class="logo-platform logo-platform--auth" src="assets/images/logo-canal-seguro.png?v=shield3" alt="Canal Seguro — Canal de Denúncias" />
+        <h1>Verificação em duas etapas</h1>
+        <p id="subtitle">Informe o código do aplicativo autenticador</p>
+      </div>
+      <form id="verifyForm" class="hidden">
+        <div class="form-group">
+          <label for="code">Código de 6 dígitos</label>
+          <input class="form-control" type="text" id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Verificar</button>
+      </form>
+      <form id="recoveryForm" class="hidden mt-2">
+        <div class="form-group">
+          <label for="recoveryCode">Código de recuperação</label>
+          <input class="form-control" type="text" id="recoveryCode" autocomplete="off" placeholder="XXXX-XXXX" />
+        </div>
+        <button type="submit" class="btn btn-outline btn-block">Usar código de recuperação</button>
+      </form>
+      <p class="text-center mt-2">
+        <button type="button" class="btn-ghost" id="toggleRecovery" style="border:none;background:none;color:var(--cs-primary);cursor:pointer">Usar código de recuperação</button>
+      </p>
+      <div id="offlinePanel" class="hidden callout mt-2">
+        <p class="text-muted">A verificação MFA exige o servidor da API. Faça login em <a href="login.html">login.html</a> com o servidor ativo.</p>
+      </div>
+      <p class="text-center mt-2">
+        <a href="login.html">← Voltar ao login</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/runtime.js"></script>
+  <script src="js/http-api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/errors.js"></script>
+  <script src="js/app.js?v=45"></script>
+  <script>
+    CSApp.onReady(async () => {
+      CSApp.initTheme();
+      await CSRuntime.probe();
+
+      if (!CSRuntime.useServer()) {
+        document.getElementById('offlinePanel').classList.remove('hidden');
+        return;
+      }
+
+      document.getElementById('verifyForm').classList.remove('hidden');
+
+      let recoveryVisible = false;
+      document.getElementById('toggleRecovery').addEventListener('click', () => {
+        recoveryVisible = !recoveryVisible;
+        document.getElementById('recoveryForm').classList.toggle('hidden', !recoveryVisible);
+        document.getElementById('verifyForm').classList.toggle('hidden', recoveryVisible);
+        document.getElementById('toggleRecovery').textContent = recoveryVisible
+          ? 'Usar aplicativo autenticador'
+          : 'Usar código de recuperação';
+      });
+
+      document.getElementById('verifyForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const code = document.getElementById('code').value.trim();
+        try {
+          const data = await CSHttpApi.mfaVerify(code);
+          CSAuth.setSession(data.user);
+          CSApp.toast('Verificação concluída.', 'success');
+          setTimeout(() => CSAuth.redirectAfterLogin(data.user), 400);
+        } catch (err) {
+          CSApp.toast(CSErrors.userMessage(err, 'Código inválido.'), 'error');
+        }
+      });
+
+      document.getElementById('recoveryForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const code = document.getElementById('recoveryCode').value.trim();
+        try {
+          const data = await CSHttpApi.mfaRecovery(code);
+          CSAuth.setSession(data.user);
+          CSApp.toast('Login com código de recuperação. Gere novos códigos em segurança.', 'warning');
+          setTimeout(() => CSAuth.redirectAfterLogin(data.user), 400);
+        } catch (err) {
+          CSApp.toast(CSErrors.userMessage(err, 'Código inválido.'), 'error');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

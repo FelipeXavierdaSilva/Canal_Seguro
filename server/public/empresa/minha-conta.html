@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minha Conta – Empresa</title>
+  <link rel="stylesheet" href="../css/style.css?v=2" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=44" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png?v=shield3" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span data-panel-tagline>Sua voz, nosso compromisso</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav" data-empresa-nav>
+        <div class="nav-section">Principal</div>
+        <a href="dashboard.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <div class="nav-section">Gestão</div>
+        <a href="colaboradores.html" data-roles="admin_empresa superadmin"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorio.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◉</span> Acessos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="empresa.html" data-roles="admin_empresa superadmin"><span class="nav-icon">⬡</span> Empresa</a>
+        <a href="configuracoes.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◎</span> Aparência / Identidade</a>
+        <a href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▤</span> Armazenamento</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="suporte-tecnico.html"><span class="nav-icon">🛠</span> Suporte Técnico</a>
+        <a href="sugestoes.html"><span class="nav-icon">✎</span> Sugestões</a>
+        <a href="../index.html" target="_blank" rel="noopener" data-tenant-link><span class="nav-icon">⌂</span> Canal Seguro</a>
+        <div class="nav-section">Conta</div>
+        <a class="active" href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
+      </nav>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar aria-label="Menu">☰</button>
+          <strong>Minha Conta</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme aria-label="Tema">◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta">
+              <strong data-user-name>—</strong>
+              <span data-user-role>—</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Minha Conta</h1>
+            <p>Altere seus dados de acesso e contato.</p>
+          </div>
+        </div>
+        <div class="panel-grid cols-2">
+          <div class="panel">
+            <div class="panel__header"><h3>Alterar Nome</h3></div>
+            <div class="panel__body">
+              <form id="formUsername">
+                <div class="form-group">
+                  <label for="usernameAtual">Usuário (login) atual</label>
+                  <input class="form-control" type="text" id="usernameAtual" disabled />
+                </div>
+                <div class="form-group">
+                  <label for="novoUsername">Novo usuário (login)</label>
+                  <input class="form-control" type="text" id="novoUsername" required minlength="2" />
+                  <p class="hint">Alterar o login pode impedir o acesso com o usuário anterior.</p>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar usuário</button>
+              </form>
+              <hr style="margin:1.2rem 0;border-color:var(--cs-border)" />
+              <form id="formNome">
+                <div class="form-group">
+                  <label for="nomeAtual">Nome atual</label>
+                  <input class="form-control" type="text" id="nomeAtual" disabled />
+                </div>
+                <div class="form-group">
+                  <label for="novoNome">Novo nome</label>
+                  <input class="form-control" type="text" id="novoNome" required minlength="2" />
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar nome</button>
+              </form>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__header"><h3>Alterar Senha</h3></div>
+            <div class="panel__body">
+              <div class="form-group">
+                <label for="senhaExibir">Sua senha atual</label>
+                <div style="position:relative">
+                  <input class="form-control" type="password" id="senhaExibir" disabled style="padding-right:2.5rem" />
+                  <button type="button" class="btn-toggle-pwd" data-toggle-pwd="senhaExibir" title="Mostrar/ocultar senha" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--cs-text-secondary);font-size:1.1rem;padding:0;line-height:1">👁</button>
+                </div>
+              </div>
+              <hr style="margin:1.2rem 0;border-color:var(--cs-border)" />
+              <form id="formSenha">
+                <div class="form-group">
+                  <label for="senhaAtual">Informe a senha atual</label>
+                  <div style="position:relative">
+                    <input class="form-control" type="password" id="senhaAtual" required style="padding-right:2.5rem" />
+                    <button type="button" class="btn-toggle-pwd" data-toggle-pwd="senhaAtual" title="Mostrar/ocultar senha" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--cs-text-secondary);font-size:1.1rem;padding:0;line-height:1">👁</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="novaSenha">Nova senha</label>
+                  <div style="position:relative">
+                    <input class="form-control" type="password" id="novaSenha" required minlength="6" style="padding-right:2.5rem" data-password-meter autocomplete="new-password" />
+                    <button type="button" class="btn-toggle-pwd" data-toggle-pwd="novaSenha" title="Mostrar/ocultar senha" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--cs-text-secondary);font-size:1.1rem;padding:0;line-height:1">👁</button>
+                  </div>
+                  <p class="hint">Mínimo 6 caracteres, com maiúscula, minúscula e número. Evite 3 ou mais dígitos em sequência.</p>
+                </div>
+                <div class="form-group">
+                  <label for="confirmarSenha">Confirmar nova senha</label>
+                  <div style="position:relative">
+                    <input class="form-control" type="password" id="confirmarSenha" required minlength="6" style="padding-right:2.5rem" />
+                    <button type="button" class="btn-toggle-pwd" data-toggle-pwd="confirmarSenha" title="Mostrar/ocultar senha" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--cs-text-secondary);font-size:1.1rem;padding:0;line-height:1">👁</button>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar senha</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="panel mt-2">
+          <div class="panel__header"><h3>Fonte das planilhas</h3></div>
+          <div class="panel__body">
+            <p class="text-muted mb-1">Escolha o tamanho das letras nas tabelas deste painel. Vale só para a sua conta.</p>
+            <form id="formTableFont">
+              <div class="form-group">
+                <label for="myTableFontSize">Tamanho da fonte</label>
+                <select class="form-control" id="myTableFontSize" name="tableFontSize">
+                  <option value="">Usar padrão do painel</option>
+                  <option value="sm">Pequena</option>
+                  <option value="md">Média</option>
+                  <option value="lg">Grande</option>
+                  <option value="xl">Extra grande</option>
+                </select>
+                <p class="hint" id="tableFontHint"></p>
+              </div>
+              <button type="submit" class="btn btn-primary">Salvar preferência</button>
+            </form>
+          </div>
+        </div>
+        <div class="panel mt-2">
+          <div class="panel__header"><h3>CPF e Tel / WhatsApp</h3></div>
+          <div class="panel__body">
+            <p class="text-muted mb-1">Dados opcionais do seu cadastro. Não são usados no login.</p>
+            <form id="formContato">
+              <div class="form-row cols-2">
+                <div class="form-group">
+                  <label for="cpfConta">CPF</label>
+                  <input class="form-control" type="text" id="cpfConta" inputmode="numeric" placeholder="000.000.000-00" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label for="telefoneConta">Tel / WhatsApp</label>
+                  <input class="form-control" type="tel" id="telefoneConta" placeholder="(00) 00000-0000" autocomplete="tel" />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Salvar contato</button>
+            </form>
+          </div>
+        </div>
+        <div class="panel mt-2">
+          <div class="panel__header"><h3>E-mail de recuperação</h3></div>
+          <div class="panel__body">
+            <p class="text-muted mb-1">Este e-mail será usado para recuperar sua senha caso esqueça.</p>
+            <form id="formEmail">
+              <div class="form-group">
+                <label for="emailRecuperacao">E-mail</label>
+                <input class="form-control" type="email" id="emailRecuperacao" placeholder="seu@email.com" />
+              </div>
+              <button type="submit" class="btn btn-primary">Salvar e-mail</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/password-strength.js"></script>
+  <script src="../js/validation.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js?v=45"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js?v=46"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['admin_empresa', 'apurador', 'superadmin']);
+      if (!session) return;
+
+      document.getElementById('usernameAtual').value = session.username || '—';
+      document.getElementById('novoUsername').value = session.username || '';
+      document.getElementById('nomeAtual').value = session.nome;
+      document.getElementById('novoNome').value = session.nome;
+      document.getElementById('emailRecuperacao').value = session.email || '';
+      const rawUser = CSStore.loadStore().users.find(u => u.id === session.id);
+      document.getElementById('senhaExibir').value = rawUser?.senha || '';
+      const cpfValor = rawUser?.cpf || session.cpf || '';
+      document.getElementById('cpfConta').value = cpfValor ? CSValidation.formatCpf(cpfValor) : '';
+      document.getElementById('telefoneConta').value = rawUser?.telefone || session.telefone || '';
+
+      const tableFontSelect = document.getElementById('myTableFontSize');
+      const tableFontHint = document.getElementById('tableFontHint');
+      const ui = await CSApp.runAsync(() => CSApi.getUiDefaults(), { context: 'loadMyTableFont', toast: false });
+      if (tableFontSelect && ui) {
+        tableFontSelect.value = ui.layers?.user || '';
+        if (tableFontHint) {
+          const fallback = ui.layers?.company
+            ? 'Padrão atual da empresa'
+            : 'Padrão atual da plataforma';
+          tableFontHint.textContent = ui.layers?.user
+            ? `Preferência pessoal ativa (efetivo: ${ui.tableFontSize}).`
+            : `${fallback} (efetivo: ${ui.tableFontSize}).`;
+        }
+      }
+      document.getElementById('formTableFont')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const tableFontSize = tableFontSelect.value;
+        const updated = await CSApp.runAsync(
+          () => CSApi.updateMyUiDefaults({ tableFontSize }, session),
+          { context: 'updateMyTableFont' }
+        );
+        if (!updated) return;
+        CSApp.applyTableFontSize(updated.tableFontSize);
+        if (tableFontHint) {
+          const fallback = updated.layers?.company
+            ? 'Padrão atual da empresa'
+            : 'Padrão atual da plataforma';
+          tableFontHint.textContent = updated.layers?.user
+            ? `Preferência pessoal ativa (efetivo: ${updated.tableFontSize}).`
+            : `${fallback} (efetivo: ${updated.tableFontSize}).`;
+        }
+        CSApp.toast('Preferência de fonte salva.', 'success');
+      });
+
+      document.getElementById('formContato').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const cpf = document.getElementById('cpfConta').value.trim();
+        const telefone = document.getElementById('telefoneConta').value.trim();
+        if (cpf) {
+          const cpfErr = CSValidation.cpf(cpf);
+          if (cpfErr) { CSApp.toast(cpfErr, 'warning'); return; }
+        }
+        if (telefone) {
+          const phoneErr = CSValidation.phone(telefone, 'Tel/WhatsApp');
+          if (phoneErr) { CSApp.toast(phoneErr, 'warning'); return; }
+        }
+        try {
+          const updated = await CSApi.updateMyAccount(session.id, { cpf, telefone });
+          session.cpf = updated.cpf;
+          session.telefone = updated.telefone;
+          CSAuth.setSession({ ...session, ...updated });
+          document.getElementById('cpfConta').value = updated.cpf ? CSValidation.formatCpf(updated.cpf) : '';
+          document.getElementById('telefoneConta').value = updated.telefone || '';
+          CSApp.toast('Dados de contato salvos com sucesso!', 'success');
+        } catch (err) {
+          CSApp.toast(CSErrors.userMessage(err, 'Erro ao salvar contato.'), 'error');
+        }
+      });
+
+      document.getElementById('formUsername').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const novoUsername = document.getElementById('novoUsername').value.trim();
+        if (!novoUsername || novoUsername.length < 2) {
+          CSApp.toast('Informe um usuário válido (mínimo 2 caracteres).', 'warning');
+          return;
+        }
+        const atual = String(session.username || '').trim();
+        if (atual && novoUsername.toLowerCase() !== atual.toLowerCase()) {
+          const okLogin = await CSApp.confirmDialog({
+            title: 'Alterar usuário (login)',
+            message:
+              'Esta ação pode impedir o acesso com o login anterior. ' +
+              'Você precisará entrar com o novo usuário. Deseja continuar?',
+            confirmText: 'Alterar login',
+            cancelText: 'Cancelar',
+            danger: true
+          });
+          if (!okLogin) return;
+        }
+        try {
+          const updated = await CSApi.updateMyAccount(session.id, { username: novoUsername });
+          session.username = updated.username;
+          CSAuth.setSession({ ...session, ...updated });
+          document.getElementById('usernameAtual').value = updated.username;
+          CSApp.toast('Usuário (login) atualizado. A alteração já aparece no painel da plataforma.', 'success');
+        } catch (err) {
+          CSApp.toast(CSErrors.userMessage(err, 'Erro ao atualizar usuário.'), 'error');
+        }
+      });
+
+      document.getElementById('formNome').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const novoNome = document.getElementById('novoNome').value.trim();
+        if (!novoNome || novoNome.length < 2) {
+          CSApp.toast('Informe um nome válido.', 'warning');
+          return;
+        }
+        try {
+          const updated = await CSApi.updateMyAccount(session.id, { nome: novoNome });
+          session.nome = updated.nome;
+          CSAuth.setSession(updated);
+          document.getElementById('nomeAtual').value = updated.nome;
+          document.querySelectorAll('[data-user-name]').forEach(el => el.textContent = updated.nome);
+          document.querySelectorAll('[data-user-avatar]').forEach(el => el.textContent = CSUsers.initials(updated.nome));
+          CSApp.toast('Nome atualizado com sucesso!', 'success');
+        } catch (err) {
+          CSApp.toast(CSErrors.userMessage(err, 'Erro ao atualizar nome.'), 'error');
+        }
+      });
+
+      document.getElementById('formSenha').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const senhaAtual = document.getElementById('senhaAtual').value;
+        const novaSenha = document.getElementById('novaSenha').value;
+        const confirmar = document.getElementById('confirmarSenha').value;
+        if (!senhaAtual) { CSApp.toast('Informe a senha atual.', 'warning'); return; }
+        const strengthErr = CSValidation.strongPassword(novaSenha, 'Nova senha');
+        if (strengthErr) { CSApp.toast(strengthErr, 'warning'); return; }
+        if (novaSenha !== confirmar) { CSApp.toast('As senhas não conferem.', 'warning'); return; }
+        try {
+          await CSApi.updateMyAccount(session.id, { senhaAtual, novaSenha });
+          document.getElementById('formSenha').reset();
+          CSApp.toast('Senha alterada com sucesso!', 'success');
+        } catch (err) {
+          CSApp.toast(CSErrors.userMessage(err, 'Erro ao alterar senha.'), 'error');
+        }
+      });
+
+      document.getElementById('formEmail').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('emailRecuperacao').value.trim();
+        try {
+          const updated = await CSApi.updateMyAccount(session.id, { email });
+          session.email = updated.email;
+          CSAuth.setSession(updated);
+          CSApp.toast('E-mail de recuperação salvo com sucesso!', 'success');
+        } catch (err) {
+          CSApp.toast(CSErrors.userMessage(err, 'Erro ao salvar e-mail.'), 'error');
+        }
+      });
+
+      document.querySelectorAll('[data-toggle-pwd]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const input = document.getElementById(btn.dataset.togglePwd);
+          const isHidden = input.type === 'password';
+          input.type = isHidden ? 'text' : 'password';
+          btn.textContent = isHidden ? '👁‍🗨' : '👁';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

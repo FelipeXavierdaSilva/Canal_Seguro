@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Usuários – Admin</title>
+  <link rel="stylesheet" href="../css/style.css?v=2" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=38" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="Canal Seguro" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span>Painel da Plataforma</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <div class="nav-section">Principal</div>
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <div class="nav-section">Gestão</div>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a class="active" href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="armazenamento.html"><span class="nav-icon">▤</span> Armazenamento</a>
+        <a href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <div class="nav-section">Sistema</div>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="suporte.html"><span class="nav-icon">💬</span> Suporte empresas</a>
+        <a href="faq-bot.html"><span class="nav-icon">❔</span> FAQ do bot</a>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="../index.html" target="_blank" rel="noopener"><span class="nav-icon">⌂</span> Canal Seguro</a>
+        <div class="nav-section">Conta</div>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
+      </nav>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Usuários</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div id="listView">
+          <div class="page-header">
+            <div>
+              <h1>Colaboradores / Usuários</h1>
+              <p>Perfis: Superadmin FX, Admin empresa, Apurador.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="btnNew">Novo usuário</button>
+          </div>
+          <div class="panel">
+            <div class="table-wrap">
+              <table class="data-table data-table--usuarios data-table--usuarios-admin">
+                <thead>
+                  <tr><th>Nome</th><th>Usuário</th><th>E-mail</th><th>CPF</th><th>Tel/WhatsApp</th><th>Perfil</th><th>Empresa</th><th>Status</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="formView" class="hidden">
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" id="btnBack" title="Voltar à lista" aria-label="Voltar à lista">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1 id="formTitle">Novo usuário</h1>
+                <p>Cadastro de acesso ao painel administrativo.</p>
+              </div>
+            </div>
+          </div>
+          <form class="panel" id="userForm" style="padding:1.25rem">
+            <input type="hidden" name="id" />
+            <div class="form-row cols-2">
+              <div class="form-group"><label>Nome</label><input class="form-control" name="nome" required /></div>
+              <div class="form-group">
+                <label>Usuário (login)</label>
+                <input class="form-control" name="username" required />
+                <p class="hint">Alterar o login pode impedir o acesso com o usuário anterior.</p>
+              </div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group"><label>E-mail de recuperação</label><input class="form-control" type="email" name="email" placeholder="Opcional" /></div>
+              <div class="form-group"><label>Senha</label><input class="form-control" name="senha" type="text" minlength="6" data-password-meter autocomplete="new-password" /><p class="hint">Mínimo 6 caracteres, maiúscula, minúscula e número. Sem 3 dígitos em sequência.</p></div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="userCpf">CPF</label>
+                <input class="form-control" type="text" name="cpf" id="userCpf" inputmode="numeric" placeholder="000.000.000-00" autocomplete="off" />
+                <p class="hint">Opcional — usado no cadastro do usuário (não no login).</p>
+              </div>
+              <div class="form-group">
+                <label for="userTelefone">Tel / WhatsApp</label>
+                <input class="form-control" type="tel" name="telefone" id="userTelefone" placeholder="(00) 00000-0000" autocomplete="tel" />
+                <p class="hint">Opcional — telefone ou WhatsApp de contato.</p>
+              </div>
+            </div>
+            <div class="form-row cols-3">
+              <div class="form-group"><label>Perfil</label>
+                <select class="form-control" name="role">
+                  <option value="admin_empresa">Adm_Empresa</option>
+                  <option value="apurador">Apurador</option>
+                  <option value="superadmin">Adm_Plataforma</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Empresa</label>
+                <select class="form-control" name="companyId"><option value="">— FX / nenhuma —</option></select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-outline" id="btnCancel">Cancelar</button>
+              <div class="right">
+                <button type="button" class="btn btn-danger hidden" id="btnInactivateUser">Inativar</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/password-strength.js"></script>
+  <script src="../js/validation.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js?v=45"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js?v=45"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+      const companies = await CSApi.getCompanies();
+      const companyMap = Object.fromEntries(companies.map(c => [c.id, c.nomeFantasia]));
+      const listView = document.getElementById('listView');
+      const formView = document.getElementById('formView');
+      const form = document.getElementById('userForm');
+      companies.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c.id; o.textContent = c.nomeFantasia;
+        form.companyId.appendChild(o);
+      });
+
+      function back() {
+        CSApp.setFormReadonly(form, false);
+        formView.classList.add('hidden');
+        listView.classList.remove('hidden');
+        load();
+      }
+
+      async function openUser(id, mode = 'edit') {
+        listView.classList.add('hidden');
+        formView.classList.remove('hidden');
+        form.reset();
+        CSApp.setFormReadonly(form, false);
+        form.role.disabled = false;
+        form.email.readOnly = false;
+        document.getElementById('btnInactivateUser').classList.add('hidden');
+        const viewOnly = mode === 'view';
+        const submitBtn = form.querySelector('button[type="submit"]');
+
+        if (!id) {
+          document.getElementById('formTitle').textContent = 'Novo usuário';
+          form.id.value = '';
+          form.senha.dispatchEvent(new Event('input'));
+          if (submitBtn) submitBtn.classList.remove('hidden');
+          return;
+        }
+
+        const raw = await CSApp.runAsync(() => CSApi.getUser(id), { context: 'openUser' });
+        if (!raw) {
+          back();
+          return;
+        }
+        document.getElementById('formTitle').textContent = viewOnly ? 'Visualizar usuário' : 'Editar usuário';
+        form.id.value = raw.id;
+        form.nome.value = raw.nome;
+        form.username.value = raw.username || '';
+        form.email.value = raw.email || '';
+        form.cpf.value = raw.cpf ? CSValidation.formatCpf(raw.cpf) : '';
+        form.telefone.value = raw.telefone || '';
+        form.senha.value = '';
+        form.senha.dispatchEvent(new Event('input'));
+        form.role.value = raw.role;
+        form.companyId.value = raw.companyId || '';
+        const protectedUser = CSApi.isProtectedUser(raw);
+        CSApp.setFormReadonly(form, viewOnly);
+        if (!viewOnly) {
+          form.role.disabled = protectedUser;
+          form.email.readOnly = protectedUser;
+        }
+        document.getElementById('btnInactivateUser').classList.toggle(
+          'hidden',
+          viewOnly || protectedUser || raw.status !== 'ativo'
+        );
+        if (submitBtn) submitBtn.classList.toggle('hidden', viewOnly);
+      }
+
+      async function load() {
+        const tbody = document.getElementById('tbody');
+        try {
+          const users = await CSApi.getUsers();
+          tbody.innerHTML = users.map(u => {
+            const cpfMasked = u.cpf ? CSValidation.maskCpf(u.cpf) : '—';
+            const protectedUser = CSApi.isProtectedUser(u);
+            const badge =
+              u.status === 'ativo' ? 'badge--success' : u.status === 'inativo' ? 'badge--danger' : 'badge--warning';
+            return `
+            <tr>
+              <td>${CSApp.escapeHtml(u.nome)}</td>
+              <td>${CSApp.escapeHtml(u.username || '—')}</td>
+              <td>${CSApp.escapeHtml(u.email || '—')}</td>
+              <td>${CSApp.escapeHtml(cpfMasked)}</td>
+              <td>${CSApp.escapeHtml(u.telefone || '—')}</td>
+              <td>${CSUsers.roleLabel(u.role)}</td>
+              <td>${CSApp.escapeHtml(u.companyId ? companyMap[u.companyId] || u.companyId : '—')}</td>
+              <td><span class="badge ${badge}">${CSApp.escapeHtml(u.status)}</span></td>
+              <td class="table-actions">${CSApp.rowActionsHtml(u.id, { canDelete: !protectedUser })}</td>
+            </tr>`;
+          }).join('') || '<tr><td colspan="9" class="empty-state">Nenhum usuário</td></tr>';
+
+          document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => openUser(b.dataset.edit, 'edit')));
+          document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => openUser(b.dataset.view, 'view')));
+          document.querySelectorAll('[data-delete]').forEach(b => b.addEventListener('click', async () => {
+            const ok = await CSApp.confirmDialog({
+              title: 'Excluir usuário',
+              message: 'O usuário será removido permanentemente. Confirma?',
+              confirmText: 'Excluir',
+              danger: true
+            });
+            if (!ok) return;
+            const deleted = await CSApp.runAsync(
+              () => CSApi.deleteUser(b.dataset.delete, session),
+              { context: 'deleteUser' }
+            );
+            if (!deleted) return;
+            CSApp.toast('Usuário excluído.', 'success');
+            load();
+          }));
+        } catch (err) {
+          CSErrors.logError(err, 'loadUsers');
+          CSErrors.renderTableRetry(tbody, 9, load);
+          CSApp.toast(CSErrors.userMessage(err), 'error');
+        }
+      }
+
+      document.getElementById('btnNew').addEventListener('click', () => openUser());
+      document.getElementById('btnBack').addEventListener('click', back);
+      document.getElementById('btnCancel').addEventListener('click', back);
+      document.getElementById('btnInactivateUser').addEventListener('click', async () => {
+        if (!form.id.value) return;
+        const ok = await CSApp.confirmDialog({
+          title: 'Inativar usuário',
+          message: 'O usuário deixará de conseguir acessar o painel. Confirma?',
+          confirmText: 'Inativar',
+          danger: true
+        });
+        if (!ok) return;
+        const saved = await CSApp.runAsync(
+          () =>
+            CSApi.updateUser(
+              form.id.value,
+              {
+                status: 'inativo',
+                _actorId: session.id,
+                _actorName: session.nome
+              },
+              session
+            ),
+          { context: 'inactivateUser' }
+        );
+        if (!saved) return;
+        CSApp.toast('Usuário inativado.', 'success');
+        back();
+      });
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+          nome: form.nome.value.trim(),
+          username: form.username.value.trim(),
+          email: form.email.value.trim(),
+          cpf: form.cpf.value.trim(),
+          telefone: form.telefone.value.trim(),
+          senha: form.senha.value,
+          role: form.role.value,
+          companyId: form.companyId.value || null,
+          _actorId: session.id,
+          _actorName: session.nome
+        };
+        if (payload.cpf) {
+          const cpfErr = CSValidation.cpf(payload.cpf);
+          if (cpfErr) { CSApp.toast(cpfErr, 'warning'); return; }
+        }
+        if (payload.telefone) {
+          const phoneErr = CSValidation.phone(payload.telefone, 'Tel/WhatsApp');
+          if (phoneErr) { CSApp.toast(phoneErr, 'warning'); return; }
+        }
+        const isEdit = !!form.id.value;
+        if (!isEdit && !payload.senha) { CSApp.toast('Informe a senha.', 'warning'); return; }
+        let previousUsername = '';
+        let passwordChanged = !!payload.senha;
+        if (isEdit) {
+          const raw = await CSApp.runAsync(() => CSApi.getUser(form.id.value), {
+            context: 'editUserLookup',
+            toast: false
+          });
+          previousUsername = raw?.username || '';
+          if (!payload.senha) passwordChanged = false;
+        }
+        if (passwordChanged) {
+          const strengthErr = CSValidation.strongPassword(payload.senha);
+          if (strengthErr) { CSApp.toast(strengthErr, 'warning'); return; }
+        }
+        const loginChanged =
+          isEdit &&
+          previousUsername &&
+          payload.username.toLowerCase() !== String(previousUsername).toLowerCase();
+        if (loginChanged) {
+          const okLogin = await CSApp.confirmDialog({
+            title: 'Alterar usuário (login)',
+            message:
+              'Esta ação pode impedir o acesso com o login anterior. ' +
+              'O usuário precisará entrar com o novo usuário. Deseja continuar?',
+            confirmText: 'Alterar login',
+            cancelText: 'Cancelar',
+            danger: true
+          });
+          if (!okLogin) return;
+        }
+        const saved = await CSApp.runAsync(
+          () =>
+            form.id.value
+              ? CSApi.updateUser(form.id.value, payload, session)
+              : CSApi.createUser(payload, session),
+          { context: 'saveUser' }
+        );
+        if (!saved) return;
+        CSApp.toast('Usuário salvo.', 'success');
+        back();
+      });
+      await load();
+    });
+  </script>
+</body>
+</html>

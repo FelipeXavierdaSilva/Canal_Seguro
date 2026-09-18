@@ -12,7 +12,8 @@ server/data/store.json
 server/data/db-config.json
 server/data/attachments/
 server/data/backups/
-server/public/
+# public/ é gerado por npm run build e VERSIONADO para o deploy Hostinger
+# (a plataforma renomeia server/ → nodejs/; sem public/ o runtime quebra)
 **/db-config.json
 
 # Logs e SO

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suporte Técnico – Painel da Empresa</title>
+  <link rel="stylesheet" href="../css/style.css?v=2" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=44" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="" data-company-logo data-default-logo="../assets/images/logo-canal-seguro-mark.png?v=shield3" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span data-panel-tagline>Sua voz, nosso compromisso</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav" data-empresa-nav>
+        <div class="nav-section">Principal</div>
+        <a href="dashboard.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <div class="nav-section">Gestão</div>
+        <a href="colaboradores.html" data-roles="admin_empresa superadmin"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html" data-roles="admin_empresa superadmin"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorio.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="acessos.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◉</span> Acessos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="empresa.html" data-roles="admin_empresa superadmin"><span class="nav-icon">⬡</span> Empresa</a>
+        <a href="configuracoes.html" data-roles="admin_empresa superadmin"><span class="nav-icon">◎</span> Aparência / Identidade</a>
+        <a href="meu-armazenamento.html" data-roles="admin_empresa apurador superadmin"><span class="nav-icon">▤</span> Armazenamento</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a class="active" href="suporte-tecnico.html"><span class="nav-icon">🛠</span> Suporte Técnico</a>
+        <a href="sugestoes.html"><span class="nav-icon">✎</span> Sugestões</a>
+        <a href="../index.html" target="_blank" rel="noopener" data-tenant-link><span class="nav-icon">⌂</span> Canal Seguro</a>
+        <div class="nav-section">Conta</div>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
+      </nav>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar aria-label="Menu">☰</button>
+          <strong>Suporte Técnico</strong>
+        </div>
+        <div class="topbar__right">
+          <div style="position:relative">
+            <button type="button" class="btn-icon notif-btn" data-notif-btn aria-label="Notificações">🔔</button>
+            <div class="notif-dropdown" data-notif-dropdown>
+              <div class="notif-dropdown__header">Notificações</div>
+              <div data-notif-list></div>
+            </div>
+          </div>
+          <button type="button" class="btn-icon" data-toggle-theme aria-label="Tema">◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta">
+              <strong data-user-name>—</strong>
+              <span data-user-role>—</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <div class="page-header">
+          <div>
+            <h1>Suporte Técnico</h1>
+            <p>Envie mensagens a um atendente da plataforma ou relate problemas no uso do Canal Seguro. Resposta em até 24h.</p>
+          </div>
+          <div class="page-header__actions">
+            <button type="button" class="btn btn-outline" id="btnRefreshSupport">Atualizar</button>
+          </div>
+        </div>
+
+        <div class="grid-2" style="align-items:start;gap:1rem">
+          <div class="panel">
+            <div class="panel__header"><h3>Suas conversas</h3></div>
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Assunto</th>
+                    <th>Status</th>
+                    <th>Atualizado</th>
+                  </tr>
+                </thead>
+                <tbody id="threadsTbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__header">
+              <h3 id="detailTitle">Nova solicitação</h3>
+              <button type="button" class="btn btn-outline btn-sm" id="btnNewThread" hidden>Nova</button>
+            </div>
+            <div class="panel__body">
+              <div id="threadChat" class="cs-support-chat" style="min-height:8rem;margin-bottom:1rem" aria-live="polite"></div>
+              <form id="supportForm">
+                <div class="form-group" id="categoryGroup">
+                  <label for="supportCategory">Tipo</label>
+                  <select id="supportCategory" class="form-control" required>
+                    <option value="suporte_tecnico">Dúvida / suporte técnico</option>
+                    <option value="problema">Relatar problema</option>
+                  </select>
+                </div>
+                <div class="form-group" id="subjectGroup">
+                  <label for="supportSubject">Assunto</label>
+                  <input id="supportSubject" class="form-control" maxlength="160" placeholder="Ex.: Erro ao anexar arquivo" />
+                </div>
+                <div class="form-group">
+                  <label for="supportBody">Mensagem</label>
+                  <textarea id="supportBody" class="form-control" required maxlength="4000" rows="5" placeholder="Descreva o que precisa ou o problema encontrado…"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="supportSubmit">Enviar ao atendente</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js?v=45"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/app.js?v=46"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['admin_empresa', 'apurador', 'superadmin']);
+      if (!session) return;
+
+      const esc = CSApp.escapeHtml;
+      let activeId = null;
+      let threadsCache = [];
+
+      function statusLabel(t) {
+        if (t.status === 'fechado') return 'Fechada';
+        if (t.status === 'respondido') return 'Respondida';
+        if (t.overdue) return 'Aguardando (atrasada)';
+        return 'Aguardando';
+      }
+
+      function renderChat(thread) {
+        const el = document.getElementById('threadChat');
+        const messages = thread?.messages || [];
+        if (!messages.length) {
+          el.innerHTML = '<p class="text-muted" style="margin:0;font-size:.85rem">Envie a primeira mensagem.</p>';
+          return;
+        }
+        el.innerHTML = messages
+          .map((m) => {
+            const side = m.direction === 'platform' ? 'platform' : 'company';
+            const who =
+              m.direction === 'platform'
+                ? m.actorName
+                  ? `Atendente · ${m.actorName}`
+                  : 'Atendente'
+                : m.actorName || 'Você';
+            return `<div class="cs-support-bubble cs-support-bubble--${side}">${esc(m.body)}<small>${esc(who)} · ${esc(m.createdAt ? CSReports.formatDateTime(m.createdAt) : '')}</small></div>`;
+          })
+          .join('');
+        el.scrollTop = el.scrollHeight;
+      }
+
+      function setComposeMode(isNew) {
+        document.getElementById('categoryGroup').hidden = !isNew;
+        document.getElementById('subjectGroup').hidden = !isNew;
+        document.getElementById('supportSubject').disabled = !isNew;
+        document.getElementById('supportCategory').disabled = !isNew;
+        document.getElementById('btnNewThread').hidden = isNew;
+        document.getElementById('detailTitle').textContent = isNew ? 'Nova solicitação' : 'Conversa';
+        document.getElementById('supportSubmit').textContent = isNew
+          ? 'Enviar ao atendente'
+          : 'Enviar mensagem';
+      }
+
+      function resetCompose() {
+        activeId = null;
+        setComposeMode(true);
+        document.getElementById('supportSubject').value = '';
+        document.getElementById('supportBody').value = '';
+        document.getElementById('supportCategory').value = 'suporte_tecnico';
+        document.getElementById('threadChat').innerHTML =
+          '<p class="text-muted" style="margin:0;font-size:.85rem">Descreva a dúvida ou o problema. Um atendente responderá nesta conversa.</p>';
+        document.querySelectorAll('[data-open-thread]').forEach((tr) => tr.classList.remove('is-selected'));
+      }
+
+      async function openThread(id) {
+        activeId = id;
+        const thread = await CSApp.runAsync(() => CSApi.getPlatformSupportThread(id, session), {
+          context: 'getPlatformSupportThread'
+        });
+        if (!thread) return;
+        setComposeMode(false);
+        document.getElementById('supportSubject').value = thread.subject || '';
+        document.getElementById('supportBody').value = '';
+        document.getElementById('detailTitle').textContent = thread.subject || 'Conversa';
+        renderChat(thread);
+        await CSApp.runAsync(() => CSApi.markPlatformSupportRead(id, session), {
+          context: 'markPlatformSupportRead',
+          toast: false
+        });
+        document.querySelectorAll('[data-open-thread]').forEach((tr) => {
+          tr.classList.toggle('is-selected', tr.getAttribute('data-open-thread') === id);
+        });
+      }
+
+      async function loadThreads() {
+        const data = await CSApp.runAsync(() => CSApi.listPlatformSupport({}, session), {
+          context: 'listPlatformSupport'
+        });
+        threadsCache = data?.threads || [];
+        const tbody = document.getElementById('threadsTbody');
+        if (!threadsCache.length) {
+          tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Nenhuma conversa ainda.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = threadsCache
+          .map((t) => {
+            const unread = Number(t.unreadCount) || 0;
+            return `<tr data-open-thread="${esc(t.id)}" style="cursor:pointer" class="${t.id === activeId ? 'is-selected' : ''}">
+              <td class="cell-wrap"><strong>${esc(t.subject || 'Suporte')}${unread ? ` (${unread})` : ''}</strong></td>
+              <td>${esc(statusLabel(t))}</td>
+              <td>${esc(t.updatedAt ? CSReports.formatDateTime(t.updatedAt) : '—')}</td>
+            </tr>`;
+          })
+          .join('');
+        tbody.querySelectorAll('[data-open-thread]').forEach((tr) => {
+          tr.addEventListener('click', () => openThread(tr.getAttribute('data-open-thread')));
+        });
+      }
+
+      document.getElementById('btnRefreshSupport').addEventListener('click', loadThreads);
+      document.getElementById('btnNewThread').addEventListener('click', resetCompose);
+
+      document.getElementById('supportForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const body = String(document.getElementById('supportBody').value || '').trim();
+        if (!body) {
+          CSApp.toast('Escreva a mensagem.', 'warning');
+          return;
+        }
+        if (activeId) {
+          const updated = await CSApp.runAsync(() => CSApi.replyPlatformSupport(activeId, body, session), {
+            context: 'replyPlatformSupport'
+          });
+          if (!updated) return;
+          document.getElementById('supportBody').value = '';
+          CSApp.toast('Mensagem enviada.', 'success');
+          await loadThreads();
+          await openThread(activeId);
+          return;
+        }
+        const category = document.getElementById('supportCategory').value || 'suporte_tecnico';
+        let subject = String(document.getElementById('supportSubject').value || '').trim();
+        if (!subject) {
+          subject = category === 'problema' ? 'Relato de problema' : 'Suporte técnico';
+        }
+        const created = await CSApp.runAsync(
+          () => CSApi.createPlatformSupport({ subject, body, category }, session),
+          { context: 'createPlatformSupport' }
+        );
+        if (!created) return;
+        document.getElementById('supportBody').value = '';
+        CSApp.toast('Mensagem enviada. Resposta em até 24h.', 'success');
+        await loadThreads();
+        if (created.id) await openThread(created.id);
+      });
+
+      resetCompose();
+      await loadThreads();
+      const threadId = new URLSearchParams(location.search).get('thread');
+      if (threadId) await openThread(threadId);
+    });
+  </script>
+  <style>
+    tr.is-selected td { background: color-mix(in srgb, var(--cs-primary, #0b2c4a) 10%, transparent); }
+    #threadDetail .panel__header, .panel__header { display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+  </style>
+</body>
+</html>

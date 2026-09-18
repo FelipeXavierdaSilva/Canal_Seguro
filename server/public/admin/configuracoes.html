@@ -1,0 +1,812 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Configurações – Admin</title>
+  <link rel="stylesheet" href="../css/style.css?v=2" />
+  <link rel="stylesheet" href="../css/forms.css" />
+  <link rel="stylesheet" href="../css/dashboard.css?v=38" />
+  <link rel="stylesheet" href="../css/support-assistant.css?v=6" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/images/logo-canal-seguro-mark.png?v=shield3" type="image/png" />
+</head>
+<body>
+  <div class="sidebar-overlay" data-close-sidebar></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <img class="logo-platform-mark" src="../assets/images/logo-canal-seguro-mark.png?v=shield3" alt="Canal Seguro" />
+        <div class="sidebar__brand-text">
+          <strong>Canal Seguro</strong>
+          <span>Painel da Plataforma</span>
+        </div>
+      </div>
+      <nav class="sidebar__nav">
+        <div class="nav-section">Principal</div>
+        <a href="index.html"><span class="nav-icon">▣</span> Dashboard</a>
+        <a href="relatos.html"><span class="nav-icon">☰</span> Relatos</a>
+        <a href="indicadores.html"><span class="nav-icon">◔</span> Indicadores</a>
+        <div class="nav-section">Gestão</div>
+        <a href="empresas.html"><span class="nav-icon">⬡</span> Empresas</a>
+        <a href="colaboradores.html"><span class="nav-icon">👤</span> Colaboradores</a>
+        <a href="usuarios.html"><span class="nav-icon">☺</span> Usuários</a>
+        <a href="relatorios.html"><span class="nav-icon">▦</span> Relatórios</a>
+        <a href="conteudos.html"><span class="nav-icon">✎</span> Conteúdos</a>
+        <div class="nav-section">Configurações</div>
+        <a href="armazenamento.html"><span class="nav-icon">▤</span> Armazenamento</a>
+        <a class="active" href="configuracoes.html"><span class="nav-icon">⚙</span> Configurações</a>
+        <a href="integracoes.html"><span class="nav-icon">⧉</span> Integrações</a>
+        <div class="nav-section">Sistema</div>
+        <a href="auditoria.html"><span class="nav-icon">◉</span> Auditoria</a>
+        <a href="logs-tecnico.html"><span class="nav-icon">⎔</span> Logs técnicos</a>
+        <div class="nav-section">Ajuda</div>
+        <a href="suporte.html"><span class="nav-icon">💬</span> Suporte empresas</a>
+        <a href="faq-bot.html"><span class="nav-icon">❔</span> FAQ do bot</a>
+        <a href="manual.html"><span class="nav-icon">💡</span> Manual</a>
+        <a href="../index.html" target="_blank" rel="noopener"><span class="nav-icon">⌂</span> Canal Seguro</a>
+        <div class="nav-section">Conta</div>
+        <a href="minha-conta.html"><span class="nav-icon">🔑</span> Minha conta</a>
+        <a href="#" data-logout><span class="nav-icon">⎋</span> Sair</a>
+      </nav>
+      <div class="sidebar__footer">
+        <div class="sidebar__tip">
+          <span class="sidebar__tip-icon" aria-hidden="true">🛡</span>
+          <p>Juntos por um ambiente mais seguro e respeitoso.</p>
+        </div>
+      </div>
+    </aside>
+    <div class="app-main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button type="button" class="btn-icon mobile-menu-btn" data-open-sidebar>☰</button>
+          <strong>Configurações</strong>
+        </div>
+        <div class="topbar__right">
+          <button type="button" class="btn-icon" data-toggle-theme>◐</button>
+          <div class="topbar__user">
+            <div class="topbar__avatar" data-user-avatar>?</div>
+            <div class="topbar__user-meta"><strong data-user-name>—</strong><span data-user-role>—</span></div>
+          </div>
+        </div>
+      </header>
+      <div class="app-content">
+        <!-- HUB -->
+        <div id="configHub" class="config-hub">
+          <div class="page-header">
+            <div>
+              <h1>Configurações da plataforma</h1>
+              <p>Escolha um módulo para visualizar ou alterar parâmetros do Canal Seguro.</p>
+            </div>
+          </div>
+          <section class="settings-grid" aria-label="Módulos de configuração">
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--teal" aria-hidden="true">?</span>
+              <h3 class="settings-card__title">Identidade</h3>
+              <p class="settings-card__text">Produto, marca, e-mail/WhatsApp comercial e prefixos de protocolo por empresa.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="identidade">Gerenciar</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--mint" aria-hidden="true">?</span>
+              <h3 class="settings-card__title">Planilhas</h3>
+              <p class="settings-card__text">Tamanho padrão da fonte nas tabelas. Empresas com modelo próprio não são sobrescritas.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="planilhas">Configurar</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--amber" aria-hidden="true">?</span>
+              <h3 class="settings-card__title">Privacidade</h3>
+              <p class="settings-card__text">Checklist de segurança, LGPD e requisitos de produção.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="privacidade">Abrir</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--slate" aria-hidden="true">◫</span>
+              <h3 class="settings-card__title">Banco de dados</h3>
+              <p class="settings-card__text">Acesso MySQL Hostinger (host, usuário, senha e nome do banco). Dados ainda em JSON até a migração.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="database">Configurar</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--slate" aria-hidden="true">?</span>
+              <h3 class="settings-card__title">Backup</h3>
+              <p class="settings-card__text">Status, política de retenção e snapshot DEV de export/import.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="backup">Gerenciar</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--mint" aria-hidden="true">??</span>
+              <h3 class="settings-card__title">Política MFA</h3>
+              <p class="settings-card__text">Obrigatoriedade, perfis e período de carência da autenticação.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="mfa">Configurar</button>
+            </article>
+            <article class="settings-card">
+              <span class="settings-card__icon settings-card__icon--rose" aria-hidden="true">?</span>
+              <h3 class="settings-card__title">Dados demo</h3>
+              <p class="settings-card__text">Restaurar empresas, relatos e usuários fictícios do protótipo.</p>
+              <button type="button" class="btn btn-outline settings-card__btn" data-config="demo">Abrir</button>
+            </article>
+          </section>
+        </div>
+
+        <!-- PÁGINA: Identidade -->
+        <div id="config-identidade" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Identidade da plataforma</h1>
+                <p>Parâmetros globais FX e contadores de protocolo por empresa.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body" id="settingsBox"></div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: Planilhas -->
+        <div id="config-planilhas" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Fonte das planilhas</h1>
+                <p>Padrão geral da plataforma. Não altera o modelo já definido no painel de cada empresa.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body">
+              <form id="platformTableFontForm">
+                <div class="form-group">
+                  <label for="platformTableFontSize">Tamanho padrão das tabelas</label>
+                  <select class="form-control" id="platformTableFontSize" name="tableFontSize" required>
+                    <option value="sm">Pequena</option>
+                    <option value="md">Média</option>
+                    <option value="lg">Grande</option>
+                    <option value="xl">Extra grande</option>
+                  </select>
+                  <p class="hint">Usuários e empresas podem sobrescrever este padrão. O Adm_Plataforma não altera o modelo já configurado pela empresa.</p>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar padrão geral</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: Banco de dados -->
+        <div id="config-database" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Banco de dados MySQL</h1>
+                <p>Credenciais para o MySQL da Hostinger. Persistência dos dados ainda é store.json (Etapa 1).</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body" id="databaseConfigBox">
+              <p class="text-muted">Carregando…</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: Privacidade -->
+        <div id="config-privacidade" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Privacidade e segurança</h1>
+                <p>Requisitos de produção e pontos de atenção de privacidade.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body">
+              <ul style="padding-left:1.1rem;list-style:disc;color:var(--cs-text-secondary);font-size:.92rem">
+                <li>Autenticação real e autorização por perfil ? back-end</li>
+                <li>Criptografia em trânsito e em repouso ? back-end</li>
+                <li>Armazenamento seguro de anexos ? back-end</li>
+                <li>Logs e auditoria imutáveis ? back-end</li>
+                <li>Adequação LGPD (bases legais, DPO, retenção) ? back-end + jurídico</li>
+              </ul>
+              <div class="callout callout--warn mt-2">
+                <p>Em modo offline, o armazenamento local do navegador <strong>não</strong> é seguro para dados sensíveis. Use sempre o modo servidor em produção.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: Backup -->
+        <div id="config-backup" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Backup e recuperação</h1>
+                <p>Política, status do backend e ferramentas de snapshot DEV.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body" id="backupBox">
+              <p class="text-muted">Carregando…</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: MFA -->
+        <div id="config-mfa" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Política MFA</h1>
+                <p>Exigência de autenticação em dois fatores para perfis críticos.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body" id="mfaPolicyBox">
+              <p class="text-muted">Carregando…</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PÁGINA: Demo -->
+        <div id="config-demo" class="config-panel" hidden>
+          <div class="page-header">
+            <div class="page-header__lead">
+              <button type="button" class="btn-back" data-back-config title="Voltar às configurações" aria-label="Voltar às configurações">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div>
+                <h1>Dados de demonstração</h1>
+                <p>Recarrega o conjunto fictício inicial deste navegador.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel__body">
+              <p class="mb-2">Recarrega 3 empresas, 12 relatos e usuários fictícios, apagando alterações locais do protótipo.</p>
+              <button type="button" class="btn btn-danger" id="btnReset">Restaurar dados demo</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cs-bundle: admin-shell -->
+  <script src="../js/runtime.js"></script>
+  <script src="../js/http-api.js?v=46"></script>
+  <script src="../js/seed.js"></script>
+  <script src="../js/audit.js"></script>
+  <script src="../js/api.js?v=46"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/users.js"></script>
+  <script src="../js/companies.js"></script>
+  <script src="../js/reports.js"></script>
+  <script src="../js/errors.js"></script>
+  <script src="../js/backup.js?v=46"></script>
+  <script src="../js/app.js?v=46"></script>
+  <script>
+    CSApp.onReady(async () => {
+      const session = await CSApp.initAdminShell(['superadmin']);
+      if (!session) return;
+
+      const hub = document.getElementById('configHub');
+      const panels = {
+        identidade: document.getElementById('config-identidade'),
+        planilhas: document.getElementById('config-planilhas'),
+        database: document.getElementById('config-database'),
+        privacidade: document.getElementById('config-privacidade'),
+        backup: document.getElementById('config-backup'),
+        mfa: document.getElementById('config-mfa'),
+        demo: document.getElementById('config-demo')
+      };
+      const loaded = { identidade: false, planilhas: false, database: false, backup: false, mfa: false };
+
+      function showHub() {
+        Object.values(panels).forEach((el) => {
+          el.classList.remove('is-active');
+          el.hidden = true;
+        });
+        hub.classList.remove('is-hidden');
+        if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+      }
+
+      async function showConfig(id) {
+        if (!panels[id]) return showHub();
+        hub.classList.add('is-hidden');
+        Object.entries(panels).forEach(([key, el]) => {
+          const active = key === id;
+          el.classList.toggle('is-active', active);
+          el.hidden = !active;
+        });
+        history.replaceState(null, '', `#config-${id}`);
+        if (id === 'identidade' && !loaded.identidade) {
+          await loadSettings();
+          loaded.identidade = true;
+        }
+        if (id === 'planilhas' && !loaded.planilhas) {
+          await loadPlanilhasPanel();
+          loaded.planilhas = true;
+        }
+        if (id === 'database') {
+          await loadDatabasePanel();
+          loaded.database = true;
+        }
+        if (id === 'backup' && !loaded.backup) {
+          await loadBackupPanel();
+          loaded.backup = true;
+        }
+        if (id === 'mfa' && !loaded.mfa) {
+          await loadMfaPolicy();
+          loaded.mfa = true;
+        }
+      }
+
+      document.querySelectorAll('[data-config]').forEach((btn) => {
+        btn.addEventListener('click', () => showConfig(btn.getAttribute('data-config')));
+      });
+      document.querySelectorAll('[data-back-config]').forEach((btn) => {
+        btn.addEventListener('click', showHub);
+      });
+
+      async function loadPlanilhasPanel() {
+        const ui = await CSApp.runAsync(() => CSApi.getUiDefaults(), { context: 'loadPlanilhasPanel', toast: false });
+        const select = document.getElementById('platformTableFontSize');
+        if (select && ui?.layers?.platform) select.value = ui.layers.platform;
+        else if (select && ui?.tableFontSize) select.value = ui.tableFontSize;
+      }
+
+      async function loadDatabasePanel() {
+        const box = document.getElementById('databaseConfigBox');
+        if (!CSRuntime.useServer()) {
+          box.innerHTML =
+            '<div class="callout callout--warn"><p>Configuração MySQL disponível apenas com o servidor API ligado (modo Hostinger / Node).</p></div>';
+          return;
+        }
+        const cfg = await CSApp.runAsync(() => CSApi.getDatabaseConfig(), {
+          context: 'loadDatabasePanel',
+          toast: false
+        });
+        if (!cfg) {
+          CSErrors.renderLoadError(box, CSErrors.userMessage(null), loadDatabasePanel);
+          return;
+        }
+        const envNote = cfg.envOverridesActive
+          ? '<div class="callout callout--info mb-2"><p>Variáveis <code>CS_DB_*</code> do ambiente estão ativas e têm prioridade sobre os valores salvos neste formulário.</p></div>'
+          : '';
+        box.innerHTML = `
+          ${envNote}
+          <div class="callout callout--info mb-2">
+            <p>${CSApp.escapeHtml(cfg.note || '')}</p>
+            <p class="mt-1" style="font-size:.85rem">Modo atual: <strong>${CSApp.escapeHtml(cfg.persistenceMode || 'json')}</strong>
+              · Fonte efetiva: <strong>${CSApp.escapeHtml(cfg.source || 'file')}</strong>
+              · Senha salva: <strong>${cfg.hasPassword ? 'sim' : 'não'}</strong></p>
+          </div>
+          <form id="databaseConfigForm">
+            <div class="form-group">
+              <label class="checkbox-inline">
+                <input type="checkbox" id="dbEnabled" ${cfg.enabled ? 'checked' : ''} />
+                Marcar MySQL como habilitado (uso real após Etapas 3–5)
+              </label>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="dbHost">Host</label>
+                <input class="form-control" id="dbHost" type="text" autocomplete="off" placeholder="localhost ou host interno Hostinger" value="${CSApp.escapeHtml(cfg.host || '')}" />
+              </div>
+              <div class="form-group">
+                <label for="dbPort">Porta</label>
+                <input class="form-control" id="dbPort" type="number" min="1" max="65535" value="${CSApp.escapeHtml(String(cfg.port || 3306))}" />
+              </div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="dbUser">Usuário</label>
+                <input class="form-control" id="dbUser" type="text" autocomplete="off" value="${CSApp.escapeHtml(cfg.user || '')}" />
+              </div>
+              <div class="form-group">
+                <label for="dbName">Nome do banco</label>
+                <input class="form-control" id="dbName" type="text" autocomplete="off" value="${CSApp.escapeHtml(cfg.database || '')}" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="dbPassword">Senha</label>
+              <input class="form-control" id="dbPassword" type="password" autocomplete="new-password" placeholder="${cfg.hasPassword ? '•••••••• (deixe em branco para manter)' : ''}" />
+              <p class="hint">A senha não é exibida após salvar. Deixe em branco para manter a atual.</p>
+            </div>
+            <div class="flex gap-2 flex-wrap">
+              <button type="submit" class="btn btn-primary">Salvar acesso</button>
+              <button type="button" class="btn btn-outline" id="btnTestDatabase">Testar conexão</button>
+            </div>
+            <p id="dbTestResult" class="text-muted mt-2" style="font-size:.88rem" hidden></p>
+          </form>`;
+
+        document.getElementById('databaseConfigForm')?.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const payload = {
+            enabled: Boolean(document.getElementById('dbEnabled')?.checked),
+            host: document.getElementById('dbHost')?.value.trim() || '',
+            port: Number(document.getElementById('dbPort')?.value) || 3306,
+            user: document.getElementById('dbUser')?.value.trim() || '',
+            database: document.getElementById('dbName')?.value.trim() || ''
+          };
+          const pwd = document.getElementById('dbPassword')?.value || '';
+          if (pwd) payload.password = pwd;
+          const result = await CSApp.runAsync(() => CSApi.updateDatabaseConfig(payload, session), {
+            context: 'updateDatabaseConfig'
+          });
+          if (!result) return;
+          CSApp.toast('Acesso ao banco salvo.', 'success');
+          await loadDatabasePanel();
+        });
+
+        document.getElementById('btnTestDatabase')?.addEventListener('click', async () => {
+          const out = document.getElementById('dbTestResult');
+          const payload = {
+            host: document.getElementById('dbHost')?.value.trim() || '',
+            port: Number(document.getElementById('dbPort')?.value) || 3306,
+            user: document.getElementById('dbUser')?.value.trim() || '',
+            database: document.getElementById('dbName')?.value.trim() || ''
+          };
+          const pwd = document.getElementById('dbPassword')?.value || '';
+          if (pwd) payload.password = pwd;
+          try {
+            const result = await CSHttpApi.testDatabaseConnection(payload);
+            if (out) {
+              out.hidden = false;
+              out.textContent = result?.message || 'Conexão OK.';
+              out.style.color = 'var(--cs-success, #0a7a4b)';
+            }
+            CSApp.toast('Conexão MySQL OK.', 'success');
+          } catch (err) {
+            const msg = err?.message || CSErrors.userMessage(err) || 'Falha no teste.';
+            if (out) {
+              out.hidden = false;
+              out.textContent = msg;
+              out.style.color = 'var(--cs-danger, #b42318)';
+            }
+            CSApp.toast(msg, 'error');
+          }
+        });
+      }
+
+      document.getElementById('platformTableFontForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const tableFontSize = document.getElementById('platformTableFontSize').value;
+        const updated = await CSApp.runAsync(
+          () => CSApi.updatePlatformUiDefaults({ tableFontSize }, session),
+          { context: 'updatePlatformTableFont' }
+        );
+        if (!updated) return;
+        CSApp.applyTableFontSize(updated.tableFontSize);
+        CSApp.toast('Padrão geral das planilhas salvo.', 'success');
+      });
+
+      async function loadSettings() {
+        const box = document.getElementById('settingsBox');
+        const platform = await CSApp.runAsync(() => CSApi.getPlatformSettings(), { context: 'loadSettings', toast: false });
+        if (!platform) {
+          CSErrors.renderLoadError(box, CSErrors.userMessage(null), loadSettings);
+          CSApp.toast(CSErrors.userMessage(null), 'error');
+          return;
+        }
+        const companies = (await CSApp.runAsync(() => CSApi.getCompanies(), { context: 'loadSettings.companies', toast: false })) || [];
+        const companyRows = await Promise.all(
+          companies.map(async (c) => {
+            const cfg = await CSApi.getCompanySettings(c.id);
+            return `<tr>
+              <td>${CSApp.escapeHtml(c.nomeFantasia)}</td>
+              <td>${CSApp.escapeHtml(cfg.protocolPrefix)}</td>
+              <td>${CSApp.escapeHtml(String(cfg.protocolCounter))}</td>
+            </tr>`;
+          })
+        );
+        box.innerHTML = `
+        <p class="text-muted mb-2" style="font-size:.9rem">Configurações globais da plataforma FX. Protocolos são geridos por empresa (tabela abaixo).</p>
+        <div class="detail-field"><div class="detail-field__label">Produto</div><div class="detail-field__value">${CSApp.escapeHtml(platform.fxProductName)}</div></div>
+        <div class="detail-field"><div class="detail-field__label">Marca</div><div class="detail-field__value">${CSApp.escapeHtml(platform.fxBrandName)}</div></div>
+        <div class="detail-field"><div class="detail-field__label">Prefixo padrão de protocolo</div><div class="detail-field__value">${CSApp.escapeHtml(platform.defaultProtocolPrefix)}</div></div>
+        <form id="commercialContactForm" class="panel" style="padding:1rem;margin:1rem 0;border:1px solid var(--cs-border);border-radius:8px">
+          <h4 style="margin:0 0 .75rem;font-size:1rem">Contato comercial (landing / planos)</h4>
+          <p class="text-muted" style="margin:0 0 1rem;font-size:.85rem">
+            Usado quando o visitante clica em “Falar com especialista”: e-mail (Fale conosco) ou WhatsApp.
+          </p>
+          <div class="form-group">
+            <label for="cfgSupportEmail">E-mail de suporte / comercial</label>
+            <input class="form-control" id="cfgSupportEmail" type="email" required value="${CSApp.escapeHtml(platform.supportEmail || '')}" />
+          </div>
+          <div class="form-group">
+            <label for="cfgCommercialWhatsApp">WhatsApp comercial</label>
+            <input class="form-control" id="cfgCommercialWhatsApp" type="tel" placeholder="047984570646" value="${CSApp.escapeHtml(platform.commercialWhatsApp || '')}" />
+            <p class="hint">DDD + número. Pode incluir o 0 do DDD (ex.: 047984570646).</p>
+          </div>
+          <button type="submit" class="btn btn-primary">Salvar contato comercial</button>
+        </form>
+        <h4 class="mt-2 mb-1" style="font-size:1rem">Configurações por empresa</h4>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Empresa</th><th>Prefixo</th><th>Contador</th></tr></thead>
+            <tbody>${companyRows.join('') || '<tr><td colspan="3" class="empty-state">Nenhuma empresa</td></tr>'}</tbody>
+          </table>
+        </div>`;
+        document.getElementById('commercialContactForm')?.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const payload = {
+            supportEmail: document.getElementById('cfgSupportEmail').value.trim(),
+            commercialWhatsApp: document.getElementById('cfgCommercialWhatsApp').value.trim()
+          };
+          const result = await CSApp.runAsync(
+            () => CSApi.updateCommercialContact(payload, session),
+            { context: 'updateCommercialContact' }
+          );
+          if (!result) return;
+          CSApp.toast('Contato comercial salvo.', 'success');
+          await loadSettings();
+        });
+      }
+
+      async function loadBackupPanel() {
+        const box = document.getElementById('backupBox');
+        const status = await CSApp.runAsync(() => CSBackup.getStatus(), { context: 'loadBackupStatus', toast: false });
+        if (!status) {
+          CSErrors.renderLoadError(box, CSErrors.userMessage(null), loadBackupPanel);
+          return;
+        }
+        const p = status.policy;
+        const connected = Boolean(status.backendConnected);
+        let listHtml = '';
+        if (connected) {
+          const listed = await CSApp.runAsync(() => CSBackup.listBackups(), {
+            context: 'listBackups',
+            toast: false
+          });
+          const items = listed?.items || [];
+          listHtml = `
+            <div class="mt-2">
+              <h4 style="margin:0 0 .5rem;font-size:.95rem">Backups disponíveis</h4>
+              ${
+                items.length
+                  ? `<div class="table-wrap"><table class="data-table">
+                      <thead><tr><th>ID</th><th>Criado em</th><th>Anexos</th><th>Status</th><th></th></tr></thead>
+                      <tbody>
+                        ${items
+                          .map((b) => {
+                            const when = b.createdAt
+                              ? new Date(b.createdAt).toLocaleString('pt-BR')
+                              : '—';
+                            return `<tr>
+                              <td><code style="font-size:.75rem">${CSApp.escapeHtml(b.id)}</code></td>
+                              <td>${CSApp.escapeHtml(when)}</td>
+                              <td>${Number(b.attachmentFileCount) || 0}</td>
+                              <td>${CSApp.escapeHtml(b.status || '—')}${b.verified ? ' · verificado' : ''}</td>
+                              <td class="text-right">
+                                <button type="button" class="btn btn-ghost btn-sm" data-verify-backup="${CSApp.escapeHtml(b.id)}">Verificar</button>
+                                <button type="button" class="btn btn-outline btn-sm" data-restore-backup="${CSApp.escapeHtml(b.id)}">Restaurar</button>
+                              </td>
+                            </tr>`;
+                          })
+                          .join('')}
+                      </tbody>
+                    </table></div>`
+                  : '<p class="text-muted" style="font-size:.88rem">Nenhum backup ainda. Gere um antes de atualizar o sistema.</p>'
+              }
+            </div>`;
+        }
+
+        box.innerHTML = `
+          <div class="callout ${connected ? 'callout--info' : 'callout--warn'} mb-2">
+            <p><strong>${CSApp.escapeHtml(connected ? 'Backup operacional' : 'Modo protótipo')}</strong> — ${CSApp.escapeHtml(status.message)}</p>
+          </div>
+          <div class="detail-field"><div class="detail-field__label">Backend conectado</div><div class="detail-field__value">${connected ? 'Sim' : 'Não'}</div></div>
+          <div class="detail-field"><div class="detail-field__label">Último backup</div><div class="detail-field__value">${
+            status.lastBackup?.id
+              ? CSApp.escapeHtml(status.lastBackup.id)
+              : 'Nenhum'
+          }</div></div>
+          <div class="detail-field"><div class="detail-field__label">Retenção</div><div class="detail-field__value">${CSApp.escapeHtml(String(p.retention?.dailyFullDays ?? '—'))} backups</div></div>
+          <div class="detail-field"><div class="detail-field__label">Schema</div><div class="detail-field__value">v${CSApp.escapeHtml(String(status.storeMeta?.version ?? CSBackup.SCHEMA_VERSION))}</div></div>
+          <div class="detail-field"><div class="detail-field__label">Abrange</div><div class="detail-field__value">${CSApp.escapeHtml(status.adminEditableNote || '')}</div></div>
+          <div class="detail-field"><div class="detail-field__label">Entidades incluídas</div><div class="detail-field__value" style="font-size:.85rem">${CSApp.escapeHtml((status.includedEntityLabels || status.includedEntities || []).join(' · '))}</div></div>
+          <p class="text-muted mt-2" style="font-size:.88rem">${CSApp.escapeHtml(status.attachmentsNote || '')}</p>
+          <p class="mt-2" style="font-size:.88rem"><strong>Fluxo de atualização:</strong> 1) Gerar backup → 2) Atualizar o sistema → 3) Restaurar o último backup (CLI ou painel).</p>
+          <p class="mt-1"><a href="../docs/BACKUP-RECOVERY.md" target="_blank" rel="noopener">Documentação técnica</a>
+            · <a href="../docs/backup/RESTORE-TEST-CHECKLIST.md" target="_blank" rel="noopener">Checklist de restauração</a></p>
+          <div class="flex gap-2 mt-2 flex-wrap">
+            <button type="button" class="btn btn-primary btn-sm" id="btnBackupTrigger" ${connected ? '' : 'disabled title="Requer servidor API"'}>Gerar backup</button>
+            <button type="button" class="btn btn-outline btn-sm" id="btnBackupRestoreLatest" ${connected ? '' : 'disabled title="Requer servidor API"'}>Restaurar último backup</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnDevExport">Exportar snapshot DEV</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnDevImport">Importar snapshot DEV</button>
+            <input type="file" id="devSnapshotFile" accept="application/json,.json" class="hidden" />
+          </div>
+          <p class="text-muted mt-1" style="font-size:.8rem">Backup operacional: store.json + anexos em server/data/backups/. Snapshot DEV serve só para o navegador (localStorage).</p>
+          ${listHtml}`;
+
+        document.getElementById('btnBackupTrigger')?.addEventListener('click', async () => {
+          const ok = await CSApp.confirmDialog({
+            title: 'Gerar backup',
+            message:
+              'Cria uma cópia completa dos dados e anexos atuais. Faça isso antes de atualizar o sistema. Continuar?',
+            confirmText: 'Gerar backup'
+          });
+          if (!ok) return;
+          const result = await CSApp.runAsync(
+            () => CSBackup.triggerBackup(session, { note: 'Backup manual pelo painel' }),
+            { context: 'triggerBackup' }
+          );
+          if (!result?.ok && result?.code === 'backend_required') {
+            CSApp.toast(result.message, 'warning');
+            return;
+          }
+          if (!result?.id && !result?.ok) return;
+          CSApp.toast(`Backup criado: ${result.id || 'ok'}`, 'success');
+          await loadBackupPanel();
+        });
+
+        document.getElementById('btnBackupRestoreLatest')?.addEventListener('click', async () => {
+          const ok = await CSApp.confirmDialog({
+            title: 'Restaurar último backup',
+            message:
+              'Isso SUBSTITUI todos os dados e anexos atuais pelo último backup. Um backup de segurança será gerado automaticamente antes. Continuar?',
+            confirmText: 'Restaurar agora',
+            danger: true
+          });
+          if (!ok) return;
+          const result = await CSApp.runAsync(
+            () => CSBackup.restoreLatestBackup(session, { confirm: true }),
+            { context: 'restoreLatestBackup' }
+          );
+          if (!result?.ok && !result?.restoredBackupId) return;
+          CSApp.toast(result.message || 'Backup restaurado.', 'success');
+          setTimeout(() => location.reload(), 800);
+        });
+
+        box.querySelectorAll('[data-verify-backup]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-verify-backup');
+            const result = await CSApp.runAsync(() => CSBackup.verifyBackup(id, session), {
+              context: 'verifyBackup'
+            });
+            if (!result) return;
+            CSApp.toast(result.message || 'Backup verificado.', 'success');
+            await loadBackupPanel();
+          });
+        });
+
+        box.querySelectorAll('[data-restore-backup]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const id = btn.getAttribute('data-restore-backup');
+            const ok = await CSApp.confirmDialog({
+              title: 'Restaurar backup',
+              message: `Substituir todos os dados atuais por ${id}? Um backup de segurança será criado antes.`,
+              confirmText: 'Restaurar',
+              danger: true
+            });
+            if (!ok) return;
+            const result = await CSApp.runAsync(
+              () => CSBackup.restoreBackup(id, session, { confirm: true }),
+              { context: 'restoreBackup' }
+            );
+            if (!result?.ok && !result?.restoredBackupId) return;
+            CSApp.toast(result.message || 'Backup restaurado.', 'success');
+            setTimeout(() => location.reload(), 800);
+          });
+        });
+
+        document.getElementById('btnDevExport').addEventListener('click', async () => {
+          const ok = await CSApp.confirmDialog({
+            title: 'Exportar snapshot DEV',
+            message: 'Gera um JSON com dados do navegador (localStorage). NÃO substitui o backup operacional do servidor. Continuar?',
+            confirmText: 'Exportar',
+            danger: true
+          });
+          if (!ok) return;
+          const result = await CSApp.runAsync(() => CSBackup.exportDevSnapshot(session), { context: 'exportDevSnapshot' });
+          if (!result?.ok) return;
+          CSBackup.downloadDevSnapshot(result);
+          CSApp.toast('Snapshot DEV baixado.', 'success');
+        });
+
+        const fileInput = document.getElementById('devSnapshotFile');
+        document.getElementById('btnDevImport').addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', async () => {
+          const file = fileInput.files && fileInput.files[0];
+          fileInput.value = '';
+          if (!file) return;
+          const ok = await CSApp.confirmDialog({
+            title: 'Importar snapshot DEV',
+            message: 'Isso substitui os dados locais do navegador. A página será recarregada. Continuar?',
+            confirmText: 'Importar e recarregar',
+            danger: true
+          });
+          if (!ok) return;
+          try {
+            const text = await file.text();
+            const payload = JSON.parse(text);
+            const result = await CSApp.runAsync(() => CSBackup.importDevSnapshot(payload, session), { context: 'importDevSnapshot' });
+            if (!result?.ok) return;
+            CSApp.toast(result.message, 'success');
+            setTimeout(() => location.reload(), 600);
+          } catch (err) {
+            CSErrors.logError(err, 'importDevSnapshot');
+            CSApp.toast(err.message || 'Arquivo inválido.', 'error');
+          }
+        });
+      }
+
+      async function loadMfaPolicy() {
+        const box = document.getElementById('mfaPolicyBox');
+        if (!CSRuntime.useServer()) {
+          box.innerHTML = '<p class="text-muted">Política MFA disponível apenas com API servidor.</p>';
+          return;
+        }
+        try {
+          const data = await CSHttpApi.getMfaPolicy();
+          const p = data.policy;
+          box.innerHTML = `
+            <p class="text-muted mb-2" style="font-size:.9rem">MFA obrigatório para superadmin, admin de empresa e quem tem permissão de ver identidade do relator.</p>
+            <div class="detail-field"><div class="detail-field__label">MFA habilitado</div><div class="detail-field__value">${p.enabled ? 'Sim' : 'Não'}</div></div>
+            <div class="detail-field"><div class="detail-field__label">Perfis obrigatórios</div><div class="detail-field__value">${CSApp.escapeHtml((p.requiredRoles || []).join(', '))}</div></div>
+            <div class="detail-field"><div class="detail-field__label">Período de carência</div><div class="detail-field__value">${CSApp.escapeHtml(String(p.gracePeriodDays))} dias</div></div>
+            <div class="detail-field"><div class="detail-field__label">Aplicado desde</div><div class="detail-field__value">${p.enforcedAt ? CSApp.escapeHtml(new Date(p.enforcedAt).toLocaleString('pt-BR')) : '— (carência não iniciada)'}</div></div>
+            <div class="form-row cols-2 mt-2">
+              <div class="form-group">
+                <label>Dias de carência</label>
+                <input class="form-control" type="number" id="mfaGraceDays" min="0" max="90" value="${p.gracePeriodDays || 7}" />
+              </div>
+              <div class="form-group" style="display:flex;align-items:flex-end">
+                <button type="button" class="btn btn-primary" id="btnSaveMfaPolicy">Salvar política</button>
+              </div>
+            </div>
+            <p class="text-muted mt-1" style="font-size:.8rem">Ao salvar, a exigência passa a valer após o período de carência (contado a partir de agora).</p>`;
+
+          document.getElementById('btnSaveMfaPolicy').addEventListener('click', async () => {
+            const days = parseInt(document.getElementById('mfaGraceDays').value, 10) || 7;
+            await CSApp.runAsync(
+              () => CSHttpApi.updateMfaPolicy({ gracePeriodDays: days, enforcedAt: 'now' }),
+              { context: 'updateMfaPolicy' }
+            );
+            CSApp.toast('Política MFA atualizada.', 'success');
+            loaded.mfa = false;
+            await loadMfaPolicy();
+            loaded.mfa = true;
+          });
+        } catch (err) {
+          box.innerHTML = `<p class="text-muted">${CSApp.escapeHtml(CSErrors.userMessage(err))}</p>`;
+        }
+      }
+
+      document.getElementById('btnReset').addEventListener('click', async () => {
+        const ok = await CSApp.confirmDialog({
+          title: 'Restaurar demo',
+          message: 'Isso apagará alterações feitas neste navegador e restaurará os dados fictícios iniciais.',
+          confirmText: 'Restaurar',
+          danger: true
+        });
+        if (!ok) return;
+        CSStore.resetDemoData();
+        CSApp.toast('Dados demo restaurados.', 'success');
+        setTimeout(() => location.reload(), 600);
+      });
+
+      const hash = (location.hash || '').replace(/^#config-?/, '');
+      if (hash && panels[hash]) await showConfig(hash);
+      else showHub();
+    });
+  </script>
+</body>
+</html>
