@@ -2,24 +2,27 @@
 
 /**
  * Caminho único de persistência JSON (app, seed e email-worker).
- * - Com CS_DATA_DIR: {CS_DATA_DIR}/store.json
- * - Sem CS_DATA_DIR: server/data/store.json
+ * - Com STORE_DATA_DIR: {STORE_DATA_DIR}/store.json
+ * - Sem STORE_DATA_DIR: {os.homedir()}/private/canal-seguro-data/store.json
+ * Nunca usa nome de usuário hardcoded (ex.: /home/USUARIO/...).
  */
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 
 function resolveDataDir() {
-  return path.resolve(process.env.CS_DATA_DIR || path.join(__dirname, '..', 'data'));
+  const fromEnv = process.env.STORE_DATA_DIR && String(process.env.STORE_DATA_DIR).trim();
+  if (fromEnv) {
+    return path.resolve(fromEnv);
+  }
+  return path.join(os.homedir(), 'private', 'canal-seguro-data');
 }
 
 function resolveStorePath() {
-  return path.resolve(
-    process.env.CS_DATA_DIR || path.join(__dirname, '..', 'data'),
-    'store.json'
-  );
+  return path.join(resolveDataDir(), 'store.json');
 }
 
-/** Template versionado em server/data (não depende de CS_DATA_DIR). */
+/** Template versionado em server/data (sempre relativo ao pacote server). */
 function resolveStoreSeedPath() {
   return path.join(__dirname, '..', 'data', 'store.seed.json');
 }
@@ -31,27 +34,33 @@ function resolveStoreSeedPath() {
  */
 function ensureStoreInitialized() {
   const storePath = resolveStorePath();
-  const dataDir = resolveDataDir();
+  const dataDirectory = resolveDataDir();
 
-  if (fs.existsSync(storePath)) {
-    return { created: false, path: storePath };
+  try {
+    if (fs.existsSync(storePath)) {
+      return { created: false, path: storePath };
+    }
+
+    fs.mkdirSync(dataDirectory, { recursive: true });
+
+    const seedPath = resolveStoreSeedPath();
+    if (fs.existsSync(seedPath)) {
+      fs.copyFileSync(seedPath, storePath);
+      console.warn(`[store] store.json ausente — criado em ${storePath}`);
+      return { created: true, path: storePath };
+    }
+
+    throw new Error(
+      `Arquivo store.json não encontrado em ${storePath}. ` +
+        'Inclua server/data/store.seed.json no deploy ou execute: cd server && npm run seed'
+    );
+  } catch (err) {
+    const detail = err && err.message ? err.message : String(err);
+    if (detail.includes(storePath) && detail.startsWith('Arquivo store.json')) {
+      throw err;
+    }
+    throw new Error(`[store] Falha ao preparar armazenamento em ${storePath}: ${detail}`);
   }
-
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-
-  const seedPath = resolveStoreSeedPath();
-  if (fs.existsSync(seedPath)) {
-    fs.copyFileSync(seedPath, storePath);
-    console.warn(`[store] store.json ausente — criado em ${storePath}`);
-    return { created: true, path: storePath };
-  }
-
-  throw new Error(
-    `Arquivo store.json não encontrado em ${storePath}. ` +
-      'Inclua server/data/store.seed.json no deploy ou execute: cd server && npm run seed'
-  );
 }
 
 module.exports = {

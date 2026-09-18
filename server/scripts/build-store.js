@@ -257,16 +257,22 @@ data._meta = {
   source: 'js/seed.js via build-store.js'
 };
 
-fs.mkdirSync(resolveDataDir(), { recursive: true });
-const force = process.argv.includes('--force');
-if (fs.existsSync(outPath) && !force) {
-  console.log('store.json já existe — não sobrescrito:', outPath);
-  console.log('Para regenerar o demo: npm run seed -- --force');
-  process.exit(0);
+try {
+  fs.mkdirSync(resolveDataDir(), { recursive: true });
+  const force = process.argv.includes('--force');
+  if (fs.existsSync(outPath) && !force) {
+    console.log('store.json já existe — não sobrescrito:', outPath);
+    console.log('Para regenerar o demo: npm run seed -- --force');
+    process.exit(0);
+  }
+  fs.writeFileSync(outPath, JSON.stringify(data, null, 2));
+  const seedOut = resolveStoreSeedPath();
+  fs.writeFileSync(seedOut, JSON.stringify(data, null, 2));
+  console.log('Store gerado:', outPath);
+  console.log('Seed template:', seedOut);
+  console.log('Empresas:', data.companies.length, '| Relatos:', data.reports.length, '| Usuários:', data.users.length);
+} catch (err) {
+  const detail = err && err.message ? err.message : String(err);
+  console.error(`[seed] Falha ao preparar/gravar store em ${outPath}: ${detail}`);
+  process.exit(1);
 }
-fs.writeFileSync(outPath, JSON.stringify(data, null, 2));
-const seedOut = resolveStoreSeedPath();
-fs.writeFileSync(seedOut, JSON.stringify(data, null, 2));
-console.log('Store gerado:', outPath);
-console.log('Seed template:', seedOut);
-console.log('Empresas:', data.companies.length, '| Relatos:', data.reports.length, '| Usuários:', data.users.length);
