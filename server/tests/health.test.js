@@ -10,9 +10,9 @@ const TEST_PORT = process.env.CS_TEST_PORT_HEALTH || '3199';
 const BASE = `http://127.0.0.1:${TEST_PORT}`;
 const API = `${BASE}/api/v1`;
 
-function request(method, pathName, { query } = {}) {
+function request(method, pathName, { query, base = API } = {}) {
   return new Promise((resolve, reject) => {
-    const url = new URL(`${API}${pathName}`);
+    const url = new URL(pathName.startsWith('http') ? pathName : `${base}${pathName}`);
     if (query) {
       Object.entries(query).forEach(([k, v]) => url.searchParams.set(k, v));
     }
@@ -72,6 +72,12 @@ describe('health API', () => {
     assert.equal(res.status, 200);
     assert.equal(res.json.ok, true);
     assert.equal(res.json.persistence.mode, 'json');
+  });
+
+  it('GET /health na raiz (probe Hostinger) retorna 200', async () => {
+    const res = await request('GET', '/health', { base: BASE });
+    assert.equal(res.status, 200);
+    assert.equal(res.json.ok, true);
   });
 
   it('GET /health?deep=1 não quebra sem MySQL', async () => {

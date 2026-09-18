@@ -14,16 +14,29 @@ async function main() {
   const mode = store.getPersistenceMode();
   const app = createApp();
 
-  const server = app.listen(config.PORT, () => {
-    console.log(`Canal Seguro API – http://localhost:${config.PORT}`);
+  const port = Number(process.env.PORT) || config.PORT || 3000;
+  const host = process.env.HOST || '0.0.0.0';
+
+  const server = app.listen(port, host, () => {
+    console.log(`Canal Seguro API – listening on http://${host}:${port}`);
     console.log(`Frontend estático servido na mesma origem (Etapa 03 Fase 1)`);
+    try {
+      const { resolveFrontendRoot } = require('./src/frontend-path');
+      console.log(`Frontend root: ${resolveFrontendRoot()}`);
+    } catch (err) {
+      console.error(err && err.message ? err.message : err);
+    }
     console.log(`Persistência: ${mode}`);
     console.log(`Store: ${store.STORE_PATH}`);
     startEmailWorker();
     console.log(`Worker de e-mail transacional ativo (Etapa 06)`);
   });
 
+  // Apenas quando a plataforma (Hostinger) ou o operador envia o sinal
+  let shuttingDown = false;
   const shutdown = async (signal) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
     console.log(`[shutdown] ${signal} — aguardando flush do store…`);
     try {
       await store.flush();

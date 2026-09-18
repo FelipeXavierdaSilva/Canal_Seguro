@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
+    "build": "node scripts/prepare-frontend.js",
     "seed": "node scripts/build-store.js",
     "db:migrate": "node scripts/db-migrate.js",
     "db:import-json": "node scripts/db-import-json.js",

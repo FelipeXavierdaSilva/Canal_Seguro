@@ -21,9 +21,11 @@ const { serveHtmlWithNonce } = require('./middleware/html-csp');
 const { requireCsrf } = require('./middleware/csrf');
 const config = require('./config');
 const companyStorage = require('./services/company-storage.service');
+const { resolveFrontendRoot } = require('./frontend-path');
 
 function createApp() {
   const app = express();
+  const staticRoot = resolveFrontendRoot();
 
   app.set('trust proxy', 1);
   app.use(securityHeaders());
@@ -40,7 +42,7 @@ function createApp() {
   app.use(optionalAuth);
   app.use('/api/v1', requireCsrf);
 
-  app.get('/api/v1/health', async (req, res) => {
+  async function sendHealth(req, res) {
     const health = require('./services/health.service');
     const deep = String(req.query.deep || '') === '1';
     try {
@@ -53,7 +55,11 @@ function createApp() {
         error: err && err.message ? err.message : 'health falhou'
       });
     }
-  });
+  }
+
+  // Hostinger / probes costumam usar /health; a API mantém /api/v1/health
+  app.get('/health', sendHealth);
+  app.get('/api/v1/health', sendHealth);
 
   app.use('/api/v1/auth', authRoutes);
   app.use('/api/v1/auth/mfa', mfaRoutes);
@@ -147,7 +153,6 @@ function createApp() {
     return res.json(companyStorage.enrichCompanyForResponse(data.companies[idx], data));
   });
 
-  const staticRoot = path.join(__dirname, '..', '..');
   app.use(blockSensitiveStatic);
   app.use(serveHtmlWithNonce(staticRoot));
   app.use(
